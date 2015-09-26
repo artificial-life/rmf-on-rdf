@@ -140,20 +140,20 @@ class POV {
 
 class Collection {
     constructor(povs) {
-        this.state = {};
-        this.attribute_map = {};
+        this.map = {};
 
         _.forEach(povs, (pov) => {
             var uri = pov.getURI();
-            this.state[uri] = pov.getState();
-            this.attribute_map[uri] = pov.attribute_map;
+            this.map[uri] = pov;
         });
     }
-    observe() {
-        //get collection id
-        //find resource sources
-        //observe
-        //make Collection
+    observe(ids, params) {
+        var observed = _.filter(this.map, (pov) => {
+            return !!~ids.indexOf(pov.getURI());
+        });
+        var result = _.map(observed, (pov) => pov.observe(params));
+
+        return new Collection(result);
     }
     reserve() {
 
