@@ -1,7 +1,7 @@
 'use strict'
 
 var _ = require('lodash');
-
+/*
 var Factory = require('??');
 var Ingredient = require('??');
 var POV = require('??');
@@ -131,7 +131,7 @@ var ProcessingFactory = new Factory({
     algorithm: [ProcessingAlgorithm]
 });
 
-//cannot be executed by factory
+//execution only on external event, not by factory chain
 ProcessingFactory.mode('manual');
 
 var ProcessingStorage = new Storage();
@@ -141,12 +141,24 @@ Processing.extendState(ProcessingStorage);
 
 /*=====Test №2=====*/
 
-var processing = Processing.build({
-    service: 1,
-    time: 'day',
-    count: 1
-});
+var processNext = () => {
+    var processing = Processing.build({
+        service: 1,
+        time: 'day',
+        count: 1
+    });
 
-processing.save({
-    operator_id: 1
-});
+    processing.save({
+        operator_id: 1
+    });
+
+    return processing;
+}
+
+processNext();
+
+
+var processConcrete = () => {
+    //??
+    // return conrete;
+}

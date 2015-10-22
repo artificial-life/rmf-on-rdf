@@ -4,6 +4,12 @@ var _ = require('lodash');
 
 class POV {
     constructor(sequence) {
+        var parsed = this.parse(sequence);
+
+        this.state = parsed.getState();
+        this.attribute_map = parsed.attribute_map
+    }
+    parse(sequence) {
         var base = null;
 
         _.forEach(sequence, (element) => {
@@ -18,8 +24,7 @@ class POV {
             }
         });
 
-        this.state = base.getState();
-        this.attribute_map = base.attribute_map
+        return base;
     }
     observe() {
 

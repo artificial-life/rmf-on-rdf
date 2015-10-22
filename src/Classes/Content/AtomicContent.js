@@ -4,13 +4,14 @@ var discover = (name) => {
     //goto  datatype, search for name, store it etc.
 };
 
-class SingleState {
+//Ответственность: создание и разрешение Атомарного Контента из базового типа
+
+class AtomicContent {
     constructor(params) {
         var type = params.type;
         var data = params.data;
         this.function_based = data instanceof Function;
         var Model = discover(type);
-
 
         if (this.function_based) {
             this.resolve_data = {
@@ -33,4 +34,6 @@ class SingleState {
     }
 }
 
-mdoule.exports = SingleState;
+
+
+mdoule.exports = AtomicContent;

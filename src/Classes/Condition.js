@@ -1,34 +1,41 @@
 'use strict'
 
-var State = require('./State/State.js');
+var Content = require('./Content/Content.js');
 
 class Condition {
-    constructor(name) {
-        this.uri = name;
+    constructor(uri) {
+        this.uri = uri;
         this.attribute_map = {};
     }
     isConsumable() {
-        return this.state || this.state.isConsumable();
+        return this.content && this.is_consumable;
     }
     getURI() {
         return this.uri;
     }
-    setState(state) {
-        this.state = new State(state);
+    setContent(content) {
+        this.content = new Content(content);
     }
-    getState() {
-        return this.state;
+    getContent() {
+        return this.content;
     }
     addAttribute(namespace, attr) {
         this.attribute_map[namespace] = this.attribute_map[namespace] || {};
         var uri = attr.getURI();
-        var state = attr.getState();
-        this.attribute_map[namespace][uri] = state;
+        var content = attr.getContent();
+        this.attribute_map[namespace][uri] = content;
+    }
+    resolve(params) {
+        //cache resolved state here
+        //return ??
     }
     observe(params) {
 
     }
     reserve(params) {
+
+    }
+    build(params) {
 
     }
     intersection(condition) {
