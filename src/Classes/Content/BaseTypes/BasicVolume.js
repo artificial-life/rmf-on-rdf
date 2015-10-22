@@ -93,6 +93,7 @@ class BasicVolume extends AbstractVolume {
     }
     build(data) {
         //@TODO:build from state 
+        //@TODO: find some builder pattern for this case
         if (data instanceof this.PrimitiveVolume) {
             this.extend(data, false);
             return this;

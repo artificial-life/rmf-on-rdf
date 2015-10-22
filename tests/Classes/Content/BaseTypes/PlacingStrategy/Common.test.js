@@ -15,8 +15,6 @@ describe('Common Strategy', function () {
     });
 
     it('strategy for Reserved', function () {
-
-
         var RvsA = Common.getStrategy('r', 'a');
         var RvsR = Common.getStrategy('r', 'r');
         var RvsNA = Common.getStrategy('r', 'na');
@@ -60,6 +58,19 @@ describe('Common Strategy', function () {
     });
 
     it('custom strategy based on Common', function () {
-        throw new Error('Not done yeat')
+        var Custom = new Strategy(Common);
+        var inherited = Custom.getStrategy('r', 'a');
+
+        expect(inherited).to.be.an.instanceof(Function);
+        Custom.except('q', 'z', () => {
+            return 'test'
+        });
+        var not_exist = Common.getStrategy('q', 'z');
+
+        expect(not_exist(newbee, oldone)).to.be.an.instanceof(Error);
+
+        var exist = Custom.getStrategy('q', 'z');
+
+        expect(exist(newbee, oldone)).to.equal('test');
     });
 });

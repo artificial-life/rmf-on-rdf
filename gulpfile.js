@@ -9,12 +9,6 @@ var plumber = require('gulp-plumber');
 
 require('harmonize')();
 
-var options = {
-    path: './build/draft.js',
-    execArgv: ['--harmony']
-};
-
-
 gulp.task("default", function () {
     return gulp.src("src/**/*.js")
         .pipe(babel({
@@ -29,7 +23,7 @@ gulp.task("default", function () {
         });
 });
 
-gulp.task("sm", function () {
+gulp.task("sourcemaps", function () {
     return gulp.src("src/**/*.js")
         .pipe(sourcemaps.init())
         .pipe(babel({
@@ -40,15 +34,12 @@ gulp.task("sm", function () {
 });
 
 gulp.task('serve', ['start'], function () {
-    gulp.watch('src/**/*.js', ['es6-ll']);
+    gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6-ll']);
 });
 
-gulp.task('test', function () {
-    gulp.watch('src/**/*.js', ['es6-ll']);
-});
 
 gulp.task('es6-ll', function () {
-    return gulp.src("src/**/*.js")
+    return gulp.src(["src/**/*.js", "tests/**/*.js"])
         .pipe(changed("build"))
         .pipe(plumber({
             errorHandler: function () {
@@ -67,7 +58,7 @@ gulp.task('es6-ll', function () {
 
 gulp.task('start', function () {
     nodemon({
-        script: 'build/tests/run.js',
+        script: 'build/run.js',
         ext: 'js',
         env: {
             'NODE_ENV': 'development'

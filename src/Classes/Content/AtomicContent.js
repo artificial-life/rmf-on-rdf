@@ -1,7 +1,13 @@
 'use strict'
-
+var module_cache = {};
 var discover = (name) => {
-    //goto  datatype, search for name, store it etc.
+    var fullpath = `./BaseTypes/${name}.js`;
+
+    if (!module_cache.hasOwnProperty(fullpath)) {
+        module_cache[fullpath] = require(fullpath);
+    }
+
+    return module_cache[fullpath];
 };
 
 //Ответственность: создание и разрешение Атомарного Контента из базового типа
@@ -19,7 +25,10 @@ class AtomicContent {
                 fn: data
             };
         } else {
-            this.resolve_data = new Model(data);
+            var model_object = new Model();
+            model_object.build(data);
+            this.resolve_data = model_object;
+
         }
 
     }
@@ -27,7 +36,9 @@ class AtomicContent {
         if (this.function_based) {
             var data = this.resolve_data.fn(params);
             var Model = this.resolve_data.model;
-            return new Model(data);
+            var model_object = new Model();
+            model_object.build(data);
+            return model_object;
         }
 
         return this.resolve_data;
@@ -36,4 +47,4 @@ class AtomicContent {
 
 
 
-mdoule.exports = AtomicContent;
+module.exports = AtomicContent;

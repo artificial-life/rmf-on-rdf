@@ -2,7 +2,7 @@
 var gulp = require("gulp");
 var mocha = require('gulp-mocha');
 
-gulp.src('build/tests/**/*.js', {
+gulp.src('build/**/*.test.js', {
         read: false
     })
     .pipe(mocha());

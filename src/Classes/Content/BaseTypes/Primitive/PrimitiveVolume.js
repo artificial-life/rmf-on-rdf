@@ -26,6 +26,13 @@ class PrimitiveVolume {
         return this.state.toString()
     }
 
+    //@TODO: rework toJSON, it should be defined only here in common cases
+    toJSON() {
+        return {
+            data: [],
+            state: this.getState()
+        };
+    }
 }
 
 module.exports = PrimitiveVolume;
