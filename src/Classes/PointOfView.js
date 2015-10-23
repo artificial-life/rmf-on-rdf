@@ -6,21 +6,19 @@ class POV {
     constructor(sequence) {
         var parsed = this.parse(sequence);
 
-        this.state = parsed.getState();
+        this.content = parsed.getContent();
         this.attribute_map = parsed.attribute_map
     }
     parse(sequence) {
         var base = null;
 
         _.forEach(sequence, (element) => {
-            if (!base) {
-                base = element;
-            } else {
-                base = element.intersection(base);
-            }
+
+            base = !base ? element : element.intersection(base);
 
             if (element.isConsumable()) {
                 this.uri = element.getURI();
+                //@TODO: get attribute map here
             }
         });
 

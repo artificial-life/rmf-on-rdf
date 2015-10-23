@@ -19,6 +19,8 @@ class Condition {
     getContent() {
         return this.content;
     }
+
+    //@TODO: find way to calc namespace from "attr"
     addAttribute(namespace, attr) {
         this.attribute_map[namespace] = this.attribute_map[namespace] || {};
         var uri = attr.getURI();
@@ -33,9 +35,6 @@ class Condition {
 
     }
     reserve(params) {
-
-    }
-    build(params) {
 
     }
     intersection(condition) {

@@ -40,6 +40,7 @@ describe('ZeroDimensional', () => {
 
         expect(volume.upscale(plan)).to.not.throw(Error);
     });
+
     it('intersection', () => {
         var second = new ZeroDimensional();
         second.build({
@@ -58,6 +59,7 @@ describe('ZeroDimensional', () => {
         expect(result.getContent()).to.have.property('state')
             .with.deep.property('mark', 'a');
     });
+
     it('intersection with upscale', () => {
         var second = new Plan();
         second.build([{

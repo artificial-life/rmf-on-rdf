@@ -1,6 +1,8 @@
 'use strict'
 
-class Query {
+var _ = require('lodash');
+
+class BasicQuery {
     constructor() {
 
     }
@@ -21,4 +23,4 @@ class Query {
     }
 }
 
-module.exports = Query;
+module.exports = BasicQuery;
