@@ -162,3 +162,51 @@ var processConcrete = () => {
     //??
     // return conrete;
 }
+
+/*=========PRICELESS METACODE HERE=======================*/
+
+//NOTE: should make copy of RS,  linked to initial RS
+RS.observe = (params) => {
+    return RS.Content.observe = (params) => {
+        var queried_contents = _.map(Content.atomics, (Atomic) => {
+            //NOTE: this should be independent object
+
+            var result = Atomic.observe = (params) => {
+                var query_result = Atomic.query.addParams(params).execute();
+
+                return query_result;
+            };
+        });
+
+        return new Content(queried_contents);
+    }
+}
+
+//NOTE: should be same object with changes
+RS.reserve = (params) => {
+
+    return RS.Content.reserve = (params) => {
+        var status = _.map(Content.atomics, (Atomic) => {
+            var query_result = Atomic.query.addParams(params).execute();
+            //or should it be "new Atomic(params, state ='R')"??
+            //NOTE: query_result should be one solid chunk
+            var object_to_put = query_result.resolve().getContent()[0];
+            object_to_put.changeState('R');
+            //NOTE: "put" method doesnt generates new object
+            var status = Atomic.put(object_to_put);
+
+            return status;
+        });
+        return status;
+    }
+}
+
+RS.save = () => {
+    return RS.Content.save = (params) => {
+        var status = _.map(Content.atomics, (Atomic) => {
+            //NOTE: dunno what code should be in "save"
+            return Atomic.save();
+        });
+        return status;
+    }
+}
