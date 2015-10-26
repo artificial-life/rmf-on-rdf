@@ -1,46 +1,41 @@
 'use strict'
 
+var accessor = {
+    dataProvider: {},
+    makeAccessObject: {
+        get: (context) => {
+            return 'access_string';
+        },
+        set: (context) => {
+            return 'access_string';
+        }
+    },
+    get: (context) => {
+        var key_obj = this.makeAccessObject.get(context);
+        return dataProvider.get(key_obj);
+    },
+    set: (data) => {
+        var key_obj = this.makeAccessObject.set(data);
+        return dataProvider.set(key_obj, data);
+    }
+
+};
 
 
 class AtomicBasic {
-    constructor(Model, data) {
-        this.function_based = data instanceof Function;
-
-        if (this.function_based) {
-            this.resolve_data = {
-                model: Model,
-                fn: data
-            };
-        } else {
-            var model_object = new Model();
-            model_object.build(data);
-            this.resolve_data = model_object;
-
-        }
-
+    constructor(Model, accessor) {
+        this.Model = Model;
+        this.accessor = accessor;
     }
     resolve(params) {
-        if (this.function_based) {
-            var data = this.resolve_data.fn(params);
-
-            var Model = this.resolve_data.model;
-
-            var model_object = new Model();
-            model_object.build(data);
-            return model_object;
-        }
-
+        var data = this.accessor.get(params);
+        //?????
         return this.resolve_data;
     }
-    setDataProvider(provider) {
-        this.provider = provider;
-
-        //@TODO: sooooooo???
-        return this;
-    }
     save() {
-        var status = false;
-        return status;
+        var data = "????";
+
+        return this.accessor.save(data);
     }
 }
 
