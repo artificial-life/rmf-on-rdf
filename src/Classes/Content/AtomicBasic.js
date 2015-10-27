@@ -1,7 +1,15 @@
 'use strict'
 
 var accessor = {
-    dataProvider: {},
+    //instance of object
+    dataProvider: {
+        get: (key) => {
+
+        },
+        set: (key) => {
+
+        }
+    },
     makeAccessObject: {
         get: (context) => {
             return 'access_string';
@@ -29,6 +37,10 @@ class AtomicBasic {
     }
     resolve(params) {
         var data = this.accessor.get(params);
+
+        var Model = this.Model;
+        var data_obj = new Model(data);
+
         //?????
         return this.resolve_data;
     }
