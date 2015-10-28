@@ -1,61 +1,5 @@
 'use strict'
 
-var accessor = {
-    dataProvider: {
-        set: () => {
-            //replace
-        }
-    },
-    makeAccessObject: {
-        get: (context) => {
-            return 'access_string';
-        },
-        set: (context) => {
-
-            return 'access_string';
-        }
-    },
-    get: (context) => {
-        var key_obj = this.makeAccessObject.get(context);
-        return dataProvider.get(key_obj);
-    },
-    set: (data) => {
-        var key_obj = this.makeAccessObject.set(data);
-        return dataProvider.set(key_obj, data);
-    }
-
-};
-//extends Accessor
-var CPaccessor = {
-    dataProvider: {
-        get: (key) => {
-            //super
-        },
-        set: () => {
-            //not used
-        },
-        upsert: () => {
-
-        }
-    },
-    makeAccessObject: {
-        //super
-    },
-    makeInitial: (context) => {
-        var now = _.now();
-        return this.schedules[now.day];
-    },
-    get: (context) => {
-        var result = super.get(context);
-        return result ? result : this.makeInitial();
-    },
-    set: (data) => {
-        var key_obj = this.makeAccessObject.set(data);
-        dataProvider.upsert(key_obj, data);
-    }
-};
-
-
 class AtomicStatic {
     constructor(Model, data_accessor, static_accessor) {
 
@@ -109,7 +53,6 @@ class AtomicStatic {
         return obj;
     }
 }
-
 
 
 module.exports = AtomicStatic;

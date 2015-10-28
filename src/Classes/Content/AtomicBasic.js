@@ -1,34 +1,7 @@
 'use strict'
 
-var accessor = {
-    //instance of object
-    dataProvider: {
-        get: (key) => {
-
-        },
-        set: (key) => {
-
-        }
-    },
-    makeAccessObject: {
-        get: (context) => {
-            return 'access_string';
-        },
-        set: (context) => {
-            return 'access_string';
-        }
-    },
-    get: (context) => {
-        var key_obj = this.makeAccessObject.get(context);
-        return dataProvider.get(key_obj);
-    },
-    set: (data) => {
-        var key_obj = this.makeAccessObject.set(data);
-        return dataProvider.set(key_obj, data);
-    }
-
-};
-
+//Content with writable initial data storage
+//storage should be represented as static data, not function
 
 class AtomicBasic {
     constructor(Model, accessor) {
@@ -37,17 +10,14 @@ class AtomicBasic {
     }
     resolve(params) {
         var data = this.accessor.get(params);
-
-        var Model = this.Model;
-        var data_obj = new Model(data);
-
-        //?????
-        return this.resolve_data;
+        return this.builder(data);
     }
-    save() {
-        var data = "????";
-
-        return this.accessor.save(data);
+    save(data) {
+        return this.accessor.set(data);
+    }
+    builder(data) {
+        var Model = this.Model;
+        return new Model(data);
     }
 }
 

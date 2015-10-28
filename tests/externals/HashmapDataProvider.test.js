@@ -21,8 +21,10 @@ describe('HashmapDataProvider', () => {
                 var result = hash.get('foo');
                 expect(result).to.equal('bar');
             });
-            it('nonexistent - throws Error', () => {
-                expect(hash.get.bind(hash, 'foobar')).to.throw(Error);
+            it('nonexistent - returns undefined', () => {
+                var result = hash.get('foobar');
+
+                expect(result).to.be.undefined;
             });
         });
 
@@ -34,8 +36,10 @@ describe('HashmapDataProvider', () => {
                 result = hash.get('foo');
                 expect(result).to.equal('baz');
             });
-            it('nonexistent - throws Error', () => {
-                expect(hash.set.bind(hash, 'foobar')).to.throw(Error);
+
+            it('nonexistent - returns "false"', () => {
+                var status = hash.set('foobar');
+                expect(status).to.not.be.ok;
             });
         });
 
