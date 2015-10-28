@@ -18,8 +18,8 @@ describe('Atomic Basic', () => {
 
 
         var result = content.resolve(query_params);
-//        expect(result).to.be.an.instanceof(Plan);
-//        expect(result.getContent()).to.have.length(2);
+        //        expect(result).to.be.an.instanceof(Plan);
+        //        expect(result.getContent()).to.have.length(2);
     });
 
     it('resolve - functional data', () => {
@@ -36,6 +36,7 @@ describe('Atomic Basic', () => {
 
         var result = content.resolve(query_params);
 
-//        expect(result).to.be.an.instanceof(Plan);
-//        expect(result.getContent()).to.have.length(2);    });
+        //        expect(result).to.be.an.instanceof(Plan);
+        //        expect(result.getContent()).to.have.length(2);   
+    });
 });

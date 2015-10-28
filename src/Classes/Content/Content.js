@@ -3,7 +3,8 @@
 var _ = require('lodash');
 
 
-var AtomicContent = require('./AtomicContent.js');
+//@TODO: should be AtomicAbstract
+var AtomicContent = require('./AtomicBasic.js');
 
 
 class Content {

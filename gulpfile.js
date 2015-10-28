@@ -42,8 +42,8 @@ gulp.task('es6-ll', function () {
     return gulp.src(["src/**/*.js", "tests/**/*.js"])
         .pipe(changed("build"))
         .pipe(plumber({
-            errorHandler: function () {
-                console.log('error');
+            errorHandler: function (e) {
+                console.log('error', e);
             }
         }))
         .pipe(babel({
