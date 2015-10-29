@@ -17,7 +17,9 @@ class AtomicBasic {
     }
     builder(data) {
         var Model = this.Model;
-        return new Model(data);
+        var obj = new Model();
+        obj.build(data);
+        return obj;
     }
 }
 

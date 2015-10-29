@@ -43,6 +43,7 @@ describe('CacheAccessor', () => {
                 }
             });
         });
+
         describe('#get', () => {
             it('gets template data on undefined key', () => {
                 cache_accessor.keymaker('get', (x) => x);
@@ -59,6 +60,36 @@ describe('CacheAccessor', () => {
 
                 var result = cache_accessor.get('foo');
                 expect(result).to.equal('bar');
+            });
+        });
+
+        describe('#set', () => {
+            it('set existent', () => {
+                cache_accessor.keymaker('set', 'foo');
+
+                var result = cache_accessor.set('baz');
+
+                expect(result).to.be.ok;
+                expect(TEST_STORAGE).to.have.property('foo', 'baz');
+            });
+
+            it('set nonexistent', () => {
+                cache_accessor.keymaker('set', 'zar');
+
+                var result = cache_accessor.set('zaz');
+
+                expect(result).to.be.ok;
+                expect(TEST_STORAGE).to.have.property('zar', 'zaz');
+            });
+        });
+
+        describe('#upsert', () => {
+            it('throws error anyway', () => {
+                cache_accessor.keymaker('upsert', 'bar');
+                expect(cache_accessor.upsert.bind(cache_accessor, 'anything')).to.throw(Error);
+
+                cache_accessor.keymaker('upsert', 'zaz');
+                expect(cache_accessor.upsert.bind(cache_accessor, 'anything')).to.throw(Error);
             });
         });
     })
