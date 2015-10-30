@@ -5,7 +5,7 @@ var _ = require('lodash');
 var discover = {
     module_cache: {},
     atomic_cache: {},
-    dataType: (name) => {
+    dataType: function (name) {
         var fullpath = `./BaseTypes/${name}.js`;
 
         if (!this.module_cache.hasOwnProperty(fullpath)) {
@@ -14,7 +14,7 @@ var discover = {
 
         return this.module_cache[fullpath];
     },
-    atomic: (type) => {
+    atomic: function (type) {
 
         var fullpath = `./Atomic${_.capitalize(type)}.js`;
 
@@ -34,7 +34,7 @@ class AtomicFactory {
         var atomicModel = discover.atomic(type);
         var dataModel = discover.dataType(params.type);
 
-        var atomic = new atomicModel(dataModel, params.data);
+        var atomic = new atomicModel(dataModel, params.accessor);
 
         return atomic;
     }
