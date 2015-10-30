@@ -27,6 +27,9 @@ class AbstractVolume {
     getContent() {
         throw new Error('Abstract function');
     }
+    serialize() {
+        throw new Error('Abstract function');
+    }
     build() {
         throw new Error('Abstract function');
     }

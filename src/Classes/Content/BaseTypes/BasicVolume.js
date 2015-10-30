@@ -54,6 +54,9 @@ class BasicVolume extends AbstractVolume {
 
         return result;
     }
+    serialize() {
+        return _.map(this.getContent(), (chunk) => chunk.toJSON());
+    }
     extend(source, sort = true) {
         var ext = this.extractContent(source);
 

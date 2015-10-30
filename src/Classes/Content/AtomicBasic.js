@@ -2,6 +2,7 @@
 
 //Content with writable initial data storage
 //storage should be represented as static data, not function
+var AbstractVolume = require('./BaseTypes/AbstractVolume.js');
 
 class AtomicBasic {
     constructor(Model, accessor) {
@@ -13,6 +14,8 @@ class AtomicBasic {
         return this.builder(data);
     }
     save(data) {
+        if (data instanceof AbstractVolume) return this.accessor.set(data.serialize());
+
         return this.accessor.set(data);
     }
     builder(data) {
@@ -22,7 +25,5 @@ class AtomicBasic {
         return obj;
     }
 }
-
-
 
 module.exports = AtomicBasic;

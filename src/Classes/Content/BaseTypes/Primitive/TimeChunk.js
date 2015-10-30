@@ -42,7 +42,7 @@ class TimeChunk extends PrimitiveVolume {
     toJSON() {
         return {
             data: [[this.start, this.end]],
-            state: this.getState()
+            state: this.getState().toString()
         };
     }
     intersection(chunk) {
