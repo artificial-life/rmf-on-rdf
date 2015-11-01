@@ -2,51 +2,35 @@
 
 var _ = require('lodash');
 
-
-//@TODO: should be AtomicAbstract
-var AtomicContent = require('./AtomicBasic.js');
-
+var AtomicFactory = require('./AtomicFactory.js');
+var ResolvedContent = require('./ResolvedContent.js');
 
 class Content {
-    constructor(data_array) {
-        this.atoms = _.map(data_array, (item) => this.buildContent(item));
+    constructor(descriptions) {
+        this.descriptions = descriptions;
+
+        this.atoms = _.map(descriptions, (item) => this.buildContent(item));
     }
     buildContent(item) {
-        if (item instanceof AtomicContent) return item;
-
-        if (item instanceof Content) return this.unpack(item);
-
-        return new AtomicContent(item);
-    }
-    unpack(Content) {
-        //@TODO: do it later
-        return [];
+        return AtomicFactory.create(item.content_type, item);
     }
     resolve(params) {
-        return _.map(this.atoms, (atom) => {
-            atom.resolve(params)
+        var resolved = _.map(this.atoms, (atom) => atom.resolve(params));
+
+        return new ResolvedContent(resolved, this);
+    }
+    save(data) {
+        return _.map(data, (content, index) => {
+            //@TODO: need some cheks here
+            if (!content) return true;
+
+            if (content.constructor.name !== this.descriptions[index].type) return false;
+
+            return this.atoms[index].save(content)
         });
     }
-    observe(data) {
-        var observed = _.map(this.resolve(data), (final) => final.observe(data));
-        var result = new Content(observed);
-
-        return result;
-    }
-    reserve(data) {
-
-    }
-    intersection(content) {
-
-    }
-    union(content) {
-
-    }
-    negative() {
-
-    }
     getAtom(name) {
-
+        return '???'
     }
 }
 

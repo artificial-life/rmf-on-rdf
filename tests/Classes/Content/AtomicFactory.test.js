@@ -8,7 +8,7 @@ var AtomicBasic = require('./AtomicBasic.js');
 describe('AtomicFactory', () => {
 
     it('#constructor throws Error', () => {
-        throw new Error('dunno how test this');
+        expect(AtomicFactory).to.throw(Error)
     });
 
     describe('static methods', () => {
