@@ -10,6 +10,13 @@ class Content {
         this.descriptions = descriptions;
 
         this.atoms = _.map(descriptions, (item) => this.buildContent(item));
+        this.is_editable = true;
+    }
+    set editable(value) {
+        this.is_editable = value;
+    }
+    isEditable() {
+        return this.is_editable;
     }
     buildContent(item) {
         return AtomicFactory.create(item.content_type, item);

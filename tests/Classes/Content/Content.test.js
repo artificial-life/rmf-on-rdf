@@ -119,6 +119,21 @@ describe('Content', () => {
 
             });
         });
+        describe('#isEditable', () => {
+            it('editable by default', () => {
+                var iseditable = content.isEditable();
+                expect(iseditable).to.be.ok;
+            });
 
+            it('setter "true"/"false"', () => {
+                content.editable = false;
+                var iseditable = content.isEditable();
+                expect(iseditable).to.be.not.ok;
+
+                content.editable = true;
+                iseditable = content.isEditable();
+                expect(iseditable).to.be.ok;
+            });
+        })
     });
 });
