@@ -1,6 +1,6 @@
 'use strict'
 var ResolvedContent = require('./ResolvedContent.js');
-console.log(ResolvedContent);
+
 describe('ResolvedContent (DRAFT)', () => {
     var resolved_content;
     beforeEach(() => {
