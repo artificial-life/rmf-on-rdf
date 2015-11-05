@@ -28,7 +28,10 @@ var discover = {
 
 class AtomicFactory {
     constructor() {
-        throw new Error('Wow! So Singletone! Wow! Such unique!');
+        throw new DogeError({
+            so: 'Singletone',
+            such: 'unique'
+        });
     }
     static create(type, params) {
         var atomicModel = discover.atomic(type);
