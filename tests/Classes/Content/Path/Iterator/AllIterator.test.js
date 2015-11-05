@@ -31,3 +31,17 @@ var test_map = {
 };
 
 var iterator = new AllIterator(test_map, ['services']);
+
+describe('AllIterator', () => {
+    it('#constructor', () => {
+        expect(iterator).to.be.an.instanceof(AllIterator);
+    });
+    it('#next', () => {
+        for (var i = 0; i < 3; i++) {
+            var next = iterator.next();
+            expect(next).to.have.property('done', false);
+            expect(next).to.have.property('value')
+                .and.deep.equal('service/uri' + (i + 1));
+        }
+    });
+});

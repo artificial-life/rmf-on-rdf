@@ -1,32 +1,29 @@
 'use strict'
 
 var _ = require('lodash');
-var AllIterator = require('./Iterator/AllIterator.js');
 
+var Selector = require('./Selector.js');
 
 class Path {
     constructor(collection) {
         this.collection = collection;
-
-    }
-    selector(data) {
-        var parts = data.split(' ');
+        this.path_selector = new Selector(this.collection);
         this.keys = [];
-        this.is_done = false;
-
-        this.chain = _.map(parts, (part, index) => {
-            var iterator = new AllIterator(this.collection, this.keys);
-
-            var value = index != parts.length - 1 ? iterator.next().value : undefined;
-
-            this.keys.push(value);
-
-            return iterator;
-        });
-
-        return this;
+    }
+    get chain() {
+        return this.path_selector.getChain();
+    }
+    selector() {
+        return this.path_selector;
+    }
+    makeInitial() {
+        return this.path_selector.makeInitial();
     }
     next() {
+        if (!this.keys.length && this.chain.length) {
+            this.keys = this.makeInitial();
+        }
+
         if (this.is_done) return {
             done: true
         };

@@ -5,7 +5,7 @@ var _ = require('lodash');
 var BasicIterator = require('./BasicIterator.js');
 
 class AllIterator extends BasicIterator {
-    constructor(map, path) {
+    constructor(map, path = []) {
         super(function* (array) {
             yield * array;
         });
@@ -29,7 +29,6 @@ class AllIterator extends BasicIterator {
         return rv;
     }
 }
-
 
 
 module.exports = AllIterator;
