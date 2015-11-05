@@ -1,14 +1,16 @@
 'use strict'
 
-var _ = require('lodash');
-
-
-
 class BasicIterator {
-    constructor(hashmap) {
-        this.map = hashmap;
+    constructor(generator) {
+        this.generator = generator;
     }
-
+    reset(...args) {
+        this.iterator = this.generator(...args);
+        return this;
+    }
+    next() {
+        return this.iterator.next()
+    }
 }
 
 module.exports = BasicIterator;

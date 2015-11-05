@@ -2,20 +2,20 @@
 
 var _ = require('lodash');
 
-class AllIterator {
+var BasicIterator = require('./BasicIterator.js');
+
+class AllIterator extends BasicIterator {
     constructor(map, path) {
+        super(function* (array) {
+            yield * array;
+        });
+
         this.map = map;
         this.reset(path);
-
     }
-    reset(map, path) {
-        var keys = _.keys(this.tier(map, path));
-        var gen = function* (array) {
-            yield * array;
-        }
-
-        this.iterator = gen(keys);
-
+    reset(path) {
+        var keys = _.keys(this.tier(path));
+        this.iterator = this.generator(keys);
         return this;
     }
     tier(parts) {
@@ -27,9 +27,6 @@ class AllIterator {
         }
 
         return rv;
-    }
-    next() {
-        return this.iterator.next()
     }
 }
 

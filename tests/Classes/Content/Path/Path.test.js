@@ -32,7 +32,7 @@ var test_map = {
 
 var path = new Path(test_map);
 
-path.selector('* *');
+path.selector('services *');
 console.log(path.keys);
 for (var i = 0; i < 11; i++) {
     var r = path.next();
