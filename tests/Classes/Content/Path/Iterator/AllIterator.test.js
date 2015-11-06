@@ -44,4 +44,14 @@ describe('AllIterator', () => {
                 .and.deep.equal('service/uri' + (i + 1));
         }
     });
+
+    it('#reset', () => {
+        iterator.reset(['objects']);
+        for (var i = 0; i < 3; i++) {
+            var next = iterator.next();
+            expect(next).to.have.property('done', false);
+            expect(next).to.have.property('value')
+                .and.deep.equal('o/uri' + (i + 1));
+        }
+    });
 });

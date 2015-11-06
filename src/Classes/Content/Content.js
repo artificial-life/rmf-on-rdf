@@ -3,42 +3,83 @@
 var _ = require('lodash');
 
 var AtomicFactory = require('./AtomicFactory.js');
+var AtomicBasic = require('./AtomicBasic.js');
+
 var ResolvedContent = require('./ResolvedContent.js');
+var Path = require('./Path/Path.js');
+
+var traverse = function(obj) {
+  _.forIn(obj, function(val, key) {
+
+    if (!_.isObject(obj[key])) {
+      console.log(key, val);
+    }
+    if (_.isObject(obj[key]) && !(obj[key] instanceof AtomicBasic)) {
+      traverse(obj[key]);
+    }
+
+  });
+};
+
 
 class Content {
-    constructor(descriptions) {
-        this.descriptions = descriptions;
+  constructor(descriptions) {
+    this.descriptions = descriptions;
+    this.atoms = _.map(descriptions, (item) => this.buildContent(item));
 
-        this.atoms = _.map(descriptions, (item) => this.buildContent(item));
-        this.is_editable = true;
-    }
-    set editable(value) {
-        this.is_editable = value;
-    }
-    isEditable() {
-        return this.is_editable;
-    }
-    buildContent(item) {
-        return AtomicFactory.create(item.content_type, item);
-    }
-    resolve(params) {
-        var resolved = _.map(this.atoms, (atom) => atom.resolve(params));
+    //@NOTE: new way to store atoms
+    this.content_map = {
+      '<namespace>conetnt': {},
+      '<namespace>attribute': {}
+    };
 
-        return new ResolvedContent(resolved, this);
-    }
-    save(data) {
-        return _.map(data, (content, index) => {
-            //@TODO: need some cheks here
-            if (!content) return true;
+    this.path = new Path(this.content_map);
 
-            if (content.constructor.name !== this.descriptions[index].type) return false;
+    this.is_editable = true;
+  }
+  addAtom(atom, atom_uri, ...path) {
+    path = path.length ? path : ['<namespace>conetnt'];
+    path.push(atom_uri);
 
-            return this.atoms[index].save(content)
-        });
+    if (_.has(this.content_map, path)) throw new Error("This path is used already");
+
+    _.set(this.content_map, path, atom);
+
+    return this;
+  }
+  set editable(value) {
+    this.is_editable = value;
+  }
+  isEditable() {
+    return this.is_editable;
+  }
+  buildContent(item) {
+      return AtomicFactory.create(item.content_type, item);
     }
-    getAtom(name) {
-        return '???'
-    }
+    //@TODO: rework it with selectors
+  resolve(params) {
+    var resolved = _.map(this.atoms, (atom) => atom.resolve(params));
+
+    return new ResolvedContent(resolved, this);
+  }
+
+  //Stage 2 resolver
+  resolveAll(params) {
+
+  }
+  save(data) {
+    return _.map(data, (content, index) => {
+      //@TODO: need some cheks here
+      if (!content) return true;
+
+      if (content.constructor.name !== this.descriptions[index].type) return false;
+
+      return this.atoms[index].save(content)
+    });
+  }
+  getAtom(name) {
+    return '???'
+  }
 }
 
 module.exports = Content;

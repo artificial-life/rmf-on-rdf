@@ -19,6 +19,17 @@ class Path {
     makeInitial() {
         return this.path_selector.makeInitial();
     }
+    isDone() {
+        return this.is_done;
+    }
+
+    /*Iterator*/
+    [Symbol.iterator]() {
+        var iterator = {};
+
+        iterator.next = this.next.bind(this);
+        return iterator;
+    }
     next() {
         if (!this.keys.length && this.chain.length) {
             this.keys = this.makeInitial();
@@ -63,9 +74,7 @@ class Path {
 
         return result.done ? this.stepBack(pos) : this.stepAhead(pos);
     }
-    isDone() {
-        return this.is_done;
-    }
+
 }
 
 module.exports = Path;

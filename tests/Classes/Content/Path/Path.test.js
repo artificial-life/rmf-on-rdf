@@ -107,6 +107,17 @@ describe('Path', () => {
             });
         });
 
+        describe('#Symbol.iterator', () => {
+            it('iterate in "for..of"', () => {
+                path.selector().reset().id('objects').all();
+                var counter = 1;
+
+                for (var p of path) {
+                    expect(p).deep.equal(['objects', 'o/uri' + counter++]);
+                }
+            })
+        });
+
 
     });
 });
