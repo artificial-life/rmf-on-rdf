@@ -14,19 +14,9 @@ class AllIterator extends BasicIterator {
         this.reset(path);
     }
     reset(path) {
-        var keys = _.keys(this.tier(path));
+        var keys = _.keys(_.get(this.map, path));
         this.iterator = this.generator(keys);
         return this;
-    }
-    tier(parts) {
-        var rv;
-        var index;
-
-        for (rv = this.map, index = 0; rv && index < parts.length; index += 1) {
-            rv = rv[parts[index]];
-        }
-
-        return rv;
     }
 }
 
