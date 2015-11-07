@@ -10,36 +10,24 @@ var Path = require('./Path/Path.js');
 
 
 
-var traverse = function(obj, callback) {
+var traverse = function(obj) {
   var key_array = [];
 
-  (function fn(obj, depth) {
-    _.forIn(obj, function(val, key) {
-      key_array[depth] = key;
-
-      if (obj[key] instanceof AtomicBasic) {
-        callback(key_array);
-      } else
-      if (_.isObject(obj[key])) {
-        fn(obj[key], depth + 1);
+  function* fn(obj, depth = 0) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        key_array[depth] = key;
+        if (obj[key] instanceof AtomicBasic) {
+          yield obj[key];
+        } else
+        if (_.isObject(obj[key])) {
+          yield * fn(obj[key], depth + 1);
+        }
       }
-
-    });
-  })(obj, 0);
+    }
+  };
+  return fn.bind(null, obj);
 };
-
-var data = {
-  'z': {
-    'x': new AtomicBasic()
-  },
-  'h': {
-    'g': new AtomicBasic()
-  }
-};
-
-traverse(data, (p) => {
-  console.log(p);
-});
 
 class Content {
   constructor(descriptions) {
@@ -48,16 +36,16 @@ class Content {
 
     //@NOTE: new way to store atoms
     this.content_map = {
-      '<namespace>conetnt': {},
-      '<namespace>attribute': {}
+      '<namespace>content': null,
+      '<namespace>attribute': null
     };
-
+    this.traverse = traverse(this.content_map);
     this.path = new Path(this.content_map);
 
     this.is_editable = true;
   }
   addAtom(atom, atom_uri, ...path) {
-    path = path.length ? path : ['<namespace>conetnt'];
+    path = path.length ? path : ['<namespace>content'];
     path.push(atom_uri);
 
     if (_.has(this.content_map, path)) throw new Error("This path is used already");
@@ -84,7 +72,13 @@ class Content {
 
   //Stage 2 resolver
   resolveAll(params) {
+    var paths = this.traverse();
+    var resolved = [];
 
+    for (var atom of paths) {
+      resolved.push(atom.resolve(params));
+    }
+    return new ResolvedContent(resolved, this);
   }
   save(data) {
     return _.map(data, (content, index) => {
