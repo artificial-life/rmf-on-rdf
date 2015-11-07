@@ -8,19 +8,38 @@ var AtomicBasic = require('./AtomicBasic.js');
 var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
-var traverse = function(obj) {
-  _.forIn(obj, function(val, key) {
 
-    if (!_.isObject(obj[key])) {
-      console.log(key, val);
-    }
-    if (_.isObject(obj[key]) && !(obj[key] instanceof AtomicBasic)) {
-      traverse(obj[key]);
-    }
 
-  });
+var traverse = function(obj, callback) {
+  var key_array = [];
+
+  (function fn(obj, depth) {
+    _.forIn(obj, function(val, key) {
+      key_array[depth] = key;
+
+      if (obj[key] instanceof AtomicBasic) {
+        callback(key_array);
+      } else
+      if (_.isObject(obj[key])) {
+        fn(obj[key], depth + 1);
+      }
+
+    });
+  })(obj, 0);
 };
 
+var data = {
+  'z': {
+    'x': new AtomicBasic()
+  },
+  'h': {
+    'g': new AtomicBasic()
+  }
+};
+
+traverse(data, (p) => {
+  console.log(p);
+});
 
 class Content {
   constructor(descriptions) {
