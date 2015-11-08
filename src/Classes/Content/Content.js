@@ -9,7 +9,7 @@ var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
 
-
+//@TODO: remove traverse, use Path iterator without selector instead
 var traverse = function(obj) {
   var key_array = [];
 
@@ -42,7 +42,7 @@ class Content {
     this.traverse = traverse(this.content_map);
     this.path = new Path(this.content_map);
 
-    //@NOTE: this hack is very dirty
+    //@NOTE: this hack is very dirty and ugly
     //@TODO: do something, pls
     this.path.selector().resolve = this.resolve.bind(this);
 
@@ -69,7 +69,11 @@ class Content {
     }
     //@TODO: rework it with selectors
   resolve(params) {
-    var resolved = _.map(this.atoms, (atom) => atom.resolve(params));
+    var resolved = [];
+
+    for (var atom of this.path) {
+      resolved.push(atom.resolve(params));
+    }
 
     return new ResolvedContent(resolved, this);
   }

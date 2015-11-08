@@ -8,7 +8,7 @@ var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.
 var AtomicFactory = require('./AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe('Content', () => {
+describe.only('Content', () => {
   var accessor1;
   var accessor2;
   var context;

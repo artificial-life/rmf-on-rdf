@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 
+//@NOTE: selector could be specific to storage type
 var Selector = require('./ObjectSelector.js');
 
 class Path {
@@ -20,24 +21,8 @@ class Path {
     return this.selector().makeInitial();
   }
   isDone() {
-      return this.is_done;
-    }
-    /*Iterator*/
-    [Symbol.iterator]() {
-      var iterator = {};
-
-      if (!this.chain.length) {
-        var traverse = this.selector().traverse();
-        iterator.next = traverse.next.bind(traverse);
-
-        return iterator;
-      }
-
-
-
-      iterator.next = this.next.bind(this);
-      return iterator;
-    }
+    return this.is_done;
+  }
   next() {
     if (!this.keys.length && this.chain.length) {
       this.keys = this.makeInitial();
@@ -89,6 +74,12 @@ class Path {
     return result.done ? this.stepBack(pos) : this.stepAhead(pos);
   }
 
+  /*Iterator*/
+  [Symbol.iterator]() {
+    return !this.chain.length ? this.selector().traverse() : {
+      next: this.next.bind(this)
+    };
+  }
 }
 
 module.exports = Path;
