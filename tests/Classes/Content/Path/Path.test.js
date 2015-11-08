@@ -91,8 +91,12 @@ describe('Path', () => {
           next = path.next();
 
           expect(next).to.have.property('done', false);
-          expect(next).to.have.property('value')
+
+          expect(next).to.have.deep.property('value.atom')
             .and.deep.equal(atom);
+
+          expect(next).to.have.deep.property('value.atom_path')
+            .and.deep.equal(['objects', 'o/uri' + (i + 1)]);
         }
       });
 
@@ -104,7 +108,7 @@ describe('Path', () => {
           next = path.next();
 
           expect(next).to.have.property('done', false);
-          expect(next).to.have.property('value')
+          expect(next).to.have.deep.property('value.atom')
             .and.deep.equal(atom);
         }
       });
@@ -116,7 +120,8 @@ describe('Path', () => {
         var count = 0;
         for (var p of path) {
           count++;
-          expect(p).deep.equal(atom);
+          expect(p.atom).deep.equal(atom);
+          expect(p.atom_path).deep.equal(['objects', 'o/uri' + count]);
         }
         expect(count).to.be.equal(3);
       });
@@ -127,7 +132,7 @@ describe('Path', () => {
         var count = 0;
         for (var p of path) {
           count++;
-          expect(p).deep.equal(atom);
+          expect(p.atom).deep.equal(atom);
         }
 
         expect(count).to.be.equal(13);

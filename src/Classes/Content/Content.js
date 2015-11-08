@@ -2,44 +2,16 @@
 
 var _ = require('lodash');
 
-var AtomicFactory = require('./AtomicFactory.js');
-var AtomicBasic = require('./AtomicBasic.js');
 
 var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
-
-//@TODO: remove traverse, use Path iterator without selector instead
-var traverse = function(obj) {
-  var key_array = [];
-
-  function* fn(obj, depth = 0) {
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        key_array[depth] = key;
-        if (obj[key] instanceof AtomicBasic) {
-          yield obj[key];
-        } else
-        if (_.isObject(obj[key])) {
-          yield * fn(obj[key], depth + 1);
-        }
-      }
-    }
-  };
-  return fn.bind(null, obj);
-};
-
 class Content {
-  constructor(descriptions) {
-    this.descriptions = descriptions;
-    this.atoms = _.map(descriptions, (item) => this.buildContent(item));
-
-    //@NOTE: new way to store atoms
+  constructor() {
     this.content_map = {
       '<namespace>content': null,
       '<namespace>attribute': null
     };
-    this.traverse = traverse(this.content_map);
     this.path = new Path(this.content_map);
 
     //@NOTE: this hack is very dirty and ugly
@@ -58,49 +30,47 @@ class Content {
 
     return this;
   }
+
+  //@TODO: rework it
   set editable(value) {
     this.is_editable = value;
   }
   isEditable() {
     return this.is_editable;
   }
-  buildContent(item) {
-      return AtomicFactory.create(item.content_type, item);
-    }
-    //@TODO: rework it with selectors
   resolve(params) {
-    var resolved = [];
+    var resolved = new ResolvedContent(this);
 
-    for (var atom of this.path) {
-      resolved.push(atom.resolve(params));
+    for (var atom_data of this.path) {
+      var {
+        atom_path: atom_path,
+        atom: atom
+      } = atom_data;
+
+      resolved.addAtom(atom_path, atom.resolve(params));
     }
 
-    return new ResolvedContent(resolved, this);
-  }
-
-  //Stage 2 resolver
-  resolveAll(params) {
-    var paths = this.traverse();
-    var resolved = [];
-
-    for (var atom of paths) {
-      resolved.push(atom.resolve(params));
-    }
-
-    return new ResolvedContent(resolved, this);
+    return resolved;
   }
   save(data) {
-    return _.map(data, (content, index) => {
+    return _.map(data, (item, index) => {
       //@TODO: need some cheks here
-      if (!content) return true;
+      if (_.isEmpty(item)) return true;
 
-      if (content.constructor.name !== this.descriptions[index].type) return false;
+      var {
+        content: content,
+        path: path
+      } = item;
 
-      return this.atoms[index].save(content)
+      if (!path || !content) return false;
+
+      var atom = this.getAtom(path);
+
+      return content instanceof atom.Model ? atom.save(content) : false;
     });
   }
-  getAtom(name) {
-    return '???'
+  getAtom(path) {
+    return _.get(this.content_map, path);
   }
 }
 

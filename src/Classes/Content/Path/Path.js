@@ -37,7 +37,10 @@ class Path {
 
     return result.done ? result : {
       done: false,
-      value: _.get(this.collection, this.keys)
+      value: {
+        atom: _.get(this.collection, this.keys),
+        atom_path: this.keys
+      }
     };
   }
   stepAhead(index) {

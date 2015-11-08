@@ -25,7 +25,10 @@ var traverse = function(obj) {
       if (obj.hasOwnProperty(key)) {
         key_array[depth] = key;
         if (obj[key] instanceof AtomicBasic) {
-          yield obj[key];
+          yield {
+            atom: obj[key],
+            atom_path: key_array
+          };
         } else
         if (_.isObject(obj[key])) {
           yield * fn(obj[key], depth + 1);

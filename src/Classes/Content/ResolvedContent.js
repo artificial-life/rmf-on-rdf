@@ -1,13 +1,19 @@
 'use strict'
 
+var _ = require('lodash');
+
 class ResolvedContent {
-    constructor(resolved, parent) {
-        this.parent = parent;
-        this.content = resolved;
-    }
-    save() {
-        this.parent.save(this.content);
-    }
+  constructor(parent) {
+    this.parent = parent;
+    this.content_map = {};
+  }
+  addAtom(path, atom) {
+    _.set(this.content_map, path, atom);
+    return this;
+  }
+  save() {
+    return this.parent.save(this.content);
+  }
 }
 
 module.exports = ResolvedContent;

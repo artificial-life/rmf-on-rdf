@@ -1,5 +1,7 @@
 'use strict'
 
+var _ = require('lodash');
+
 var Plan = require('./BaseTypes/Plan.js');
 var Content = require('./Content.js');
 var ResolvedContent = require('./ResolvedContent.js');
@@ -8,7 +10,7 @@ var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.
 var AtomicFactory = require('./AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe.only('Content', () => {
+describe('Content', () => {
   var accessor1;
   var accessor2;
   var context;
@@ -64,7 +66,13 @@ describe.only('Content', () => {
       accessor: accessor2
     }];
 
-    content = new Content(descriptions);
+    content = new Content();
+
+
+    _.forEach(descriptions, (item, index) => {
+      var atom = AtomicFactory.create(item.content_type, item);
+      content.addAtom(atom, 'some/atom/uri#' + index);
+    });
   });
 
   it('#constructor', () => {
@@ -80,11 +88,12 @@ describe.only('Content', () => {
 
       it('result has two Plans', () => {
         var resolved = content.resolve(context);
-        expect(resolved.content).to.have.length(2);
-        expect(resolved.content).to.have.deep.property('[0]')
-          .that.is.an.instanceof(Plan);
-        expect(resolved.content).to.have.deep.property('[1]')
-          .that.is.an.instanceof(Plan);
+        for (var i = 0; i < 2; i++) {
+          expect(resolved.content_map).to.have.deep.property('<namespace>content.some/atom/uri#' + i)
+            .that.is.an.instanceof(Plan);
+        }
+
+
       });
     });
 
@@ -92,7 +101,6 @@ describe.only('Content', () => {
       it('saving two Plan-s', () => {
         var plan1 = new Plan();
         var plan2 = new Plan();
-
         var plan1_data = [{
           data: [
             [0, 100]
@@ -111,7 +119,13 @@ describe.only('Content', () => {
 
         plan2.build(plan2_data);
 
-        var data_to_save = [plan1, plan2];
+        var data_to_save = [{
+          content: plan1,
+          path: ['<namespace>content', 'some/atom/uri#0']
+        }, {
+          content: plan2,
+          path: ['<namespace>content', 'some/atom/uri#1']
+        }];
 
         var result = content.save(data_to_save);
 
@@ -149,33 +163,18 @@ describe.only('Content', () => {
       });
     });
 
-    describe('#resolveAll', () => {
-      it('empty content resolves to empty', () => {
-        var resolved = content.resolveAll();
-        expect(resolved).is.an.instanceof(ResolvedContent);
-        expect(resolved.content).is.empty;
-      });
-
-      it('resolve not empty content', () => {
-        var item = {
-          content_type: 'Basic',
-          type: 'Plan',
-          accessor: accessor1
-        };
-        var atom = AtomicFactory.create(item.content_type, item);
-        content.addAtom(atom, 'some/atom/uri#1');
-
-        var resolved = content.resolveAll();
-        var resolved_atom = atom.resolve();
-
-        expect(resolved).is.an.instanceof(ResolvedContent);
-        expect(resolved.content).to.have.length(1);
-        expect(resolved.content[0]).to.deep.equal(resolved_atom);
-      });
-    });
-
     describe('#addAtom', () => {
+      beforeEach(() => {
+        //@NOTE: reset content_map
+        content.content_map = {
+          '<namespace>content': null,
+          '<namespace>attribute': null
+        };
+      });
+
       it('add to content by default', () => {
+
+
         var item = {
           content_type: 'Basic',
           type: 'Plan',
