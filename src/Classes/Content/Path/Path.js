@@ -2,78 +2,92 @@
 
 var _ = require('lodash');
 
-var Selector = require('./Selector.js');
+var Selector = require('./ObjectSelector.js');
 
 class Path {
-    constructor(collection) {
-        this.collection = collection;
-        this.path_selector = new Selector(this.collection);
-        this.keys = [];
+  constructor(collection) {
+    this.collection = collection;
+    this.path_selector = new Selector(this.collection);
+    this.keys = [];
+  }
+  get chain() {
+    return this.selector().getChain();
+  }
+  selector() {
+    return this.path_selector;
+  }
+  makeInitial() {
+    return this.selector().makeInitial();
+  }
+  isDone() {
+      return this.is_done;
     }
-    get chain() {
-        return this.path_selector.getChain();
-    }
-    selector() {
-        return this.path_selector;
-    }
-    makeInitial() {
-        return this.path_selector.makeInitial();
-    }
-    isDone() {
-        return this.is_done;
-    }
-
     /*Iterator*/
     [Symbol.iterator]() {
-        var iterator = {};
+      var iterator = {};
 
-        iterator.next = this.next.bind(this);
+      if (!this.chain.length) {
+        var traverse = this.selector().traverse();
+        iterator.next = traverse.next.bind(traverse);
+
         return iterator;
+      }
+
+
+
+      iterator.next = this.next.bind(this);
+      return iterator;
     }
-    next() {
-        if (!this.keys.length && this.chain.length) {
-            this.keys = this.makeInitial();
-        }
-
-        if (this.is_done) return {
-            done: true
-        };
-
-        return this.stepBack(this.keys.length);
+  next() {
+    if (!this.keys.length && this.chain.length) {
+      this.keys = this.makeInitial();
     }
-    stepAhead(index) {
-        if (index == this.chain.length - 1) {
-            return {
-                value: this.keys,
-                done: false
-            };
-        }
 
-        var pos = index + 1;
+    if (this.is_done) return {
+      done: true
+    };
 
-        var init = this.keys.slice(0, pos - this.keys.length);
-        this.chain[pos].reset(init);
+    var result = this.stepBack(this.keys.length);
+    //console.log(this.collection);
 
-        var result = this.chain[pos].next();
-        this.keys[pos] = result.value;
-
-        return result.done ? this.stepBack(pos) : this.stepAhead(pos);
+    return result.done ? result : {
+      done: false,
+      value: _.get(this.collection, this.keys)
+    };
+  }
+  stepAhead(index) {
+    if (index == this.chain.length - 1) {
+      return {
+        value: this.keys,
+        done: false
+      };
     }
-    stepBack(index) {
-        if (index == 0) {
-            this.is_done = true;
-            return {
-                done: true
-            };
-        }
 
-        var pos = index - 1;
+    var pos = index + 1;
 
-        var result = this.chain[pos].next();
-        this.keys[pos] = result.value;
+    //@NOTE: little hack to not play with arrays when there is no need
+    var init = this.chain[pos].constructor.name == 'AllIterator' ? this.keys.slice(0, pos - this.keys.length) : {};
 
-        return result.done ? this.stepBack(pos) : this.stepAhead(pos);
+    var result = this.chain[pos].reset(init).next();
+    this.keys[pos] = result.value;
+
+    return result.done ? this.stepBack(pos) : this.stepAhead(pos);
+  }
+  stepBack(index) {
+    if (index == 0) {
+      this.is_done = true;
+      return {
+        done: true
+      };
     }
+
+    var pos = index - 1;
+
+    var result = this.chain[pos].next();
+    this.keys[pos] = result.value;
+
+    return result.done ? this.stepBack(pos) : this.stepAhead(pos);
+  }
 
 }
 

@@ -42,6 +42,10 @@ class Content {
     this.traverse = traverse(this.content_map);
     this.path = new Path(this.content_map);
 
+    //@NOTE: this hack is very dirty
+    //@TODO: do something, pls
+    this.path.selector().resolve = this.resolve.bind(this);
+
     this.is_editable = true;
   }
   addAtom(atom, atom_uri, ...path) {
@@ -78,6 +82,7 @@ class Content {
     for (var atom of paths) {
       resolved.push(atom.resolve(params));
     }
+
     return new ResolvedContent(resolved, this);
   }
   save(data) {
