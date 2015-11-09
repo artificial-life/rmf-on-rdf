@@ -40,8 +40,8 @@ class Content {
   }
   resolve(params) {
     var resolved = new ResolvedContent(this);
-
-    for (var atom_data of this.path) {
+    var atom_data;
+    for (atom_data of this.path) {
       var {
         atom_path: atom_path,
         atom: atom

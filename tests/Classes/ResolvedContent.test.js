@@ -7,7 +7,12 @@ describe('ResolvedContent (DRAFT)', () => {
   beforeEach(() => {
     resolved_content = new ResolvedContent();
   });
-  it('#constructor', () => {
-    expect(resolved_content).to.be.an.instanceof(ResolvedContent);
+
+  describe('methods', () => {
+    it('#constructor', () => {
+      expect(resolved_content).to.be.an.instanceof(ResolvedContent);
+    });
+    it('#save');
   });
+
 })

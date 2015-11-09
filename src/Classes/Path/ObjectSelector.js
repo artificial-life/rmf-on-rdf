@@ -1,7 +1,7 @@
 'use strict'
 
 var _ = require('lodash');
-var AtomicBasic = require('../AtomicBasic.js');
+var AtomicBasic = require('../Atomic/AtomicBasic.js');
 
 var discover = {
   module_cache: {},

@@ -1,7 +1,7 @@
 'use strict'
 
 var Path = require('./Path.js');
-var AtomicBasic = require('../AtomicBasic.js');
+var AtomicBasic = require('../Atomic/AtomicBasic.js');
 var atom = new AtomicBasic();
 
 var test_map = {

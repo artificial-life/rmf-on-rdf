@@ -2,12 +2,12 @@
 
 var _ = require('lodash');
 
-var Plan = require('./BaseTypes/Plan.js');
+var Plan = require('./Atomic/BaseTypes/Plan.js');
 var Content = require('./Content.js');
 var ResolvedContent = require('./ResolvedContent.js');
-var BasicAccessor = require('./Accessor/BasicAccessor.js');
+var BasicAccessor = require('./Atomic/Accessor/BasicAccessor.js');
 var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
-var AtomicFactory = require('./AtomicFactory.js');
+var AtomicFactory = require('./Atomic/AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
 describe('Content', () => {

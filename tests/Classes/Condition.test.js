@@ -2,7 +2,7 @@
 
 var Condition = require('./Condition.js');
 
-describe('Condition', () => {
+describe.skip('Condition', () => {
   var condition;
 
   beforeEach(() => {
