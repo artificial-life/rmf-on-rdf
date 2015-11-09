@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 
-
 var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
@@ -17,8 +16,6 @@ class Content {
     //@NOTE: this hack is very dirty and ugly
     //@TODO: do something, pls
     this.path.selector().resolve = this.resolve.bind(this);
-
-    this.is_editable = true;
   }
   addAtom(atom, atom_uri, ...path) {
     path = path.length ? path : ['<namespace>content'];
@@ -30,13 +27,8 @@ class Content {
 
     return this;
   }
-
-  //@TODO: rework it
-  set editable(value) {
-    this.is_editable = value;
-  }
-  isEditable() {
-    return this.is_editable;
+  selector() {
+    return this.path.selector();
   }
   resolve(params) {
     var resolved = new ResolvedContent(this);

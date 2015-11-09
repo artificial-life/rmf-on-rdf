@@ -6,6 +6,7 @@ var changed = require('gulp-changed');
 var nodemon = require('gulp-nodemon');
 var plumber = require('gulp-plumber');
 var path = require('path');
+var demon;
 
 require('harmonize')();
 
@@ -53,21 +54,16 @@ gulp.task('es6-ll', function() {
     .on('end', function() {
       console.log('build');
     });
-});
+})
+
 
 gulp.task('start', function() {
-  nodemon({
+  demon = nodemon({
     script: 'build/run.js',
-    watch: ['src/', 'tests/'],
+    watch: ['/build'],
     env: {
       'NODE_ENV': 'development'
-    },
-    tasks: function(changedFiles) {
-      var tasks = []
-      changedFiles.forEach(function(file) {
-        if (path.extname(file) === '.js' && !~tasks.indexOf('es6-ll')) tasks.push('es6-ll')
-      })
-      return tasks
     }
-  })
+  });
+
 })

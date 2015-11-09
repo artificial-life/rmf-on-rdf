@@ -8,6 +8,7 @@ var ResolvedContent = require('./ResolvedContent.js');
 var BasicAccessor = require('./Atomic/Accessor/BasicAccessor.js');
 var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
 var AtomicFactory = require('./Atomic/AtomicFactory.js');
+var ObjectSelector = require('./Path/ObjectSelector.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
 describe('Content', () => {
@@ -95,6 +96,23 @@ describe('Content', () => {
 
 
       });
+      it('#resolve with selector', () => {
+        var result = content.selector().id('<namespace>content').all().resolve();
+        expect(result).to.be.an.instanceof(ResolvedContent);
+
+        for (var i = 0; i < 2; i++) {
+          expect(result.content_map).to.have.deep.property('<namespace>content.some/atom/uri#' + i)
+            .that.is.an.instanceof(Plan);
+        }
+
+        expect(result.content_map).to.not.have.property('<namespace>attribute');
+      });
+    });
+
+    describe('#selector', () => {
+      it('getting selector', () => {
+        expect(content.selector()).to.be.an.instanceof(ObjectSelector);
+      })
     });
 
     describe('#save', () => {
@@ -144,22 +162,6 @@ describe('Content', () => {
 
         expect(result).to.deep.equal([false, false]);
 
-      });
-    });
-    describe('#isEditable', () => {
-      it('editable by default', () => {
-        var iseditable = content.isEditable();
-        expect(iseditable).to.be.ok;
-      });
-
-      it('setter "true"/"false"', () => {
-        content.editable = false;
-        var iseditable = content.isEditable();
-        expect(iseditable).to.be.not.ok;
-
-        content.editable = true;
-        iseditable = content.isEditable();
-        expect(iseditable).to.be.ok;
       });
     });
 
