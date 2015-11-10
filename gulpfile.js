@@ -60,7 +60,7 @@ gulp.task('es6-ll', function() {
 gulp.task('start', function() {
   demon = nodemon({
     script: 'build/run.js',
-    watch: ['/build'],
+    watch: ['build/'],
     env: {
       'NODE_ENV': 'development'
     }

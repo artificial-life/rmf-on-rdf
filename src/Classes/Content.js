@@ -16,6 +16,7 @@ class Content {
     //@NOTE: this hack is very dirty and ugly
     //@TODO: do something, pls
     this.path.selector().resolve = this.resolve.bind(this);
+    this.path.selector().observe = (params) => this.resolve(params).observe(params);;
   }
   addAtom(atom, atom_uri, ...path) {
     path = path.length ? path : ['<namespace>content'];

@@ -4,6 +4,7 @@ var _ = require('lodash');
 
 class ResolvedContent {
   constructor(parent) {
+    if (!parent) throw new Error('parent required');
     this.parent = parent;
     this.content_map = {};
   }
@@ -12,7 +13,7 @@ class ResolvedContent {
     return this;
   }
   save() {
-    var parent_path = this.parent.path;
+    var parent_path = this.parent.path.selector().traverse();
     var atom_data;
     var result = [];
 
@@ -21,12 +22,14 @@ class ResolvedContent {
         atom_path: atom_path,
         atom: atom
       } = atom_data;
-
       var status = atom.save(this.getAtom(atom_path));
       result.push(status);
     }
 
     return result;
+  }
+  observe(params) {
+
   }
   getAtom(path) {
     return _.get(this.content_map, path);
