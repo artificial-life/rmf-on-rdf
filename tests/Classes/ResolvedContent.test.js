@@ -6,7 +6,7 @@ var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
 var contentInit = require('./Content.init.js');
 
-describe.only('ResolvedContent', () => {
+describe('ResolvedContent', () => {
   var resolved_content;
   var content;
   beforeEach(() => {
