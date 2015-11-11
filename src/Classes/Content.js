@@ -5,6 +5,7 @@ var _ = require('lodash');
 var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
+
 class Content {
   constructor() {
     this.content_map = {
@@ -16,7 +17,10 @@ class Content {
     //@NOTE: this hack is very dirty and ugly
     //@TODO: do something, pls
     this.path.selector().resolve = this.resolve.bind(this);
-    this.path.selector().observe = (params) => this.resolve(params).observe(params);;
+    this.path.selector().observe = (params) => {
+      this.resolve(params).observe(params);
+      this.path.selector().reset();
+    };
   }
   addAtom(atom, atom_uri, ...path) {
     path = path.length ? path : ['<namespace>content'];
@@ -34,6 +38,7 @@ class Content {
   resolve(params) {
     var resolved = new ResolvedContent(this);
     var atom_data;
+
     for (atom_data of this.path) {
       var {
         atom_path: atom_path,
