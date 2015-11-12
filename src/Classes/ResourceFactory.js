@@ -13,7 +13,7 @@ class Factory extends Content {
   addStorage(atom) {
     //@TODO: define AtomicStorage
     // if (!(atom instanceof AtomicStorage)) throw new Error('only atomic storage can be attached ');
-    return super.addAtom(atom, 'Storage');
+    return this.addAtom(atom, 'Storage');
   }
   addBuilder(algorithm, ...ingredients) {
     // @TODO: I know, how to deal with it. I'm just going to leave this here for a moment
@@ -36,10 +36,10 @@ class Factory extends Content {
     return this.selector().id('<namespace>content').id('Builder').resolve(params);
   }
   getStorage() {
-    return super.getAtom('<namespace>content', 'Storage')
+    return this.getAtom('<namespace>content', 'Storage')
   }
   getBuilder() {
-    return super.getAtom('<namespace>content', 'Builder')
+    return this.getAtom('<namespace>content', 'Builder')
   }
   observe(params) {
 
