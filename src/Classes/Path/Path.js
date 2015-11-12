@@ -33,7 +33,6 @@ class Path {
     };
 
     var result = this.stepBack(this.keys.length);
-    //console.log(this.collection);
 
     return result.done ? result : {
       done: false,

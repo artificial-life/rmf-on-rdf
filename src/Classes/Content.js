@@ -5,7 +5,6 @@ var _ = require('lodash');
 var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
-
 class Content {
   constructor() {
     this.content_map = {
@@ -21,10 +20,17 @@ class Content {
       this.resolve(params).observe(params);
       this.path.selector().reset();
     };
+    this.isEditable = true;
   }
-  addAtom(atom, atom_uri, ...path) {
+  set isEditable(value) {
+    this.is_editable = value;
+  }
+  get isEditable() {
+    return this.is_editable;
+  }
+  addAtom(atom, atom_type, ...path) {
     path = path.length ? path : ['<namespace>content'];
-    path.push(atom_uri);
+    path.push(atom_type);
 
     if (_.has(this.content_map, path)) throw new Error("This path is used already");
 
