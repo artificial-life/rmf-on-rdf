@@ -4,6 +4,7 @@ var contentInit = require('./Content.init.js');
 
 var POV = require('./PointOfView.js');
 var Content = require('./Content.js');
+var AtomicBasic = require('./Atomic/AtomicBasic.js');
 
 describe('PointOfView', () => {
   var pov;
@@ -30,7 +31,11 @@ describe('PointOfView', () => {
     describe('#addContent', () => {
       it('regular way', () => {
         pov.addContent(content);
-        console.log(pov.content_map);
+        for (var i = 0; i < 2; i++) {
+          var path = '<namespace>content.<collection>0.some/atom/uri#' + i;
+          expect(pov.content_map).to.have.deep.property(path)
+            .that.is.an.instanceof(AtomicBasic);
+        }
       });
     });
 

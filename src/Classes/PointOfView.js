@@ -20,7 +20,7 @@ class POV extends Content {
         atom
       } = path;
 
-      var type = atom_path.splice(-1);
+      var type = atom_path.splice(-1)[0];
 
       atom_path.push(collection_key);
 
@@ -33,7 +33,7 @@ class POV extends Content {
     return this.counter;
   }
   makeKey() {
-    return this.counter;
+    return '<collection>' + this.counter;
   }
 }
 
