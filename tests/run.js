@@ -3,9 +3,9 @@ var gulp = require("gulp");
 var mocha = require('gulp-mocha');
 
 gulp.src('build/**/*.test.js', {
-        read: false
-    })
-    .pipe(mocha());
+    read: false
+  })
+  .pipe(mocha());
 
 
 global._base = process.cwd();
