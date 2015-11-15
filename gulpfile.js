@@ -48,7 +48,13 @@ gulp.task('es6-ll', function() {
       }
     }))
     .pipe(babel({
-      blacklist: ['bluebirdCoroutines', 'regenerator']
+      "whitelist": [
+        "strict",
+        "es6.modules",
+        "es6.parameters.rest",
+        "es6.parameters.default",
+        "es6.destructuring"
+      ]
     }))
     .pipe(gulp.dest("build"))
     .on('end', function() {

@@ -19,6 +19,10 @@ class Plan extends BasicVolume {
       return this.start;
     });
   }
+  observe(params) { //@NOTE: test only
+    var selection = new TimeChunk(params);
+    return this.intersection(selection);
+  }
   intersection(plan, solid = false) {
     var other_content = [];
 

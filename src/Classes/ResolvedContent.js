@@ -29,7 +29,19 @@ class ResolvedContent {
     return result;
   }
   observe(params) {
+    var atom_data;
+    var parent_path = this.parent.path.selector().traverse();
 
+    for (atom_data of parent_path) {
+      var {
+        atom_path: atom_path,
+        atom: atom
+      } = atom_data;
+
+      this.addAtom(atom_path, this.getAtom(atom_path).observe(params));
+    }
+
+    return this;
   }
   getAtom(path) {
     return _.get(this.content_map, path);
