@@ -44,16 +44,13 @@ class Content {
   resolve(params) {
     var resolved = new ResolvedContent(this);
     var atom_data;
-
     for (atom_data of this.path) {
       var {
         atom_path: atom_path,
         atom: atom
       } = atom_data;
-
       resolved.addAtom(atom_path, atom.resolve(params));
     }
-
     return resolved;
   }
   save(data) {

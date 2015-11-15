@@ -62,17 +62,21 @@ describe.only('Workflow: Basic Resource ', () => {
 
     describe('#reserve', () => {
       it('reserve subspace', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
+        //@TODO: remove this as soon as possible
+        content.path.reset();
+        content.selector().reset().id('<namespace>content').id('plan');
 
+        var result = content.resolve();
         var status;
-
         status = result.reserve([
           [50, 300]
         ]);
+        //_.forEach(result.getAtom(['<namespace>content', 'plan']).content, (item) => console.log(item, item.state.mark));
         //@NOTE: this must throw error or had bad status
         status = result.reserve([
           [50, 100]
         ]);
+        _.forEach(result.getAtom(['<namespace>content', 'plan']).content, (item) => console.log(item, item.state.mark));
         //@NOTE: this must be successful
       });
 

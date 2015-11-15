@@ -23,12 +23,18 @@ class Path {
   isDone() {
     return this.is_done;
   }
+  reset() { //@TODO: this just temporary hack before i'll rework selectors
+    this.is_done = false;
+    this.keys = [];
+    return this;
+  }
   next() {
     if (!this.keys.length && this.chain.length) {
       this.keys = this.makeInitial();
     }
 
-    if (this.is_done) return {
+
+    if (this.isDone()) return {
       done: true
     };
 
