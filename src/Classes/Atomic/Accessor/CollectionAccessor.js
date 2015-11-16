@@ -9,6 +9,8 @@ class CollectionAccessor extends AbstractAccessor {
     super();
     this.collection_id = collection_id;
   }
+
+  //@TODO: transform "ids" to iterator
   callMethod(method_name, context) {
     var ids = context[this.collection_id];
     var result = [];
@@ -21,7 +23,6 @@ class CollectionAccessor extends AbstractAccessor {
     if (_.isObject(ids)) {
       var step = ids.step || 1;
       var i;
-
       for (i = ids.from; i <= ids.to; i += step) {
         result[i] = this.accessors[i][method_name](context);
       }
@@ -32,9 +33,11 @@ class CollectionAccessor extends AbstractAccessor {
     return result;
   }
   get(context) {
+    //@TODO: rework with itrerators
     return this.callMethod('get', context);
   }
   set(data) {
+    //@TODO: rework with itrerators
     return this.callMethod('set', data);
   }
   add(accessor) {

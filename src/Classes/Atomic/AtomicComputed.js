@@ -4,6 +4,8 @@ var _ = require('lodash');
 
 var AtomicBasic = require('./AtomicBasic.js');
 
+//@TODO: rework it to store only accessors and types
+
 class AtomicComputed extends AtomicBasic {
   constructor(source_atom) {
     if (!source_atom) throw new Error('source atom required');

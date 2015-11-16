@@ -64,7 +64,23 @@ describe.only('Workflow: Basic Resource ', () => {
       it('reserve subspace', () => {
         //@TODO: remove this as soon as possible
         content.path.reset();
-        content.selector().reset().id('<namespace>content').id('plan');
+
+        content.selector().reset();
+        content.selector().next().id('<namespace>content').id('plan').observe([1, 20]);
+        content.selector().next().id('<namespace>attribute').id('service').observe({
+          service_id: 'all',
+          some_id: [1, 2, 3, 4, 5],
+          data: [1, 20]
+        });
+        new ComputedC({
+          source: Content1,
+          containers: [Contents]
+        });
+
+        attribute - > animals - > lamas - > * - > atom_lama
+        attribute - > animals - > hippos - > * - > atom_hippo
+        content - > plan - > form 1 to 20(time)
+        attribute - > service - > * - > form 1 to 20
 
         var result = content.resolve();
         var status;
