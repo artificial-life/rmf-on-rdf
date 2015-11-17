@@ -6,7 +6,7 @@ var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.
 var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe.only('Workflow: Basic Resource ', () => {
+describe('Workflow: Basic Resource ', () => {
   var accessor1;
   var provider;
   var content;
@@ -63,25 +63,25 @@ describe.only('Workflow: Basic Resource ', () => {
     describe('#reserve', () => {
       it('reserve subspace', () => {
         //@TODO: remove this as soon as possible
-        content.path.reset();
+        /*        content.path.reset();
 
-        content.selector().reset();
-        content.selector().next().id('<namespace>content').id('plan').observe([1, 20]);
-        content.selector().next().id('<namespace>attribute').id('service').observe({
-          service_id: 'all',
-          some_id: [1, 2, 3, 4, 5],
-          data: [1, 20]
-        });
-        new ComputedC({
-          source: Content1,
-          containers: [Contents]
-        });
+                content.selector().reset();
+                content.selector().next().id('<namespace>content').id('plan').observe([1, 20]);
+                content.selector().next().id('<namespace>attribute').id('service').observe({
+                  service_id: 'all',
+                  some_id: [1, 2, 3, 4, 5],
+                  data: [1, 20]
+                });
+                new ComputedC({
+                  source: Content1,
+                  containers: [Contents]
+                });
 
-        attribute - > animals - > lamas - > * - > atom_lama
-        attribute - > animals - > hippos - > * - > atom_hippo
-        content - > plan - > form 1 to 20(time)
-        attribute - > service - > * - > form 1 to 20
-
+                attribute - > animals - > lamas - > * - > atom_lama
+                attribute - > animals - > hippos - > * - > atom_hippo
+                content - > plan - > form 1 to 20(time)
+                attribute - > service - > * - > form 1 to 20
+        */
         var result = content.resolve();
         var status;
         status = result.reserve([

@@ -8,7 +8,6 @@ var plumber = require('gulp-plumber');
 var path = require('path');
 var demon;
 
-require('harmonize')();
 
 gulp.task("default", function() {
   return gulp.src("src/**/*.js")
@@ -67,6 +66,9 @@ gulp.task('start', function() {
   demon = nodemon({
     script: 'build/run.js',
     watch: ['build/'],
+    execMap: {
+      "js": "node  --harmony --harmony_proxies"
+    },
     env: {
       'NODE_ENV': 'development'
     }
