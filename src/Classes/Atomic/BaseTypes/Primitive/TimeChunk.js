@@ -23,16 +23,7 @@ class TimeChunk extends PrimitiveVolume {
     return this;
   }
   reserve() {
-    return '[reserved,unused]';
-  }
-  isReserved() {
-    return this.state.isReserved();
-  }
-  isAvailable() {
-    return this.state.isAvailable();
-  }
-  isNotAvailable() {
-    return this.state.isNotAvailable();
+
   }
   getState() {
     return this.state;
@@ -57,10 +48,7 @@ class TimeChunk extends PrimitiveVolume {
     ], state);
   }
   intersectsWith(chunk) {
-    var start = _.max([this.start, chunk.start]);
-    var end = _.min([this.end, chunk.end]);
-
-    return start <= end
+    return (this.start >= chunk.start && this.start <= chunk.end) || (this.end >= chunk.start && this.end <= chunk.end)
   }
   getLength() {
     return this.end - this.start;
@@ -99,6 +87,15 @@ class TimeChunk extends PrimitiveVolume {
     }
 
     return result;
+  }
+  union(chunk) {
+    if (!this.intersectsWith(chunk)) return false;
+    var start = _.min(this.start, chunk.start);
+    var end = _.max(this.end, chunk.end);
+
+    return new TimeChunk([
+      [start, end]
+    ]);
   }
 }
 

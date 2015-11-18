@@ -15,97 +15,84 @@ describe('Workflow: Resource with compound atom', () => {
 
   before(() => {
 
-    provider = new HashmapDataProvider();
-    accessor1 = new BasicAccessor(provider);
-    accessor2 = new BasicAccessor(provider);
 
-    TEST_STORAGE.test_plan_data1 = [{
-      data: [
-        [0, 100]
-      ],
-      state: 'a'
-    }, {
-      data: [
-        [200, 400]
-      ],
-      state: 'a'
-    }];
-
-    TEST_STORAGE.test_plan_data2 = [{
-      data: [
-        [50, 100]
-      ],
-      state: 'a'
-    }, {
-      data: [
-        [120, 240]
-      ],
-      state: 'a'
-    }];
-
-    accessor1.keymaker('set', 'test_plan_data1')
-      .keymaker('get', 'test_plan_data1');
-
-    accessor2.keymaker('set', 'test_plan_data2')
-      .keymaker('get', 'test_plan_data2');
-
-
-    content = new Content();
-
-    var source_atom = AtomicFactory.create('Basic', {
-      type: 'Plan',
-      accessor: accessor1
-    });
-
-    var container = AtomicFactory.create('Basic', {
-      type: 'Plan',
-      accessor: accessor2
-    });
-
-    var computed = new AtomicComputed(source_atom);
-    computed.addAtom(container);
-    content.addAtom(computed, 'plan');
 
   });
 
   describe('basic observe\reserve', () => {
-    describe('#observe', () => {
-      it('observe', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
-        //  console.log(result.getAtom(['<namespace>content', 'plan']));
-        result.observe([
-          [50, 300]
-        ]);
-        //  console.log(result.getAtom(['<namespace>content', 'plan']));
-        result.observe([
-          [0, 201]
-        ]);
-        //console.log(result.getAtom(['<namespace>content', 'plan']));
+    describe('#build', () => {
+      it('build concrete', () => {
+        factory.select().reset().id('<namespace>content').id('plan').query({
+          plan_id: 1,
+          data: [0, 50]
+        });
+
+        factory.select().next().id('<namespace>attribute').id('service').query({
+          service_id: 1,
+          data: [0, 50]
+        });
+
+        factory.select().build();
+
+      });
+
+      it('observe mixed', () => {
+        factory.select().reset().id('<namespace>content').id('plan').query({
+          plan_id: 'promise',
+          data: [0, 50]
+        });
+
+        factory.select().next().id('<namespace>attribute').id('service').query({
+          service_id: 1,
+          data: [0, 50]
+        });
+
+        factory.select().build();
+
+      });
+
+      it('build functional', () => {
+        factory.select().reset().id('<namespace>content').id('plan').query({
+          plan_id: 'promise',
+          data: 'nearest'
+        });
+
+        factory.select().next().id('<namespace>attribute').id('service').query({
+          service_id: 1,
+          data: 'nearest'
+        });
+
+        factory.select().build();
+
+      });
+
+      it('build functional two attributes', () => {
+        factory.select().reset().id('<namespace>content').id('plan').query({
+          plan_id: 'promise',
+          data: 'nearest'
+        });
+
+        factory.select().next().id('<namespace>attribute').id('service').query({
+          service_id: 1,
+          data: 'nearest'
+        });
+
+        factory.select().next().id('<namespace>attribute').id('age').query({
+          operator_id: 1,
+          data: 'oldest'
+        });
+
+        factory.select().build();
 
       });
     });
 
     describe('#reserve', () => {
-      it('reserve subspace', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
+      it('reserve subspace');
+    });
 
-        result.reserve([
-          [50, 300]
-        ]);
-
-
-      });
-
-      it('reserve all', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
-        result.reserve();
-      });
-
-      it('reserve all and save', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
-        result.reserve();
-        result.save();
-      });
+    describe('#observe', () => {
+      it('observe what has been built');
     });
   })
 })

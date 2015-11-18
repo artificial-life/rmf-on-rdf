@@ -3,7 +3,6 @@
 var Plan = require('./Plan.js');
 var BaseCollection = require("./BaseCollection.js");
 
-
 describe.only("BaseCollection", () => {
   var tested;
 

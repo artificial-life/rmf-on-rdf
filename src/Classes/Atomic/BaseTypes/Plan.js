@@ -37,10 +37,25 @@ class Plan extends BasicVolume {
     });
   }
 
+  rawIntersection(other_content = [], solid = false) {
+    var result = [];
+
+    _.forEach(this.getContent(), (chunk) => {
+      _.forEach(other_content, (second_chunk) => {
+        var local_intersection = chunk.intersection(second_chunk);
+
+        if (local_intersection) result.push(solid ? chunk : local_intersection);
+
+      });
+    });
+
+    return result;
+  }
+
   /*=======================TEST===========================================*/
 
   intersection(plan, solid = false) {
-    var other_content = [];
+    var other_content = []
 
     if (plan instanceof ZeroDimensional) {
       var state = plan.getContent().getState();
@@ -56,18 +71,9 @@ class Plan extends BasicVolume {
       other_content = [plan];
     }
 
-    var result = [];
-
-    _(this.getContent()).forEach((chunk) => {
-      _(other_content).forEach((second_chunk) => {
-        var local_intersection = chunk.intersection(second_chunk);
-
-        if (local_intersection) result.push(solid ? chunk : local_intersection);
-
-      }).value();
-    }).value();
-
+    var result = this.rawIntersection(other_content, solid);
     var plan = new Plan(this);
+
     plan.build(result);
 
     return plan;
