@@ -22,10 +22,28 @@ class Plan extends BasicVolume {
 
   /*=======================TEST===========================================*/
   observe(params) { //@NOTE: test only
-    var selection = this.buildPrimitiveVolume({
-      data: [params]
-    });
-    return this.intersection(selection);
+    if (_.isArray(params)) {
+      var selection = this.buildPrimitiveVolume({
+        data: [params]
+      });
+
+      return this.intersection(selection);
+    } else if (_.isObject(params)) {
+      var state = params.state;
+      var result = _.reduce(this.getContent(), function(for_build, chunk) {
+        if (chunk.getState().haveState(state)) {
+          for_build.push(chunk.toJSON());
+        }
+        return for_build;
+      });
+
+      var plan = new Plan(this);
+
+      plan.build(result);
+
+      return plan;
+    }
+
   }
 
   reserve(params) { //@NOTE: test only

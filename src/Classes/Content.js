@@ -15,8 +15,8 @@ class Content {
 
     //@NOTE: this hack is very dirty and ugly
     //@TODO: do something, pls
-    this.path.selector().resolve = this.resolve.bind(this);
-    this.path.selector().observe = (params) => {
+    this.selector().resolve = this.resolve.bind(this);
+    this.selector().observe = (params) => {
       this.resolve(params).observe(params);
       this.path.selector().reset();
     }

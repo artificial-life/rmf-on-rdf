@@ -25,7 +25,7 @@ describe.only('Workflow: Basic Resource ', () => {
       data: [
         [200, 400]
       ],
-      state: 'a'
+      state: 'r'
     }];
 
     accessor1.keymaker('set', 'test_plan_data1')
@@ -54,7 +54,7 @@ describe.only('Workflow: Basic Resource ', () => {
 
         result.observe();
 
-        // console.log(result.getAtom(['<namespace>content', 'plan']));
+        //        console.log(result.getAtom(['<namespace>content', 'plan']));
 
         result.selector().reset().add()
           .id('<namespace>content').id('plan').query([50, 201]);
@@ -69,17 +69,33 @@ describe.only('Workflow: Basic Resource ', () => {
         // console.log(result.getAtom(['<namespace>content', 'plan']));
       });
 
+      it('observe state', () => {
+        var result = content.resolve();
+
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([50, 400]);
+
+        result.observe();
+
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query({
+            state: 'a'
+          });
+
+        result.observe();
+
+        var observed = result.getAtom(['<namespace>content', 'plan']);
+        var observed_content = observed.getContent();
+        expect(observed_content).to.have.length(1);
+        expect(observed_content).to.have.deep.property('[0]').to.contain.all.keys({
+          start: 50,
+          end: 100
+        });
+      });
+
+
       it('observe partial', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
-        //  console.log(result.getAtom(['<namespace>content', 'plan']));
-        result.observe([
-          [50, 300]
-        ]);
-        //  console.log(result.getAtom(['<namespace>content', 'plan']));
-        result.observe([
-          [0, 201]
-        ]);
-        //console.log(result.getAtom(['<namespace>content', 'plan']));
+        var result = content.selector().reset().add().id('<namespace>content').id('plan');
 
       });
     });
@@ -120,7 +136,7 @@ describe.only('Workflow: Basic Resource ', () => {
         status = result.reserve([
           [50, 100]
         ]);
-        _.forEach(result.getAtom(['<namespace>content', 'plan']).content, (item) => console.log(item, item.state.mark));
+        //_.forEach(result.getAtom(['<namespace>content', 'plan']).content, (item) => console.log(item, item.state.mark));
         //@NOTE: this must be successful
       });
 
