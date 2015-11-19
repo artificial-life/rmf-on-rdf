@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var PrimitiveVolume = require('./PrimitiveVolume.js');
 
+//@TODO: init_data model [[]] is ugly. should remove one brackets
 class TimeChunk extends PrimitiveVolume {
   constructor(init_data, state = 'a') {
     super(init_data, state);
@@ -16,8 +17,6 @@ class TimeChunk extends PrimitiveVolume {
       [
         [this.start, this.end]
       ] = description.length ? description : this.default;
-    } else {
-      [this.start, this.end] = description.time.data;
     }
 
     return this;

@@ -22,7 +22,9 @@ class Plan extends BasicVolume {
 
   /*=======================TEST===========================================*/
   observe(params) { //@NOTE: test only
-    var selection = new TimeChunk(params);
+    var selection = this.buildPrimitiveVolume({
+      data: [params]
+    });
     return this.intersection(selection);
   }
 

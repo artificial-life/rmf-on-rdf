@@ -6,7 +6,7 @@ var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.
 var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe('Workflow: Basic Resource ', () => {
+describe.only('Workflow: Basic Resource ', () => {
   var accessor1;
   var provider;
   var content;
@@ -43,9 +43,33 @@ describe('Workflow: Basic Resource ', () => {
     content.addAtom(atom, 'plan');
 
   });
+
   describe('basic observe-reserve', () => {
     describe('#observe', () => {
-      it('observe', () => {
+      it('observe all', () => {
+        var result = content.resolve();
+
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([0, 300]);
+
+        result.observe();
+
+        // console.log(result.getAtom(['<namespace>content', 'plan']));
+
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([50, 201]);
+
+        result.observe();
+
+
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([0, 60]);
+
+        result.observe();
+        // console.log(result.getAtom(['<namespace>content', 'plan']));
+      });
+
+      it('observe partial', () => {
         var result = content.selector().id('<namespace>content').id('plan').resolve();
         //  console.log(result.getAtom(['<namespace>content', 'plan']));
         result.observe([
@@ -58,6 +82,10 @@ describe('Workflow: Basic Resource ', () => {
         //console.log(result.getAtom(['<namespace>content', 'plan']));
 
       });
+    });
+
+    describe('#reset', () => {
+      it('reset to initial state')
     });
 
     describe('#reserve', () => {

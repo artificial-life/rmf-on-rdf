@@ -19,14 +19,7 @@ class Content {
     this.path.selector().observe = (params) => {
       this.resolve(params).observe(params);
       this.path.selector().reset();
-    };
-    this.isEditable = true;
-  }
-  set isEditable(value) {
-    this.is_editable = value;
-  }
-  get isEditable() {
-    return this.is_editable;
+    }
   }
   addAtom(atom, atom_type, ...path) {
     path = path.length ? path : ['<namespace>content'];
@@ -39,9 +32,11 @@ class Content {
     return this;
   }
   selector() {
-    return this.path.selector();
+    return this.path;
   }
-  resolve(params) {
+
+  //@NOTE: semantics of this method changed
+  resolve() {
     var resolved = new ResolvedContent(this);
     var atom_data;
     for (atom_data of this.path) {
@@ -49,8 +44,10 @@ class Content {
         atom_path: atom_path,
         atom: atom
       } = atom_data;
+      var params = this.path.getQueryParams() || {};
       resolved.addAtom(atom_path, atom.resolve(params));
     }
+
     return resolved;
   }
   save(data) {

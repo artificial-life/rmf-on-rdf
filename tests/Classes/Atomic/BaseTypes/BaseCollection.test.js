@@ -3,7 +3,7 @@
 var Plan = require('./Plan.js');
 var BaseCollection = require("./BaseCollection.js");
 
-describe.only("BaseCollection", () => {
+describe("BaseCollection", () => {
   var tested;
 
   beforeEach(() => {

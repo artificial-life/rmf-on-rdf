@@ -2,15 +2,30 @@
 
 var _ = require('lodash');
 
+var Path = require('./Path/Path.js');
+
+//@NOTE: may be ResolvedContent and Content should have common parent class
+//@NOTE: something like AbcstractContent
+//@NOTE: this will separated methods linked to content_map
+
 class ResolvedContent {
   constructor(parent) {
     if (!parent) throw new Error('parent required');
     this.parent = parent;
     this.content_map = {};
+    this.path = new Path(this.content_map);
+    //@NOTE: this inherits query params  from resolver
+    this.path.query(parent.selector().getQueryParams());
   }
   addAtom(path, atom) {
     _.set(this.content_map, path, atom);
     return this;
+  }
+  getAtom(path) {
+    return _.get(this.content_map, path);
+  }
+  selector() {
+    return this.path;
   }
   save() {
     var parent_path = this.parent.path.selector().traverse();
@@ -30,40 +45,29 @@ class ResolvedContent {
   }
 
   /*=======================TEST=======================*/
-  observe(params) {
+  observe() {
     var atom_data;
-    var parent_path = this.parent.path.selector().traverse();
 
-    for (atom_data of parent_path) {
+    for (atom_data of this.path) {
       var {
         atom_path: atom_path,
         atom: atom
       } = atom_data;
 
-      this.addAtom(atom_path, this.getAtom(atom_path).observe(params));
+      var params = this.path.getQueryParams();
+
+      this.addAtom(atom_path, atom.observe(params));
     }
 
     return this;
   }
   reserve(params) {
-    var atom_data;
-    var parent_path = this.parent.path.selector().traverse();
-
-    for (atom_data of parent_path) {
-      var {
-        atom_path: atom_path,
-        atom: atom
-      } = atom_data;
-      this.addAtom(atom_path, this.getAtom(atom_path).reserve(params));
-    }
-
-    return this;
+    //@NOTE: not done yet
+    //@TODO: draft required
   }
 
   /*=======================TEST=======================*/
-  getAtom(path) {
-    return _.get(this.content_map, path);
-  }
+
 }
 
 module.exports = ResolvedContent;

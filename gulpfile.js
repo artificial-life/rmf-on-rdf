@@ -34,11 +34,11 @@ gulp.task("sourcemaps", function() {
 });
 
 gulp.task('serve', ['start'], function() {
-  gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6-ll']);
+  gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6']);
 });
 
 
-gulp.task('es6-ll', function() {
+gulp.task('es6', function() {
   return gulp.src(["src/**/*.js", "tests/**/*.js"])
     .pipe(changed("build"))
     .pipe(plumber({

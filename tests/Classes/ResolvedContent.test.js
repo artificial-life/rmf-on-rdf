@@ -41,6 +41,7 @@ describe('ResolvedContent', () => {
       ]);
       expect(result).to.be.deep.equal([true, true]);
     });
+
     it('#getAtom', () => {
       var atom = resolved_content.getAtom(['<namespace>content', 'some/atom/uri#0']);
       expect(atom).to.be.an.instanceof(Plan);
