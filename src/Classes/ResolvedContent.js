@@ -27,24 +27,47 @@ class ResolvedContent {
   selector() {
     return this.path;
   }
+
+
+  /*=======================TEST=======================*/
   save() {
-    var parent_path = this.parent.path.selector().traverse();
+
+    var parent_path = this.selector().traverse();
     var atom_data;
     var result = [];
 
-    for (atom_data of parent_path) {
+    for (atom_data of path) {
       var {
         atom_path: atom_path,
         atom: atom
       } = atom_data;
-      var status = atom.save(this.getAtom(atom_path));
-      result.push(status);
+
+      if (atom.stored_changes.length) {
+        var traget_atom = this.parent.getAtom(atom_path);
+        //@TODO: need some way to get source of atom
+        var source = target_atom.getSource ? target_atom.getSource() : target_atom;
+        //@TODO: need some clear way to store resolving query
+        var params = atom.resolve_params || {};
+        var resolve_source = source.resolve(params);
+
+        var changes_status = [];
+
+        _.forEach(atom.stored_changes, (change) => {
+          let local_status = resolve_source.put(change);
+          changes_status.push(local_status);
+        });
+
+        atom.stored_changes.length = 0;
+
+      }
+
+      //@TODO: make statuses more informative
+      result.push(changes_status);
     }
 
     return result;
   }
 
-  /*=======================TEST=======================*/
   observe() {
     var atom_data;
 
@@ -61,9 +84,38 @@ class ResolvedContent {
 
     return this;
   }
-  reserve(params) {
-    //@NOTE: not done yet
-    //@TODO: draft required
+  reserve() {
+    var atom_data;
+
+    for (atom_data of this.path) {
+      var {
+        atom_path: atom_path,
+        atom: atom
+      } = atom_data;
+
+      var params = this.path.getQueryParams();
+
+      var after_reserve = atom.reserve(params);
+
+      if (after_reserve) this.addAtom(atom_path, after_reserve);
+    }
+
+    return this;
+  }
+  reset() {
+    var path = this.selector().traverse();
+    var atom_data;
+
+    for (atom_data of path) {
+      var {
+        atom_path: atom_path,
+        atom: atom
+      } = atom_data;
+
+      if (atom.parent) this.addAtom(atom_path, atom.parent);
+    }
+
+    return this;
   }
 
   /*=======================TEST=======================*/

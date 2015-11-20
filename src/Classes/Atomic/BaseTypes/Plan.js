@@ -46,15 +46,24 @@ class Plan extends BasicVolume {
 
   }
 
-  reserve(params) { //@NOTE: test only
+  reserve(params) {
     if (!params) {
       //@NOTE: reserve all
     }
 
-    return this.put({
+    //@NOTE: proxy to parent if it exist
+    var target = this.parent ? this.parent : this;
+
+    var placed = target.put({
       data: params,
       state: 'r'
     });
+
+    if (placed) {
+      this.stored_changes.push(placed)
+    }
+
+    return placed ? target : false;
   }
 
   rawIntersection(other_content = [], solid = false) {

@@ -64,8 +64,12 @@ class Path {
     this.selector().id(data);
     return this;
   }
+  traverse() {
+    return this.selector().traverse();
 
-  //@NOTE: end of proxing
+  }
+
+  //@NOTE: end of manual proxing
 
   next() {
     if (!this.keys.length && this.chain.length) {

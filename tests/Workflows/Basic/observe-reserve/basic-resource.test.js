@@ -54,7 +54,7 @@ describe.only('Workflow: Basic Resource ', () => {
 
         result.observe();
 
-        //        console.log(result.getAtom(['<namespace>content', 'plan']));
+        //console.log(result.getAtom(['<namespace>content', 'plan']));
 
         result.selector().reset().add()
           .id('<namespace>content').id('plan').query([50, 201]);
@@ -86,6 +86,7 @@ describe.only('Workflow: Basic Resource ', () => {
 
         var observed = result.getAtom(['<namespace>content', 'plan']);
         var observed_content = observed.getContent();
+
         expect(observed_content).to.have.length(1);
         expect(observed_content).to.have.deep.property('[0]').to.contain.all.keys({
           start: 50,
@@ -98,10 +99,6 @@ describe.only('Workflow: Basic Resource ', () => {
         var result = content.selector().reset().add().id('<namespace>content').id('plan');
 
       });
-    });
-
-    describe('#reset', () => {
-      it('reset to initial state')
     });
 
     describe('#reserve', () => {
@@ -156,6 +153,22 @@ describe.only('Workflow: Basic Resource ', () => {
         result.reserve();
         result.save();
       });
+    });
+
+    describe('#save', () => {
+      it('reset to initial state')
+    });
+
+    describe('#reset', () => {
+      it('reset to initial state', () => {
+        var result = content.selector().reset().resolve();
+
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([0, 300]);
+
+        result.observe();
+        console.log(result.getAtom(['<namespace>content', 'plan']));
+      })
     });
   })
 })
