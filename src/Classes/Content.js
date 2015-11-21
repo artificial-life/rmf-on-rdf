@@ -46,6 +46,9 @@ class Content {
       } = atom_data;
       var params = this.path.getQueryParams() || {};
       resolved.addAtom(atom_path, atom.resolve(params));
+
+      //@TODO: so dirty again, you shouldn't attach property this way. Never!
+      resolved.resolve_params = params;
     }
 
     return resolved;
