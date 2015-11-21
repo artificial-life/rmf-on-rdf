@@ -30,7 +30,7 @@ class ResolvedContent {
 
 
   /*=======================TEST=======================*/
-  save() {
+  save() { //@NOTE : just for testing, this wouldn't work right with collections
 
     var parent_path = this.selector().traverse();
     var atom_data;
@@ -43,14 +43,14 @@ class ResolvedContent {
       } = atom_data;
 
       if (atom.stored_changes.length) {
-        var traget_atom = this.parent.getAtom(atom_path);
+        let traget_atom = this.parent.getAtom(atom_path);
         //@TODO: need some way to get source of atom
-        var source = this.getSourceAtom(target_atom);
+        let source = this.getSourceAtom(target_atom);
         //@TODO: need some clear way to store resolving query
-        var params = atom.resolve_params || {};
-        var resolve_source = source.resolve(params);
+        let params = atom.resolve_params || {};
+        let resolve_source = source.resolve(params);
 
-        var changes_status = [];
+        let changes_status = [];
 
         _.forEach(atom.stored_changes, (change) => {
           let local_status = resolve_source.put(change);
@@ -59,10 +59,13 @@ class ResolvedContent {
 
         atom.stored_changes.length = 0;
 
+        //@TODO: check changes status: if  (changes_status)....
+        let stauts = target_atom.save(resolve_source);
+        result.push(status);
       }
 
       //@TODO: make statuses more informative
-      result.push(changes_status);
+
     }
 
     return result;
