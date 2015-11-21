@@ -28,7 +28,8 @@ class AtomicComputed extends AtomicBasic {
     return this.content[0];
   }
   save(data) {
-    return this.source_atom.save(data);
+    //@NOTE: direct_call set to false
+    return this.source_atom.save(data, false);
   }
 }
 
