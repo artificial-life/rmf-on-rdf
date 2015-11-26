@@ -11,6 +11,7 @@ class AtomicBasic {
     this.Model = Model;
     this.accessor = accessor;
   }
+
   resolve(params) {
     var data = this.accessor.get(params);
     return this.builder(data);
@@ -18,9 +19,16 @@ class AtomicBasic {
 
   save(data, direct_call = true) {
     //@NOTE: direct_call indicates that saving was called right from atom or thru atom chain
-
-    if (_.isArray(data.stored_changes)) {
+    if (_.isArray(data.stored_changes) && !direct_call) {
       //@NOTE: Here should be step by step commit of changes
+      var changes = data.stored_changes;
+      //@TODO: this getter will be reworked
+      var params = data.resolve_params;
+
+      var resolved = this.resolve(params);
+      var result = _.map(changes, (change) => resolved.put(change));
+      //@TODO: check result here
+      this.save(resolved, true);
     }
 
     if (data instanceof AbstractVolume) return this.accessor.set(data.serialize());

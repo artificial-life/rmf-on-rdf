@@ -60,7 +60,7 @@ class Plan extends BasicVolume {
     });
 
     if (placed) {
-      this.stored_changes.push(placed)
+      this.stored_changes.push(placed);
     }
 
     return placed ? target : false;

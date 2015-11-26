@@ -4,16 +4,12 @@ class FactoryIngredient {
   constructor(source) {
     this.source = source;
   }
-  buildSelector(params) {
-
-  }
   observe(params) {
-
+    return this.source.observe(params);
   }
   reserve(params) {
-
+    return this.source.reserve(params);
   }
-
 }
 
 module.exports = FactoryIngredient;

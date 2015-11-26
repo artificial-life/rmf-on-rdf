@@ -4,8 +4,10 @@ var _ = require('lodash');
 
 class FactoryDataProvider {
   constructor(setter) {
+    //@NOTE: setter of Storage
     this.setter = setter;
     this.ingredients = [];
+
     this.algorithm = () => {
       throw new Error('u should specify algorithm');
     };
@@ -18,6 +20,7 @@ class FactoryDataProvider {
   }
   get(params) {
     var results = _.map(this.ingredients, (ingredient) => ingredient.observe(params));
+
     return this.algorithm(...results);
   }
   set(key, value) {
