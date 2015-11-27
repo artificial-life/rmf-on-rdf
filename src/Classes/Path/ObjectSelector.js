@@ -24,14 +24,17 @@ var traverse = function(obj) {
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) {
         key_array[depth] = key;
-        if (obj[key] instanceof AtomicBasic) {
-          yield {
-            atom: obj[key],
-            atom_path: key_array
-          };
-        } else
+
         if (_.isObject(obj[key])) {
-          yield * fn(obj[key], depth + 1);
+          if (obj[key].constructor.name != 'Object') {
+            yield {
+              atom: obj[key],
+              atom_path: key_array
+            };
+          } else {
+            yield * fn(obj[key], depth + 1);
+          }
+
         }
       }
     }
@@ -64,6 +67,7 @@ class ObjectSelector {
     return this;
   }
   traverse() {
+
     return this.traverse_maker();
   }
   reset() {

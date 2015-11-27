@@ -66,7 +66,6 @@ class Path {
   }
   traverse() {
     return this.selector().traverse();
-
   }
 
   //@NOTE: end of manual proxing

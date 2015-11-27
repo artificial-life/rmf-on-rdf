@@ -54,8 +54,6 @@ describe.only('Workflow: Basic Resource ', () => {
 
         result.observe();
 
-        //console.log(result.getAtom(['<namespace>content', 'plan']));
-
         result.selector().reset().add()
           .id('<namespace>content').id('plan').query([50, 201]);
 
@@ -66,7 +64,11 @@ describe.only('Workflow: Basic Resource ', () => {
           .id('<namespace>content').id('plan').query([0, 60]);
 
         result.observe();
-        // console.log(result.getAtom(['<namespace>content', 'plan']));
+        var observed = result.getAtom(['<namespace>content', 'plan']);
+
+        expect(observed.getContent()).to.have.length(1);
+        expect(observed.getContent()).to.have.deep.property('[0].start', 50);
+        expect(observed.getContent()).to.have.deep.property('[0].end', 60);
       });
 
       it('observe state', () => {
@@ -96,67 +98,23 @@ describe.only('Workflow: Basic Resource ', () => {
 
 
       it('observe partial', () => {
-        var result = content.selector().reset().add().id('<namespace>content').id('plan');
+        content.selector().reset().add().id('<namespace>content').id('plan');
 
-      });
-    });
-
-    describe('#reserve', () => {
-      it('reserve subspace', () => {
-        //@TODO: remove this as soon as possible
-        /*        content.path.reset();
-
-                content.selector().reset();
-                content.selector().next().id('<namespace>content').id('plan').observe([1, 20]);
-                content.selector().next().id('<namespace>attribute').id('service').observe({
-                  service_id: 'all',
-                  some_id: [1, 2, 3, 4, 5],
-                  data: [1, 20]
-                });
-                new ComputedC({
-                  source: Content1,
-                  containers: [Contents]
-                });
-
-                attribute - > animals - > lamas - > * - > atom_lama
-                attribute - > animals - > hippos - > * - > atom_hippo
-                content - > plan - > form 1 to 20(time)
-                attribute - > service - > * - > form 1 to 20
-        */
         var result = content.resolve();
-        var status;
-        status = result.reserve([
-          [50, 300]
-        ]);
-        //_.forEach(result.getAtom(['<namespace>content', 'plan']).content, (item) => console.log(item, item.state.mark));
-        //@NOTE: this must throw error or had bad status
-        status = result.reserve([
-          [50, 100]
-        ]);
-        //_.forEach(result.getAtom(['<namespace>content', 'plan']).content, (item) => console.log(item, item.state.mark));
-        //@NOTE: this must be successful
-      });
 
-      it('reserve all', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
-        result.reserve();
-        //@NOTE: this must throw error or had bad status
-        result.observe([
-          [50, 100]
-        ]);
-        result.reserve();
-        //@NOTE: this must be successful
-      });
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([0, 60]);
+        result.observe();
 
-      it('reserve all and save', () => {
-        var result = content.selector().id('<namespace>content').id('plan').resolve();
-        result.reserve();
-        result.save();
-      });
-    });
+        var observed = result.getAtom(['<namespace>content', 'plan']);
+        var observed_content = observed.getContent();
 
-    describe('#save', () => {
-      it('reset to initial state')
+        expect(observed_content).to.have.length(1);
+        expect(observed_content).to.have.deep.property('[0]').to.contain.all.keys({
+          start: 0,
+          end: 60
+        });
+      });
     });
 
     describe('#reset', () => {
@@ -167,8 +125,35 @@ describe.only('Workflow: Basic Resource ', () => {
           .id('<namespace>content').id('plan').query([0, 300]);
 
         result.observe();
-        console.log(result.getAtom(['<namespace>content', 'plan']));
+
+        result.reset();
+        var reseted = result.getAtom(['<namespace>content', 'plan']);
+        expect(reseted.parent).to.not.be.ok;
       })
     });
+
+    describe('#save', () => {
+      it('save all changes')
+    });
+
+    describe('#reserve', () => {
+      it('reserve subspace', () => {
+        var result = content.resolve();
+        result.selector().reset().add()
+          .id('<namespace>content').id('plan').query([
+            [30, 50]
+          ]);
+
+        var result = result.reserve();
+        var reserved_content = result.getAtom(['<namespace>content', 'plan']).getContent();
+        //@NOTE: this must be successful
+      });
+
+      it('reserve wrong subspace')
+      it('reserve all');
+
+      it('reserve all and save');
+    });
+
   })
 })

@@ -29,7 +29,6 @@ class BasicVolume extends AbstractVolume {
 
     var result = [];
     var status = true;
-
     //@NOTE: this will be reworked too after PlacingStrategy rework
     try {
       _.forEach(this.getContent(), (chunk) => {

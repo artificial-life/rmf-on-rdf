@@ -47,7 +47,10 @@ class TimeChunk extends PrimitiveVolume {
     ], state);
   }
   intersectsWith(chunk) {
-    return (this.start >= chunk.start && this.start <= chunk.end) || (this.end >= chunk.start && this.end <= chunk.end)
+    var fins = (chunk.start >= this.start && chunk.start <= this.end) ||
+      (chunk.end >= this.start && chunk.end <= this.end);
+    var sinf = (this.start >= chunk.start && this.start <= chunk.end) || (this.end >= chunk.start && this.end <= chunk.end);
+    return fins || sinf;
   }
   getLength() {
     return this.end - this.start;

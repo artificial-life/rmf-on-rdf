@@ -44,6 +44,7 @@ class Content {
         atom_path: atom_path,
         atom: atom
       } = atom_data;
+      //@NOTE: params should be specific for each branch of selection
       var params = this.path.getQueryParams() || {};
       resolved.addAtom(atom_path, atom.resolve(params));
 
