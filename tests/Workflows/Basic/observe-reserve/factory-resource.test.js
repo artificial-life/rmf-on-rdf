@@ -7,7 +7,7 @@ var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 var AtomicComputed = require(_base + '/build/Classes/Atomic/AtomicComputed.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe('Workflow: Resource with compound atom', () => {
+describe('Workflow: Factory linked to single RS', () => {
   var accessor1;
   var accessor2;
   var provider;
@@ -22,18 +22,13 @@ describe('Workflow: Resource with compound atom', () => {
   describe('basic observe\reserve', () => {
     describe('#build', () => {
       it('build concrete', () => {
-        factory.select().reset().id('<namespace>content').id('plan').query({
-          plan_id: 1,
-          data: [0, 50]
+
+        var resolved_content = factory.build({
+          data: [0, 50],
+          count: 1
         });
 
-        factory.select().next().id('<namespace>attribute').id('service').query({
-          service_id: 1,
-          data: [0, 50]
-        });
-
-        factory.select().build();
-
+        var shelf = resolved_content.getAtom(['<namespace>content', 'builder']);
       });
 
       it('observe mixed', () => {
