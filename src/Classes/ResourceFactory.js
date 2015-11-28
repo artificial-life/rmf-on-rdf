@@ -19,13 +19,10 @@ class Factory extends Content {
     return this.getAtom(['<namespace>content', builder_namespace])
   }
   build(params) { //@NOTE: that's specific to factory content
-    return this.selector().id('<namespace>content').id(builder_namespace).resolve(params);
-  }
-  observe(params) {
-
-  }
-  reserve() {
-
+    this.selector().reset().add()
+      .id('<namespace>content').id(builder_namespace).query(params);
+    var resolved = this.resolve();
+    return resolved;
   }
 }
 

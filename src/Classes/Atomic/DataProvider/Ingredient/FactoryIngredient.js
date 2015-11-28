@@ -6,13 +6,13 @@ class FactoryIngredient {
     this.size = size;
   }
   observe(params) {
-
-    var resolved = this.source.selector().query(params);
+    this.source.selector().query(params);
+    var resolved = this.source.resolve();
 
     resolved.selector().query(params);
 
     return resolved.observe()
-      .split(size);
+      //  .split(this.size);
   }
   reserve(params) {
     return this.source.reserve(params);

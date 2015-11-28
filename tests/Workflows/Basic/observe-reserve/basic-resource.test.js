@@ -6,7 +6,7 @@ var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.
 var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe.only('Workflow: Basic Resource ', () => {
+describe('Workflow: Basic Resource ', () => {
   var accessor1;
   var provider;
   var content;

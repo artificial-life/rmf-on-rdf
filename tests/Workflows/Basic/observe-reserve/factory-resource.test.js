@@ -1,21 +1,77 @@
 'use strict'
 
 var Content = require(_base + '/build/Classes/Content.js');
+var ResourceFactory = require(_base + '/build/Classes/ResourceFactory.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
+var FactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/FactoryDataProvider.js');
+var FactoryIngredient = require(_base + '/build/Classes/Atomic/DataProvider/Ingredient/FactoryIngredient.js');
+
 var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
 var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
-var AtomicComputed = require(_base + '/build/Classes/Atomic/AtomicComputed.js');
+
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe('Workflow: Factory linked to single RS', () => {
-  var accessor1;
-  var accessor2;
+describe.only('Workflow: Factory linked to single RS', () => {
+  var resoucre_source;
+  var factory_accessor;
+  var factory;
   var provider;
   var content;
+  var accessor1;
 
   before(() => {
+    provider = new HashmapDataProvider();
 
+    accessor1 = new BasicAccessor(provider);
 
+    TEST_STORAGE.test_plan_data1 = [{
+      data: [
+        [0, 100]
+      ],
+      state: 'a'
+    }, {
+      data: [
+        [200, 400]
+      ],
+      state: 'r'
+    }];
+
+    accessor1.keymaker('set', 'test_plan_data1')
+      .keymaker('get', 'test_plan_data1');
+
+    var description = {
+      type: 'Plan',
+      accessor: accessor1
+    };
+
+    resoucre_source = new Content();
+
+    var atom = AtomicFactory.create('Basic', description);
+    resoucre_source.addAtom(atom, 'plan');
+
+    factory = new ResourceFactory();
+    var factory_provider = new FactoryDataProvider();
+    var size = 10;
+    var ingredient = new FactoryIngredient(resoucre_source, size);
+
+    factory_provider.addIngredient(ingredient);
+
+    factory_provider.addAlgorithm((ing) => {
+      return {
+        ing1: ing
+      }
+    });
+
+    factory_accessor = new BasicAccessor(factory_provider);
+
+    factory_accessor.keymaker('set', (p) => p)
+      .keymaker('get', (p) => p);
+
+    var builder = AtomicFactory.create('Basic', {
+      type: 'Shelf',
+      accessor: factory_accessor
+    });
+    factory.addBuilder(builder);
 
   });
 
@@ -32,54 +88,16 @@ describe('Workflow: Factory linked to single RS', () => {
       });
 
       it('observe mixed', () => {
-        factory.select().reset().id('<namespace>content').id('plan').query({
-          plan_id: 'promise',
-          data: [0, 50]
+        factory.select().reset().add().id('<namespace>content').id('plan').query({
+          data: 'nearest',
+          count: 1
         });
 
-        factory.select().next().id('<namespace>attribute').id('service').query({
-          service_id: 1,
-          data: [0, 50]
-        });
 
-        factory.select().build();
+        factory.build();
 
       });
 
-      it('build functional', () => {
-        factory.select().reset().id('<namespace>content').id('plan').query({
-          plan_id: 'promise',
-          data: 'nearest'
-        });
-
-        factory.select().next().id('<namespace>attribute').id('service').query({
-          service_id: 1,
-          data: 'nearest'
-        });
-
-        factory.select().build();
-
-      });
-
-      it('build functional two attributes', () => {
-        factory.select().reset().id('<namespace>content').id('plan').query({
-          plan_id: 'promise',
-          data: 'nearest'
-        });
-
-        factory.select().next().id('<namespace>attribute').id('service').query({
-          service_id: 1,
-          data: 'nearest'
-        });
-
-        factory.select().next().id('<namespace>attribute').id('age').query({
-          operator_id: 1,
-          data: 'oldest'
-        });
-
-        factory.select().build();
-
-      });
     });
 
     describe('#reserve', () => {
