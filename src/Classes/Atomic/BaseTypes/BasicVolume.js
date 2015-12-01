@@ -18,9 +18,6 @@ class BasicVolume extends AbstractVolume {
   clone(parent = false) {
     throw new Error('BasicVolume abstract method "clone"');
   }
-  getDescription() {
-    return this.getParams().getDescription();
-  }
   buildPrimitiveVolume(item) {
     return item instanceof this.PrimitiveVolume ? item : new this.PrimitiveVolume(item.data, item.state);
   }

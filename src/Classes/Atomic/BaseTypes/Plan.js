@@ -11,9 +11,6 @@ class Plan extends BasicVolume {
     super(parent);
     this.PrimitiveVolume = TimeChunk;
   }
-  clone(parent) {
-    return new Plan(parent);
-  }
   sort() {
     this.content = _.sortBy(this.content, function(chunk) {
       return this.start;

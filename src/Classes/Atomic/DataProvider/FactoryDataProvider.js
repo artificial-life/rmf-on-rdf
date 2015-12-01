@@ -20,7 +20,7 @@ class FactoryDataProvider {
   }
   get(params) {
     var results = _.map(this.ingredients, (ingredient) => {
-      return ingredient.observe();
+      return ingredient.observe(params);
     });
 
     return this.algorithm(...results);

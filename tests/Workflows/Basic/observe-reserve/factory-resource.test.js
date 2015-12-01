@@ -51,16 +51,17 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
     factory = new ResourceFactory();
     var factory_provider = new FactoryDataProvider();
-    var size = 10;
+
+    var size = [{
+      atom_path: ['<namespace>content', 'plan'],
+      size: 10
+    }];
+
     var ingredient = new FactoryIngredient(resoucre_source, size);
 
     factory_provider.addIngredient(ingredient);
 
-    factory_provider.addAlgorithm((ing) => {
-      return {
-        ing1: ing
-      }
-    });
+    factory_provider.addAlgorithm((ing) => [ing]);
 
     factory_accessor = new BasicAccessor(factory_provider);
 
