@@ -81,7 +81,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
       it('build concrete', () => {
 
         var resolved_content = factory.build({
-          data: [0, 50],
+          data: [70, 150],
           count: 1
         });
 

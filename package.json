@@ -29,7 +29,7 @@
     "custom-queue": "git+https://github.com/artificial-life/custom-queue.git",
     "harmony-reflect": "^1.4.2",
     "lodash": "^3.10.0",
-    "node-uuid": "^1.4.3"
+    "node-uuid": "^1.4.7"
   },
   "devDependencies": {
     "chai": "^3.3.0",
