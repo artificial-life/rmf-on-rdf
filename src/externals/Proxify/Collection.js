@@ -9,7 +9,11 @@ function ProxifyCollection(collection) {
 
   let handler = {
     get(target, propKey) {
-      if (target.hasOwnProperty(propKey) && !(target[propKey] instanceof Function)) return target[propKey];
+      if (target.hasOwnProperty(propKey)) return target[propKey];
+      //@NOTE: hack for console.log
+      if (propKey == 'inspect') return function(depth) {
+        return target;
+      };
 
       return function(...args) {
         let params = args[0] || {};
@@ -19,7 +23,7 @@ function ProxifyCollection(collection) {
           return target.collectionMethod(propKey, ...args);
         } else {
           const origMethod = target[propKey];
-          if (!origMethod) throw new Error('no such method in collection');
+          if (!origMethod) throw new Error('no such method in collection: "' + propKey + '"');
 
           return origMethod.apply(this, args);
         }

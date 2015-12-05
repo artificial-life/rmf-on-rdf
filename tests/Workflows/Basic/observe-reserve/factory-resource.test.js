@@ -11,7 +11,7 @@ var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe.only('Workflow: Factory linked to single RS', () => {
+describe('Workflow: Factory linked to single RS', () => {
   var resoucre_source;
   var factory_accessor;
   var factory;
@@ -99,6 +99,36 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
       });
 
+      it('checking available slots', () => {
+        factory.selector().reset().add()
+          .id('<namespace>content').id('plan').query([0, 1000]);
+
+        var produced = factory.build({
+          count: 1
+        });
+
+        //use boxes iterator
+        var box = produced.boxes().next();
+
+        //box count
+        var length = produced.boxes().length();
+
+        //this observing concrete
+        produced.selector().reset().add().id('<namespace>content').id('plan').query([100, 200]);
+
+        produced.observe({
+          id: 'concrete-id'
+        });
+
+        //this observing all match
+        produced.reset();
+        produced.selector().reset().add().id('<namespace>content').id('plan').query([100, 200]);
+
+        produced.observe({
+          id: '*'
+        });
+
+      });
     });
 
     describe('#reserve', () => {
