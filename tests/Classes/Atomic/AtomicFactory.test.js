@@ -8,7 +8,10 @@ var AtomicBasic = require('./AtomicBasic.js');
 describe.only('AtomicFactory', () => {
 
   it('#constructor throws Error', () => {
-    expect(AtomicFactory).to.throw(Error)
+    var test = function() {
+      return new AtomicFactory();
+    }
+    expect(test).to.throw(Error)
   });
 
   describe('static methods', () => {
@@ -58,6 +61,7 @@ describe.only('AtomicFactory', () => {
 
         basic_accessor.keymaker('get', 'test_collection_data')
           .keymaker('set', 'test_collection_data');
+
         var collection_index_name = 'id';
         var result = AtomicFactory.create('Basic', {
           type: {

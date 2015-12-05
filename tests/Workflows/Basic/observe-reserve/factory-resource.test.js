@@ -100,7 +100,37 @@ describe('Workflow: Factory linked to single RS', () => {
       });
 
       it('checking available slots', () => {
-        factory.selector().reset().add()
+        //"box_id" NOT specified => build
+
+        //factory_accessor instanceof BasicAccessor
+
+        factory_accessor.keymaker('get', (p) => p);
+
+        factoryDataProvider.get(params) {
+          if (params.hasOwnProperty(this.collection_id)) {
+            return this.storageDataProvider.get(params);
+          } else {
+            return this.ingredientDataProvider.get(params);
+          }
+        }
+
+        factoryDataProvider.ingredientDataProvider = RMFingredientDataProvider;
+
+        RMFingredientDataProvider.get(p) {
+          var resolved = this.ingredient_atom.resolve(p).observe(p);
+
+          var splitted_content = resolved.split(this.size).getContent().splice(0, p.count); //array of TimeChunk
+
+          if (splitted_content.length != p.count) throw new DogeError({
+            so: 'few ingredients',
+            such: 'much boxes'
+          });
+
+          return _.map(splitted_content, (chunk) => chunk.toJSON())
+        }
+
+        factory.selector().reset()
+          .add()
           .id('<namespace>content').id('plan').query([0, 1000]);
 
         var produced = factory.build({
@@ -113,20 +143,23 @@ describe('Workflow: Factory linked to single RS', () => {
         //box count
         var length = produced.boxes().length();
 
+        if (length > 0) console.log('We have a timeslot for booking!');
         //this observing concrete
-        produced.selector().reset().add().id('<namespace>content').id('plan').query([100, 200]);
-
-        produced.observe({
-          id: 'concrete-id'
+        produced.selector().reset().add().id('<namespace>content').id('plan').query({
+          box_id: 'concrete-id',
+          params: [100, 200]
         });
+
+        produced.observe();
 
         //this observing all match
         produced.reset();
-        produced.selector().reset().add().id('<namespace>content').id('plan').query([100, 200]);
-
-        produced.observe({
-          id: '*'
+        produced.selector().reset().add().id('<namespace>content').id('plan').query({
+          box_id: '*',
+          params: [100, 200]
         });
+
+        produced.observe();
 
       });
     });
