@@ -4,6 +4,7 @@ var AtomicFactory = require('./AtomicFactory.js');
 var BasicAccessor = require('./Accessor/BasicAccessor.js');
 var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
 var AtomicBasic = require('./AtomicBasic.js');
+var BaseCollection = require('./BaseTypes/BaseCollection.js');
 
 describe.only('AtomicFactory', () => {
 
@@ -79,7 +80,9 @@ describe.only('AtomicFactory', () => {
           id: '1z1x',
           params: [0, 30]
         });
-        console.log(result);
+
+        expect(result.content).to.have.property('1z1x');
+        expect(result.content).to.not.have.property('1x1c');
       })
     });
   });

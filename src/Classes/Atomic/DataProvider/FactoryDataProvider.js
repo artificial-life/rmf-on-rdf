@@ -3,48 +3,23 @@
 var _ = require('lodash');
 
 class FactoryDataProvider {
-  constructor(setter) {
-    //@NOTE: setter of Storage
-    this.setter = setter;
-    this.ingredients = [];
-
-    this.algorithm = () => {
-      throw new Error('u should specify algorithm');
-    };
+  constructor(collection_id) {
+    this.collection_id = collection_id;
   }
   addIngredient(ingredient) {
-    this.ingredients.push(ingredient);
+    this.ingredientDataProvider = ingredient;
   }
-  addAlgorithm(algorithm) {
-    this.algorithm = algorithm;
+  addStorage(storage) {
+    this.storageDataProvider = storage;
   }
   get(params) {
-    var results = _.map(this.ingredients, (ingredient) => {
-      return ingredient.observe(params);
-    });
+    var storage = this.storageDataProvider;
+    var ingredient = this.ingredientDataProvider;
 
-    return this.algorithm(...results);
+    return params.hasOwnProperty(this.collection_id) ? storage.get(params) : ingredient.get(params);
   }
   set(key, value) {
-    // key = {
-    //   ingredients: [],
-    //   save_to: 'key for saving'
-    // }
 
-    var saving_key = key.save_to;
-    var ingredients_data = key.ingredients;
-
-    var push_to_storage_status = this.setter(saving_key, value);
-
-    var ingredients_status = _.map(this.ingredients, (ingredient, index) => {
-      var data = ingredients_data[index];
-      return ingredient.reserve(data);
-    });
-
-    return {
-      composed: push_to_storage_status,
-      ingredients: ingredients_status
-    };
   }
 }
 
