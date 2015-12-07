@@ -6,7 +6,7 @@ var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.
 var AtomicBasic = require('./AtomicBasic.js');
 var BaseCollection = require('./BaseTypes/BaseCollection.js');
 
-describe.only('AtomicFactory', () => {
+describe('AtomicFactory', () => {
 
   it('#constructor throws Error', () => {
     var test = function() {

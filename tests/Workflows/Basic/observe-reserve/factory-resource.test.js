@@ -1,7 +1,6 @@
 'use strict'
 
 var Content = require(_base + '/build/Classes/Content.js');
-var ResourceFactory = require(_base + '/build/Classes/ResourceFactory.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
 var FactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/FactoryDataProvider.js');
 var IngredientDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/IngredientDataProvider.js');
@@ -11,7 +10,7 @@ var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe('Workflow: Factory linked to single RS', () => {
+describe.only('Workflow: Factory linked to single RS', () => {
   var resoucre_source;
   var factory_accessor;
   var factory;
@@ -49,7 +48,7 @@ describe('Workflow: Factory linked to single RS', () => {
     var atom = AtomicFactory.create('Basic', description);
     resoucre_source.addAtom(atom, 'plan');
 
-    factory = new ResourceFactory();
+    factory = new Content();
 
     var factory_provider = new FactoryDataProvider();
 
@@ -70,7 +69,8 @@ describe('Workflow: Factory linked to single RS', () => {
       .keymaker('get', (p) => p);
 
     var box_id = 'box_id';
-    var builder = AtomicFactory.create('Basic', {
+
+    var plan = AtomicFactory.create('Basic', {
       type: {
         type: 'Plan', //inherit model from RS
         deco: 'BaseCollection',
@@ -79,7 +79,7 @@ describe('Workflow: Factory linked to single RS', () => {
       accessor: factory_accessor
     });
 
-    factory.addBuilder(builder);
+    factory.addAtom(plan, 'plan');
 
   });
 
@@ -87,8 +87,11 @@ describe('Workflow: Factory linked to single RS', () => {
     describe('#build', () => {
       it('build concrete', () => {
 
+        factory.selector().reset()
+          .add()
+          .id('<namespace>content').id('plan').query([0, 1000]);
+
         var resolved_content = factory.build({
-          data: [70, 150],
           count: 1
         });
 
@@ -96,13 +99,15 @@ describe('Workflow: Factory linked to single RS', () => {
       });
 
       it('observe mixed', () => {
-        factory.select().reset().add().id('<namespace>content').id('plan').query({
-          data: 'nearest',
+        factory.selector().reset().add()
+          .id('<namespace>content').id('plan').query({
+            data: 'nearest'
+          });
+
+
+        factory.build({
           count: 1
         });
-
-
-        factory.build();
 
       });
 
