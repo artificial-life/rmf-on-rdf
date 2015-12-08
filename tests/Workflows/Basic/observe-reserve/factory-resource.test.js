@@ -91,16 +91,19 @@ describe.only('Workflow: Factory linked to single RS', () => {
         factory.selector().reset()
           .add()
           .id('<namespace>content').id('plan').query({
-            selection: [0, 100]
+            selection: [90, 300]
           });
 
         var produced = factory.build({
           count: 10
         });
 
-        var box = produced.boxes().next();
+        for (let i = 0; i < 6; i++) {
+          var box = produced.boxes().next();
 
-        console.log('BOX:', box);
+          console.log('BOX:', box.content_map);
+          console.log('Content:', box.getAtom(['<namespace>content', 'plan']).getContent());
+        }
       });
 
       it('observe mixed', () => {

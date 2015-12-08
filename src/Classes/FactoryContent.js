@@ -3,6 +3,7 @@
 var _ = require('lodash');
 
 var ResolvedContent = require('./ResolvedContent.js');
+var Box = require('./Box.js');
 
 class BoxIterator {
   constructor(factory) {
@@ -12,20 +13,20 @@ class BoxIterator {
     this.counter = 0;
   }
   prepare(path, atom) {
-    this.pathes.push(path.join('/'))
+    this.pathes.push(path.join('||'))
     this.atoms.push(atom);
   }
   next() {
-    var result = {};
+    var box = new Box(this.factory.parent);
+
     _.forEach(this.atoms, (atom, index) => {
       var ingredient = atom.content[this.counter];
       var path = this.pathes[index];
-
-      result[path] = ingredient;
+      box.addAtom(path.split('||'), atom.content[this.counter]);
     });
     this.counter++;
 
-    return result;
+    return box;
   }
   reset() {
 
