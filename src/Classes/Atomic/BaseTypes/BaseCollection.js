@@ -17,6 +17,7 @@ class BaseCollection {
 
     _.forEach(items, (single_item, index) => {
       var obj = new Model();
+
       obj.build(single_item);
       this.content[index] = obj;
     });

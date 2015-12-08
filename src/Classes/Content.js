@@ -6,11 +6,13 @@ var ResolvedContent = require('./ResolvedContent.js');
 var Path = require('./Path/Path.js');
 
 class Content {
-  constructor() {
+  constructor(Resolved_Model = ResolvedContent) {
     this.content_map = {
       '<namespace>content': null,
       '<namespace>attribute': null
     };
+
+    this.Resolved_Model = Resolved_Model;
     this.path = new Path(this.content_map);
 
     //@NOTE: this hack is very dirty and ugly
@@ -37,7 +39,9 @@ class Content {
 
   //@NOTE: semantics of this method changed
   resolve() {
-    var resolved = new ResolvedContent(this);
+    var Resolved_Model = this.Resolved_Model;
+
+    var resolved = new Resolved_Model(this);
     var atom_data;
     for (atom_data of this.path) {
       var {

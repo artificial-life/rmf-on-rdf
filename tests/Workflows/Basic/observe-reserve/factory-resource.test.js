@@ -4,6 +4,7 @@ var Content = require(_base + '/build/Classes/Content.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
 var FactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/FactoryDataProvider.js');
 var IngredientDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/IngredientDataProvider.js');
+var ResourceFactory = require(_base + '/build/Classes/ResourceFactory.js');
 
 var HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
 var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
@@ -48,7 +49,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
     var atom = AtomicFactory.create('Basic', description);
     resoucre_source.addAtom(atom, 'plan');
 
-    factory = new Content();
+    factory = new ResourceFactory();
 
     var factory_provider = new FactoryDataProvider();
 
@@ -89,13 +90,17 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
         factory.selector().reset()
           .add()
-          .id('<namespace>content').id('plan').query([0, 1000]);
+          .id('<namespace>content').id('plan').query({
+            selection: [0, 100]
+          });
 
-        var resolved_content = factory.build({
-          count: 1
+        var produced = factory.build({
+          count: 10
         });
 
-        var shelf = resolved_content.getAtom(['<namespace>content', 'builder']);
+        var box = produced.boxes().next();
+
+        console.log('BOX:', box);
       });
 
       it('observe mixed', () => {

@@ -14,7 +14,9 @@ class FactoryDataProvider {
   }
   get(params) {
     var count = params.count;
-    var resolved = this.ingredient_atom.resolve(params).observe(params);
+    var selection = params.selection;
+
+    var resolved = this.ingredient_atom.resolve(selection).observe(selection);
 
     var splitted_content = resolved.split(this.size).getContent().splice(0, count); //array of TimeChunk
 
@@ -23,7 +25,7 @@ class FactoryDataProvider {
       such: 'much boxes'
     });
 
-    return _.map(splitted_content, (chunk) => chunk.toJSON())
+    return _.map(splitted_content, (chunk) => [chunk.toJSON()])
   }
   set(key, value) {
 
