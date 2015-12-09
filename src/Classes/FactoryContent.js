@@ -11,25 +11,36 @@ class BoxIterator {
     this.atoms = [];
     this.pathes = [];
     this.counter = 0;
+    this.length = 0;
   }
   prepare(path, atom) {
     this.pathes.push(path.join('||'))
     this.atoms.push(atom);
+
+    this.length = _.size(atom.content);
   }
-  next() {
-    var box = new Box(this.factory.parent);
 
-    _.forEach(this.atoms, (atom, index) => {
-      var ingredient = atom.content[this.counter];
-      var path = this.pathes[index];
-      box.addAtom(path.split('||'), atom.content[this.counter]);
-    });
-    this.counter++;
+  * [Symbol.iterator]() {
+    for (let i = 0; i < this.length; i += 1) {
+      let box = new Box(this.factory.parent);
 
-    return box;
+      _.forEach(this.atoms, (atom, index) => {
+        let ingredient = atom.content[i];
+
+        let path = this.pathes[index];
+        box.addAtom(path.split('||'), atom.content[i]);
+      });
+
+      yield box;
+    }
+  }
+
+  iterator() {
+
   }
   reset() {
-
+    this.counter = 0;
+    return this;
   }
 }
 

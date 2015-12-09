@@ -95,15 +95,33 @@ describe.only('Workflow: Factory linked to single RS', () => {
           });
 
         var produced = factory.build({
-          count: 10
+          count: 1
         });
 
-        for (let i = 0; i < 6; i++) {
-          var box = produced.boxes().next();
+        console.log([...produced.boxes()]);
 
-          console.log('BOX:', box.content_map);
-          console.log('Content:', box.getAtom(['<namespace>content', 'plan']).getContent());
-        }
+        bts.selector().reset()
+          .add()
+          .id('<namespace>content').id('timeslot').query({
+            box_id: 'build',
+            selection: [0, 10]
+          })
+          .mask().id('<namespace>attribute').id('service').id('service1');
+
+        bts.selector()
+          .add()
+          .id('<namespace>content').id('user').query({
+            box_id: 'build',
+            selection: {
+              name: 'some_name',
+              phone: '8-888-888-8'
+            }
+          });
+
+        bts.build({
+          count: 1
+        });
+
       });
 
       it('observe mixed', () => {
