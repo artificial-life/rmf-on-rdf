@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 
-class FactoryDataProvider {
+class IngredientDataProvider {
   constructor(size) {
     this.size = size;
   }
@@ -24,12 +24,17 @@ class FactoryDataProvider {
       so: 'few ingredients',
       such: 'much boxes'
     });
+    let type = resolved.constructor.name.toLowerCase();
+    let result = _.map(splitted_content, (chunk) => [chunk.toJSON()]);
 
-    return _.map(splitted_content, (chunk) => [chunk.toJSON()])
+    return {
+      data: result,
+      type: type
+    };
   }
   set(key, value) {
 
   }
 }
 
-module.exports = FactoryDataProvider;
+module.exports = IngredientDataProvider;

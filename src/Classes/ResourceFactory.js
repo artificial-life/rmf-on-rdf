@@ -14,6 +14,7 @@ class Factory extends Content {
     this.selector().query_params = _.assign(this.selector().query_params, params);
 
     var resolved = this.resolve();
+    resolved.length = params.count;
     return resolved;
   }
 }

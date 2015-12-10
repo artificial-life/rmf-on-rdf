@@ -24,7 +24,6 @@ class AtomicBasic {
       var changes = data.stored_changes;
       //@TODO: this getter will be reworked
       var params = data.resolve_params;
-
       var resolved = this.resolve(params);
       var result = _.map(changes, (change) => resolved.put(change));
       //@TODO: check result here

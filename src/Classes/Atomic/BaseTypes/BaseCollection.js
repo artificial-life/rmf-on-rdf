@@ -8,24 +8,29 @@ class BaseCollection {
   constructor(collection_type, collection_id) {
     this.collection_type = collection_type;
     this.collection_id = collection_id;
-    this.content = {};
 
-    return ProxifyCollection(this);
+
+    if (this.constructor.name == 'BaseCollection') return ProxifyCollection(this);
+  }
+  extend(id, data) {
+    this.content[id] = data;
   }
   build(items) {
-    var Model = this.collection_type;
+    let Model = this.collection_type;
 
-    _.forEach(items, (single_item, index) => {
-      var obj = new Model();
-
+    this.content = _.reduce(items, (result, single_item, index) => {
+      let obj = new Model();
       obj.build(single_item);
-      this.content[index] = obj;
-    });
+
+      result[index] = obj;
+      return result
+    }, {});
 
   }
   collectionMethod(method_name, passed) {
     var id = passed[this.collection_id];
-    var result = new BaseCollection(this.collection_type, this.collection_id);
+    var Me = this.constructor;
+    var result = new Me(this.collection_type, this.collection_id);
     var data = {};
 
     result.content[id] = this.content[id][method_name](passed.params);

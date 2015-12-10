@@ -33,7 +33,7 @@ class ResolvedContent {
   save() {
     //@NOTE : bullshit above
 
-    var parent_path = this.selector().traverse();
+    var path = this.selector().traverse();
     var atom_data;
     var result = [];
 

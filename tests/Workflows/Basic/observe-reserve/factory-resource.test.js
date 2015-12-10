@@ -61,7 +61,6 @@ describe.only('Workflow: Factory linked to single RS', () => {
     ingredient_provider.setIngredient(['<namespace>content', 'plan'], resoucre_source);
 
     factory_provider.addIngredient(ingredient_provider);
-    factory_provider.addStorage(regular_provider);
 
 
     factory_accessor = new BasicAccessor(factory_provider);
@@ -73,15 +72,18 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
     var plan = AtomicFactory.create('Basic', {
       type: {
-        type: 'Plan', //inherit model from RS
+        type: {
+          deco: 'Hashmap',
+          type: ['Plan'], //inherit model from RS ingredient
+          params: 'hash_id'
+        },
         deco: 'BaseCollection',
         params: box_id
       },
       accessor: factory_accessor
     });
 
-    factory.addAtom(plan, 'plan');
-
+    factory.addAtom(plan, 'box', '<namespace>builder');
   });
 
   describe('basic observe\reserve', () => {
@@ -90,27 +92,39 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
         factory.selector().reset()
           .add()
-          .id('<namespace>content').id('plan').query({
+          .id('<namespace>builder').id('box').query({
             selection: [90, 300]
           });
 
         var produced = factory.build({
-          count: 1
+          count: 3
         });
+        produced.selector().reset().add()
+          .id('<namespace>builder').id('box').query({
+            box_id: 1,
+            selection: {
+              plan: '???/'
+            }
+          });
+        console.log(produced.getAtom(['<namespace>builder', 'box']));
+      });
 
-        console.log([...produced.boxes()]);
+      it('bts', () => {
+        bts_ingredient_provider.setIngredient(['<namespace>builder', 'plan'], TimeSlotsFactory);
 
         bts.selector().reset()
           .add()
-          .id('<namespace>content').id('timeslot').query({
+          .id('<namespace>builder').id('timeslot').query({
             box_id: 'build',
-            selection: [0, 10]
+            selection: {
+              plan: [0, 100]
+            }
           })
           .mask().id('<namespace>attribute').id('service').id('service1');
 
         bts.selector()
           .add()
-          .id('<namespace>content').id('user').query({
+          .id('<namespace>content').id('user_info').id('datastore').query({
             box_id: 'build',
             selection: {
               name: 'some_name',
@@ -121,7 +135,6 @@ describe.only('Workflow: Factory linked to single RS', () => {
         bts.build({
           count: 1
         });
-
       });
 
       it('observe mixed', () => {
