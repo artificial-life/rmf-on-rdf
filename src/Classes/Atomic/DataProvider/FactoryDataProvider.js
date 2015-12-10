@@ -25,7 +25,8 @@ class FactoryDataProvider {
     return complete;
   }
   set(key, value) {
-
+    console.log('value', value);
+    console.log('key', key);
   }
 }
 

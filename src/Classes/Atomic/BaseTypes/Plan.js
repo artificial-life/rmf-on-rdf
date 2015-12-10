@@ -18,7 +18,7 @@ class Plan extends BasicVolume {
   }
 
   /*=======================TEST===========================================*/
-  observe(params) { //@NOTE: test only
+  observe(params = {}) { //@NOTE: test only
     if (_.isArray(params)) {
       var selection = this.buildPrimitiveVolume({
         data: [params]

@@ -65,7 +65,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
     factory_accessor = new BasicAccessor(factory_provider);
 
-    factory_accessor.keymaker('set', (p) => p)
+    factory_accessor.keymaker('set', 'build')
       .keymaker('get', (p) => p);
 
     var box_id = 'box_id';
@@ -73,7 +73,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
     var plan = AtomicFactory.create('Basic', {
       type: {
         type: {
-          deco: 'Hashmap',
+          deco: 'Box',
           type: ['Plan'], //inherit model from RS ingredient
           params: 'hash_id'
         },
@@ -92,21 +92,23 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
         factory.selector().reset()
           .add()
-          .id('<namespace>builder').id('box').query({
-            selection: [90, 300]
-          });
+          .id('<namespace>builder').id('box').query({});
 
         var produced = factory.build({
-          count: 3
+          count: 2
         });
-        produced.selector().reset().add()
-          .id('<namespace>builder').id('box').query({
-            box_id: 1,
-            selection: {
-              plan: '???/'
-            }
-          });
-        console.log(produced.getAtom(['<namespace>builder', 'box']));
+        console.log(produced.length);
+        // produced.selector().reset().add()
+        //   .id('<namespace>builder').id('box').query({
+        //     box_id: [0, 1, 2, 3],
+        //     selection: {
+        //       plan: [0, 101]
+        //     }
+        //   });
+        // produced.observe();
+        //
+        // console.log(produced.length);
+        produced.save();
       });
 
       it('bts', () => {

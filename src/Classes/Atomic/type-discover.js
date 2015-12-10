@@ -1,17 +1,11 @@
 'use strict'
 
 var discover = {
-  module_cache: {},
-  atomic_cache: {},
   dataType: function(data) {
     if (_.isString(data)) {
       var fullpath = `./BaseTypes/${data}.js`;
 
-      if (!this.module_cache.hasOwnProperty(fullpath)) {
-        this.module_cache[fullpath] = require(fullpath);
-      }
-
-      return this.module_cache[fullpath];
+      return require(fullpath);
     }
 
     if (_.isArray(data)) {
@@ -31,14 +25,9 @@ var discover = {
 
   },
   atomic: function(data) {
-
     var fullpath = `./Atomic${_.capitalize(data)}.js`;
 
-    if (!this.atomic_cache.hasOwnProperty(fullpath)) {
-      this.atomic_cache[fullpath] = require(fullpath);
-    }
-
-    return this.atomic_cache[fullpath];
+    return require(fullpath);
   }
 };
 

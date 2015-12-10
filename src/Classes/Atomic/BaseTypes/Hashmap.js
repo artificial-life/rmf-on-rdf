@@ -13,6 +13,8 @@ class Hashmap extends BaseCollection {
       result[model.name.toLowerCase()] = model;
       return result;
     }, {});
+
+    if (this.constructor.name == 'Hashmap') return ProxifyCollection(this);
   }
   build(items) {
 
@@ -25,6 +27,14 @@ class Hashmap extends BaseCollection {
       return result;
     }, {});
 
+  }
+  observe(params) {
+    var p = {};
+    //@HACK: temporary
+    p[this.collection_id] = _.keys(this.collection_type);
+    p.selection = params;
+    console.log(p);
+    return this.observe(p);
   }
 }
 
