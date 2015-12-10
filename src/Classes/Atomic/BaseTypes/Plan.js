@@ -11,16 +11,77 @@ class Plan extends BasicVolume {
     super(parent);
     this.PrimitiveVolume = TimeChunk;
   }
-  clone(parent) {
-    return new Plan(parent);
-  }
   sort() {
     this.content = _.sortBy(this.content, function(chunk) {
       return this.start;
     });
   }
+
+  /*=======================TEST===========================================*/
+  observe(params = {}) { //@NOTE: test only
+    if (_.isArray(params)) {
+      var selection = this.buildPrimitiveVolume({
+        data: [params]
+      });
+
+      return this.intersection(selection);
+    } else if (_.isObject(params)) {
+      var state = params.state;
+      var result = _.reduce(this.getContent(), function(for_build, chunk) {
+        if (chunk.getState().haveState(state)) {
+          for_build.push(chunk.toJSON());
+        }
+        return for_build;
+      });
+
+      var plan = new Plan(this);
+
+      plan.build(result);
+
+      return plan;
+    }
+
+  }
+
+  reserve(params) {
+    if (!params) {
+      //@NOTE: reserve all
+    }
+
+    //@NOTE: proxy to parent if it exist
+    var target = this.parent ? this.parent : this;
+
+    var placed = target.put({
+      data: params,
+      state: 'r'
+    });
+
+    if (placed) {
+      this.stored_changes.push(placed);
+    }
+
+    return placed ? target : false;
+  }
+
+  rawIntersection(other_content = [], solid = false) {
+    var result = [];
+
+    _.forEach(this.getContent(), (chunk) => {
+      _.forEach(other_content, (second_chunk) => {
+        var local_intersection = chunk.intersection(second_chunk);
+
+        if (local_intersection) result.push(solid ? chunk : local_intersection);
+
+      });
+    });
+
+    return result;
+  }
+
+  /*=======================TEST===========================================*/
+
   intersection(plan, solid = false) {
-    var other_content = [];
+    var other_content = []
 
     if (plan instanceof ZeroDimensional) {
       var state = plan.getContent().getState();
@@ -36,18 +97,9 @@ class Plan extends BasicVolume {
       other_content = [plan];
     }
 
-    var result = [];
-
-    _(this.getContent()).forEach((chunk) => {
-      _(other_content).forEach((second_chunk) => {
-        var local_intersection = chunk.intersection(second_chunk);
-
-        if (local_intersection) result.push(solid ? chunk : local_intersection);
-
-      }).value();
-    }).value();
-
+    var result = this.rawIntersection(other_content, solid);
     var plan = new Plan(this);
+
     plan.build(result);
 
     return plan;

@@ -27,8 +27,9 @@
     "babel": "^5.8.21",
     "bluebird": "^2.9.34",
     "custom-queue": "git+https://github.com/artificial-life/custom-queue.git",
+    "harmony-reflect": "^1.4.2",
     "lodash": "^3.10.0",
-    "node-uuid": "^1.4.3"
+    "node-uuid": "^1.4.7"
   },
   "devDependencies": {
     "chai": "^3.3.0",
@@ -42,7 +43,6 @@
     "gulp-nodemon": "^2.0.3",
     "gulp-plumber": "^1.0.1",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-watch": "^4.2.4",
-    "harmonize": "^1.4.2"
+    "gulp-watch": "^4.2.4"
   }
 }

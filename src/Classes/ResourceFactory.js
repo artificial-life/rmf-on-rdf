@@ -1,28 +1,21 @@
 'use strict'
 
+var _ = require('lodash');
+
 var Content = require('./Content.js');
+var FactoryContent = require('./FactoryContent.js');
 
 class Factory extends Content {
-  addStorage(atom) {
-    return this.addAtom(atom, 'Storage');
-  }
-  addBuilder(atom) {
-    return this.addAtom(atom, 'Builder');
-  }
-  getStorage() {
-    return this.getAtom(['<namespace>content', 'Storage']);
-  }
-  getBuilder() {
-    return this.getAtom(['<namespace>content', 'Builder'])
+  constructor() {
+    super(FactoryContent);
   }
   build(params) { //@NOTE: that's specific to factory content
-    return this.selector().id('<namespace>content').id('Builder').resolve(params);
-  }
-  observe(params) {
+    //@TODO: rework  it when multiple selectors would be done
+    this.selector().query_params = _.assign(this.selector().query_params, params);
 
-  }
-  reserve() {
+    var resolved = this.resolve();
 
+    return resolved;
   }
 }
 

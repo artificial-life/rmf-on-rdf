@@ -8,7 +8,6 @@ var plumber = require('gulp-plumber');
 var path = require('path');
 var demon;
 
-require('harmonize')();
 
 gulp.task("default", function() {
   return gulp.src("src/**/*.js")
@@ -35,11 +34,11 @@ gulp.task("sourcemaps", function() {
 });
 
 gulp.task('serve', ['start'], function() {
-  gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6-ll']);
+  gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6']);
 });
 
 
-gulp.task('es6-ll', function() {
+gulp.task('es6', function() {
   return gulp.src(["src/**/*.js", "tests/**/*.js"])
     .pipe(changed("build"))
     .pipe(plumber({
@@ -48,7 +47,13 @@ gulp.task('es6-ll', function() {
       }
     }))
     .pipe(babel({
-      blacklist: ['bluebirdCoroutines', 'regenerator']
+      "whitelist": [
+        "strict",
+        "es6.modules",
+        "es6.parameters.rest",
+        "es6.parameters.default",
+        "es6.destructuring"
+      ]
     }))
     .pipe(gulp.dest("build"))
     .on('end', function() {
@@ -61,6 +66,9 @@ gulp.task('start', function() {
   demon = nodemon({
     script: 'build/run.js',
     watch: ['build/'],
+    execMap: {
+      "js": "node  --harmony --harmony_proxies"
+    },
     env: {
       'NODE_ENV': 'development'
     }
