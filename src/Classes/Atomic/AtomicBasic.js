@@ -29,8 +29,8 @@ class AtomicBasic {
       //@TODO: check result here
       this.save(resolved, true);
     }
-
-    if (data instanceof AbstractVolume) return this.accessor.set(data.serialize());
+    let serialize = Object.getPrototypeOf(data)['serialize'];
+    if (serialize instanceof Function) return this.accessor.set(data.serialize());
 
     return this.accessor.set(data);
   }

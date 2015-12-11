@@ -9,6 +9,7 @@ function ProxifyCollection(collection) {
 
   let handler = {
     get(target, propKey) {
+      if (propKey === 'constructor') return target.constructor;
       if (target.hasOwnProperty(propKey)) return target[propKey];
       //@NOTE: hack for console.log
       if (propKey == 'inspect') return function(depth) {

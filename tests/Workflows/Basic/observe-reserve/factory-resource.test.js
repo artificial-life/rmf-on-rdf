@@ -1,5 +1,7 @@
 'use strict'
 
+var _ = require('lodash');
+
 var Content = require(_base + '/build/Classes/Content.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
 var FactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/FactoryDataProvider.js');
@@ -23,6 +25,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
     provider = new HashmapDataProvider();
 
     accessor1 = new BasicAccessor(provider);
+
 
     TEST_STORAGE.test_plan_data1 = [{
       data: [
@@ -58,15 +61,23 @@ describe.only('Workflow: Factory linked to single RS', () => {
     var ingredient_provider = new IngredientDataProvider();
 
     ingredient_provider.setSize(size);
-    ingredient_provider.setIngredient(['<namespace>content', 'plan'], resoucre_source);
+    ingredient_provider.setIngredient(['<namespace>content', 'plan'], 'plan', resoucre_source);
 
     factory_provider.addIngredient(ingredient_provider);
 
 
-    factory_accessor = new BasicAccessor(factory_provider);
 
+    factory_accessor = new BasicAccessor(factory_provider);
     factory_accessor.keymaker('set', 'build')
       .keymaker('get', (p) => p);
+
+    let box_accessor = new BasicAccessor(provider);
+    box_accessor.keymaker('set', (p) => {
+      let key = p.key || _.keys(p)[0];
+      return 'box-' + key;
+    });
+
+    factory_provider.addStorage(box_accessor);
 
     var box_id = 'box_id';
 
@@ -97,7 +108,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
         var produced = factory.build({
           count: 2
         });
-        console.log(produced.length);
+        //console.log(produced.length);
         // produced.selector().reset().add()
         //   .id('<namespace>builder').id('box').query({
         //     box_id: [0, 1, 2, 3],
@@ -109,6 +120,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
         //
         // console.log(produced.length);
         produced.save();
+        console.log(TEST_STORAGE);
       });
 
       it('bts', () => {

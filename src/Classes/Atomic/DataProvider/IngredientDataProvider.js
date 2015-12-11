@@ -9,31 +9,36 @@ class IngredientDataProvider {
   setSize(size) {
     this.size = size;
   }
-  setIngredient(path, resoucre_source) {
+  setIngredient(path, property, resoucre_source) {
+    this.property = property;
     this.ingredient_atom = resoucre_source.getAtom(path);
   }
   get(params) {
-    var count = params.count;
-    var selection = params.selection;
+    let count = params.count;
+    let selection = params.selection;
 
-    var resolved = this.ingredient_atom.resolve(selection).observe(selection);
+    let resolved = this.ingredient_atom.resolve(selection).observe(selection);
 
-    var splitted_content = resolved.split(this.size).getContent().splice(0, count); //array of TimeChunk
+    let splitted_content = resolved.split(this.size).getContent().splice(0, count); //array of TimeChunk
 
     if (splitted_content.length != count) throw new DogeError({
       so: 'few ingredients',
       such: 'much boxes'
     });
-    let type = resolved.constructor.name.toLowerCase();
+
     let result = _.map(splitted_content, (chunk) => [chunk.toJSON()]);
 
-    return {
-      data: result,
-      type: type
-    };
+    return result;
   }
   set(key, value) {
 
+    let data = value[0].data[0];
+
+    let resolved = this.ingredient_atom.resolve(data);
+    resolved.reserve([data]);
+    let save_result = this.ingredient_atom.save(resolved);
+
+    return save_result;
   }
 }
 
