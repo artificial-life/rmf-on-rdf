@@ -19,28 +19,30 @@ class Plan extends BasicVolume {
 
   /*=======================TEST===========================================*/
   observe(params = {}) { //@NOTE: test only
+
     if (_.isArray(params)) {
-      var selection = this.buildPrimitiveVolume({
+      let selection = this.buildPrimitiveVolume({
         data: [params]
       });
 
       return this.intersection(selection);
-    } else if (_.isObject(params)) {
-      var state = params.state;
-      var result = _.reduce(this.getContent(), function(for_build, chunk) {
-        if (chunk.getState().haveState(state)) {
-          for_build.push(chunk.toJSON());
-        }
-        return for_build;
-      });
+    } else if (_.isObject(params)) { //@TODO: rework this later
+      if (!_.keys(params).length) return this;
 
-      var plan = new Plan(this);
+      let state = params.state;
+      let plan = new Plan(this);
+
+      let result = _.reduce(this.getContent(), (for_build, chunk) => {
+        if (!chunk.getState().haveState(state)) return for_build;
+
+        for_build.push(chunk.serialize());
+        return for_build;
+      }, []);
 
       plan.build(result);
 
       return plan;
     }
-
   }
 
   reserve(params) {
@@ -147,25 +149,32 @@ class Plan extends BasicVolume {
     return plan;
   }
   copy() {
-    var ch = _.map(this.content, (chunk) => chunk.toJSON());
+    var ch = _.map(this.content, (chunk) => chunk.serialize());
     var plan = new Plan(this);
     plan.build(ch);
 
     return plan;
   }
-  split(size) {
-    var result = [];
-    var plan = new Plan(this);
+  split(size, count) {
+    let result = [];
+    let counter = 0;
 
     _.forEach(this.content, (chunk) => {
+
       _.forEach(chunk.split(size), (item) => {
-        if (item) result.push(item)
+        if (!item) return true;
+
+        let plan = new Plan(this);
+        plan.build([item]);
+
+        result.push(plan);
+        counter += 1;
+        if (counter == count) return false;
       });
+      if (counter == count) return false;
     });
 
-    plan.build(result);
-
-    return plan;
+    return result;
   }
 }
 
