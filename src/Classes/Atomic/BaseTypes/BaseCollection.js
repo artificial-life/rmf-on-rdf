@@ -19,9 +19,11 @@ class BaseCollection {
 
     this.content = _.reduce(items, (result, single_item, index) => {
       let obj = new Model();
+      let key = single_item.key || index;
+
       obj.build(single_item);
 
-      result[index] = obj;
+      result[key] = obj;
       return result
     }, {});
 
@@ -42,6 +44,14 @@ class BaseCollection {
     }, {});
 
     return result;
+  }
+  serialize() {
+    return _.reduce(this.content, (result, item, key) => {
+      let data = item.serialize();
+      data.key = key
+      result[key] = data;
+      return result;
+    }, {})
   }
 }
 

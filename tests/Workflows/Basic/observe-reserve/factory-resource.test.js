@@ -1,5 +1,9 @@
 'use strict'
 
+var _ = require('lodash');
+var uuid = require('node-uuid');
+
+
 var Content = require(_base + '/build/Classes/Content.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
 var FactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/FactoryDataProvider.js');
@@ -20,10 +24,6 @@ describe.only('Workflow: Factory linked to single RS', () => {
   var accessor1;
 
   before(() => {
-    provider = new HashmapDataProvider();
-
-    accessor1 = new BasicAccessor(provider);
-
     TEST_STORAGE.test_plan_data1 = [{
       data: [
         [0, 100]
@@ -36,54 +36,86 @@ describe.only('Workflow: Factory linked to single RS', () => {
       state: 'r'
     }];
 
+    provider = new HashmapDataProvider();
+
+    //@NOTE: building sources
+    accessor1 = new BasicAccessor(provider);
     accessor1.keymaker('set', 'test_plan_data1')
       .keymaker('get', 'test_plan_data1');
 
-    var description = {
+    let atom = AtomicFactory.create('Basic', {
       type: 'Plan',
       accessor: accessor1
-    };
+    });
 
     resoucre_source = new Content();
-
-    var atom = AtomicFactory.create('Basic', description);
     resoucre_source.addAtom(atom, 'plan');
 
-    factory = new ResourceFactory();
+    //@NOTE: building factory
+    //@NOTE: prepare variables
+    let size = 10;
+    let box_id = 'box_id';
+    let hash_id = 'hash_id';
+    let data_model = {
+      type: {
+        deco: 'Box',
+        type: ['Plan'], //inherit model from RS ingredient
+        params: hash_id
+      },
+      deco: 'BaseCollection',
+      params: box_id
+    };
 
-    var factory_provider = new FactoryDataProvider();
+    let factory_provider = new FactoryDataProvider();
 
-    var regular_provider = new HashmapDataProvider();
-    var size = 10;
-    var ingredient_provider = new IngredientDataProvider();
-
-    ingredient_provider.setSize(size);
-    ingredient_provider.setIngredient(['<namespace>content', 'plan'], resoucre_source);
-
-    factory_provider.addIngredient(ingredient_provider);
-
+    let ingredient_provider = new IngredientDataProvider();
+    ingredient_provider
+      .setIngredient(['<namespace>content', 'plan'], 'plan', resoucre_source)
+      .setSize(size);
 
     factory_accessor = new BasicAccessor(factory_provider);
-
     factory_accessor.keymaker('set', 'build')
       .keymaker('get', (p) => p);
 
-    var box_id = 'box_id';
+    let storage_accessor = new BasicAccessor(provider);
+    storage_accessor.keymaker('set', (p) => p.key)
+      .keymaker('get', (p) => {
+        let keys = p[box_id];
 
-    var plan = AtomicFactory.create('Basic', {
-      type: {
-        type: {
-          deco: 'Box',
-          type: ['Plan'], //inherit model from RS ingredient
-          params: 'hash_id'
-        },
-        deco: 'BaseCollection',
-        params: box_id
-      },
+        if (keys == '*') {
+          //@NOTE: and?
+          //@NOTE: submit view key
+          //@IDEA: new View('view-name',params), parse view in DP
+          return _.reduce(TEST_STORAGE, (result, item, index) => {
+            if (~index.indexOf('box')) result.push(index);
+            return result;
+          }, []);
+        }
+
+        if (_.isArray(keys)) return keys;
+
+        return keys;
+      });
+
+    factory_provider
+      .addIngredient(ingredient_provider)
+      .addStorage(storage_accessor);
+
+
+    let box_builder = AtomicFactory.create('Basic', {
+      type: data_model,
       accessor: factory_accessor
     });
 
-    factory.addAtom(plan, 'box', '<namespace>builder');
+    let box_storage = AtomicFactory.create('Basic', {
+      type: data_model,
+      accessor: storage_accessor
+    });
+
+    factory = new ResourceFactory();
+    factory
+      .addAtom(box_builder, 'box', '<namespace>builder')
+      .addAtom(box_storage, 'box');
   });
 
   describe('basic observe\reserve', () => {
@@ -97,7 +129,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
         var produced = factory.build({
           count: 2
         });
-        console.log(produced.length);
+        //console.log(produced.length);
         // produced.selector().reset().add()
         //   .id('<namespace>builder').id('box').query({
         //     box_id: [0, 1, 2, 3],
@@ -109,6 +141,19 @@ describe.only('Workflow: Factory linked to single RS', () => {
         //
         // console.log(produced.length);
         produced.save();
+
+        factory.selector().reset()
+          .add()
+          .id('<namespace>content').id('box').query({
+            box_id: '*',
+            selection: {
+              plan: [0, 1000]
+            }
+          });
+
+        produced = factory.resolve();
+
+        console.log(produced.getAtom(['<namespace>content', 'box']));
       });
 
       it('bts', () => {
