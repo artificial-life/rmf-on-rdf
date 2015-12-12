@@ -30,19 +30,15 @@ class FactoryDataProvider {
   set(key, value) {
     //console.log('value', value);
     return _.reduce(value, (status, box, collection_index) => { //@NOTE: iterate thru boxes
+      let reserve = _.reduce(this.ingredients, (result, ingredient, index) => result && ingredient.set(key, box[index]), true);
+      let save = false;
 
-      let box_save = _.reduce(this.ingredients, (result, ingredient, index) => result && ingredient.set(key, box[index]), true);
-
-      let full_save = false;
-
-      if (box_save) {
-        let id = uuid.v1();
-        box.key = id;
-
-        full_save = this.storage_accessor.upsert(box);
+      if (reserve) {
+        box.key = 'box-' + uuid.v1();
+        save = this.storage_accessor.upsert(box);
       }
 
-      status.push(box_save && full_save);
+      status.push(reserve && save);
 
       return status;
     }, []);

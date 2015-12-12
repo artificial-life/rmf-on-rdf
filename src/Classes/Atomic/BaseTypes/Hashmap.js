@@ -17,23 +17,21 @@ class Hashmap extends BaseCollection {
     if (this.constructor.name == 'Hashmap') return ProxifyCollection(this);
   }
   build(items) {
-
-    this.content = _.reduce(items, (result, single_item, index) => {
-      let Model = this.collection_type[index];
+    this.content = _.reduce(this.collection_type, (result, Model, index) => {
       let obj = new Model();
-      obj.build(single_item);
+      obj.build(items[index]);
 
       result[index] = obj;
       return result;
     }, {});
-
+    return this;
   }
   observe(params) {
     var p = {};
     //@HACK: temporary
     p[this.collection_id] = _.keys(this.collection_type);
     p.selection = params;
-    console.log(p);
+
     return this.observe(p);
   }
 }

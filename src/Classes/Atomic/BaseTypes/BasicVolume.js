@@ -22,27 +22,26 @@ class BasicVolume extends AbstractVolume {
     return item instanceof this.PrimitiveVolume ? item : new this.PrimitiveVolume(item.data, item.state);
   }
   put(item) {
-    var volume = this.buildPrimitiveVolume(item);
+    let volume = this.buildPrimitiveVolume(item);
 
-    var result = [];
-    var status = true;
+    let result = [];
+    let status = true;
     //@NOTE: this will be reworked too after PlacingStrategy rework
-    try {
-      _.forEach(this.getContent(), (chunk) => {
-        if (chunk.intersectsWith(volume)) {
-          var processed = this.applyStrategy(volume, chunk);
+    _.forEach(this.getContent(), (chunk) => {
 
-          if (processed.length) {
-            //@TODO: check performance here
-            result = result.concat(processed);
-          }
-        } else {
-          result.push(chunk);
-        }
-      });
-    } catch (e) {
-      status = false;
-    }
+      if (!chunk.intersectsWith(volume)) {
+        result.push(chunk);
+        return true;
+      }
+
+      let processed = this.applyStrategy(volume, chunk);
+
+      if (processed.length || processed instanceof this.PrimitiveVolume) { //@TODO: check performance here
+        result = result.concat(processed);
+      }
+
+      return !(processed instanceof Error);
+    });
 
     result.push(volume);
 
