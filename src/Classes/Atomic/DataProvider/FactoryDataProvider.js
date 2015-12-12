@@ -10,9 +10,11 @@ class FactoryDataProvider {
   }
   addStorage(accessor) {
     this.storage_accessor = accessor;
+    return this;
   }
   addIngredient(ingredient) {
     this.ingredients[ingredient.property] = ingredient;
+    return this;
   }
   get(params) {
     let complete = _.reduce(this.ingredients, (result, ingredient, property) => {

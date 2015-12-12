@@ -8,10 +8,12 @@ class IngredientDataProvider {
   }
   setSize(size) {
     this.size = size;
+    return this;
   }
   setIngredient(path, property, resoucre_source) {
     this.property = property;
     this.ingredient_atom = resoucre_source.getAtom(path);
+    return this;
   }
   get(params) {
     let count = params.count;
