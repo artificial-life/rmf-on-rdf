@@ -1,0 +1,201 @@
+{
+	"@context": {
+		"ci": "iris://data#",
+		"iris": "iris://vocabulary/domain#",
+		"owl": "http://www.w3.org/2002/07/owl#",
+		"owlTime": "http://www.w3.org/2006/time#",
+		"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+		"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+		"rmf": "iris://vocabulary/basic#",
+		"xsd": "http://www.w3.org/2001/XMLSchema#"
+	},
+	"@graph": [{
+		"@id": "_:ub178bL55C2",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "ci:human-2"
+		},
+		"iris:organization": {
+			"@id": "ci:department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Operator"
+		}
+	}, {
+		"@id": "ci:pc-2",
+		"@type": "iris:AWP",
+		"iris:attachedTo": {
+			"@id": "ci:department-1"
+		},
+		"iris:deviceOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:human-2",
+		"@type": "iris:Person",
+		"iris:firstName": {
+			"@language": "en",
+			"@value": "Maria"
+		},
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-2"
+		},
+		"iris:lastName": {
+			"@language": "en",
+			"@value": "Medvedeva"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "masha"
+		},
+		"iris:middleName": {
+			"@language": "en",
+			"@value": "Ivanovna"
+		},
+		"iris:password": "654321",
+		"iris:provides": {
+			"@id": "ci:service-2"
+		}
+	}, {
+		"@id": "ci:department-1",
+		"@type": "iris:Department",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-3"
+		},
+		"iris:unitOf": {
+			"@id": "ci:office-1"
+		},
+		"rdfs:label": "Department 1"
+	}, {
+		"@id": "ci:orgroot-1",
+		"@type": "iris:FormalOrganization",
+		"iris:hasUnit": {
+			"@id": "ci:office-1"
+		}
+	}, {
+		"@id": "ci:human-1",
+		"@type": "iris:Person",
+		"iris:firstName": {
+			"@language": "en",
+			"@value": "Vasily"
+		},
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-1"
+		},
+		"iris:lastName": {
+			"@language": "en",
+			"@value": "Ivanov"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "vasyoQ"
+		},
+		"iris:middleName": {
+			"@language": "en",
+			"@value": "Ivanovich"
+		},
+		"iris:password": "123456",
+		"iris:provides": [{
+			"@id": "ci:service-2"
+		}, {
+			"@id": "ci:service-1"
+		}]
+	}, {
+		"@id": "ci:office-1",
+		"@type": "iris:Office",
+		"iris:hasUnit": {
+			"@id": "ci:department-1"
+		},
+		"rdfs:label": "Office 1"
+	}, {
+		"@id": "ci:service-1",
+		"@type": "iris:Service",
+		"iris:codeFRGU": "Smth",
+		"iris:deptCodeFRGU": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-4"
+		},
+		"iris:liveOperationTime": 900000,
+		"iris:order": 1,
+		"iris:prebookInterval": 172800000,
+		"iris:prebookOperationTime": 900000,
+		"iris:prebookPercentage": 45,
+		"iris:prebookTodayPercentage": 15,
+		"iris:prefix": "Smth",
+		"iris:priority": 1,
+		"iris:serviceCodeEPGU": "Smth"
+	}, {
+		"@id": "ci:service-2",
+		"@type": "iris:Service",
+		"iris:codeFRGU": "Smth",
+		"iris:deptCodeFRGU": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-5"
+		},
+		"iris:liveOperationTime": 1200000,
+		"iris:order": 6,
+		"iris:prebookInterval": 172800000,
+		"iris:prebookOperationTime": 1200000,
+		"iris:prebookPercentage": 50,
+		"iris:prebookTodayPercentage": 20,
+		"iris:prefix": "Smth",
+		"iris:priority": 3,
+		"iris:serviceCodeEPGU": "Smth"
+	}, {
+		"@id": "_:ub178bL50C2",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "ci:human-1"
+		},
+		"iris:organization": {
+			"@id": "ci:department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Operator"
+		}
+	}, {
+		"@id": "ci:pc-1",
+		"@type": "iris:AWP",
+		"iris:attachedTo": {
+			"@id": "ci:department-1"
+		},
+		"iris:deviceOf": {
+			"@id": "ci:human-1"
+		}
+	}, {
+		"@id": "ci:schedule-5",
+		"@type": "iris:Schedule",
+		"iris:scheduleDescription": "[[50400000, 64800000]]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-2"
+		}
+	}, {
+		"@id": "ci:schedule-4",
+		"@type": "iris:Schedule",
+		"iris:scheduleDescription": "[[30000000, 46800000]]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-1"
+		}
+	}, {
+		"@id": "ci:schedule-3",
+		"@type": "iris:Schedule",
+		"iris:scheduleDescription": "[[30000000, 46800000], [50400000, 64800000]]",
+		"iris:scheduleOf": {
+			"@id": "ci:department-1"
+		}
+	}, {
+		"@id": "ci:schedule-2",
+		"@type": "iris:Schedule",
+		"iris:scheduleDescription": "[[32400000, 46800000], [50400000, 64800000]]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:schedule-1",
+		"@type": "iris:Schedule",
+		"iris:scheduleDescription": "[[32400000, 46800000], [50400000, 64800000]]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-1"
+		}
+	}]
+}
