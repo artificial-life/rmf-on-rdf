@@ -4,10 +4,12 @@ var _ = require('lodash');
 
 var ProxifyCollection = require(_base + '/build/externals/Proxify/Collection.js');
 
+const default_collection_id = 'id';
+
 class BaseCollection {
   constructor(collection_type, collection_id) {
     this.collection_type = collection_type;
-    this.collection_id = collection_id;
+    this.collection_id = collection_id || default_collection_id;
 
     if (this.constructor.name == 'BaseCollection') return ProxifyCollection(this);
   }
@@ -28,9 +30,39 @@ class BaseCollection {
     }, {});
 
   }
+  split(size) {
+    let Me = this.constructor;
+    let result = new Me(this.collection_type, this.collection_id);
+    let counter = 0;
+    result.content = {};
+
+    _.forEach(this.content, (item, index) => {
+      counter += 1;
+      result.content[index] = (item);
+
+      return counter != size;
+    });
+
+    return result;
+  }
   collectionMethod(method_name, passed) {
     let ids = passed[this.collection_id];
-    ids = _.isArray(ids) ? ids : [ids];
+    //@TODO: rework it later with iterators
+    if (ids == '*') {
+      ids = _.keys(this.content);
+    } else
+    if (_.isObject(ids)) {
+      let from = ids.from;
+      let to = ids.to;
+      let prefix = ids.prefix || '';
+      ids = [];
+      for (let i = from; i >= to; i += 1) {
+        id.push('prefix' + i);
+      }
+    } else {
+      ids = _.isArray(ids) ? ids : [ids];
+    }
+
     let Me = this.constructor;
     let result = new Me(this.collection_type, this.collection_id);
     let data = {};

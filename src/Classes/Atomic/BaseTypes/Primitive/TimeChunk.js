@@ -21,19 +21,16 @@ class TimeChunk extends PrimitiveVolume {
 
     return this;
   }
-  reserve() {
-
-  }
   getState() {
     return this.state;
   }
-  toJSON() {
-    return {
-      data: [
-        [this.start, this.end]
-      ],
-      state: this.getState().toString()
-    };
+  serialize() {
+    let serialized = super.serialize()
+    serialized.data = [
+      [this.start, this.end]
+    ];
+
+    return serialized;
   }
   intersection(chunk) {
     var start = _.max([this.start, chunk.start]);

@@ -16,6 +16,7 @@ class AtomicFactory {
     var dataModel = discover.dataType(params.type);
 
     var atomic = new atomicModel(dataModel, params.accessor);
+    atomic.model_decription = params.type;
 
     return atomic;
   }

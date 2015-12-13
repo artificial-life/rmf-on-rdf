@@ -63,7 +63,7 @@ class BasicVolume extends AbstractVolume {
     return result;
   }
   serialize() {
-    return _.map(this.getContent(), (chunk) => chunk.toJSON());
+    return _.map(this.getContent(), (chunk) => chunk.serialize());
   }
   extend(source, sort = true) {
     var ext = this.extractContent(source);
@@ -105,6 +105,7 @@ class BasicVolume extends AbstractVolume {
   build(data) {
     //@TODO:build from state
     //@TODO: find some builder pattern for this case
+
     if (data instanceof this.PrimitiveVolume) {
       this.extend(data, false);
       return this;

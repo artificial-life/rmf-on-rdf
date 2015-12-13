@@ -16,7 +16,7 @@ var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
 describe.only('Workflow: Factory linked to single RS', () => {
-  var resoucre_source;
+  var resource_source;
   var factory_accessor;
   var factory;
   var provider;
@@ -48,29 +48,29 @@ describe.only('Workflow: Factory linked to single RS', () => {
       accessor: accessor1
     });
 
-    resoucre_source = new Content();
-    resoucre_source.addAtom(atom, 'plan');
+    resource_source = new Content();
+    resource_source.addAtom(atom, 'plan');
+
 
     //@NOTE: building factory
     //@NOTE: prepare variables
     let size = 10;
     let box_id = 'box_id';
     let hash_id = 'hash_id';
+    let ingredient_path = ['<namespace>content', 'plan'];
     let data_model = {
       type: {
         deco: 'Box',
-        type: ['Plan'], //inherit model from RS ingredient
-        params: hash_id
+        type: [resource_source.getAtom(ingredient_path).model_decription]
       },
-      deco: 'BaseCollection',
-      params: box_id
+      deco: 'BaseCollection'
     };
 
     let factory_provider = new FactoryDataProvider();
 
     let ingredient_provider = new IngredientDataProvider();
     ingredient_provider
-      .setIngredient(['<namespace>content', 'plan'], 'plan', resoucre_source)
+      .setIngredient(ingredient_path, 'plan', resource_source)
       .setSize(size);
 
     factory_accessor = new BasicAccessor(factory_provider);
@@ -80,7 +80,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
     let storage_accessor = new BasicAccessor(provider);
     storage_accessor.keymaker('set', (p) => p.key)
       .keymaker('get', (p) => {
-        let keys = p[box_id];
+        let keys = p['id'];
 
         if (keys == '*') {
           //@NOTE: and?
@@ -115,10 +115,10 @@ describe.only('Workflow: Factory linked to single RS', () => {
     factory = new ResourceFactory();
     factory
       .addAtom(box_builder, 'box', '<namespace>builder')
-      .addAtom(box_storage, 'box');
+      .addAtom(box_storage, 'box', '<namespace>content');
   });
 
-  describe('basic observe\reserve', () => {
+  describe('basic observe-reserve', () => {
     describe('#build', () => {
       it('build concrete', () => {
 
@@ -127,25 +127,29 @@ describe.only('Workflow: Factory linked to single RS', () => {
           .id('<namespace>builder').id('box').query({});
 
         var produced = factory.build({
-          count: 2
+          count: 6
         });
-        //console.log(produced.length);
-        // produced.selector().reset().add()
-        //   .id('<namespace>builder').id('box').query({
-        //     box_id: [0, 1, 2, 3],
-        //     selection: {
-        //       plan: [0, 101]
-        //     }
-        //   });
-        // produced.observe();
-        //
-        // console.log(produced.length);
+
+
+        produced.selector().reset()
+          .add()
+          .id('<namespace>builder').id('box').query({
+            id: '*',
+            selection: {
+              plan: [0, 50]
+            }
+          });
+
+        produced.observe();
+
+        console.log(produced.getAtom(['<namespace>builder', 'box']));
+
         produced.save();
 
         factory.selector().reset()
           .add()
           .id('<namespace>content').id('box').query({
-            box_id: '*',
+            id: '*',
             selection: {
               plan: [0, 1000]
             }
@@ -157,31 +161,74 @@ describe.only('Workflow: Factory linked to single RS', () => {
       });
 
       it('bts', () => {
-        bts_ingredient_provider.setIngredient(['<namespace>builder', 'plan'], TimeSlotsFactory);
+        let size = 1;
+        let ingredient_model_description = factory.getAtom(['<namespace>builder', 'box']).model_decription;
 
-        bts.selector().reset()
-          .add()
-          .id('<namespace>builder').id('timeslot').query({
-            box_id: 'build',
-            selection: {
-              plan: [0, 100]
-            }
+        let data_model = {
+          type: {
+            type: {
+              deco: 'Box',
+              type: [ingredient_model_description]
+            },
+            deco: 'BaseCollection'
+          }
+        };
+
+        let factory_provider = new FactoryDataProvider();
+
+        let ingredient_provider = new IngredientDataProvider();
+        ingredient_provider
+          .setIngredient(['<namespace>content', 'plan'], 'plan', factory)
+          .setSize(size);
+
+        factory_accessor = new BasicAccessor(factory_provider);
+        factory_accessor.keymaker('set', (p) => {
+            //@IDEA: add additional params here
+            return p;
           })
-          .mask().id('<namespace>attribute').id('service').id('service1');
+          .keymaker('get', (p) => p);
 
-        bts.selector()
-          .add()
-          .id('<namespace>content').id('user_info').id('datastore').query({
-            box_id: 'build',
-            selection: {
-              name: 'some_name',
-              phone: '8-888-888-8'
+        let storage_accessor = new BasicAccessor(provider);
+        storage_accessor.keymaker('set', (p) => p.key)
+          .keymaker('get', (p) => {
+            let keys = p[box_id];
+
+            if (keys == '*') {
+              //@NOTE: and?
+              //@NOTE: submit view key
+              //@IDEA: new View('view-name',params), parse view in DP
+              return _.reduce(TEST_STORAGE, (result, item, index) => {
+                if (~index.indexOf('box')) result.push(index);
+                return result;
+              }, []);
             }
+
+            if (_.isArray(keys)) return keys;
+
+            return keys;
           });
 
-        bts.build({
-          count: 1
+        factory_provider
+          .addIngredient(ingredient_provider)
+          .addStorage(storage_accessor);
+
+
+        let box_builder = AtomicFactory.create('Basic', {
+          type: data_model,
+          accessor: factory_accessor
         });
+
+        let box_storage = AtomicFactory.create('Basic', {
+          type: data_model,
+          accessor: storage_accessor
+        });
+
+        booked_timeslot = new ResourceFactory();
+        booked_timeslot
+          .addAtom(box_builder, 'box', '<namespace>builder')
+          .addAtom(box_storage, 'box', '<namespace>content');
+
+
       });
 
       it('observe mixed', () => {

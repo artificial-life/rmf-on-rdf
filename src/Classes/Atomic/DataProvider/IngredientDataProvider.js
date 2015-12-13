@@ -20,15 +20,14 @@ class IngredientDataProvider {
     let selection = params.selection;
 
     let resolved = this.ingredient_atom.resolve(selection).observe(selection);
+    let splitted = resolved.split(this.size, count); //array of Plans
 
-    let splitted_content = resolved.split(this.size).getContent().splice(0, count); //array of TimeChunk
-
-    if (splitted_content.length != count) throw new DogeError({
+    if (splitted.length != count) throw new DogeError({
       so: 'few ingredients',
       such: 'much boxes'
     });
 
-    let result = _.map(splitted_content, (chunk) => [chunk.toJSON()]);
+    let result = _.map(splitted, (chunk) => [chunk.serialize()]);
 
     return result;
   }
