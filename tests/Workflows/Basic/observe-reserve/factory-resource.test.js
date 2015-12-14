@@ -124,12 +124,18 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
         factory.selector().reset()
           .add()
-          .id('<namespace>builder').id('box').query({});
+          .id('<namespace>builder').id('box').query({
+            id: '*',
+            selection: {
+              plan: [20, 100]
+            }
+          });
 
         var produced = factory.build({
           count: 6
         });
 
+        //_.forEach(produced.getAtom(['<namespace>builder', 'box']).content, (item) => console.log(item.content.plan));
 
         produced.selector().reset()
           .add()
@@ -142,8 +148,6 @@ describe.only('Workflow: Factory linked to single RS', () => {
 
         produced.observe();
 
-        console.log(produced.getAtom(['<namespace>builder', 'box']));
-
         produced.save();
 
         factory.selector().reset()
@@ -151,11 +155,11 @@ describe.only('Workflow: Factory linked to single RS', () => {
           .id('<namespace>content').id('box').query({
             id: '*',
             selection: {
-              plan: [0, 1000]
+              plan: [0, 30]
             }
           });
 
-        produced = factory.resolve();
+        produced = factory.resolve().observe();
 
         console.log(produced.getAtom(['<namespace>content', 'box']));
       });

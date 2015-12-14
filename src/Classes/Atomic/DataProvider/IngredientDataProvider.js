@@ -17,7 +17,7 @@ class IngredientDataProvider {
   }
   get(params) {
     let count = params.count;
-    let selection = params.selection;
+    let selection = params.selection[this.property];
 
     let resolved = this.ingredient_atom.resolve(selection).observe(selection);
     let splitted = resolved.split(this.size, count); //array of Plans
@@ -27,7 +27,7 @@ class IngredientDataProvider {
       such: 'much boxes'
     });
 
-    let result = _.map(splitted, (chunk) => [chunk.serialize()]);
+    let result = _.map(splitted, (chunk) => chunk.serialize());
 
     return result;
   }
