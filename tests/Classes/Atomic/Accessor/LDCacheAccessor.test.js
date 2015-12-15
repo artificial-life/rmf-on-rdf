@@ -7,7 +7,8 @@ let RDFcb = require("cbird-rdf").LD;
 let HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
 let TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-
+//the most complex example of Schedule/Plan handling
+//data model probably will be simplified later
 describe("LDCacheAccessor", () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
@@ -16,7 +17,9 @@ describe("LDCacheAccessor", () => {
 			"server_ip": "127.0.0.1",
 			"n1ql": "127.0.0.1:8093"
 		},
-		"bucket": "rdf",
+		"buckets": {
+			"main": "rdf"
+		},
 		"vocabulary": {
 			"basic": "iris://vocabulary/basic",
 			"domain": "iris://vocabulary/domain",
@@ -74,7 +77,7 @@ describe("LDCacheAccessor", () => {
 
 	before(() => {
 		db = new RDFcb(cfg.couchbird);
-		bucket = db.bucket(cfg.bucket);
+		bucket = db.bucket(cfg.buckets.main);
 		bucket.upsert("iris://vocabulary/basic", vocab_basic);
 		bucket.upsert("iris://vocabulary/domain", vocab_domain);
 		//not necessary yet
@@ -122,9 +125,11 @@ describe("LDCacheAccessor", () => {
 				accessor.keymaker('get', (x) => x);
 				accessor.mapper(classmap);
 				accessor.template();
-				let result = accessor.get('magic')
+				let result = accessor.get({
+						keys: 'magic'
+					})
 					.then((res) => {
-						expect(res).to.be.undefined;
+						expect(res.magic).to.be.undefined;
 						done();
 					})
 					.catch((err) => {
@@ -135,9 +140,11 @@ describe("LDCacheAccessor", () => {
 				accessor.keymaker('get', (x) => x);
 				accessor.mapper(classmap);
 				accessor.template();
-				let result = accessor.get(test_sch["@id"])
+				let result = accessor.get({
+						keys: test_sch["@id"]
+					})
 					.then((res) => {
-						expect(res['value']).to.eql(test_sch);
+						expect(res[test_sch["@id"]]['value']).to.eql(test_sch);
 						done();
 					})
 					.catch((err) => {
@@ -148,9 +155,11 @@ describe("LDCacheAccessor", () => {
 				accessor.keymaker('get', (x) => x);
 				accessor.mapper(classmap);
 				accessor.template();
-				let result = accessor.get(cfg.data_prefix + "#plan-1")
+				let result = accessor.get({
+						keys: cfg.data_prefix + "#plan-1"
+					})
 					.then((res) => {
-						expect(res).to.eql(test_plan);
+						expect(res[cfg.data_prefix + "#plan-1"]).to.eql(test_plan);
 						done();
 					})
 					.catch((err) => {

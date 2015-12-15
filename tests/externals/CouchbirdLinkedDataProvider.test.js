@@ -6,12 +6,15 @@ let RDFcb = require("cbird-rdf").LD;
 describe('CouchbirdLinkedDataProvider', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
+	let test_data = require(_base + "/tests/data/data_expanded.json");
 	let cfg = {
 		"couchbird": {
 			"server_ip": "127.0.0.1",
 			"n1ql": "127.0.0.1:8093"
 		},
-		"bucket": "rdf",
+		"buckets": {
+			"main": "rdf"
+		},
 		"vocabulary": {
 			"basic": "iris://vocabulary/basic",
 			"domain": "iris://vocabulary/domain",
@@ -43,7 +46,7 @@ describe('CouchbirdLinkedDataProvider', () => {
 
 	before(() => {
 		db = new RDFcb(cfg.couchbird);
-		bucket = db.bucket(cfg.bucket);
+		bucket = db.bucket(cfg.buckets.main);
 		bucket.upsert("iris://vocabulary/basic", vocab_basic);
 		bucket.upsert("iris://vocabulary/domain", vocab_domain);
 		//not necessary yet

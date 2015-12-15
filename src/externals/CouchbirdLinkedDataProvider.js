@@ -10,35 +10,35 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 		super();
 		this._bucket = bucket;
 	}
-	get(key) {
-		return this._bucket.getNodes(key)
-			.then((res) => {
-				return res[key];
-			});
+	get(keys, options) {
+		return this._bucket.getNodes(keys, options);
+		// .then((res) => {
+		// 	return res[key];
+		// });
 	}
 
 	//TODO: Interpreter stage
-	set(key, value) {
-		return this._bucket.replaceNodes(value)
-			.then((res) => {
-				return res[key];
-			});
+	set(values, options) {
+		return this._bucket.replaceNodes(values, options);
+		// .then((res) => {
+		// 	return res[key];
+		// });
 	}
 
 	//TODO: Interpreter stage
-	upsert(key, value) {
-		return this._bucket.upsertNodes(value)
-			.then((res) => {
-				return res[key];
-			});
+	upsert(values, options) {
+		return this._bucket.upsertNodes(values, options);
+		// .then((res) => {
+		// 	return res[key];
+		// });
 	}
 
 	//DESTROY
-	remove(key) {
-		return this._bucket.removeNodes(key)
-			.then((res) => {
-				return res[key];
-			});
+	remove(keys, options) {
+		return this._bucket.removeNodes(keys, options);
+		// .then((res) => {
+		// 	return res[key];
+		// });
 	}
 }
 
