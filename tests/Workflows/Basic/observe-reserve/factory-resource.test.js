@@ -15,7 +15,7 @@ var AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 
 var TEST_STORAGE = require(_base + '/build/externals/TESTSTORAGE.js');
 
-describe.only('Workflow: Factory linked to single RS', () => {
+describe('Workflow: Factory linked to single RS', () => {
   var resource_source;
   var factory_accessor;
   var factory;
@@ -231,69 +231,7 @@ describe.only('Workflow: Factory linked to single RS', () => {
         booked_timeslot
           .addAtom(box_builder, 'box', '<namespace>builder')
           .addAtom(box_storage, 'box', '<namespace>content');
-
-
       });
-
-      it('observe mixed', () => {
-        factory.selector().reset().add()
-          .id('<namespace>content').id('plan').query({
-            data: 'nearest'
-          });
-
-
-        factory.build({
-          count: 1
-        });
-
-      });
-
-      it('checking available slots', () => {
-        //"box_id" NOT specified => build
-
-        //factory_accessor instanceof BasicAccessor
-
-        factory.selector().reset()
-          .add()
-          .id('<namespace>content').id('plan').query([0, 1000]);
-
-        var produced = factory.build({
-          count: 1
-        });
-
-        //use boxes iterator
-        var box = produced.boxes().next();
-
-        //box count
-        var length = produced.boxes().length();
-
-        if (length > 0) console.log('We have a timeslot for booking!');
-        //this observing concrete
-        produced.selector().reset().add().id('<namespace>content').id('plan').query({
-          box_id: 'concrete-id',
-          params: [100, 200]
-        });
-
-        produced.observe();
-
-        //this observing all match
-        produced.reset();
-        produced.selector().reset().add().id('<namespace>content').id('plan').query({
-          box_id: '*',
-          params: [100, 200]
-        });
-
-        produced.observe();
-
-      });
-    });
-
-    describe('#reserve', () => {
-      it('reserve subspace');
-    });
-
-    describe('#observe', () => {
-      it('observe what has been built');
     });
   })
 })

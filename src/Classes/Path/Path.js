@@ -9,41 +9,43 @@ var Selector = require('./ObjectSelector.js');
 class Path {
   constructor(collection) {
     this.collection = collection;
-    this.path_selector = new Selector(this.collection);
-    //@TODO: add one dimension after add() realization
-    //@TODO: keys will become 2d array, query_params - 1d array
-    this.keys = [];
-    this.query_params = false;
+    this.default_selector = new Selector(this.collection);
+    this.reset();
   }
   get chain() {
-    return this.selector().getChain();
+    let index = this.current_chain_index || 0;
+
+    return this.path_selector[index].getChain();
   }
-  selector() {
-    return this.path_selector;
+  selector(id) {
+    id = id || id === 0 ? id : this.current_selector;
+    return this.path_selector[id];
   }
-  makeInitial() {
-    return this.selector().makeInitial();
-  }
+
   isDone() {
     return this.is_done;
   }
-  add() { //@NOTE: adds another selector chain
-    //@TODO: make it after other experimental features
+  add() {
+    this.current_selector = this.path_selector.length;
+    this.path_selector.push(new Selector(this.collection));
+
     return this;
   }
-  reset() { //@TODO: under rework now
+  reset() {
+    this.path_selector = [];
     this.is_done = false;
     this.keys = [];
-    this.selector().reset();
+    this.default_selector.reset();
+    this.query_params = [];
+    this.current_chain_index = 0;
+
     return this;
   }
-  query(params) { //@NOTE: this isn't even my final form
-    this.query_params = params;
+  query(params) {
+    this.query_params[this.current_selector] = params;
   }
   getQueryParams() {
-    //@NOTE: get current params for iteration, it's very simple now
-    //@NOTE: use "current_chain" after
-    return this.query_params;
+    return this.query_params[this.current_chain_index];
   }
 
   //@NOTE: proxy of selector interface
@@ -65,14 +67,17 @@ class Path {
     return this;
   }
   traverse() {
-    return this.selector().traverse();
+    return this.default_selector.traverse();
+  }
+  makeInitial(id) {
+    return this.selector(id).makeInitial();
   }
 
   //@NOTE: end of manual proxing
 
   next() {
     if (!this.keys.length && this.chain.length) {
-      this.keys = this.makeInitial();
+      this.keys = this.makeInitial(this.current_chain_index);
     }
 
 
@@ -126,8 +131,21 @@ class Path {
 
   /*Iterator*/
   [Symbol.iterator]() {
-    return !this.chain.length ? this.selector().traverse() : {
-      next: this.next.bind(this)
+    let selectors = this.path_selector.length ? this.path_selector : [this.traverse()];
+    let self = this;
+
+    return {
+      next: () => {
+        let result = this.next();
+        if (result.done && this.current_chain_index != selectors.length - 1) {
+          this.is_done = false;
+          this.current_chain_index += 1;
+          this.keys = [];
+          result = this.next();
+        }
+
+        return result;
+      }
     };
   }
 }
