@@ -30,17 +30,22 @@ class BaseCollection {
     }, {});
 
   }
-  split(size) {
+  split(size, count) {
     let Me = this.constructor;
-    let result = new Me(this.collection_type, this.collection_id);
-    let counter = 0;
-    result.content = {};
+    let current = {};
+    let result = [];
 
     _.forEach(this.content, (item, index) => {
-      counter += 1;
-      result.content[index] = (item);
+      if (result.length == count) return false;
 
-      return counter != size;
+      current[index] = item;
+
+      if (_.size(current) != size) return true;
+
+      let obj = new Me(this.collection_type, this.collection_id);
+      obj.content = current;
+      current = {};
+      result.push(obj);
     });
 
     return result;

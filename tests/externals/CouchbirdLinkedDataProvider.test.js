@@ -3,7 +3,7 @@
 let CouchbirdLinkedDataProvider = require('./CouchbirdLinkedDataProvider.js');
 let RDFcb = require("cbird-rdf").LD;
 
-describe('CouchbirdLinkedDataProvider', () => {
+describe.only('CouchbirdLinkedDataProvider', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -90,7 +90,7 @@ describe('CouchbirdLinkedDataProvider', () => {
 
 		describe('#set', () => {
 			it('should set existing', (done) => {
-				var result = dp.set(rabbit["@id"], another_rabbit)
+				var result = dp.set(another_rabbit)
 					.then((res) => {
 						expect(res).to.have.deep.property(`${rabbit["@id"]}.cas`).which.is.string;
 						return dp.get(rabbit["@id"]);
@@ -105,7 +105,7 @@ describe('CouchbirdLinkedDataProvider', () => {
 			});
 
 			it('should return false on non-existent', (done) => {
-				var result = dp.set(nonex["@id"], nonex)
+				var result = dp.set(nonex)
 					.then((res) => {
 						expect(res).to.have.property(nonex["@id"]).which.is.false;
 						done();
@@ -118,7 +118,7 @@ describe('CouchbirdLinkedDataProvider', () => {
 
 		describe('#upsert', () => {
 			it('should upsert anything', (done) => {
-				var result = dp.upsert(rabbit["@id"], rabbit)
+				var result = dp.upsert(rabbit)
 					.then((res) => {
 						expect(res).to.have.deep.property(`${rabbit["@id"]}.cas`).which.is.string;
 						return dp.get(rabbit["@id"]);
