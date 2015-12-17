@@ -8,7 +8,13 @@ var AbstractDataProvider = require('./AbstractDataProvider.js');
 
 class HashmapDataProvider extends AbstractDataProvider {
   get(key) {
-    if (_.isArray(key)) return _.map(key, (single) => this.get(single));
+    if (_.isArray(key)) {
+      let collection = _.reduce(key, (result, single) => {
+        result[single] = this.get(single);
+        return result;
+      }, {});
+      return collection;
+    }
 
     if (!TEST_STORAGE.hasOwnProperty(key)) return undefined;
     return TEST_STORAGE[key];
