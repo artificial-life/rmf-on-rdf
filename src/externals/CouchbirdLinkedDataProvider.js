@@ -7,10 +7,15 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 		super();
 		this._bucket = bucket;
 	}
-	get(keys, options) {
+
+	get({
+		keys: keys,
+		query: query,
+		options: options
+	}) {
 		//dirty hack
-		if(keys.length == 1 && keys[0].query) {
-			return this.process_query(keys[0], options);
+		if(query) {
+			return this.process_query(query, options);
 		}
 		return this._bucket.getNodes(keys, options);
 	}
@@ -18,6 +23,12 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 	process_query(keys, options) {
 			let promises = {};
 			_.map(keys.query, (query, qkey) => {
+				if(!query)
+					return false;
+				if(_.isArray(query)) {
+					promises[qkey] = query;
+					return true;
+				}
 				if(query.where) {
 					//N1ql hook
 					//'@id' not here, so query id's if you want id's
@@ -55,23 +66,28 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 						object: false
 					});
 				}
-				promises[qkey] = promises[qkey]
-					.then((filtered) => {
-						let selected = (query.select == "*") ? filtered : _.pluck(filtered, query.select);
-						return _.isFunction(query.transform) ? query.transform(selected) : selected;
-					});
 			});
+
 			return Promise.props(promises)
 				.then((res) => {
 					//order and test it here
+					// console.log("RECEIVED", res);
 					let order = keys.order || _.keys(keys.query);
 					let result = {};
 					_.forEach(order, (qkey) => {
+						let query = keys.query[qkey];
 						let data = res[qkey];
-						let test = keys.query[qkey].test;
+						let test = query.test;
 						result[qkey] = _.filter(data, (item) => {
 							return _.isFunction(test) ? test(item, result) : true;
 						});
+						// console.log("TESTED", result);
+
+						let selected = (!query.select || (query.select == "*")) ? result[qkey] : _.pluck(result[qkey], query.select);
+						// console.log("SELECTED", selected);
+						result[qkey] = _.isFunction(query.transform) ? query.transform(selected) : selected;
+						// console.log("TRANSFORMED", result);
+
 					});
 
 					let fin_keys = _.isFunction(keys.final) ? keys.final(result) : result;

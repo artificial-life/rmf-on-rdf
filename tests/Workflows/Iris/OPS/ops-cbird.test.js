@@ -49,8 +49,21 @@ describe.only('Operators Collection : Cbird', () => {
 			plan: {
 				template: "schedule",
 				map_keys: {
-					"iris://vocabulary/domain#scheduleDescription": "iris://vocabulary/domain#planDescription",
 					"iris://vocabulary/domain#scheduleOf": "iris://vocabulary/domain#planOf"
+				},
+				map_values: {
+					"iris://vocabulary/domain#hasTimeDescription": function(value) {
+						let parsed = JSON.parse(value[0]['@value']);
+						let res = _.map(parsed, (chunk) => {
+							return {
+								data: chunk,
+								state: 'a'
+							};
+						});
+						return [{
+							'@value': JSON.stringify(res)
+						}];
+					}
 				},
 				typecast: "iris://vocabulary/domain#Plan"
 			}
@@ -72,13 +85,14 @@ describe.only('Operators Collection : Cbird', () => {
 		bucket.setVocabulary(cfg.vocabulary);
 		bucket.upsertNodes(test_data);
 		dp = new CouchbirdLinkedDataProvider(bucket);
-		accessor = new LDCacheAccessor(dp);
-		accessor.mapper(classmap);
-		accessor.template();
 	});
 
 	beforeEach(() => {
-		let ops_plan_accessor = accessor; //= new BasicAccessor(dp);
+		let ops_plan_accessor = new LDCacheAccessor(dp);
+		ops_plan_accessor.mapper(classmap);
+		let services_accessor = new LDCacheAccessor(dp);
+		services_accessor.mapper(classmap);
+
 		let flatten_ld = function(data) {
 			return _.pluck(_.flattenDeep(data), '@id');
 		};
@@ -96,71 +110,142 @@ describe.only('Operators Collection : Cbird', () => {
 
 		ops_plan_accessor.keymaker('get', function(p) {
 			let query = [];
+			let op_keys = undefined;
 			if(p.id == '*') {
-				//return all plans/schedules that belong to persons with operators role
-				query = {
-					type: 'view',
-					query: {
-						op_keys: {
-							select: "iris://vocabulary/domain#member",
-							where: {
-								"@type": "iris://vocabulary/domain#Membership",
-								"iris://vocabulary/domain#role": "iris://vocabulary/domain#Operator"
-							},
-							transform: flatten_ld
-						},
-						schedules: {
-							select: "*",
-							where: {
-								"@type": "iris://vocabulary/domain#Schedule"
-							},
-							test: function(data, query) {
-								let res = flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
-								return !!~_.indexOf(query.op_keys, res);
-							}
-						}
+				op_keys = {
+					select: "iris://vocabulary/domain#member",
+					where: {
+						"@type": "iris://vocabulary/domain#Membership",
+						"iris://vocabulary/domain#role": "iris://vocabulary/domain#Operator"
 					},
-					order: ['op_keys', 'schedules'],
-					final: function(query) {
-						return _.map(query.schedules, (sch) => {
-							return key_typecast(sch['@id'], {
-								type: "plan"
-							});
-						});
-					}
+					transform: flatten_ld
 				};
 			} else {
-				let ids = _.isArray(p.id) ? p.id : [p.id];
-				query = {
-					query: {
-						schedules: {
-							select: "*",
-							where: {
-								"@type": "iris://vocabulary/domain#Schedule"
-							},
-							test: function(data, query) {
-								let res = flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
-								return !!~_.indexOf(ids, res);
-							}
-						}
-					},
-					final: function(query) {
-						return _.map(query.schedules, (sch) => {
-							return key_typecast(sch['@id'], {
-								type: "plan"
-							});
-						});
-					}
-				};
+				op_keys = _.isArray(p.id) ? p.id : [p.id];
 			}
+			//return all plans/schedules that belong to persons with operators role
+			query = {
+				type: 'view',
+				query: {
+					op_keys: op_keys,
+					schedules: {
+						select: "*",
+						where: {
+							"@type": "iris://vocabulary/domain#Schedule"
+						},
+						test: function(data, query) {
+							let res = flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
+							return !!~_.indexOf(query.op_keys, res);
+						}
+					}
+				},
+				order: ['op_keys', 'schedules'],
+				final: function(query) {
+					return _.map(query.schedules, (sch) => {
+						return key_typecast(sch['@id'], {
+							type: "plan"
+						});
+					});
+				}
+			};
+
 			return query;
 
 		});
 
+		services_accessor.keymaker('get', (query) => {
+			let op_keys = undefined;
+			if(query.id == '*') {
+				op_keys = {
+					select: "iris://vocabulary/domain#member",
+					where: {
+						"@type": "iris://vocabulary/domain#Membership",
+						"iris://vocabulary/domain#role": "iris://vocabulary/domain#Operator"
+					},
+					transform: flatten_ld
+				};
+			} else {
+				op_keys = _.isArray(query.id) ? query.id : [query.id];
+			}
+
+			let service_keys = undefined;
+			service_keys = {
+				select: "iris://vocabulary/domain#provides",
+				where: {
+					"@type": "iris://vocabulary/domain#Person"
+				},
+				test: function(data, query) {
+					let res = data["@id"];
+					return !!~_.indexOf(query.op_keys, res);
+				},
+				transform: function(data) {
+					let res = flatten_ld(data);
+					let keys = _.isArray(query.selection.id) ? query.selection.id : [query.selection.id];
+					return(query.selection.id == '*') ? res : _.intersection(res, keys);
+				}
+			};
+
+			let req = {
+				type: 'view',
+				query: {
+					op_keys: op_keys,
+					service_keys: service_keys,
+					schedules: {
+						select: "*",
+						where: {
+							"@type": "iris://vocabulary/domain#Schedule"
+						},
+						test: function(data, query) {
+							let res = flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
+							return !!~_.indexOf(query.service_keys, res);
+						}
+					}
+				},
+				order: ['op_keys', 'service_keys', 'schedules'],
+				final: function(query) {
+					return _.map(query.schedules, (sch) => {
+						return key_typecast(sch['@id'], {
+							type: "plan"
+						});
+					});
+				}
+			};
+			return req;
+		});
+		// ops_plan_accessor.get({
+		// 		query: {
+		// 			// id: "*"
+		// 			id: "iris://data#human-2"
+		// 		},
+		// 		options: {}
+		// 	})
+		// 	.then((res) => {
+		// 		console.log("OUCH", require('util').inspect(res, {
+		// 			depth: null
+		// 		}));
+		// 	})
+		//
+		// services_accessor.get({
+		// 		query: {
+		// 			id: "*",
+		// 			// id: "iris://data#human-2",
+		// 			selection: {
+		// 				// id: "*"
+		// 				id: "iris://data#service-1"
+		// 			}
+		// 		},
+		// 		options: {}
+		// 	})
+		// 	.then((res) => {
+		// 		console.log("OUCH", require('util').inspect(res, {
+		// 			depth: null
+		// 		}));
+		// 	})
+
 		OPS = new Content();
 
 		let datamodel = {
-			type: 'Plan',
+			type: 'LDPlan',
 			deco: 'BaseCollection'
 		};
 
@@ -168,68 +253,58 @@ describe.only('Operators Collection : Cbird', () => {
 			type: datamodel,
 			accessor: ops_plan_accessor
 		});
+		OPS.addAtom(plan_collection, 'plan');
 
-		// OPS.addAtom(plan_collection, 'plan');
-		//
-		// let attributes_services_datamodel = {
-		// 	type: {
-		// 		type: 'Plan',
-		// 		deco: 'BaseCollection'
-		// 	},
-		// 	deco: 'BaseCollection'
-		// };
-		//
-		// let services_accesor = new BasicAccessor(provider);
-		// services_accesor.keymaker('get', (query) => {
-		// 	let operator_id = query.id;
-		// 	let service_id = query.selection.id;
-		//
-		// 	if(operator_id == '*') {
-		// 		return ['operator1_services', 'operator2_services', 'operator3_services'];
-		// 	}
-		// });
-		//
-		// let operator_services_collection = AtomicFactory.create('Basic', {
-		// 	type: attributes_services_datamodel,
-		// 	accessor: services_accesor
-		// });
-		//
-		// OPS.addAtom(operator_services_collection, 'services', '<namespace>attribute');
+		let attributes_services_datamodel = {
+			type: {
+				type: 'LDPlan',
+				deco: 'BaseCollection'
+			},
+			deco: 'BaseCollection'
+		};
+
+		let operator_services_collection = AtomicFactory.create('Basic', {
+			type: attributes_services_datamodel,
+			accessor: services_accessor
+		});
+
+		OPS.addAtom(operator_services_collection, 'services', '<namespace>attribute');
 	});
 
-	describe('tst', () => {
-			it('rages', () => {
-				expect(true);
-			})
-		})
-		// describe('test OPS', () => {
-		// 	it('observe all', () => {
-		// 		OPS.selector().reset().add()
-		// 			.id('<namespace>content').id('plan').query({
-		// 				id: '*'
-		// 			});
-		//
-		// 		OPS.selector().add()
-		// 			.id('<namespace>attribute').id('services').query({
-		// 				id: '*',
-		// 				selection: {
-		// 					id: '*'
-		// 				}
-		// 			});
-		//
-		// 		let resolved_ops = OPS.resolve();
-		//
-		// 		let services = resolved_ops.getAtom(['<namespace>attribute', 'services']);
-		// 		let observed = services.observe({
-		// 			id: 'operator1_services',
-		// 			selection: {
-		// 				id: '*'
-		// 			}
-		// 		});
-		//
-		// 		_.forEach(observed.content.operator1_services.content, (item, name) => {
-		// 			console.log(name, item)
-		// 		});
-		// 	});
-		// });
+	describe('test OPS', () => {
+		it('observe all', () => {
+			OPS.selector().reset().add()
+				.id('<namespace>content').id('plan').query({
+					query: {
+						id: '*'
+					},
+					options: {}
+				});
+
+			OPS.selector().add()
+				.id('<namespace>attribute').id('services').query({
+					query: {
+						id: '*',
+						selection: {
+							id: '*'
+						}
+					},
+					options: {}
+				});
+
+			let resolved_ops = OPS.resolve();
+			//
+			// 		let services = resolved_ops.getAtom(['<namespace>attribute', 'services']);
+			// 		let observed = services.observe({
+			// 			id: 'operator1_services',
+			// 			selection: {
+			// 				id: '*'
+			// 			}
+			// 		});
+			//
+			// 		_.forEach(observed.content.operator1_services.content, (item, name) => {
+			// 			console.log(name, item)
+			// 		});
+		});
+	});
 });

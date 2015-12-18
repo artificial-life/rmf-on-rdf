@@ -38,8 +38,21 @@ describe("LDCacheAccessor", () => {
 			plan: {
 				template: "schedule",
 				map_keys: {
-					"iris://vocabulary/domain#scheduleDescription": "iris://vocabulary/domain#planDescription",
 					"iris://vocabulary/domain#scheduleOf": "iris://vocabulary/domain#planOf"
+				},
+				map_values: {
+					"iris://vocabulary/domain#hasTimeDescription": function(value) {
+						let parsed = JSON.parse(value[0]['@value']);
+						let res = _.map(parsed, (chunk) => {
+							return {
+								data: chunk,
+								state: 'a'
+							};
+						});
+						return [{
+							'@value': JSON.stringify(res)
+						}];
+					}
 				},
 				typecast: "iris://vocabulary/domain#Plan"
 			}
@@ -51,11 +64,11 @@ describe("LDCacheAccessor", () => {
 	let accessor = null;
 
 	let test_sch = {
-		"@id": "iris://data#schedule-1",
+		"@id": "iris://data#schedule-123",
 		"@type": [
 			"iris://vocabulary/domain#Schedule"
 		],
-		"iris://vocabulary/domain#scheduleDescription": [{
+		"iris://vocabulary/domain#hasTimeDescription": [{
 			"@value": "[[32400000, 46800000], [50400000, 64800000]]"
 		}],
 		"iris://vocabulary/domain#scheduleOf": [{
@@ -64,12 +77,12 @@ describe("LDCacheAccessor", () => {
 	};
 
 	let test_plan = {
-		"@id": "iris://data#plan-1",
+		"@id": "iris://data#plan-123",
 		"@type": [
 			"iris://vocabulary/domain#Plan"
 		],
-		"iris://vocabulary/domain#planDescription": [{
-			"@value": "[[32400000, 46800000], [50400000, 64800000]]"
+		"iris://vocabulary/domain#hasTimeDescription": [{
+			"@value": "[{\"data\":[32400000,46800000],\"state\":\"a\"},{\"data\":[50400000,64800000],\"state\":\"a\"}]"
 		}],
 		"iris://vocabulary/domain#planOf": [{
 			"@id": "iris://data#human-1"
@@ -157,10 +170,10 @@ describe("LDCacheAccessor", () => {
 				accessor.mapper(classmap);
 				accessor.template();
 				let result = accessor.get({
-						keys: cfg.data_prefix + "#plan-1"
+						keys: cfg.data_prefix + "#plan-123"
 					})
 					.then((res) => {
-						expect(res[cfg.data_prefix + "#plan-1"]).to.eql(test_plan);
+						expect(res[cfg.data_prefix + "#plan-123"]).to.eql(test_plan);
 						done();
 					})
 					.catch((err) => {
