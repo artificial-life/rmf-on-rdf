@@ -28,6 +28,7 @@ describe("LDCacheAccessor", () => {
 		"data_prefix": "iris://data"
 	};
 	let classmap = {
+		common_id: new RegExp("(.*)#([^-]*)-([^\/]*)"),
 		prefix: {
 			data: cfg.data_prefix,
 			basic: cfg.vocabulary.basic,

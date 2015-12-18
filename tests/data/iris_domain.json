@@ -32,20 +32,10 @@
 			"@id": "org:OrganizationalUnit"
 		}
 	}, {
-		"@id": "_:ub174bL327C32",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "org:Organization"
-			}, {
-				"@id": "iris:Person"
-			}]
-		}
-	}, {
 		"@id": "iris:prebookTodayPercentage",
 		"@type": [
-			"owl:FunctionalProperty",
 			"rdf:Property",
+			"owl:FunctionalProperty",
 			"owl:DatatypeProperty"
 		],
 		"rdfs:domain": {
@@ -70,7 +60,7 @@
 			"owl:ObjectProperty"
 		],
 		"rdfs:domain": {
-			"@id": "_:ub174bL369C21"
+			"@id": "_:ub4bL371C21"
 		},
 		"rdfs:label": {
 			"@language": "en",
@@ -82,9 +72,9 @@
 	}, {
 		"@id": "iris:prebookOperationTime",
 		"@type": [
-			"rdf:Property",
+			"owl:ObjectProperty",
 			"owl:FunctionalProperty",
-			"owl:ObjectProperty"
+			"rdf:Property"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Service"
@@ -97,37 +87,20 @@
 			"@id": "xsd:decimal"
 		}
 	}, {
-		"@id": "_:ub174bL364C24",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "org:Organization"
-			}, {
-				"@id": "iris:Person"
-			}, {
-				"@id": "iris:Service"
-			}, {
-				"@id": "iris:Location"
-			}, {
-				"@id": "iris:ServiceStatus"
-			}]
-		}
-	}, {
-		"@id": "iris:hasPermission",
+		"@id": "iris:hasSchedule",
 		"@type": [
 			"owl:ObjectProperty",
-			"owl:InverseFunctionalProperty",
 			"rdf:Property"
 		],
 		"rdfs:domain": {
-			"@id": "iris:Person"
+			"@id": "_:ub4bL359C21"
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "permission"
+			"@value": "hasSchedule"
 		},
 		"rdfs:range": {
-			"@id": "iris:Permission"
+			"@id": "iris:Schedule"
 		}
 	}, {
 		"@id": "iris:password",
@@ -148,9 +121,9 @@
 	}, {
 		"@id": "iris:serviceName",
 		"@type": [
+			"owl:DatatypeProperty",
 			"owl:FunctionalProperty",
-			"rdf:Property",
-			"owl:DatatypeProperty"
+			"rdf:Property"
 		],
 		"owl:subPropertyOf": {
 			"@id": "gr:name"
@@ -168,8 +141,8 @@
 	}, {
 		"@id": "iris:validSince",
 		"@type": [
-			"rdf:Property",
-			"owl:DatatypeProperty"
+			"owl:DatatypeProperty",
+			"rdf:Property"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Schedule"
@@ -213,9 +186,9 @@
 	}, {
 		"@id": "iris:prebookInterval",
 		"@type": [
-			"owl:ObjectProperty",
 			"owl:FunctionalProperty",
-			"rdf:Property"
+			"rdf:Property",
+			"owl:ObjectProperty"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Service"
@@ -228,29 +201,7 @@
 			"@id": "xsd:decimal"
 		}
 	}, {
-		"@id": "iris:deptCodeFRGU",
-		"@type": [
-			"owl:FunctionalProperty",
-			"owl:DatatypeProperty",
-			"rdf:Property"
-		],
-		"rdfs:domain": {
-			"@id": "iris:Service"
-		},
-		"rdfs:label": {
-			"@language": "en",
-			"@value": "deptCodeFRGU"
-		},
-		"rdfs:range": {
-			"@id": "rdfs:Literal"
-		}
-	}, {
-		"@id": "iris:hasBusinessFunction",
-		"owl:equivalentProperty": {
-			"@id": "gr:hasBusinessFunction"
-		}
-	}, {
-		"@id": "_:ub174bL357C21",
+		"@id": "_:ub4bL359C21",
 		"@type": "owl:Class",
 		"owl:unionOf": {
 			"@list": [{
@@ -266,10 +217,29 @@
 			}]
 		}
 	}, {
+		"@id": "iris:hasBusinessFunction",
+		"owl:equivalentProperty": {
+			"@id": "gr:hasBusinessFunction"
+		}
+	}, {
+		"@id": "_:ub4bL422C1",
+		"@type": "owl:AllDisjointClasses",
+		"owl:members": {
+			"@list": [{
+				"@id": "iris:Terminal"
+			}, {
+				"@id": "iris:AWP"
+			}, {
+				"@id": "iris:RoomDisplay"
+			}, {
+				"@id": "iris:OperatorDisplay"
+			}]
+		}
+	}, {
 		"@id": "iris:attachedTo",
 		"@type": [
-			"rdf:Property",
-			"owl:ObjectProperty"
+			"owl:ObjectProperty",
+			"rdf:Property"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Device"
@@ -301,8 +271,8 @@
 	}, {
 		"@id": "iris:planOf",
 		"@type": [
-			"rdf:Property",
-			"owl:ObjectProperty"
+			"owl:ObjectProperty",
+			"rdf:Property"
 		],
 		"owl:inverseOf": {
 			"@id": "iris:hasPlan"
@@ -315,14 +285,14 @@
 			"@value": "planOf"
 		},
 		"rdfs:range": {
-			"@id": "_:ub174bL376C24"
+			"@id": "_:ub4bL378C24"
 		}
 	}, {
 		"@id": "iris:liveOperationTime",
 		"@type": [
 			"owl:ObjectProperty",
-			"rdf:Property",
-			"owl:FunctionalProperty"
+			"owl:FunctionalProperty",
+			"rdf:Property"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Service"
@@ -333,32 +303,6 @@
 		},
 		"rdfs:range": {
 			"@id": "xsd:decimal"
-		}
-	}, {
-		"@id": "_:ub174bL409C21",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "iris:Schedule"
-			}, {
-				"@id": "iris:Plan"
-			}]
-		}
-	}, {
-		"@id": "_:ub174bL376C24",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "org:Organization"
-			}, {
-				"@id": "iris:Person"
-			}, {
-				"@id": "iris:Service"
-			}, {
-				"@id": "iris:Location"
-			}, {
-				"@id": "iris:ServiceStatus"
-			}]
 		}
 	}, {
 		"@id": "iris:hasMember",
@@ -373,9 +317,9 @@
 	}, {
 		"@id": "iris:prebookPercentage",
 		"@type": [
+			"owl:DatatypeProperty",
 			"owl:FunctionalProperty",
-			"rdf:Property",
-			"owl:DatatypeProperty"
+			"rdf:Property"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Service"
@@ -388,20 +332,21 @@
 			"@id": "xsd:decimal"
 		}
 	}, {
-		"@id": "iris:hasDay",
+		"@id": "iris:deptCodeFRGU",
 		"@type": [
 			"rdf:Property",
-			"owl:ObjectProperty"
+			"owl:FunctionalProperty",
+			"owl:DatatypeProperty"
 		],
 		"rdfs:domain": {
-			"@id": "_:ub174bL409C21"
+			"@id": "iris:Service"
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "hasDay"
+			"@value": "deptCodeFRGU"
 		},
 		"rdfs:range": {
-			"@id": "iris:DayOfTheWeek"
+			"@id": "rdfs:Literal"
 		}
 	}, {
 		"@id": "iris:FormalOrganization",
@@ -419,28 +364,19 @@
 			"@id": "gr:Monday"
 		}
 	}, {
+		"@id": "_:ub4bL425C1",
+		"@type": "owl:AllDisjointClasses",
+		"owl:members": {
+			"@list": [{
+				"@id": "iris:Office"
+			}, {
+				"@id": "iris:Department"
+			}]
+		}
+	}, {
 		"@id": "iris:Tuesday",
 		"owl:sameAs": {
 			"@id": "gr:Tuesday"
-		}
-	}, {
-		"@id": "iris:templateOf",
-		"@type": [
-			"rdf:Property",
-			"owl:ObjectProperty"
-		],
-		"owl:inverseOf": {
-			"@id": "iris:hasTemplate"
-		},
-		"rdfs:domain": {
-			"@id": "iris:Schedule"
-		},
-		"rdfs:label": {
-			"@language": "en",
-			"@value": "templateOf"
-		},
-		"rdfs:range": {
-			"@id": "iris:Plan"
 		}
 	}, {
 		"@id": "iris:Membership",
@@ -450,8 +386,8 @@
 	}, {
 		"@id": "iris:ActiveDevice",
 		"@type": [
-			"owl:Class",
-			"rdfs:Class"
+			"rdfs:Class",
+			"owl:Class"
 		],
 		"owl:disjointWith": {
 			"@id": "iris:PassiveDevice"
@@ -470,8 +406,8 @@
 	}, {
 		"@id": "iris:hasDevice",
 		"@type": [
-			"owl:ObjectProperty",
-			"rdf:Property"
+			"rdf:Property",
+			"owl:ObjectProperty"
 		],
 		"owl:inverseOf": {
 			"@id": "iris:deviceOf"
@@ -489,9 +425,9 @@
 	}, {
 		"@id": "iris:prefix",
 		"@type": [
-			"owl:FunctionalProperty",
 			"owl:DatatypeProperty",
-			"rdf:Property"
+			"rdf:Property",
+			"owl:FunctionalProperty"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Service"
@@ -589,23 +525,13 @@
 			"@value": "Service"
 		}
 	}, {
-		"@id": "_:ub174bL438C1",
-		"@type": "owl:AllDisjointClasses",
-		"owl:members": {
-			"@list": [{
-				"@id": "iris:Office"
-			}, {
-				"@id": "iris:Department"
-			}]
-		}
-	}, {
 		"@id": "iris:hasTimeDescription",
 		"@type": [
 			"rdf:Property",
 			"owl:ObjectProperty"
 		],
 		"rdfs:domain": {
-			"@id": "_:ub174bL414C21"
+			"@id": "_:ub4bL405C21"
 		},
 		"rdfs:label": {
 			"@language": "en",
@@ -615,17 +541,9 @@
 			"@id": "xsd:string"
 		}
 	}, {
-		"@id": "_:ub174bL64C25",
-		"@type": "owl:Restriction",
-		"owl:onClass": {
-			"@id": "iris:Office"
-		},
-		"owl:onProperty": {
-			"@id": "iris:hasUnit"
-		},
-		"owl:qualifiedCardinality": {
-			"@type": "xsd:nonNegativeInteger",
-			"@value": "0"
+		"@id": "iris:DayOfWeek",
+		"owl:equivalentClass": {
+			"@id": "gr:DayOfWeek"
 		}
 	}, {
 		"@id": "iris:availableAt",
@@ -635,8 +553,8 @@
 	}, {
 		"@id": "iris:Permission",
 		"@type": [
-			"rdfs:Class",
-			"owl:Class"
+			"owl:Class",
+			"rdfs:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -669,22 +587,6 @@
 			"@id": "xsd:decimal"
 		}
 	}, {
-		"@id": "iris:hasPlanDescription",
-		"@type": [
-			"rdf:Property",
-			"owl:DatatypeProperty"
-		],
-		"rdfs:domain": {
-			"@id": "iris:Plan"
-		},
-		"rdfs:label": {
-			"@language": "en",
-			"@value": "planDescription"
-		},
-		"rdfs:range": {
-			"@id": "rdfs:Literal"
-		}
-	}, {
 		"@id": "iris:Wednesday",
 		"owl:sameAs": {
 			"@id": "gr:Wednesday"
@@ -699,7 +601,7 @@
 			"@id": "iris:hasProvider"
 		},
 		"rdfs:domain": {
-			"@id": "_:ub174bL332C21"
+			"@id": "_:ub4bL334C21"
 		},
 		"rdfs:label": {
 			"@language": "en",
@@ -707,6 +609,16 @@
 		},
 		"rdfs:range": {
 			"@id": "iris:Service"
+		}
+	}, {
+		"@id": "_:ub4bL329C32",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "org:Organization"
+			}, {
+				"@id": "iris:Person"
+			}]
 		}
 	}, {
 		"@id": "iris:codeFRGU",
@@ -728,8 +640,8 @@
 	}, {
 		"@id": "iris:Person",
 		"@type": [
-			"owl:Class",
-			"rdfs:Class"
+			"rdfs:Class",
+			"owl:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -745,8 +657,8 @@
 	}, {
 		"@id": "iris:hasPrebookEnqSchedule",
 		"@type": [
-			"owl:ObjectProperty",
-			"rdf:Property"
+			"rdf:Property",
+			"owl:ObjectProperty"
 		],
 		"owl:subPropertyOf": {
 			"@id": "iris:hasSchedule"
@@ -762,26 +674,10 @@
 			"@id": "iris:Schedule"
 		}
 	}, {
-		"@id": "iris:hasTemplate",
-		"@type": [
-			"rdf:Property",
-			"owl:ObjectProperty"
-		],
-		"rdfs:domain": {
-			"@id": "iris:Plan"
-		},
-		"rdfs:label": {
-			"@language": "en",
-			"@value": "hasTemplate"
-		},
-		"rdfs:range": {
-			"@id": "iris:Schedule"
-		}
-	}, {
 		"@id": "iris:PassiveDevice",
 		"@type": [
-			"owl:Class",
-			"rdfs:Class"
+			"rdfs:Class",
+			"owl:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -797,8 +693,8 @@
 	}, {
 		"@id": "iris:deviceDesign",
 		"@type": [
-			"owl:FunctionalProperty",
 			"rdf:Property",
+			"owl:FunctionalProperty",
 			"owl:ObjectProperty"
 		],
 		"rdfs:comment": {
@@ -809,7 +705,7 @@
 			"@id": "iris:Device"
 		},
 		"rdfs:range": {
-			"@id": "dcterms:StillImage"
+			"@id": "rdfs:Literal"
 		}
 	}, {
 		"@id": "iris:deviceOf",
@@ -833,11 +729,27 @@
 			"@id": "gr:hasPOS"
 		}
 	}, {
-		"@id": "iris:statusName",
+		"@id": "iris:hasDay",
 		"@type": [
 			"rdf:Property",
-			"owl:FunctionalProperty",
-			"owl:DatatypeProperty"
+			"owl:ObjectProperty"
+		],
+		"rdfs:domain": {
+			"@id": "_:ub4bL400C21"
+		},
+		"rdfs:label": {
+			"@language": "en",
+			"@value": "hasDay"
+		},
+		"rdfs:range": {
+			"@id": "iris:DayOfTheWeek"
+		}
+	}, {
+		"@id": "iris:statusName",
+		"@type": [
+			"owl:DatatypeProperty",
+			"rdf:Property",
+			"owl:FunctionalProperty"
 		],
 		"rdfs:domain": {
 			"@id": "iris:ServiceStatus"
@@ -857,8 +769,8 @@
 	}, {
 		"@id": "iris:Administrator",
 		"@type": [
-			"rdfs:Class",
-			"owl:Class"
+			"owl:Class",
+			"rdfs:Class"
 		],
 		"rdfs:subClassOf": {
 			"@id": "iris:Employee"
@@ -871,9 +783,9 @@
 	}, {
 		"@id": "iris:deviceSound",
 		"@type": [
-			"owl:ObjectProperty",
 			"owl:FunctionalProperty",
-			"rdf:Property"
+			"rdf:Property",
+			"owl:ObjectProperty"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -884,6 +796,35 @@
 		},
 		"rdfs:range": {
 			"@id": "dcterms:Sound"
+		}
+	}, {
+		"@id": "_:ub4bL64C25",
+		"@type": "owl:Restriction",
+		"owl:onClass": {
+			"@id": "iris:Office"
+		},
+		"owl:onProperty": {
+			"@id": "iris:hasUnit"
+		},
+		"owl:qualifiedCardinality": {
+			"@type": "xsd:nonNegativeInteger",
+			"@value": "0"
+		}
+	}, {
+		"@id": "_:ub4bL371C21",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "org:Organization"
+			}, {
+				"@id": "iris:Person"
+			}, {
+				"@id": "iris:Service"
+			}, {
+				"@id": "iris:Location"
+			}, {
+				"@id": "iris:ServiceStatus"
+			}]
 		}
 	}, {
 		"@id": "iris:Schedule",
@@ -900,11 +841,28 @@
 			"@value": "Schedule"
 		}
 	}, {
+		"@id": "iris:hasPermission",
+		"@type": [
+			"owl:ObjectProperty",
+			"rdf:Property",
+			"owl:InverseFunctionalProperty"
+		],
+		"rdfs:domain": {
+			"@id": "iris:Person"
+		},
+		"rdfs:label": {
+			"@language": "en",
+			"@value": "permission"
+		},
+		"rdfs:range": {
+			"@id": "iris:Permission"
+		}
+	}, {
 		"@id": "iris:serviceDescription",
 		"@type": [
+			"owl:FunctionalProperty",
 			"rdf:Property",
-			"owl:DatatypeProperty",
-			"owl:FunctionalProperty"
+			"owl:DatatypeProperty"
 		],
 		"owl:subPropertyOf": {
 			"@id": "gr:description"
@@ -936,31 +894,10 @@
 			"@id": "rdfs:Literal"
 		}
 	}, {
-		"@id": "iris:DayOfWeek",
-		"owl:equivalentClass": {
-			"@id": "gr:DayOfWeek"
-		}
-	}, {
-		"@id": "_:ub174bL369C21",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "org:Organization"
-			}, {
-				"@id": "iris:Person"
-			}, {
-				"@id": "iris:Service"
-			}, {
-				"@id": "iris:Location"
-			}, {
-				"@id": "iris:ServiceStatus"
-			}]
-		}
-	}, {
 		"@id": "iris:login",
 		"@type": [
-			"rdf:Property",
-			"owl:DatatypeProperty"
+			"owl:DatatypeProperty",
+			"rdf:Property"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -985,22 +922,6 @@
 			"@id": "foaf:img"
 		}
 	}, {
-		"@id": "iris:hasSchedule",
-		"@type": [
-			"rdf:Property",
-			"owl:ObjectProperty"
-		],
-		"rdfs:domain": {
-			"@id": "_:ub174bL357C21"
-		},
-		"rdfs:label": {
-			"@language": "en",
-			"@value": "hasSchedule"
-		},
-		"rdfs:range": {
-			"@id": "iris:Schedule"
-		}
-	}, {
 		"@id": "iris:validUntil",
 		"@type": [
 			"owl:DatatypeProperty",
@@ -1017,6 +938,16 @@
 			"@id": "xsd:date"
 		}
 	}, {
+		"@id": "_:ub4bL400C21",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "iris:Schedule"
+			}, {
+				"@id": "iris:Plan"
+			}]
+		}
+	}, {
 		"@id": "iris:headOf",
 		"owl:equivalentProperty": {
 			"@id": "org:headOf"
@@ -1024,8 +955,8 @@
 	}, {
 		"@id": "iris:ServiceStatus",
 		"@type": [
-			"rdfs:Class",
-			"owl:Class"
+			"owl:Class",
+			"rdfs:Class"
 		],
 		"rdfs:label": {
 			"@language": "en",
@@ -1051,11 +982,21 @@
 			"@id": "iris:Service"
 		}
 	}, {
+		"@id": "_:ub4bL405C21",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "iris:Schedule"
+			}, {
+				"@id": "iris:Plan"
+			}]
+		}
+	}, {
 		"@id": "iris:priority",
 		"@type": [
-			"owl:DatatypeProperty",
 			"rdf:Property",
-			"owl:FunctionalProperty"
+			"owl:FunctionalProperty",
+			"owl:DatatypeProperty"
 		],
 		"rdfs:domain": {
 			"@id": "iris:Service"
@@ -1066,6 +1007,22 @@
 		},
 		"rdfs:range": {
 			"@id": "xsd:decimal"
+		}
+	}, {
+		"@id": "_:ub4bL378C24",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "org:Organization"
+			}, {
+				"@id": "iris:Person"
+			}, {
+				"@id": "iris:Service"
+			}, {
+				"@id": "iris:Location"
+			}, {
+				"@id": "iris:ServiceStatus"
+			}]
 		}
 	}, {
 		"@id": "iris:scheduleOf",
@@ -1084,7 +1041,7 @@
 			"@value": "scheduleOf"
 		},
 		"rdfs:range": {
-			"@id": "_:ub174bL364C24"
+			"@id": "_:ub4bL366C24"
 		}
 	}, {
 		"@id": "iris:Action",
@@ -1118,9 +1075,30 @@
 			"@id": "iris:ActiveDevice"
 		}
 	}, {
-		"@id": "iris:Saturday",
-		"owl:sameAs": {
-			"@id": "gr:Saturday"
+		"@id": "_:ub4bL334C21",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "org:Organization"
+			}, {
+				"@id": "iris:Person"
+			}]
+		}
+	}, {
+		"@id": "_:ub4bL366C24",
+		"@type": "owl:Class",
+		"owl:unionOf": {
+			"@list": [{
+				"@id": "org:Organization"
+			}, {
+				"@id": "iris:Person"
+			}, {
+				"@id": "iris:Service"
+			}, {
+				"@id": "iris:Location"
+			}, {
+				"@id": "iris:ServiceStatus"
+			}]
 		}
 	}, {
 		"@id": "iris:serviceCodeEPGU",
@@ -1142,8 +1120,8 @@
 	}, {
 		"@id": "iris:OperatorDisplay",
 		"@type": [
-			"owl:Class",
-			"rdfs:Class"
+			"rdfs:Class",
+			"owl:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -1164,8 +1142,8 @@
 	}, {
 		"@id": "iris:Terminal",
 		"@type": [
-			"owl:Class",
-			"rdfs:Class"
+			"rdfs:Class",
+			"owl:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
@@ -1197,30 +1175,6 @@
 		}, {
 			"@id": "dcterms:Agent"
 		}]
-	}, {
-		"@id": "_:ub174bL414C21",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "iris:Schedule"
-			}, {
-				"@id": "iris:Plan"
-			}]
-		}
-	}, {
-		"@id": "_:ub174bL435C1",
-		"@type": "owl:AllDisjointClasses",
-		"owl:members": {
-			"@list": [{
-				"@id": "iris:Terminal"
-			}, {
-				"@id": "iris:AWP"
-			}, {
-				"@id": "iris:RoomDisplay"
-			}, {
-				"@id": "iris:OperatorDisplay"
-			}]
-		}
 	}, {
 		"@id": "iris:Offering",
 		"owl:equivalentClass": {
@@ -1255,8 +1209,8 @@
 	}, {
 		"@id": "iris:Operator",
 		"@type": [
-			"rdfs:Class",
-			"owl:Class"
+			"owl:Class",
+			"rdfs:Class"
 		],
 		"rdfs:subClassOf": {
 			"@id": "iris:Employee"
@@ -1290,13 +1244,18 @@
 			"@id": "foaf:givenName"
 		}
 	}, {
+		"@id": "iris:Saturday",
+		"owl:sameAs": {
+			"@id": "gr:Saturday"
+		}
+	}, {
 		"@id": "iris:Department",
 		"@type": [
-			"rdfs:Class",
-			"owl:Class"
+			"owl:Class",
+			"rdfs:Class"
 		],
 		"owl:equivalentClass": {
-			"@id": "_:ub174bL64C25"
+			"@id": "_:ub4bL64C25"
 		},
 		"rdfs:subClassOf": {
 			"@id": "org:OrganizationalUnit"
@@ -1309,16 +1268,6 @@
 		],
 		"rdfs:subClassOf": {
 			"@id": "iris:Employee"
-		}
-	}, {
-		"@id": "_:ub174bL332C21",
-		"@type": "owl:Class",
-		"owl:unionOf": {
-			"@list": [{
-				"@id": "org:Organization"
-			}, {
-				"@id": "iris:Person"
-			}]
 		}
 	}, {
 		"@id": "iris:hasProvider",
@@ -1337,7 +1286,7 @@
 			"@value": "hasProvider"
 		},
 		"rdfs:range": {
-			"@id": "_:ub174bL327C32"
+			"@id": "_:ub4bL329C32"
 		}
 	}, {
 		"@id": "iris:Thursday",
@@ -1372,10 +1321,15 @@
 			"@id": "gr:Location"
 		}
 	}, {
+		"@id": "iris:hasMembership",
+		"owl:equivalentProperty": {
+			"@id": "org:hasMembership"
+		}
+	}, {
 		"@id": "iris:action",
 		"@type": [
-			"owl:ObjectProperty",
 			"rdf:Property",
+			"owl:ObjectProperty",
 			"owl:FunctionalProperty"
 		],
 		"rdfs:domain": {

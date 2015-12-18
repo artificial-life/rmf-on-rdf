@@ -14,10 +14,12 @@ class LDCacheAccessor extends CacheAccessor {
 		return this;
 	}
 	get(context) {
+		let access_objs = [];
 		let keys = _.isArray(context.keys) ? context.keys : [context.keys];
-		let access_objs = _.map(keys, (key) => {
+		access_objs = _.map(keys, (key) => {
 			return this.makeAccessObject('get', key);
 		});
+
 		return Promise.resolve(this.data_provider.get(access_objs, context.options))
 			.then((result) => {
 				let final = _.transform(result, (res, val, key) => {
@@ -34,18 +36,18 @@ class LDCacheAccessor extends CacheAccessor {
 
 		this.template_maker = function(context) {
 			//cut off namespace
-			let prefix = this.class_map.prefix.data;
-			let re = new RegExp(prefix + "#([^\/]*)-([^\/]*)");
+			let re = this.class_map.common_id;
 			let type_info = {};
 			//get & replace type
-			let requested_access_obj = this.makeAccessObject('get', context);
-			let access_obj = context.replace(re, (str, type, id) => {
+			let requested_access_obj = context;
+			let access_obj = context.replace(re, (str, prefix, type, id) => {
 				type_info = this.class_map.classes[type];
 				if(_.isUndefined(type_info))
 					return requested_access_obj;
 				let template_type = type_info.template;
 				return `${prefix}#${template_type}-${id}`;
 			});
+
 			//return key from data_provider
 			return Promise.resolve(this.data_provider.get(access_obj))
 				.then((found) => {
