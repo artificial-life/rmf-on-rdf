@@ -20,6 +20,25 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 		return this._bucket.getNodes(keys, options);
 	}
 
+	getNodes(compound_key, options) {
+		let p = {};
+		//@TODO change this later. It's outrageous
+		let flatten = (obj) => {
+			if(_.isArray(obj) || _.isString(obj)) {
+				//arrays are allowed only for string keys
+				return this._bucket.getNodes(obj, options);
+			} else {
+				return Promise.props(_.reduce(obj, (acc, val, k) => {
+					acc[k] = flatten(val);
+					return acc;
+				}, {}));
+			}
+		};
+
+		p = flatten(compound_key);
+
+		return p;
+	}
 	process_query(keys, options) {
 			let promises = {};
 			_.map(keys.query, (query, qkey) => {
@@ -44,16 +63,16 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 						.then((res) => {
 							//@TODO: remove it when select is working
 							let filtered = _.filter(res, (doc) => {
-								_.forEach(query.where, (val, key) => {
-									if((!_.eq(doc[key], val)) && (!~_.indexOf(doc[key], val)) && (!_.find(doc[key], {
+								for(let key in query.where) {
+									let val = query.where[key];
+									if((!_.eq(doc[key], val)) && !~_.indexOf(doc[key], val) && (!_.find(doc[key], {
 											'@id': val
 										}))) {
 										return false;
 									}
-								});
+								}
 								return true;
 							});
-
 							return filtered;
 						});
 				} else {
@@ -91,7 +110,7 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 					});
 
 					let fin_keys = _.isFunction(keys.final) ? keys.final(result) : result;
-					return this._bucket.getNodes(fin_keys, options);
+					return this.getNodes(fin_keys, options);
 				});
 		}
 		//TODO: Interpreter stage

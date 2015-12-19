@@ -4,6 +4,7 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 
 var Content = require(_base + '/build/Classes/Content.js');
+var ContentAsync = require(_base + '/build/Classes/ContentAsync.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
 var FactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/FactoryDataProvider.js');
 var IngredientDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/IngredientDataProvider.js');
@@ -16,7 +17,6 @@ let LDCacheAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDCacheAcc
 let Couchbird = require("couchbird");
 
 describe.only('Operators Collection : Cbird', () => {
-	let OPS;
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -54,15 +54,10 @@ describe.only('Operators Collection : Cbird', () => {
 				map_values: {
 					"iris://vocabulary/domain#hasTimeDescription": function(value) {
 						let parsed = JSON.parse(value[0]['@value']);
-						let res = _.map(parsed, (chunk) => {
-							return {
-								data: chunk,
-								state: 'a'
-							};
-						});
-						return [{
-							'@value': JSON.stringify(res)
-						}];
+						return {
+							data: parsed,
+							state: 'a'
+						};
 					}
 				},
 				typecast: "iris://vocabulary/domain#Plan"
@@ -74,6 +69,7 @@ describe.only('Operators Collection : Cbird', () => {
 	let bucket = null;
 	let dp = null;
 	let accessor = null;
+	let OPS = null;
 
 	before(() => {
 		db = new RDFcb(cfg.couchbird);
@@ -109,7 +105,7 @@ describe.only('Operators Collection : Cbird', () => {
 		}
 
 		ops_plan_accessor.keymaker('get', function(p) {
-			let query = [];
+			let day = "iris://vocabulary/domain#" + p.day;
 			let op_keys = undefined;
 			if(p.id == '*') {
 				op_keys = {
@@ -124,14 +120,16 @@ describe.only('Operators Collection : Cbird', () => {
 				op_keys = _.isArray(p.id) ? p.id : [p.id];
 			}
 			//return all plans/schedules that belong to persons with operators role
-			query = {
+			let query = {
 				type: 'view',
+				key_depth: 1,
 				query: {
 					op_keys: op_keys,
 					schedules: {
 						select: "*",
 						where: {
-							"@type": "iris://vocabulary/domain#Schedule"
+							"@type": "iris://vocabulary/domain#Schedule",
+							'iris://vocabulary/domain#hasDay': day
 						},
 						test: function(data, query) {
 							let res = flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
@@ -141,11 +139,16 @@ describe.only('Operators Collection : Cbird', () => {
 				},
 				order: ['op_keys', 'schedules'],
 				final: function(query) {
-					return _.map(query.schedules, (sch) => {
-						return key_typecast(sch['@id'], {
+					let reduced = _.reduce(query.schedules, (acc, sch) => {
+						let key = key_typecast(sch['@id'], {
 							type: "plan"
 						});
-					});
+						let op = flatten_ld(sch["iris://vocabulary/domain#scheduleOf"])[0];
+						acc[op] = acc[op] || [];
+						acc[op].push(key);
+						return acc;
+					}, {});
+					return reduced;
 				}
 			};
 
@@ -154,6 +157,7 @@ describe.only('Operators Collection : Cbird', () => {
 		});
 
 		services_accessor.keymaker('get', (query) => {
+			let day = "iris://vocabulary/domain#" + query.selection.day;
 			let op_keys = undefined;
 			if(query.id == '*') {
 				op_keys = {
@@ -170,7 +174,7 @@ describe.only('Operators Collection : Cbird', () => {
 
 			let service_keys = undefined;
 			service_keys = {
-				select: "iris://vocabulary/domain#provides",
+				select: "*",
 				where: {
 					"@type": "iris://vocabulary/domain#Person"
 				},
@@ -179,35 +183,55 @@ describe.only('Operators Collection : Cbird', () => {
 					return !!~_.indexOf(query.op_keys, res);
 				},
 				transform: function(data) {
-					let res = flatten_ld(data);
 					let keys = _.isArray(query.selection.id) ? query.selection.id : [query.selection.id];
-					return(query.selection.id == '*') ? res : _.intersection(res, keys);
+					let check = [];
+					let result = _.transform(data, (acc, item) => {
+						let res = flatten_ld(item["iris://vocabulary/domain#provides"]);
+						acc[item['@id']] = (query.selection.id == '*') ? res : _.intersection(res, keys);
+						check = _.union(check, acc[item['@id']]);
+						return acc;
+					}, {});
+					result.check_keys = check;
+					return result;
 				}
 			};
 
 			let req = {
 				type: 'view',
+				key_depth: 2,
 				query: {
 					op_keys: op_keys,
 					service_keys: service_keys,
 					schedules: {
 						select: "*",
 						where: {
-							"@type": "iris://vocabulary/domain#Schedule"
+							"@type": "iris://vocabulary/domain#Schedule",
+							'iris://vocabulary/domain#hasDay': day
 						},
 						test: function(data, query) {
 							let res = flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
-							return !!~_.indexOf(query.service_keys, res);
+							return !!~_.indexOf(query.service_keys.check_keys, res);
 						}
 					}
 				},
 				order: ['op_keys', 'service_keys', 'schedules'],
 				final: function(query) {
-					return _.map(query.schedules, (sch) => {
-						return key_typecast(sch['@id'], {
-							type: "plan"
-						});
+					let grouped = _.groupBy(query.schedules, function(sch) {
+						return flatten_ld(sch["iris://vocabulary/domain#scheduleOf"])[0];
 					});
+					delete query.service_keys.check_keys;
+					let reduced = _.transform(query.service_keys, (res, s_ids, op_id) => {
+						res[op_id] = _.reduce(s_ids, (acc, s_id) => {
+							acc[s_id] = _.map(grouped[s_id], (val) => {
+								return key_typecast(val['@id'], {
+									type: 'plan'
+								})
+							});
+							return acc;
+						}, {});
+					});
+					// console.log("REDUCED", reduced);
+					return reduced;
 				}
 			};
 			return req;
@@ -217,7 +241,8 @@ describe.only('Operators Collection : Cbird', () => {
 		// 			// id: "*"
 		// 			id: "iris://data#human-2"
 		// 		},
-		// 		options: {}
+		// 		options: {},
+		// 		depth: 1
 		// 	})
 		// 	.then((res) => {
 		// 		console.log("OUCH", require('util').inspect(res, {
@@ -234,7 +259,8 @@ describe.only('Operators Collection : Cbird', () => {
 		// 				id: "iris://data#service-1"
 		// 			}
 		// 		},
-		// 		options: {}
+		// 		options: {},
+		// 		depth: 2
 		// 	})
 		// 	.then((res) => {
 		// 		console.log("OUCH", require('util').inspect(res, {
@@ -242,14 +268,14 @@ describe.only('Operators Collection : Cbird', () => {
 		// 		}));
 		// 	})
 
-		OPS = new Content();
+		OPS = new ContentAsync();
 
 		let datamodel = {
 			type: 'LDPlan',
-			deco: 'BaseCollection'
+			deco: 'BaseCollectionAsync'
 		};
 
-		let plan_collection = AtomicFactory.create('Basic', {
+		let plan_collection = AtomicFactory.create('BasicAsync', {
 			type: datamodel,
 			accessor: ops_plan_accessor
 		});
@@ -258,53 +284,77 @@ describe.only('Operators Collection : Cbird', () => {
 		let attributes_services_datamodel = {
 			type: {
 				type: 'LDPlan',
-				deco: 'BaseCollection'
+				deco: 'BaseCollectionAsync'
 			},
-			deco: 'BaseCollection'
+			deco: 'BaseCollectionAsync'
 		};
 
-		let operator_services_collection = AtomicFactory.create('Basic', {
+		let operator_services_collection = AtomicFactory.create('BasicAsync', {
 			type: attributes_services_datamodel,
 			accessor: services_accessor
 		});
 
 		OPS.addAtom(operator_services_collection, 'services', '<namespace>attribute');
+		console.log("OPS", OPS);
+
 	});
 
 	describe('test OPS', () => {
 		it('observe all', () => {
+			let services_query = {
+				query: {
+					id: '*',
+					selection: {
+						id: '*',
+						day: 'Monday'
+					}
+				},
+				options: {}
+			};
+
+			let ops_query = {
+				query: {
+					id: '*',
+					day: 'Monday'
+				},
+				options: {}
+			};
+
 			OPS.selector().reset().add()
-				.id('<namespace>content').id('plan').query({
-					query: {
-						id: '*'
-					},
-					options: {}
-				});
+				.id('<namespace>content').id('plan').query(ops_query);
 
 			OPS.selector().add()
-				.id('<namespace>attribute').id('services').query({
-					query: {
-						id: '*',
-						selection: {
-							id: '*'
-						}
-					},
-					options: {}
-				});
+				.id('<namespace>attribute').id('services').query(services_query);
 
-			let resolved_ops = OPS.resolve();
-			//
-			// 		let services = resolved_ops.getAtom(['<namespace>attribute', 'services']);
-			// 		let observed = services.observe({
-			// 			id: 'operator1_services',
-			// 			selection: {
-			// 				id: '*'
-			// 			}
-			// 		});
-			//
-			// 		_.forEach(observed.content.operator1_services.content, (item, name) => {
-			// 			console.log(name, item)
-			// 		});
+			Promise.resolve(true)
+				.then(() => {
+					return OPS.resolve();
+				})
+				.then((resolved_ops) => {
+					console.log("RESOLVED", resolved_ops);
+					// let services = resolved_ops.getAtom(['<namespace>attribute', 'services']);
+					resolved_ops.selector().add()
+						.id('<namespace>attribute').id('services').query({
+							query: {
+								id: '*',
+								selection: {
+									id: '*'
+								}
+							},
+							options: {}
+						});
+					return resolved_ops.observe();
+				})
+				.then((observed) => {
+					console.log("OBSERVED", observed);
+					_.forEach(observed.content.operator1_services.content, (item, name) => {
+						console.log(name, item)
+					});
+				})
+				// .catch((err) => {
+				// 	console.error("IT FAILED!", err);
+				// })
+
 		});
 	});
 });

@@ -72,7 +72,7 @@ describe("LDCacheAccessor", () => {
 			"@value": "[[32400000, 46800000], [50400000, 64800000]]"
 		}],
 		"iris://vocabulary/domain#scheduleOf": [{
-			"@id": "iris://data#human-1"
+			"@id": "iris://data#human-3"
 		}]
 	};
 

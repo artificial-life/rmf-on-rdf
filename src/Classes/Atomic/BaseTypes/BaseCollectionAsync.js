@@ -6,29 +6,32 @@ var ProxifyCollection = require(_base + '/build/externals/Proxify/Collection.js'
 
 const default_collection_id = 'id';
 
-class BaseCollection {
+class BaseCollectionAsync {
 	constructor(collection_type, collection_id) {
 		this.collection_type = collection_type;
 		this.collection_id = collection_id || default_collection_id;
 
-		if(this.constructor.name == 'BaseCollection') return ProxifyCollection(this);
+		if(this.constructor.name == 'BaseCollectionAsync') return ProxifyCollection(this);
 	}
 	extend(id, data) {
 		this.content[id] = data;
 	}
 	build(items) {
 		let Model = this.collection_type;
-
-		this.content = _.reduce(items, (result, single_item, index) => {
+		// console.log("BCA MODEL", Model.name);
+		let building_content = _.reduce(items, (result, single_item, index) => {
 			let obj = new Model();
 			let key = single_item.key || index;
 
-			obj.build(single_item);
-
-			result[key] = obj;
+			result[key] = obj.build(single_item);
 			return result;
 		}, {});
-
+		return Promise.props(building_content)
+			.then((content) => {
+				this.content = content;
+				console.log("BCA CONTENT", content);
+				return this;
+			});
 	}
 	split(size, count) {
 		let Me = this.constructor;
@@ -92,4 +95,4 @@ class BaseCollection {
 	}
 }
 
-module.exports = BaseCollection;
+module.exports = BaseCollectionAsync;

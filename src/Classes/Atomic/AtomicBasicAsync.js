@@ -7,7 +7,7 @@ var _ = require('lodash');
 var AbstractVolume = require('./BaseTypes/AbstractVolume.js');
 var BaseCollection = require('./BaseTypes/BaseCollection.js');
 
-class AtomicBasic {
+class AtomicBasicAsync {
 	constructor(Model, accessor) {
 		this.Model = Model;
 		this.model_decription = {}
@@ -15,9 +15,13 @@ class AtomicBasic {
 	}
 
 	resolve(params) {
-		var data = this.accessor.get(params);
-		return this.builder(data);
-	}
+			return Promise.resolve(this.accessor.get(params))
+				.then((data) => {
+					// console.log("BUILDING", data, params);
+					return this.builder(data);
+				});
+		}
+		//@TODO async this
 	save(data, direct_call = true) {
 		//@NOTE: direct_call indicates that saving was called right from atom or thru atom chain
 		if(_.isArray(data.stored_changes) && !direct_call) {
@@ -36,11 +40,11 @@ class AtomicBasic {
 		return this.accessor.set(data);
 	}
 	builder(data) {
-		var Model = this.Model;
-		var obj = new Model();
-		obj.build(data);
-		return obj;
+		let Model = this.Model;
+		let obj = new Model();
+		// console.log("ABA", obj, data);
+		return Promise.resolve(obj.build(data));
 	}
 }
 
-module.exports = AtomicBasic;
+module.exports = AtomicBasicAsync;

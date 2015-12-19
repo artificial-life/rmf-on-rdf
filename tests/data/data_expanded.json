@@ -25,77 +25,6 @@
 			"@id": "iris://data#human-2"
 		}
 	}, {
-		"@id": "iris://data#human-1",
-		"@type": "iris://vocabulary/domain#Person",
-		"iris://vocabulary/domain#firstName": {
-			"@language": "en",
-			"@value": "Vasily"
-		},
-		"iris://vocabulary/domain#hasMembership": {
-			"@id": "iris://data#membership-1"
-		},
-		"iris://vocabulary/domain#hasSchedule": {
-			"@id": "iris://data#schedule-1"
-		},
-		"iris://vocabulary/domain#lastName": {
-			"@language": "en",
-			"@value": "Ivanov"
-		},
-		"iris://vocabulary/domain#login": {
-			"@language": "en",
-			"@value": "vasyoQ"
-		},
-		"iris://vocabulary/domain#middleName": {
-			"@language": "en",
-			"@value": "Ivanovich"
-		},
-		"iris://vocabulary/domain#password": "123456",
-		"iris://vocabulary/domain#provides": [{
-			"@id": "iris://data#service-2"
-		}, {
-			"@id": "iris://data#service-1"
-		}]
-	}, {
-		"@id": "iris://data#orgroot-1",
-		"@type": "iris://vocabulary/domain#FormalOrganization",
-		"iris://vocabulary/domain#hasUnit": {
-			"@id": "iris://data#office-1"
-		}
-	}, {
-		"@id": "iris://data#department-1",
-		"@type": "iris://vocabulary/domain#Department",
-		"http://www.w3.org/2000/01/rdf-schema#label": "Department 1",
-		"iris://vocabulary/domain#hasSchedule": {
-			"@id": "iris://data#schedule-3"
-		},
-		"iris://vocabulary/domain#unitOf": {
-			"@id": "iris://data#office-1"
-		}
-	}, {
-		"@id": "iris://data#membership-2",
-		"@type": "iris://vocabulary/domain#Membership",
-		"iris://vocabulary/domain#member": {
-			"@id": "iris://data#human-2"
-		},
-		"iris://vocabulary/domain#organization": {
-			"@id": "iris://data#department-1"
-		},
-		"iris://vocabulary/domain#role": {
-			"@id": "iris://vocabulary/domain#Operator"
-		}
-	}, {
-		"@id": "iris://data#membership-1",
-		"@type": "iris://vocabulary/domain#Membership",
-		"iris://vocabulary/domain#member": {
-			"@id": "iris://data#human-1"
-		},
-		"iris://vocabulary/domain#organization": {
-			"@id": "iris://data#department-1"
-		},
-		"iris://vocabulary/domain#role": {
-			"@id": "iris://vocabulary/domain#Operator"
-		}
-	}, {
 		"@id": "iris://data#human-2",
 		"@type": "iris://vocabulary/domain#Person",
 		"iris://vocabulary/domain#firstName": {
@@ -125,6 +54,94 @@
 			"@id": "iris://data#service-2"
 		}
 	}, {
+		"@id": "iris://data#department-1",
+		"@type": "iris://vocabulary/domain#Department",
+		"http://www.w3.org/2000/01/rdf-schema#label": "Department 1",
+		"iris://vocabulary/domain#hasSchedule": {
+			"@id": "iris://data#schedule-3"
+		},
+		"iris://vocabulary/domain#unitOf": {
+			"@id": "iris://data#office-1"
+		}
+	}, {
+		"@id": "iris://data#orgroot-1",
+		"@type": "iris://vocabulary/domain#FormalOrganization",
+		"iris://vocabulary/domain#hasUnit": {
+			"@id": "iris://data#office-1"
+		}
+	}, {
+		"@id": "iris://data#human-1",
+		"@type": "iris://vocabulary/domain#Person",
+		"iris://vocabulary/domain#firstName": {
+			"@language": "en",
+			"@value": "Vasily"
+		},
+		"iris://vocabulary/domain#hasMembership": {
+			"@id": "iris://data#membership-1"
+		},
+		"iris://vocabulary/domain#hasSchedule": {
+			"@id": "iris://data#schedule-1"
+		},
+		"iris://vocabulary/domain#lastName": {
+			"@language": "en",
+			"@value": "Ivanov"
+		},
+		"iris://vocabulary/domain#login": {
+			"@language": "en",
+			"@value": "vasyoQ"
+		},
+		"iris://vocabulary/domain#middleName": {
+			"@language": "en",
+			"@value": "Ivanovich"
+		},
+		"iris://vocabulary/domain#password": "123456",
+		"iris://vocabulary/domain#provides": [{
+			"@id": "iris://data#service-1"
+		}, {
+			"@id": "iris://data#service-2"
+		}]
+	}, {
+		"@id": "iris://data#membership-2",
+		"@type": "iris://vocabulary/domain#Membership",
+		"iris://vocabulary/domain#member": {
+			"@id": "iris://data#human-2"
+		},
+		"iris://vocabulary/domain#organization": {
+			"@id": "iris://data#department-1"
+		},
+		"iris://vocabulary/domain#role": {
+			"@id": "iris://vocabulary/domain#Operator"
+		}
+	}, {
+		"@id": "iris://data#membership-1",
+		"@type": "iris://vocabulary/domain#Membership",
+		"iris://vocabulary/domain#member": {
+			"@id": "iris://data#human-1"
+		},
+		"iris://vocabulary/domain#organization": {
+			"@id": "iris://data#department-1"
+		},
+		"iris://vocabulary/domain#role": {
+			"@id": "iris://vocabulary/domain#Operator"
+		}
+	}, {
+		"@id": "iris://data#service-1",
+		"@type": "iris://vocabulary/domain#Service",
+		"iris://vocabulary/domain#codeFRGU": "Smth",
+		"iris://vocabulary/domain#deptCodeFRGU": "Smth",
+		"iris://vocabulary/domain#hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris://vocabulary/domain#liveOperationTime": 900000,
+		"iris://vocabulary/domain#order": 1,
+		"iris://vocabulary/domain#prebookInterval": 172800000,
+		"iris://vocabulary/domain#prebookOperationTime": 900000,
+		"iris://vocabulary/domain#prebookPercentage": 45,
+		"iris://vocabulary/domain#prebookTodayPercentage": 15,
+		"iris://vocabulary/domain#prefix": "Smth",
+		"iris://vocabulary/domain#priority": 1,
+		"iris://vocabulary/domain#serviceCodeEPGU": "Smth"
+	}, {
 		"@id": "iris://data#service-2",
 		"@type": "iris://vocabulary/domain#Service",
 		"iris://vocabulary/domain#codeFRGU": "Smth",
@@ -145,7 +162,7 @@
 		"@id": "iris://data#plan-6",
 		"@type": "iris://vocabulary/domain#Plan",
 		"iris://vocabulary/domain#hasDay": {
-			"@id": "iris://vocabulary/domain#Monday"
+			"@id": "iris://vocabulary/domain#Thursday"
 		},
 		"iris://vocabulary/domain#hasTimeDescription": "[[50400000, 64800000]]",
 		"iris://vocabulary/domain#planOf": {
@@ -155,7 +172,7 @@
 		"@id": "iris://data#schedule-6",
 		"@type": "iris://vocabulary/domain#Schedule",
 		"iris://vocabulary/domain#hasDay": {
-			"@id": "iris://vocabulary/domain#Monday"
+			"@id": "iris://vocabulary/domain#Thursday"
 		},
 		"iris://vocabulary/domain#hasTimeDescription": "[[50400000, 64800000]]",
 		"iris://vocabulary/domain#scheduleOf": {
@@ -164,6 +181,9 @@
 	}, {
 		"@id": "iris://data#schedule-5",
 		"@type": "iris://vocabulary/domain#Schedule",
+		"iris://vocabulary/domain#hasDay": {
+			"@id": "iris://vocabulary/domain#Monday"
+		},
 		"iris://vocabulary/domain#hasTimeDescription": "[[50400000, 64800000]]",
 		"iris://vocabulary/domain#scheduleOf": {
 			"@id": "iris://data#service-2"
@@ -171,6 +191,9 @@
 	}, {
 		"@id": "iris://data#schedule-4",
 		"@type": "iris://vocabulary/domain#Schedule",
+		"iris://vocabulary/domain#hasDay": {
+			"@id": "iris://vocabulary/domain#Monday"
+		},
 		"iris://vocabulary/domain#hasTimeDescription": "[[30000000, 46800000]]",
 		"iris://vocabulary/domain#scheduleOf": {
 			"@id": "iris://data#service-1"
@@ -178,6 +201,9 @@
 	}, {
 		"@id": "iris://data#schedule-3",
 		"@type": "iris://vocabulary/domain#Schedule",
+		"iris://vocabulary/domain#hasDay": {
+			"@id": "iris://vocabulary/domain#Monday"
+		},
 		"iris://vocabulary/domain#hasTimeDescription": "[[30000000, 46800000], [50400000, 64800000]]",
 		"iris://vocabulary/domain#scheduleOf": {
 			"@id": "iris://data#department-1"
@@ -192,26 +218,12 @@
 	}, {
 		"@id": "iris://data#schedule-1",
 		"@type": "iris://vocabulary/domain#Schedule",
+		"iris://vocabulary/domain#hasDay": {
+			"@id": "iris://vocabulary/domain#Monday"
+		},
 		"iris://vocabulary/domain#hasTimeDescription": "[[32400000, 46800000], [50400000, 64800000]]",
 		"iris://vocabulary/domain#scheduleOf": {
 			"@id": "iris://data#human-1"
 		}
-	}, {
-		"@id": "iris://data#service-1",
-		"@type": "iris://vocabulary/domain#Service",
-		"iris://vocabulary/domain#codeFRGU": "Smth",
-		"iris://vocabulary/domain#deptCodeFRGU": "Smth",
-		"iris://vocabulary/domain#hasSchedule": {
-			"@id": "iris://data#schedule-4"
-		},
-		"iris://vocabulary/domain#liveOperationTime": 900000,
-		"iris://vocabulary/domain#order": 1,
-		"iris://vocabulary/domain#prebookInterval": 172800000,
-		"iris://vocabulary/domain#prebookOperationTime": 900000,
-		"iris://vocabulary/domain#prebookPercentage": 45,
-		"iris://vocabulary/domain#prebookTodayPercentage": 15,
-		"iris://vocabulary/domain#prefix": "Smth",
-		"iris://vocabulary/domain#priority": 1,
-		"iris://vocabulary/domain#serviceCodeEPGU": "Smth"
 	}]
 }

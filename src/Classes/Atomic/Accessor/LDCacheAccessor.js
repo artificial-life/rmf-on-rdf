@@ -17,8 +17,10 @@ class LDCacheAccessor extends CacheAccessor {
 		let access_obj = {
 			options: context.options || {}
 		};
+		let deep = 0;
 		if(context.query) {
 			access_obj.query = this.makeAccessObject('get', context.query);
+			deep = access_obj.query.key_depth;
 		}
 		if(context.keys) {
 			let keys = _.isArray(context.keys) ? context.keys : [context.keys];
@@ -26,12 +28,22 @@ class LDCacheAccessor extends CacheAccessor {
 				return this.makeAccessObject('get', key);
 			});
 		}
+
 		return Promise.resolve(this.data_provider.get(access_obj))
 			.then((result) => {
-				let final = _.transform(result, (res, val, key) => {
-					res[key] = _.isUndefined(val) ? this.makeInitial(key) : val;
-				});
-				return Promise.props(final);
+				// console.log("GOT", result);
+				let check = (data, depth) => {
+					if(depth > 0) {
+						return Promise.props(_.transform(data, (res, val, key) => {
+							res[key] = check(val, depth - 1);
+						}));
+					} else {
+						return Promise.all(_.map(data, (val, key) => {
+							return(_.isUndefined(val) ? this.makeInitial(key) : val);
+						}));
+					}
+				};
+				return check(result, deep);
 			});
 	}
 
