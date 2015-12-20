@@ -62,19 +62,19 @@ class ResolvedContentAsync {
 				atom: atom
 			} = atom_data;
 
-			console.log("OBSERVING ATOM", atom_data);
-
 			let params = this.path.getQueryParams();
 			let observed_atom = {
-				atom__path: Promise.all(atom_path),
-				atom: Promise.resolve(atom.observe(params))
+				atom_path: Promise.all(atom_path),
+				atom: atom.observe(params)
 			};
-			observed_atoms.push(observed_atom);
+			observed_atoms.push(Promise.props(observed_atom));
 		}
 		return Promise.all(observed_atoms)
 			.then((res) => {
 				console.log("OBSERVED ATOM", res);
-				this.addAtom(res.atom_path, res.atom);
+				_.map(res, (resolved_atom) => {
+					this.addAtom(resolved_atom.atom_path, resolved_atom.atom);
+				});
 				return this;
 			});
 	}

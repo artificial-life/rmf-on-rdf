@@ -8,7 +8,7 @@ function ProxifyCollection(collection) {
 	if(!(collection.collectionMethod instanceof Function)) throw new Error('collectionMethod function required');
 
 	let handler = {
-		get(target, propKey) {
+		get(target, propKey, receiver) {
 			if(propKey === 'constructor') return target.constructor;
 			if(target.hasOwnProperty(propKey)) return target[propKey];
 			//@NOTE: hack for console.log
@@ -16,10 +16,13 @@ function ProxifyCollection(collection) {
 				return target;
 			};
 
+			// promises hack
+			if(propKey == 'then')
+				return undefined;
+
 			return function(...args) {
 				let params = args[0] || {};
 				let id = params[target.collection_id];
-
 				if(id) {
 					return target.collectionMethod(propKey, ...args);
 				} else {

@@ -16,22 +16,19 @@ class BaseCollectionAsync {
 	extend(id, data) {
 		this.content[id] = data;
 	}
+
 	build(items) {
 		let Model = this.collection_type;
-		// console.log("BCA MODEL", Model.name);
-		let building_content = _.reduce(items, (result, single_item, index) => {
+
+		this.content = _.reduce(items, (result, single_item, index) => {
 			let obj = new Model();
 			let key = single_item.key || index;
+			obj.build(single_item);
 
-			result[key] = obj.build(single_item);
+			result[key] = obj;
 			return result;
 		}, {});
-		return Promise.props(building_content)
-			.then((content) => {
-				this.content = content;
-				console.log("BCA CONTENT", content);
-				return this;
-			});
+		return Promise.resolve(this);
 	}
 	split(size, count) {
 		let Me = this.constructor;
@@ -58,19 +55,19 @@ class BaseCollectionAsync {
 		//@TODO: rework it later with iterators
 		if(ids == '*') {
 			ids = _.keys(this.content);
-		} else
-		if(_.isObject(ids)) {
-			let from = ids.from;
-			let to = ids.to;
-			let prefix = ids.prefix || '';
-			ids = [];
-			for(let i = from; i >= to; i += 1) {
-				id.push('prefix' + i);
-			}
 		} else {
-			ids = _.isArray(ids) ? ids : [ids];
+			if(_.isObject(ids)) {
+				let from = ids.from;
+				let to = ids.to;
+				let prefix = ids.prefix || '';
+				ids = [];
+				for(let i = from; i >= to; i += 1) {
+					id.push(prefix + i);
+				}
+			} else {
+				ids = _.isArray(ids) ? ids : [ids];
+			}
 		}
-
 		let Me = this.constructor;
 		let result = new Me(this.collection_type, this.collection_id);
 		let data = {};

@@ -332,24 +332,32 @@ describe.only('Operators Collection : Cbird', () => {
 				})
 				.then((resolved_ops) => {
 					console.log("RESOLVED", resolved_ops);
-					// let services = resolved_ops.getAtom(['<namespace>attribute', 'services']);
-					resolved_ops.selector().add()
-						.id('<namespace>attribute').id('services').query({
-							query: {
-								id: '*',
-								selection: {
-									id: '*'
-								}
-							},
-							options: {}
-						});
-					return resolved_ops.observe();
+					let services = resolved_ops.getAtom(['<namespace>attribute', 'services']);
+					// console.log("SERV", services);
+					resolved_ops.selector().reset().add()
+						// 	.id('<namespace>attribute').id('services').query({
+						// 		id: '*',
+						// 		selection: {
+						// 			id: '*'
+						// 		}
+						// 	});
+						// resolved_ops.selector().add()
+						// 	.id('<namespace>content').id('plan').query({
+						// 		id: '*'
+						// 	});
+					return services.observe({
+						id: '*',
+						selection: {
+							id: '*'
+						}
+					});
 				})
 				.then((observed) => {
 					console.log("OBSERVED", observed);
-					_.forEach(observed.content.operator1_services.content, (item, name) => {
-						console.log(name, item)
-					});
+					console.log(require('util').inspect(observed.content["iris://data#human-2"].content, {
+						depth: null
+					}));
+
 				})
 				// .catch((err) => {
 				// 	console.error("IT FAILED!", err);

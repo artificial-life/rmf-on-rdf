@@ -15,10 +15,9 @@ class AtomicBasicAsync {
 	}
 
 	resolve(params) {
-			return Promise.resolve(this.accessor.get(params))
+			return this.accessor.get(params)
 				.then((data) => {
-					// console.log("BUILDING", data, params);
-					return this.builder(data);
+					return Promise.resolve(this.builder(data));
 				});
 		}
 		//@TODO async this
@@ -42,8 +41,8 @@ class AtomicBasicAsync {
 	builder(data) {
 		let Model = this.Model;
 		let obj = new Model();
-		// console.log("ABA", obj, data);
-		return Promise.resolve(obj.build(data));
+
+		return obj.build(data);;
 	}
 }
 

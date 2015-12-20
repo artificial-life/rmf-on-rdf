@@ -50,13 +50,12 @@ class ContentAsync {
 			} = atom_data;
 			//@NOTE: params should be specific for each branch of selection
 			let params = this.path.getQueryParams() || {};
-
 			//@TODO: so dirty again, you shouldn't attach property this way. Never!
 			resolved.resolve_params = params;
 			//@TODO even more dirty with all of those promises
 			let resolve_atom = {
 				atom_path: Promise.all(atom_path),
-				atom: Promise.resolve(atom.resolve(params))
+				atom: atom.resolve(params)
 			};
 
 			resolved_atoms.push(Promise.props(resolve_atom));
