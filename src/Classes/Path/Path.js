@@ -128,21 +128,29 @@ class Path {
 
 	/*Iterator*/
 	[Symbol.iterator]() {
-		let selectors = this.path_selector.length ? this.path_selector : [this.traverse()];
 		let self = this;
-		return {
-			next: () => {
-				let result = this.next();
-				if(result.done && this.current_chain_index != selectors.length - 1) {
-					this.is_done = false;
-					this.current_chain_index += 1;
-					this.keys = [];
-					result = this.next();
+		let iterator;
+		if(this.path_selector.length) {
+			iterator = {
+				next: () => {
+					let result = this.next();
+					if(result.done && this.current_chain_index != this.path_selector.length - 1) {
+						this.is_done = false;
+						this.current_chain_index += 1;
+						this.keys = [];
+						result = this.next();
+					}
+					return result;
 				}
-
-				return result;
+			};
+		} else {
+			let traverse = this.traverse();
+			let next = traverse.next.bind(traverse);
+			iterator = {
+				next: next
 			}
-		};
+		}
+		return iterator;
 	}
 }
 

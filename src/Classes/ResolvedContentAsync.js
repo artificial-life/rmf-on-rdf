@@ -53,7 +53,7 @@ class ResolvedContentAsync {
 	getSourceAtom(atom) {
 		return !atom.source_atom ? atom : this.getSourceAtom(atom.source_atom)
 	}
-	observe() {
+	observe(query) {
 		let atom_data;
 		let observed_atoms = [];
 		for(atom_data of this.path) {
@@ -61,8 +61,8 @@ class ResolvedContentAsync {
 				atom_path: atom_path,
 				atom: atom
 			} = atom_data;
-
-			let params = this.path.getQueryParams();
+			console.log("RCA", atom_data);
+			let params = query || this.path.getQueryParams() || {};
 			let observed_atom = {
 				atom_path: Promise.all(atom_path),
 				atom: atom.observe(params)

@@ -38,7 +38,7 @@ class ContentAsync {
 	}
 
 	//@NOTE: semantics of this method changed
-	resolve() {
+	resolve(query) {
 		let Resolved_Model = this.Resolved_Model;
 		let resolved = new Resolved_Model(this);
 
@@ -49,7 +49,7 @@ class ContentAsync {
 				atom: atom
 			} = atom_data;
 			//@NOTE: params should be specific for each branch of selection
-			let params = this.path.getQueryParams() || {};
+			let params = query || this.path.getQueryParams() || {};
 			//@TODO: so dirty again, you shouldn't attach property this way. Never!
 			resolved.resolve_params = params;
 			//@TODO even more dirty with all of those promises

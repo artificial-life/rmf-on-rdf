@@ -164,7 +164,7 @@
 		"iris://vocabulary/domain#hasDay": {
 			"@id": "iris://vocabulary/domain#Thursday"
 		},
-		"iris://vocabulary/domain#hasTimeDescription": "[[50400000, 64800000]]",
+		"iris://vocabulary/domain#hasTimeDescription": "[{\"data\":[[50400000,60400000]],\"state\":\"r\"},{\"data\":[[60400000,64800000]],\"state\":\"a\"}]",
 		"iris://vocabulary/domain#planOf": {
 			"@id": "iris://data#human-2"
 		}

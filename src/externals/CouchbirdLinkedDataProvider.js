@@ -54,17 +54,16 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 					let obj = query.where['@type'] || _.values(query.where)[0];
 					let pre = query.where['@type'] ? '@type' : false;
 					promises[qkey] = this._bucket.N1ql.byTriple({
-							// out while n1ql is so picky
-							// select: query.select || "*",
 							subject: false,
 							predicate: pre,
 							object: obj
 						})
 						.then((res) => {
-							//@TODO: remove it when select is working
 							let filtered = _.filter(res, (doc) => {
 								for(let key in query.where) {
 									let val = query.where[key];
+									if(val == '*')
+										return true;
 									if((!_.eq(doc[key], val)) && !~_.indexOf(doc[key], val) && (!_.find(doc[key], {
 											'@id': val
 										}))) {
@@ -78,8 +77,6 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 				} else {
 					//nowhere
 					promises[qkey] = this._bucket.N1ql.byTriple({
-						// out while n1ql is so picky
-						// select: query.select || "*",
 						subject: false,
 						predicate: query.select || "*",
 						object: false
@@ -90,7 +87,6 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 			return Promise.props(promises)
 				.then((res) => {
 					//order and test it here
-					// console.log("RECEIVED", res);
 					let order = keys.order || _.keys(keys.query);
 					let result = {};
 					_.forEach(order, (qkey) => {
@@ -100,16 +96,13 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 						result[qkey] = _.filter(data, (item) => {
 							return _.isFunction(test) ? test(item, result) : true;
 						});
-						// console.log("TESTED", result);
 
 						let selected = (!query.select || (query.select == "*")) ? result[qkey] : _.pluck(result[qkey], query.select);
-						// console.log("SELECTED", selected);
 						result[qkey] = _.isFunction(query.transform) ? query.transform(selected) : selected;
-						// console.log("TRANSFORMED", result);
-
 					});
 
 					let fin_keys = _.isFunction(keys.final) ? keys.final(result) : result;
+
 					return this.getNodes(fin_keys, options);
 				});
 		}

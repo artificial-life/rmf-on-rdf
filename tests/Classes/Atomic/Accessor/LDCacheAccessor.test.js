@@ -29,35 +29,28 @@ describe("LDCacheAccessor", () => {
 	};
 	let classmap = {
 		common_id: new RegExp("(.*)#([^-]*)-([^\/]*)"),
-		prefix: {
-			data: cfg.data_prefix,
-			basic: cfg.vocabulary.basic,
-			domain: cfg.vocabulary.domain
-		},
 		classes: {
 			plan: {
-				template: "schedule",
+				template: {
+					type: "schedule"
+				},
 				map_keys: {
 					"iris://vocabulary/domain#scheduleOf": "iris://vocabulary/domain#planOf"
 				},
 				map_values: {
 					"iris://vocabulary/domain#hasTimeDescription": function(value) {
 						let parsed = JSON.parse(value[0]['@value']);
-						let res = _.map(parsed, (chunk) => {
-							return {
-								data: chunk,
-								state: 'a'
-							};
-						});
-						return [{
-							'@value': JSON.stringify(res)
-						}];
+						return {
+							data: parsed,
+							state: 'a'
+						};
 					}
 				},
 				typecast: "iris://vocabulary/domain#Plan"
 			}
 		}
 	};
+
 	let db = null;
 	let bucket = null;
 	let dp = null;

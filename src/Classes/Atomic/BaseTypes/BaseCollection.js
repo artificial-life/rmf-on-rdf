@@ -18,7 +18,6 @@ class BaseCollection {
 	}
 	build(items) {
 		let Model = this.collection_type;
-
 		this.content = _.reduce(items, (result, single_item, index) => {
 			let obj = new Model();
 			let key = single_item.key || index;
@@ -28,7 +27,6 @@ class BaseCollection {
 			result[key] = obj;
 			return result;
 		}, {});
-
 	}
 	split(size, count) {
 		let Me = this.constructor;

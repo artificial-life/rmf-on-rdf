@@ -174,7 +174,7 @@
 		"iris:hasDay": {
 			"@id": "iris:Thursday"
 		},
-		"iris:hasTimeDescription": "[[50400000, 64800000]]",
+		"iris:hasTimeDescription": "[{\"data\":[[50400000,60400000]],\"state\":\"r\"},{\"data\":[[60400000,64800000]],\"state\":\"a\"}]",
 		"iris:planOf": {
 			"@id": "ci:human-2"
 		}

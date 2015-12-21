@@ -28,10 +28,11 @@ class LDCacheAccessor extends CacheAccessor {
 				return this.makeAccessObject('get', key);
 			});
 		}
+		// let tm = Date.now();
 
 		return Promise.resolve(this.data_provider.get(access_obj))
 			.then((result) => {
-				// console.log("GOT", result);
+				// console.log("LDCA", result);
 				let check = (data, depth) => {
 					if(depth > 0) {
 						return Promise.props(_.transform(data, (res, val, key) => {
@@ -39,6 +40,7 @@ class LDCacheAccessor extends CacheAccessor {
 						}));
 					} else {
 						return Promise.all(_.map(data, (val, key) => {
+							// console.log(key, Date.now() - tm);
 							return(_.isUndefined(val) ? this.makeInitial(key) : val);
 						}));
 					}
@@ -58,12 +60,13 @@ class LDCacheAccessor extends CacheAccessor {
 			let type_info = {};
 			//get & replace type
 			let requested_access_obj = context;
+			//@TODO this is the same code as in KeymakerUtil
 			let access_obj = context.replace(re, (str, prefix, type, id) => {
 				type_info = this.class_map.classes[type];
 				if(_.isUndefined(type_info))
 					return requested_access_obj;
-				let template_type = type_info.template;
-				return `${prefix}#${template_type}-${id}`;
+				let template = type_info.template;
+				return `${template.prefix || prefix}#${template.type || type}-${template.id || id}`;
 			});
 
 			//return key from data_provider

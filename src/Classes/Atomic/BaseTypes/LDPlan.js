@@ -13,14 +13,28 @@ class LDPlan extends Plan {
 	}
 
 	build(data) {
-		let item = data[0];
-		if(data.cas) {
-			this.cas = data.cas;
-			item = data.value;
-		}
+		let item = data[0] || data;
 		let build_data = item['iris://vocabulary/domain#hasTimeDescription'];
+		if(item.cas) {
+			this.cas = item.cas;
+			item = item.value;
+			build_data = item['iris://vocabulary/domain#hasTimeDescription'][0]['@value'];
+			build_data = JSON.parse(build_data);
+		}
+		if(_.isUndefined(build_data))
+			build_data = {
+				data: [
+					[0, 0]
+				]
+			};
 		super.build(build_data);
+
 		return Promise.resolve(this);
+	}
+
+	observe(...args) {
+		console.log("LDP OBSERVE");
+		super.observe(args);
 	}
 }
 
