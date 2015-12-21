@@ -54,10 +54,12 @@ describe.only('Workflow: TS Factory ', () => {
 				map_values: {
 					"iris://vocabulary/domain#hasTimeDescription": function(value) {
 						let parsed = JSON.parse(value[0]['@value']);
-						return [{
-							data: parsed,
-							state: 'a'
-						}];
+						return _.map(parsed, (chunk) => {
+							return {
+								data: [chunk],
+								state: 'a'
+							};
+						});
 					}
 				},
 				typecast: "iris://vocabulary/domain#Plan"
@@ -127,7 +129,6 @@ describe.only('Workflow: TS Factory ', () => {
 
 		//@NOTE: building factory
 		//@NOTE: prepare variables
-		let size = 10;
 		let box_id = 'box_id';
 		let hash_id = 'hash_id';
 		let data_model = {
@@ -179,13 +180,11 @@ describe.only('Workflow: TS Factory ', () => {
 			type: data_model,
 			accessor: storage_accessor
 		});
-		// console.log("BOX", box_builder, '\n\n', box_storage);
 		factory = new ResourceFactoryAsync();
 		factory
 			.addAtom(box_builder, 'box', '<namespace>builder')
 			.addAtom(box_storage, 'box', '<namespace>content');
 
-		// console.log("FACTORY", factory);
 	});
 
 
@@ -206,7 +205,7 @@ describe.only('Workflow: TS Factory ', () => {
 							day: 'Monday',
 							selection: {
 								service_id: 'iris://data#service-2',
-								plan: [20, 100]
+								selection: [50400000, 50800000]
 							}
 						},
 						options: {}
@@ -221,102 +220,102 @@ describe.only('Workflow: TS Factory ', () => {
 					.then((produced) => {
 						console.log("PRODUCED", produced);
 					})
-					// 				//_.forEach(produced.getAtom(['<namespace>builder', 'box']).content, (item) => console.log(item.content.plan));
-					//
-					// 				produced.selector().reset()
-					// 					.add()
-					// 					.id('<namespace>builder').id('box').query({
-					// 						id: '*',
-					// 						selection: {
-					// 							plan: [0, 50]
-					// 						}
-					// 					});
-					//
-					// 				produced.observe();
-					//
-					// 				produced.save();
-					//
-					// 				factory.selector().reset()
-					// 					.add()
-					// 					.id('<namespace>content').id('box').query({
-					// 						id: '*',
-					// 						selection: {
-					// 							plan: [0, 30]
-					// 						}
-					// 					});
-					//
-					// 				produced = factory.resolve().observe();
-					//
-					// 				console.log(produced.getAtom(['<namespace>content', 'box']));
-					// 			});
-					//
-					// 			it('bts', () => {
-					// 				let size = 1;
-					// 				let ingredient_model_description = factory.getAtom(['<namespace>builder', 'box']).model_decription;
-					//
-					// 				let data_model = {
-					// 					type: {
-					// 						type: {
-					// 							deco: 'Box',
-					// 							type: [ingredient_model_description]
-					// 						},
-					// 						deco: 'BaseCollection'
-					// 					}
-					// 				};
-					//
-					// 				let factory_provider = new FactoryDataProvider();
-					//
-					// 				let ingredient_provider = new IngredientDataProvider();
-					// 				ingredient_provider
-					// 					.setIngredient(['<namespace>content', 'plan'], 'plan', factory)
-					// 					.setSize(size);
-					//
-					// 				factory_accessor = new BasicAccessor(factory_provider);
-					// 				factory_accessor.keymaker('set', (p) => {
-					// 						//@IDEA: add additional params here
-					// 						return p;
-					// 					})
-					// 					.keymaker('get', (p) => p);
-					//
-					// 				let storage_accessor = new BasicAccessor(provider);
-					// 				storage_accessor.keymaker('set', (p) => p.key)
-					// 					.keymaker('get', (p) => {
-					// 						let keys = p[box_id];
-					//
-					// 						if(keys == '*') {
-					// 							//@NOTE: and?
-					// 							//@NOTE: submit view key
-					// 							//@IDEA: new View('view-name',params), parse view in DP
-					// 							return _.reduce(TEST_STORAGE, (result, item, index) => {
-					// 								if(~index.indexOf('box')) result.push(index);
-					// 								return result;
-					// 							}, []);
-					// 						}
-					//
-					// 						if(_.isArray(keys)) return keys;
-					//
-					// 						return keys;
-					// 					});
-					//
-					// 				factory_provider
-					// 					.addIngredient(ingredient_provider)
-					// 					.addStorage(storage_accessor);
-					//
-					//
-					// 				let box_builder = AtomicFactory.create('Basic', {
-					// 					type: data_model,
-					// 					accessor: factory_accessor
-					// 				});
-					//
-					// 				let box_storage = AtomicFactory.create('Basic', {
-					// 					type: data_model,
-					// 					accessor: storage_accessor
-					// 				});
-					//
-					// 				booked_timeslot = new ResourceFactory();
-					// 				booked_timeslot
-					// 					.addAtom(box_builder, 'box', '<namespace>builder')
-					// 					.addAtom(box_storage, 'box', '<namespace>content');
+				_.forEach(produced.getAtom(['<namespace>builder', 'box']).content, (item) => console.log(item.content.plan));
+				//
+				// 				produced.selector().reset()
+				// 					.add()
+				// 					.id('<namespace>builder').id('box').query({
+				// 						id: '*',
+				// 						selection: {
+				// 							plan: [0, 50]
+				// 						}
+				// 					});
+				//
+				// 				produced.observe();
+				//
+				// 				produced.save();
+				//
+				// 				factory.selector().reset()
+				// 					.add()
+				// 					.id('<namespace>content').id('box').query({
+				// 						id: '*',
+				// 						selection: {
+				// 							plan: [0, 30]
+				// 						}
+				// 					});
+				//
+				// 				produced = factory.resolve().observe();
+				//
+				// 				console.log(produced.getAtom(['<namespace>content', 'box']));
+				// 			});
+				//
+				// 			it('bts', () => {
+				// 				let size = 1;
+				// 				let ingredient_model_description = factory.getAtom(['<namespace>builder', 'box']).model_decription;
+				//
+				// 				let data_model = {
+				// 					type: {
+				// 						type: {
+				// 							deco: 'Box',
+				// 							type: [ingredient_model_description]
+				// 						},
+				// 						deco: 'BaseCollection'
+				// 					}
+				// 				};
+				//
+				// 				let factory_provider = new FactoryDataProvider();
+				//
+				// 				let ingredient_provider = new IngredientDataProvider();
+				// 				ingredient_provider
+				// 					.setIngredient(['<namespace>content', 'plan'], 'plan', factory)
+				// 					.setSize(size);
+				//
+				// 				factory_accessor = new BasicAccessor(factory_provider);
+				// 				factory_accessor.keymaker('set', (p) => {
+				// 						//@IDEA: add additional params here
+				// 						return p;
+				// 					})
+				// 					.keymaker('get', (p) => p);
+				//
+				// 				let storage_accessor = new BasicAccessor(provider);
+				// 				storage_accessor.keymaker('set', (p) => p.key)
+				// 					.keymaker('get', (p) => {
+				// 						let keys = p[box_id];
+				//
+				// 						if(keys == '*') {
+				// 							//@NOTE: and?
+				// 							//@NOTE: submit view key
+				// 							//@IDEA: new View('view-name',params), parse view in DP
+				// 							return _.reduce(TEST_STORAGE, (result, item, index) => {
+				// 								if(~index.indexOf('box')) result.push(index);
+				// 								return result;
+				// 							}, []);
+				// 						}
+				//
+				// 						if(_.isArray(keys)) return keys;
+				//
+				// 						return keys;
+				// 					});
+				//
+				// 				factory_provider
+				// 					.addIngredient(ingredient_provider)
+				// 					.addStorage(storage_accessor);
+				//
+				//
+				// 				let box_builder = AtomicFactory.create('Basic', {
+				// 					type: data_model,
+				// 					accessor: factory_accessor
+				// 				});
+				//
+				// 				let box_storage = AtomicFactory.create('Basic', {
+				// 					type: data_model,
+				// 					accessor: storage_accessor
+				// 				});
+				//
+				// 				booked_timeslot = new ResourceFactory();
+				// 				booked_timeslot
+				// 					.addAtom(box_builder, 'box', '<namespace>builder')
+				// 					.addAtom(box_storage, 'box', '<namespace>content');
 			});
 		});
 	})

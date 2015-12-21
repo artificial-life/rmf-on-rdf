@@ -19,7 +19,6 @@ class Plan extends BasicVolume {
 
 	/*=======================TEST===========================================*/
 	observe(params = {}) { //@NOTE: test only
-
 		if(_.isArray(params)) {
 			let selection = this.buildPrimitiveVolume({
 				data: [params]
@@ -29,8 +28,9 @@ class Plan extends BasicVolume {
 		} else if(_.isObject(params)) { //@TODO: rework this later
 			if(!_.keys(params).length) return this;
 
-			let state = params.state;
-			let plan = new Plan(this);
+			//queried state or defult timechunk state
+			let state = params.state || 'a';
+			let plan = new this.constructor(this);
 
 			let result = _.reduce(this.getContent(), (for_build, chunk) => {
 				if(!chunk.getState().haveState(state)) return for_build;
@@ -67,13 +67,11 @@ class Plan extends BasicVolume {
 
 	rawIntersection(other_content = [], solid = false) {
 		var result = [];
-
 		_.forEach(this.getContent(), (chunk) => {
 			_.forEach(other_content, (second_chunk) => {
 				var local_intersection = chunk.intersection(second_chunk);
 
 				if(local_intersection) result.push(solid ? chunk : local_intersection);
-
 			});
 		});
 
@@ -85,7 +83,6 @@ class Plan extends BasicVolume {
 	intersection(plan, solid = false) {
 		var other_content = []
 
-		console.log("P INT", plan, this);
 		if(plan instanceof ZeroDimensional) {
 			var state = plan.getContent().getState();
 			var chunk = new TimeChunk([
@@ -101,8 +98,7 @@ class Plan extends BasicVolume {
 		}
 
 		var result = this.rawIntersection(other_content, solid);
-		var plan = new Plan(this);
-
+		var plan = new this.constructor(this);
 		plan.build(result);
 
 		return plan;
@@ -144,14 +140,14 @@ class Plan extends BasicVolume {
 				state: 'a'
 			});
 		}
-		var plan = new Plan(this);
+		var plan = new this.constructor(this);
 		plan.build(result);
 
 		return plan;
 	}
 	copy() {
 		var ch = _.map(this.content, (chunk) => chunk.serialize());
-		var plan = new Plan(this);
+		var plan = new this.constructor(this);
 		plan.build(ch);
 
 		return plan;
@@ -165,7 +161,7 @@ class Plan extends BasicVolume {
 			_.forEach(chunk.split(size), (item) => {
 				if(!item) return true;
 
-				let plan = new Plan(this);
+				let plan = new this.constructor(this);
 				plan.build([item]);
 
 				result.push(plan);

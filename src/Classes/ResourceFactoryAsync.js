@@ -11,8 +11,7 @@ class FactoryAsync extends ContentAsync {
 	}
 	build(params) { //@NOTE: that's specific to factory content
 		//@TODO: rework  it when multiple selectors would be done
-		this.selector().query_params = _.assign(this.selector().query_params, params);
-
+		this.selector().query(_.assign(this.selector().getQueryParams(), params));
 		return this.resolve();
 	}
 }

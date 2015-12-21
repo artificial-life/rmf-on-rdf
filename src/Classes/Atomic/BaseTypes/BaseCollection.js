@@ -51,7 +51,6 @@ class BaseCollection {
 	collectionMethod(method_name, passed) {
 		let ids = passed[this.collection_id];
 		//@TODO: rework it later with iterators
-		console.log("BC CM", method_name, ids, passed);
 		if(ids == '*') {
 			ids = _.keys(this.content);
 		} else

@@ -63,6 +63,7 @@ class ContentAsync {
 		return Promise.all(resolved_atoms)
 			.then((res) => {
 				_.map(res, (resolved_atom) => {
+					console.log("CA RESOLVED ATOM", resolved_atom);
 					resolved.addAtom(resolved_atom.atom_path, resolved_atom.atom);
 				});
 				return resolved;

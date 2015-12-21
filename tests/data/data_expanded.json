@@ -194,7 +194,7 @@
 		"iris://vocabulary/domain#hasDay": {
 			"@id": "iris://vocabulary/domain#Monday"
 		},
-		"iris://vocabulary/domain#hasTimeDescription": "[[30000000, 46800000]]",
+		"iris://vocabulary/domain#hasTimeDescription": "[[30000000, 70000000]]",
 		"iris://vocabulary/domain#scheduleOf": {
 			"@id": "iris://data#service-1"
 		}

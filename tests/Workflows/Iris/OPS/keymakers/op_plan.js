@@ -38,7 +38,6 @@ module.exports = {
 			},
 			order: ['op_keys', 'schedules'],
 			final: function(query) {
-				console.log("GOT", query.op_keys);
 				let reduced = _.reduce(query.schedules, (acc, sch) => {
 					let key = u.key_typecast(sch['@id'], {
 						type: "plan"

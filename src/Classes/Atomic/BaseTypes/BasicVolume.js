@@ -103,6 +103,7 @@ class BasicVolume extends AbstractVolume {
 		return content;
 	}
 	build(data) {
+
 		//@TODO:build from state
 		//@TODO: find some builder pattern for this case
 		if(data instanceof this.PrimitiveVolume) {
@@ -112,6 +113,7 @@ class BasicVolume extends AbstractVolume {
 
 		if(_.isArray(data)) {
 			_.forEach(data, (raw_data) => {
+
 				var primitive_volume = this.buildPrimitiveVolume(raw_data);
 				this.extend(primitive_volume, false);
 			});

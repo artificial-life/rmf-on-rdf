@@ -61,7 +61,6 @@ class ResolvedContentAsync {
 				atom_path: atom_path,
 				atom: atom
 			} = atom_data;
-			console.log("RCA", atom_data);
 			let params = query || this.path.getQueryParams() || {};
 			let observed_atom = {
 				atom_path: Promise.all(atom_path),
@@ -71,7 +70,6 @@ class ResolvedContentAsync {
 		}
 		return Promise.all(observed_atoms)
 			.then((res) => {
-				console.log("OBSERVED ATOM", res);
 				_.map(res, (resolved_atom) => {
 					this.addAtom(resolved_atom.atom_path, resolved_atom.atom);
 				});
