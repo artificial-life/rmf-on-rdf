@@ -18,7 +18,7 @@ function ProxifyCollection(collection) {
 
 			// promises hack
 			if(propKey == 'then')
-				return undefined;
+				return target.then;
 
 			return function(...args) {
 				let params = args[0] || {};

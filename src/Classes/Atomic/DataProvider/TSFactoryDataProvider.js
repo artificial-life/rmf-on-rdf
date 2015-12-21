@@ -18,11 +18,15 @@ class TSFactoryDataProvider {
 	}
 	get(params) {
 		let ts_size = params.ts_size || 15 * 3600;
+		let plans_path = ['<namespace>content', 'plan'];
+		let services_path = ['<namespace>attribute', 'services'];
+		let service_id = params.query.selection.service_id;
+		let operator_id = params.query.operator_id;
 		let observing = _.reduce(this.ingredients, (result, ingredient, property) => {
 			// ingredient.selector().query(params);
 			result[property] = ingredient.resolve(params)
 				.then((resolved) => {
-					console.log("RESOLVED", resolved);
+					// console.log("RESOLVED", resolved);
 					// ingredient.selector().query(params.query);
 					return resolved.observe(params.query);
 				})
@@ -39,14 +43,35 @@ class TSFactoryDataProvider {
 		return Promise.props(observing)
 			.then((observed) => {
 				console.log("OBSERVED", observed);
+				// console.log(require('util').inspect(observed['op_time'].content_map, {
+				// 	depth: null
+				// }));
+				//@TODO : flush this monkey code ASAP
+				//f*ck I tried to avoid this
+				let complete = _.reduce(observed, (acc, ing, key) => {
+					//first, intersect plans
+					//then split result
+					let services = observed[key].getAtom(services_path);
+					let op_plans = observed[key].getAtom(plans_path);
+
+					let intersected = _.reduce(op_plans.content, (acc, op_plan, op_id) => {
+						let service_plans = services.content[op_id];
+						let intersection = service_plans.intersection({
+							service_id: service_id,
+							selection: op_plan
+						});
+						console.log("AAA", op_id, intersection);
+						return acc;
+					}, {});
+					console.log("INTERSECTED", intersected);
+					// 	let splitted;
+					// 	acc[key] = splitted;
+				}, {})
 			});
 
 		let ops = this.ingredients.OPS;
 		// let complete = {};
-		let plans_path = ['<namespace>content', 'plan'];
-		let services_path = ['<namespace>attribute', 'services'];
-		let service_id = params.service_id;
-		let operator_id = params.operator_id;
+
 		let time = params.time_interval;
 
 		// let picked_op_plan = ops.getAtom(plans_path).observe({

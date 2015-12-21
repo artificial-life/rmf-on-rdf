@@ -28,13 +28,14 @@ class LDPlan extends Plan {
 				]
 			};
 		super.build(build_data);
+		this.db_id = item['@id'];
 
 		return Promise.resolve(this);
 	}
 
 	observe(...args) {
 		console.log("LDP OBSERVE");
-		super.observe(args);
+		return super.observe(args);
 	}
 }
 

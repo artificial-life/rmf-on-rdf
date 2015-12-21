@@ -5,9 +5,9 @@ let u = require("./keymaker_utils");
 module.exports = {
 	get: function(query) {
 		let day = query.day ? "iris://vocabulary/domain#" + query.day : '*';
-		let service_ids = query.selection.id || '*';
+		let service_ids = query.selection.service_id || '*';
 		let op_keys = undefined;
-		if(query.id == '*') {
+		if(query.operator_id == '*') {
 			op_keys = {
 				select: "iris://vocabulary/domain#member",
 				where: {
@@ -17,7 +17,7 @@ module.exports = {
 				transform: u.flatten_ld
 			};
 		} else {
-			op_keys = _.isArray(query.id) ? query.id : [query.id];
+			op_keys = _.isArray(query.operator_id) ? query.operator_id : [query.operator_id];
 		}
 
 		let service_keys = undefined;
@@ -82,6 +82,7 @@ module.exports = {
 				return reduced;
 			}
 		};
+
 		return req;
 	}
 };

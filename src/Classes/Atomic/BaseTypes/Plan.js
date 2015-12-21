@@ -7,175 +7,176 @@ var BasicVolume = require('./BasicVolume.js');
 var ZeroDimensional = require('./ZeroDimensionalVolume.js');
 
 class Plan extends BasicVolume {
-  constructor(parent) {
-    super(parent);
-    this.PrimitiveVolume = TimeChunk;
-  }
-  sort() {
-    this.content = _.sortBy(this.content, function(chunk) {
-      return this.start;
-    });
-  }
+	constructor(parent) {
+		super(parent);
+		this.PrimitiveVolume = TimeChunk;
+	}
+	sort() {
+		this.content = _.sortBy(this.content, function(chunk) {
+			return this.start;
+		});
+	}
 
-  /*=======================TEST===========================================*/
-  observe(params = {}) { //@NOTE: test only
+	/*=======================TEST===========================================*/
+	observe(params = {}) { //@NOTE: test only
 
-    if (_.isArray(params)) {
-      let selection = this.buildPrimitiveVolume({
-        data: [params]
-      });
+		if(_.isArray(params)) {
+			let selection = this.buildPrimitiveVolume({
+				data: [params]
+			});
 
-      return this.intersection(selection);
-    } else if (_.isObject(params)) { //@TODO: rework this later
-      if (!_.keys(params).length) return this;
+			return this.intersection(selection);
+		} else if(_.isObject(params)) { //@TODO: rework this later
+			if(!_.keys(params).length) return this;
 
-      let state = params.state;
-      let plan = new Plan(this);
+			let state = params.state;
+			let plan = new Plan(this);
 
-      let result = _.reduce(this.getContent(), (for_build, chunk) => {
-        if (!chunk.getState().haveState(state)) return for_build;
+			let result = _.reduce(this.getContent(), (for_build, chunk) => {
+				if(!chunk.getState().haveState(state)) return for_build;
 
-        for_build.push(chunk.serialize());
-        return for_build;
-      }, []);
+				for_build.push(chunk.serialize());
+				return for_build;
+			}, []);
 
-      plan.build(result);
+			plan.build(result);
 
-      return plan;
-    }
-  }
+			return plan;
+		}
+	}
 
-  reserve(params) {
-    if (!params) {
-      //@NOTE: reserve all
-    }
+	reserve(params) {
+		if(!params) {
+			//@NOTE: reserve all
+		}
 
-    //@NOTE: proxy to parent if it exist
-    var target = this.parent ? this.parent : this;
+		//@NOTE: proxy to parent if it exist
+		var target = this.parent ? this.parent : this;
 
-    var placed = target.put({
-      data: params,
-      state: 'r'
-    });
+		var placed = target.put({
+			data: params,
+			state: 'r'
+		});
 
-    if (placed) {
-      this.stored_changes.push(placed);
-    }
+		if(placed) {
+			this.stored_changes.push(placed);
+		}
 
-    return placed ? target : false;
-  }
+		return placed ? target : false;
+	}
 
-  rawIntersection(other_content = [], solid = false) {
-    var result = [];
+	rawIntersection(other_content = [], solid = false) {
+		var result = [];
 
-    _.forEach(this.getContent(), (chunk) => {
-      _.forEach(other_content, (second_chunk) => {
-        var local_intersection = chunk.intersection(second_chunk);
+		_.forEach(this.getContent(), (chunk) => {
+			_.forEach(other_content, (second_chunk) => {
+				var local_intersection = chunk.intersection(second_chunk);
 
-        if (local_intersection) result.push(solid ? chunk : local_intersection);
+				if(local_intersection) result.push(solid ? chunk : local_intersection);
 
-      });
-    });
+			});
+		});
 
-    return result;
-  }
+		return result;
+	}
 
-  /*=======================TEST===========================================*/
+	/*=======================TEST===========================================*/
 
-  intersection(plan, solid = false) {
-    var other_content = []
+	intersection(plan, solid = false) {
+		var other_content = []
 
-    if (plan instanceof ZeroDimensional) {
-      var state = plan.getContent().getState();
-      var chunk = new TimeChunk([
-        [-Infinity, Infinity]
-      ], state);
-      other_content = [chunk];
-    } else
-    if (plan instanceof Plan) {
-      other_content = plan.getContent();
-    } else
-    if (plan instanceof TimeChunk) {
-      other_content = [plan];
-    }
+		console.log("P INT", plan, this);
+		if(plan instanceof ZeroDimensional) {
+			var state = plan.getContent().getState();
+			var chunk = new TimeChunk([
+				[-Infinity, Infinity]
+			], state);
+			other_content = [chunk];
+		} else
+		if(plan instanceof Plan) {
+			other_content = plan.getContent();
+		} else
+		if(plan instanceof TimeChunk) {
+			other_content = [plan];
+		}
 
-    var result = this.rawIntersection(other_content, solid);
-    var plan = new Plan(this);
+		var result = this.rawIntersection(other_content, solid);
+		var plan = new Plan(this);
 
-    plan.build(result);
+		plan.build(result);
 
-    return plan;
-  }
-  union(plan) {
-    if (this.content.length == 0) return plan.copy();
-    if (plan.content.length == 0) return this.copy();
+		return plan;
+	}
+	union(plan) {
+		if(this.content.length == 0) return plan.copy();
+		if(plan.content.length == 0) return this.copy();
 
-    var f_n = this.negative();
-    var s_n = plan.negative();
+		var f_n = this.negative();
+		var s_n = plan.negative();
 
-    return f_n.intersection(s_n).negative();
-  }
-  negative() {
-    var start = -Infinity,
-      end;
-    var result = [];
+		return f_n.intersection(s_n).negative();
+	}
+	negative() {
+		var start = -Infinity,
+			end;
+		var result = [];
 
-    _(this.content).forEach((chunk, index) => {
-      end = chunk.start;
-      if (start != end) {
-        result.push({
-          data: [
-            [start, end]
-          ],
-          state: 'a'
-        });
-      }
-      start = chunk.end;
+		_(this.content).forEach((chunk, index) => {
+			end = chunk.start;
+			if(start != end) {
+				result.push({
+					data: [
+						[start, end]
+					],
+					state: 'a'
+				});
+			}
+			start = chunk.end;
 
-    }).value();
+		}).value();
 
 
-    if (start != Infinity) {
-      result.push({
-        data: [
-          [start, Infinity]
-        ],
-        state: 'a'
-      });
-    }
-    var plan = new Plan(this);
-    plan.build(result);
+		if(start != Infinity) {
+			result.push({
+				data: [
+					[start, Infinity]
+				],
+				state: 'a'
+			});
+		}
+		var plan = new Plan(this);
+		plan.build(result);
 
-    return plan;
-  }
-  copy() {
-    var ch = _.map(this.content, (chunk) => chunk.serialize());
-    var plan = new Plan(this);
-    plan.build(ch);
+		return plan;
+	}
+	copy() {
+		var ch = _.map(this.content, (chunk) => chunk.serialize());
+		var plan = new Plan(this);
+		plan.build(ch);
 
-    return plan;
-  }
-  split(size, count) {
-    let result = [];
-    let counter = 0;
+		return plan;
+	}
+	split(size, count) {
+		let result = [];
+		let counter = 0;
 
-    _.forEach(this.content, (chunk) => {
+		_.forEach(this.content, (chunk) => {
 
-      _.forEach(chunk.split(size), (item) => {
-        if (!item) return true;
+			_.forEach(chunk.split(size), (item) => {
+				if(!item) return true;
 
-        let plan = new Plan(this);
-        plan.build([item]);
+				let plan = new Plan(this);
+				plan.build([item]);
 
-        result.push(plan);
-        counter += 1;
-        if (counter == count) return false;
-      });
-      if (counter == count) return false;
-    });
+				result.push(plan);
+				counter += 1;
+				if(counter == count) return false;
+			});
+			if(counter == count) return false;
+		});
 
-    return result;
-  }
+		return result;
+	}
 }
 
 module.exports = Plan;

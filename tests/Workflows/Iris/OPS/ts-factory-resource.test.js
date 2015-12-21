@@ -98,7 +98,8 @@ describe.only('Workflow: TS Factory ', () => {
 
 		let datamodel = {
 			type: 'LDPlan',
-			deco: 'BaseCollection'
+			deco: 'BaseCollection',
+			params: 'operator_id'
 		};
 
 		let plan_collection = AtomicFactory.create('BasicAsync', {
@@ -110,9 +111,11 @@ describe.only('Workflow: TS Factory ', () => {
 		let attributes_services_datamodel = {
 			type: {
 				type: 'LDPlan',
-				deco: 'BaseCollection'
+				deco: 'BaseCollection',
+				params: 'service_id'
 			},
-			deco: 'BaseCollection'
+			deco: 'BaseCollection',
+			params: 'operator_id'
 		};
 
 		let operator_services_collection = AtomicFactory.create('BasicAsync', {
@@ -199,10 +202,10 @@ describe.only('Workflow: TS Factory ', () => {
 					.add()
 					.id('<namespace>builder').id('box').query({
 						query: {
-							id: '*',
+							operator_id: '*',
 							day: 'Monday',
 							selection: {
-								id: '*',
+								service_id: 'iris://data#service-2',
 								plan: [20, 100]
 							}
 						},

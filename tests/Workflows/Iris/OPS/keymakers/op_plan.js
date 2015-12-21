@@ -6,7 +6,7 @@ module.exports = {
 	get: function(p) {
 		let day = p.day ? "iris://vocabulary/domain#" + p.day : '*';
 		let op_keys = undefined;
-		if(p.id == '*') {
+		if(p.operator_id == '*') {
 			op_keys = {
 				select: "iris://vocabulary/domain#member",
 				where: {
@@ -16,7 +16,7 @@ module.exports = {
 				transform: u.flatten_ld
 			};
 		} else {
-			op_keys = _.isArray(p.id) ? p.id : [p.id];
+			op_keys = _.isArray(p.operator_id) ? p.operator_id : [p.operator_id];
 		}
 		//return all plans/schedules that belong to persons with operators role
 		let query = {
@@ -38,6 +38,7 @@ module.exports = {
 			},
 			order: ['op_keys', 'schedules'],
 			final: function(query) {
+				console.log("GOT", query.op_keys);
 				let reduced = _.reduce(query.schedules, (acc, sch) => {
 					let key = u.key_typecast(sch['@id'], {
 						type: "plan"

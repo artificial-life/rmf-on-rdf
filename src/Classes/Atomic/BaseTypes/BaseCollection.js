@@ -51,6 +51,7 @@ class BaseCollection {
 	collectionMethod(method_name, passed) {
 		let ids = passed[this.collection_id];
 		//@TODO: rework it later with iterators
+		console.log("BC CM", method_name, ids, passed);
 		if(ids == '*') {
 			ids = _.keys(this.content);
 		} else
@@ -60,7 +61,7 @@ class BaseCollection {
 			let prefix = ids.prefix || '';
 			ids = [];
 			for(let i = from; i >= to; i += 1) {
-				id.push('prefix' + i);
+				id.push(prefix + i);
 			}
 		} else {
 			ids = _.isArray(ids) ? ids : [ids];
@@ -72,7 +73,8 @@ class BaseCollection {
 
 		//@NOTE: generator will be here
 		result.content = _.reduce(ids, (collection, id) => {
-
+			if(!this.content[id])
+				return collection;
 			let observe = this.content[id][method_name](passed.selection);
 			if(observe) collection[id] = observe;
 			return collection;
