@@ -34,7 +34,6 @@ class TSFactoryDataProvider {
 			.then((observed) => {
 				//@FIXIT : flush this monkey code ASAP
 				//f*ck I tried to avoid this
-
 				let complete = _.reduce(observed, (result, ingredient, property) => {
 					let services = ingredient.getAtom(services_path);
 					let op_plans = ingredient.getAtom(plans_path);
@@ -47,8 +46,11 @@ class TSFactoryDataProvider {
 						});
 						return acc;
 					}, {});
+
 					//just pick a random op
 					let op_id = _.sample(_.keys(intersected));
+					//if intersection is empty
+					if(!op_id) return result;
 					let source = _.reduce(intersected[op_id].content, (acc, plan, s_id) => {
 						acc[s_id] = plan.split(ts_size, count);
 						return acc;
@@ -58,7 +60,7 @@ class TSFactoryDataProvider {
 						acc[s_key] = _.reduce(s_source, (vv, part, index) => {
 							let query = {
 								operator_id: op_id,
-								day: params.query.day
+								date: params.query.date
 							};
 							// let query = {};
 							vv[index] = vv[index] || {};
@@ -112,6 +114,8 @@ class TSFactoryDataProvider {
 					ticket.service = s_id;
 					ticket.operator = resolve_params.operator_id;
 					ticket.state = 0;
+					ticket.date = resolve_params.date;
+					ticket.time_descripton = resolve_params.selection;
 					return this.storage_accessor.set(ticket);
 				})
 				.catch((err) => {

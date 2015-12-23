@@ -4,8 +4,10 @@ let u = require("./keymaker_utils");
 
 module.exports = {
 	get: function(p) {
-
-		let day = p.day ? "iris://vocabulary/domain#" + p.day : '*';
+		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		let date = p.date ? new Date(p.date) : new Date();
+		let day = "iris://vocabulary/domain#" + days[date.getDay()];
+		let plan_day_id = date.toLocaleDateString(); // yyyy-mm-dd
 		let op_keys = undefined;
 		if(p.operator_id == '*') {
 			op_keys = {
@@ -41,7 +43,10 @@ module.exports = {
 			final: function(query) {
 				let reduced = _.reduce(query.schedules, (acc, sch) => {
 					let key = u.key_typecast(sch['@id'], {
-						type: "plan"
+						type: "plan",
+						id: (id) => {
+							return `${id}--${plan_day_id}`;
+						}
 					});
 					let op = u.flatten_ld(sch["iris://vocabulary/domain#scheduleOf"])[0];
 					acc[op] = acc[op] || [];

@@ -70,9 +70,8 @@ class LDCacheAccessor extends CacheAccessor {
 				if(_.isUndefined(type_info))
 					return requested_access_obj;
 				let template = type_info.template;
-				return `${template.prefix || prefix}#${template.type || type}-${template.id || id}`;
+				return `${template.prefix || prefix}#${template.type(type)}-${template.id(id)}`;
 			});
-
 			//return key from data_provider
 			return Promise.resolve(this.data_provider.get({
 					keys: access_obj

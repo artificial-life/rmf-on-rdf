@@ -47,7 +47,10 @@ describe.only('Workflow: TS Factory ', () => {
 		classes: {
 			plan: {
 				template: {
-					type: "schedule"
+					type: () => "schedule",
+					id: (id) => {
+						return id.split('--')[0];
+					}
 				},
 				map_keys: {
 					"iris://vocabulary/domain#scheduleOf": "iris://vocabulary/domain#planOf"
@@ -71,7 +74,7 @@ describe.only('Workflow: TS Factory ', () => {
 	let db = null;
 	let bucket = null;
 	let dp = null;
-	let accessor = null;
+	let storage_accessor = null;
 	let resource_source = null;
 
 	let factory_accessor = null;
@@ -83,10 +86,10 @@ describe.only('Workflow: TS Factory ', () => {
 		bucket.upsert("iris://vocabulary/basic", vocab_basic);
 		bucket.upsert("iris://vocabulary/domain", vocab_domain);
 		bucket.N1QL(Couchbird.N1qlQuery.fromString("CREATE PRIMARY INDEX ON " + cfg.buckets.main + ";"))
-			// bucket.installViews();
-			// bucket.setVocabulary(cfg.vocabulary);
+		bucket.installViews();
+		// bucket.setVocabulary(cfg.vocabulary);
 		bucket.upsertNodes(test_data);
-		bucket.removeNodes("iris://data#plan-1");
+		bucket.removeNodes("iris://data#plan-1--2015-12-21");
 		dp = new CouchbirdLinkedDataProvider(bucket);
 
 
@@ -161,55 +164,8 @@ describe.only('Workflow: TS Factory ', () => {
 			.keymaker('get', (p) => p);
 
 		let storage_accessor = new LDAccessor(dp);
-		storage_accessor.keymaker('set', (data) => {
-				let tickets = _.isArray(data) ? data : [data];
-				return _.map(tickets, (ticket) => {
-					let node = {};
-					node['@id'] = "iris://data#" + ticket.key;
-					//@TODO update the vocab with this
-					node['@type'] = "iris://vocabulary/domain#Ticket";
-					node["iris://vocabulary/domain#hasService"] = [{
-						'@id': ticket.service
-					}];
-					node["iris://vocabulary/domain#hasOperator"] = [{
-						'@id': ticket.operator
-					}];
-					node["iris://vocabulary/domain#hasState"] = ticket.state;
-					node["iris://vocabulary/domain#hasBookingDate"] = (new Date()).toUTCString();
-					node["iris://vocabulary/domain#hasDedicatedDate"] = ticket.day;
-					node["iris://vocabulary/domain#hasTimeDescription"] = ticket.time_descripton;
-					return node;
-				});
-			})
-			.keymaker('get', (p) => {
-				let keys = p.id;
-				let day = p.day;
-				let op_id = p.operator_id;
-				let s_id = p.service_id;
-				if(keys == '*') {
-					//@NOTE: and?
-					//@NOTE: submit view key
-					//@IDEA: new View('view-name',params), parse view in DP
-					return {
-						type: 'view',
-						query: {
-							tickets: {
-								select: "*",
-								where: {
-									"@type": "iris://vocabulary/domain#Ticket"
-								},
-								test: function(data, query) {
-									return true
-								}
-							}
-						}
-					}
-				}
-
-				if(_.isArray(keys)) return keys;
-
-				return keys;
-			});
+		storage_accessor.keymaker('set', keymakers.ticket.set)
+			.keymaker('get', keymakers.ticket.get);
 
 		factory_provider
 			.addIngredient('ldplan', resource_source)
@@ -247,7 +203,7 @@ describe.only('Workflow: TS Factory ', () => {
 					.id('<namespace>builder').id('box').query({
 						query: {
 							operator_id: '*',
-							day: 'Monday',
+							date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
 							selection: {
 								service_id: 'iris://data#service-2',
 								selection: [50400000, 50800000]
@@ -299,6 +255,21 @@ describe.only('Workflow: TS Factory ', () => {
 					})
 					.then((saved) => {
 						console.log("SAVED", require('util').inspect(saved, {
+							depth: null
+						}));
+						factory.selector().reset()
+							.add()
+							.id('<namespace>builder').id('box').query({
+								query: {
+									keys: '*',
+								},
+								options: {}
+							});
+
+						return factory.resolve();
+					})
+					.then((res) => {
+						console.log("BOXES", require('util').inspect(res, {
 							depth: null
 						}));
 

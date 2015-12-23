@@ -4,7 +4,9 @@ let u = require("./keymaker_utils");
 
 module.exports = {
 	get: function(query) {
-		let day = query.day ? "iris://vocabulary/domain#" + query.day : '*';
+		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		let date = query.date ? new Date(query.date) : new Date();
+		let day = "iris://vocabulary/domain#" + days[date.getDay()];
 		let service_ids = query.selection.service_id || '*';
 		let op_keys = undefined;
 		if(query.operator_id == '*') {
@@ -71,9 +73,10 @@ module.exports = {
 				let reduced = _.transform(query.service_keys, (res, s_ids, op_id) => {
 					res[op_id] = _.reduce(s_ids, (acc, s_id) => {
 						acc[s_id] = _.map(grouped[s_id], (val) => {
-							return u.key_typecast(val['@id'], {
-								type: 'plan'
-							})
+							// return u.key_typecast(val['@id'], {
+							// 	type: 'plan'
+							// });
+							return val['@id'];
 						});
 						return acc;
 					}, {});
