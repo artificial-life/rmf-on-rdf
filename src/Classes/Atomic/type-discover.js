@@ -16,7 +16,6 @@ var discover = {
 			var decorator = data.deco;
 			var type = data.type;
 			var params = data.params;
-
 			var TypeModel = this.dataType(type);
 			var DecoModel = this.dataType(decorator);
 			return DecoModel.bind(DecoModel, TypeModel, params);

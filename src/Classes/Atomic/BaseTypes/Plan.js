@@ -46,14 +46,32 @@ class Plan extends BasicVolume {
 	}
 
 	reserve(params) {
+		//@NOTE: proxy to parent if it exist
+		let target = this.parent ? this.parent : this;
+
 		if(!params) {
 			//@NOTE: reserve all
+			let status = true;
+			let content = this.getContent();
+			let result = [];
+			for(let i in content) {
+				let placed = target.put({
+					data: content[i].serialize().data,
+					state: 'r'
+				});
+				if(!placed) {
+					status = false;
+					break;
+				}
+				result.push(placed);
+			}
+			if(status)
+				this.stored_changes = this.stored_changes.concat(result);
+
+			return status ? target : false;
 		}
 
-		//@NOTE: proxy to parent if it exist
-		var target = this.parent ? this.parent : this;
-
-		var placed = target.put({
+		let placed = target.put({
 			data: params,
 			state: 'r'
 		});

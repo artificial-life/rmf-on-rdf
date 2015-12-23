@@ -13,6 +13,10 @@ class LDCacheAccessor extends CacheAccessor {
 		this.template();
 		return this;
 	}
+	set(data) {
+		let access_obj = this.makeAccessObject('set', data);
+		return this.data_provider.upsert(access_obj);
+	}
 	get(context) {
 		let access_obj = {
 			options: context.options || {}

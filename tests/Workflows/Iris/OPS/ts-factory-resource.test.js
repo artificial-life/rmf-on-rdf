@@ -12,6 +12,7 @@ let TSFactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/
 let IngredientDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/IngredientDataProvider.js');
 let ResourceFactoryAsync = require(_base + '/build/Classes/ResourceFactoryAsync.js');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
+var LDAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDAccessor.js');
 var ContentAsync = require(_base + '/build/Classes/ContentAsync.js');
 
 let HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
@@ -82,9 +83,10 @@ describe.only('Workflow: TS Factory ', () => {
 		bucket.upsert("iris://vocabulary/basic", vocab_basic);
 		bucket.upsert("iris://vocabulary/domain", vocab_domain);
 		bucket.N1QL(Couchbird.N1qlQuery.fromString("CREATE PRIMARY INDEX ON " + cfg.buckets.main + ";"))
-		bucket.installViews();
-		bucket.setVocabulary(cfg.vocabulary);
+			// bucket.installViews();
+			// bucket.setVocabulary(cfg.vocabulary);
 		bucket.upsertNodes(test_data);
+		bucket.removeNodes("iris://data#plan-1");
 		dp = new CouchbirdLinkedDataProvider(bucket);
 
 
@@ -94,6 +96,7 @@ describe.only('Workflow: TS Factory ', () => {
 		services_accessor.mapper(classmap);
 
 		ops_plan_accessor.keymaker('get', keymakers.op_plan.get);
+		ops_plan_accessor.keymaker('set', keymakers.op_plan.set);
 		services_accessor.keymaker('get', keymakers.op_service_plan.get);
 
 		resource_source = new ContentAsync();
@@ -129,25 +132,52 @@ describe.only('Workflow: TS Factory ', () => {
 
 		//@NOTE: building factory
 		//@NOTE: prepare variables
-		let box_id = 'box_id';
-		let hash_id = 'hash_id';
 		let data_model = {
 			type: {
-				deco: 'Box',
-				type: [resource_source.model_decription]
+				type: {
+					deco: 'Box',
+					type: ['LDPlan']
+				},
+				deco: 'BaseCollection',
+				params: 'box_id'
 			},
-			deco: 'BaseCollection'
+			deco: 'BaseCollection',
+			params: 'service_id'
 		};
 
 
 		let factory_provider = new TSFactoryDataProvider();
 
 		factory_accessor = new BasicAccessor(factory_provider);
-		factory_accessor.keymaker('set', 'build')
+		factory_accessor.keymaker('set', (p) => {
+				let keys = [];
+				_.forEach(p, (boxes, s_id) => {
+					_.forEach(boxes, (box, box_id) => {
+						keys.push([s_id, box_id]);
+					});
+				});
+				return keys;
+			})
 			.keymaker('get', (p) => p);
 
-		let storage_accessor = new LDCacheAccessor(dp);
-		storage_accessor.keymaker('set', (p) => p.key)
+		let storage_accessor = new LDAccessor(dp);
+		storage_accessor.keymaker('set', (data) => {
+				let tickets = _.isArray(data) ? data : [data];
+				return _.map(tickets, (ticket) => {
+					let node = {};
+					node['@id'] = "iris://data#" + ticket.key;
+					//@TODO update the vocab with this
+					node['@type'] = "iris://vocabulary/domain#Ticket";
+					node["iris://vocabulary/domain#hasService"] = [{
+						'@id': ticket.service
+					}];
+					node["iris://vocabulary/domain#hasOperator"] = [{
+						'@id': ticket.operator
+					}];
+					node["iris://vocabulary/domain#hasState"] = ticket.state;
+					return node;
+				});
+			})
 			.keymaker('get', (p) => {
 				let keys = p['id'];
 
@@ -167,7 +197,7 @@ describe.only('Workflow: TS Factory ', () => {
 			});
 
 		factory_provider
-			.addIngredient('op_time', resource_source)
+			.addIngredient('ldplan', resource_source)
 			.addStorage(storage_accessor);
 
 
@@ -193,7 +223,7 @@ describe.only('Workflow: TS Factory ', () => {
 	});
 
 	describe('basic observe-reserve', function() {
-		this.timeout(5000);
+		this.timeout(10000);
 		describe('#build', () => {
 			it('build concrete', () => {
 
@@ -214,108 +244,50 @@ describe.only('Workflow: TS Factory ', () => {
 				return Promise.resolve(true)
 					.then(() => {
 						return factory.build({
-							count: 6
+							count: 6,
+							size: 30 * 3600
 						});
 					})
 					.then((produced) => {
-						console.log("PRODUCED", produced);
+						// console.log("PRODUCED", require('util').inspect(produced.content_map, {
+						// 	depth: null
+						// }));
+						produced.selector().reset()
+							.add()
+							.id('<namespace>builder').id('box').query({
+								service_id: '*',
+								selection: {
+									box_id: '*'
+								}
+							});
+
+						return produced.observe();
 					})
-				_.forEach(produced.getAtom(['<namespace>builder', 'box']).content, (item) => console.log(item.content.plan));
-				//
-				// 				produced.selector().reset()
-				// 					.add()
-				// 					.id('<namespace>builder').id('box').query({
-				// 						id: '*',
-				// 						selection: {
-				// 							plan: [0, 50]
-				// 						}
-				// 					});
-				//
-				// 				produced.observe();
-				//
-				// 				produced.save();
-				//
-				// 				factory.selector().reset()
-				// 					.add()
-				// 					.id('<namespace>content').id('box').query({
-				// 						id: '*',
-				// 						selection: {
-				// 							plan: [0, 30]
-				// 						}
-				// 					});
-				//
-				// 				produced = factory.resolve().observe();
-				//
-				// 				console.log(produced.getAtom(['<namespace>content', 'box']));
-				// 			});
-				//
-				// 			it('bts', () => {
-				// 				let size = 1;
-				// 				let ingredient_model_description = factory.getAtom(['<namespace>builder', 'box']).model_decription;
-				//
-				// 				let data_model = {
-				// 					type: {
-				// 						type: {
-				// 							deco: 'Box',
-				// 							type: [ingredient_model_description]
-				// 						},
-				// 						deco: 'BaseCollection'
-				// 					}
-				// 				};
-				//
-				// 				let factory_provider = new FactoryDataProvider();
-				//
-				// 				let ingredient_provider = new IngredientDataProvider();
-				// 				ingredient_provider
-				// 					.setIngredient(['<namespace>content', 'plan'], 'plan', factory)
-				// 					.setSize(size);
-				//
-				// 				factory_accessor = new BasicAccessor(factory_provider);
-				// 				factory_accessor.keymaker('set', (p) => {
-				// 						//@IDEA: add additional params here
-				// 						return p;
-				// 					})
-				// 					.keymaker('get', (p) => p);
-				//
-				// 				let storage_accessor = new BasicAccessor(provider);
-				// 				storage_accessor.keymaker('set', (p) => p.key)
-				// 					.keymaker('get', (p) => {
-				// 						let keys = p[box_id];
-				//
-				// 						if(keys == '*') {
-				// 							//@NOTE: and?
-				// 							//@NOTE: submit view key
-				// 							//@IDEA: new View('view-name',params), parse view in DP
-				// 							return _.reduce(TEST_STORAGE, (result, item, index) => {
-				// 								if(~index.indexOf('box')) result.push(index);
-				// 								return result;
-				// 							}, []);
-				// 						}
-				//
-				// 						if(_.isArray(keys)) return keys;
-				//
-				// 						return keys;
-				// 					});
-				//
-				// 				factory_provider
-				// 					.addIngredient(ingredient_provider)
-				// 					.addStorage(storage_accessor);
-				//
-				//
-				// 				let box_builder = AtomicFactory.create('Basic', {
-				// 					type: data_model,
-				// 					accessor: factory_accessor
-				// 				});
-				//
-				// 				let box_storage = AtomicFactory.create('Basic', {
-				// 					type: data_model,
-				// 					accessor: storage_accessor
-				// 				});
-				//
-				// 				booked_timeslot = new ResourceFactory();
-				// 				booked_timeslot
-				// 					.addAtom(box_builder, 'box', '<namespace>builder')
-				// 					.addAtom(box_storage, 'box', '<namespace>content');
+					.then((produced) => {
+						// console.log("OBSERVED", require('util').inspect(produced.content_map, {
+						// 	depth: null
+						// }));
+						produced.selector().reset()
+							.add()
+							.id('<namespace>builder').id('box').query({
+								service_id: '*',
+								selection: {
+									box_id: '2'
+								}
+							});
+
+						produced.reserve();
+						console.log("RESERVED", require('util').inspect(produced.content_map, {
+							depth: null
+						}));
+						return produced.save();
+					})
+					.then((saved) => {
+						console.log("SAVED", require('util').inspect(saved, {
+							depth: null
+						}));
+
+					})
 			});
 		});
 	})

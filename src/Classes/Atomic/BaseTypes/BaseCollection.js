@@ -21,7 +21,6 @@ class BaseCollection {
 		this.content = _.reduce(items, (result, single_item, index) => {
 			let obj = new Model();
 			let key = single_item.key || index;
-
 			obj.build(single_item);
 
 			result[key] = obj;
@@ -71,6 +70,7 @@ class BaseCollection {
 		let data = {};
 
 		//@NOTE: generator will be here
+		// console.log("BC CM", this.collection_id, method_name, passed, ids);
 		result.content = _.reduce(ids, (collection, id) => {
 			if(!this.content[id])
 				return collection;

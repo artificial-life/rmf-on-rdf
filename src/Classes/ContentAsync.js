@@ -50,6 +50,7 @@ class ContentAsync {
 			} = atom_data;
 			//@NOTE: params should be specific for each branch of selection
 			let params = query || this.path.getQueryParams() || {};
+			this.path.query(params);
 			//@TODO: so dirty again, you shouldn't attach property this way. Never!
 			resolved.resolve_params = params;
 			//@TODO even more dirty with all of those promises
@@ -63,13 +64,13 @@ class ContentAsync {
 		return Promise.all(resolved_atoms)
 			.then((res) => {
 				_.map(res, (resolved_atom) => {
-					console.log("CA RESOLVED ATOM", resolved_atom);
 					resolved.addAtom(resolved_atom.atom_path, resolved_atom.atom);
 				});
 				return resolved;
 			});
 	}
 	save(data) {
+		console.log("CA SAVE", data);
 		return _.map(data, (item, index) => {
 			//@TODO: need some cheks here
 			if(_.isEmpty(item)) return true;

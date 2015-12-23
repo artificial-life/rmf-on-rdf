@@ -22,7 +22,6 @@ class AbstractAccessor {
 	}
 	set(data) {
 		var access_obj = this.makeAccessObject('set', data);
-
 		return this.data_provider.set(access_obj, data);
 	}
 	upsert(data) {

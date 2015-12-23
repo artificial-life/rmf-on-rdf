@@ -17,7 +17,7 @@ class TSFactoryDataProvider {
 		return this;
 	}
 	get(params) {
-		let ts_size = params.ts_size || 15 * 3600;
+		let ts_size = params.size || 15 * 3600;
 		let count = params.count;
 		let plans_path = ['<namespace>content', 'plan'];
 		let services_path = ['<namespace>attribute', 'services'];
@@ -34,6 +34,7 @@ class TSFactoryDataProvider {
 			.then((observed) => {
 				//@FIXIT : flush this monkey code ASAP
 				//f*ck I tried to avoid this
+
 				let complete = _.reduce(observed, (result, ingredient, property) => {
 					let services = ingredient.getAtom(services_path);
 					let op_plans = ingredient.getAtom(plans_path);
@@ -47,16 +48,25 @@ class TSFactoryDataProvider {
 						return acc;
 					}, {});
 					//just pick a random op
-					let op = _.sample(intersected);
-					let source = _.reduce(op.content, (acc, plan, s_id) => {
-						acc[s_id] = _.map(plan.split(ts_size, count), (chunk) => chunk.serialize());
+					let op_id = _.sample(_.keys(intersected));
+					let source = _.reduce(intersected[op_id].content, (acc, plan, s_id) => {
+						acc[s_id] = plan.split(ts_size, count);
 						return acc;
 					}, {});
 
 					return _.reduce(source, (acc, s_source, s_key) => {
 						acc[s_key] = _.reduce(s_source, (vv, part, index) => {
+							let query = {
+								operator_id: op_id,
+								day: params.query.day
+							};
+							// let query = {};
 							vv[index] = vv[index] || {};
-							vv[index][property] = part;
+							vv[index][property] = part.serialize();
+							//@HACK appliable only for plans
+							query.selection = vv[index][property][0].data;
+							// query[property] = part[0].data;
+							vv[index].query = query;
 							return vv;
 						}, {});
 						return acc;
@@ -65,9 +75,53 @@ class TSFactoryDataProvider {
 				return complete;
 			});
 	}
-	set(key, value) {
-		//stop it, you
-		return false;
+	set(keys, value) {
+		let plans_path = ['<namespace>content', 'plan'];
+		let result = _.reduce(keys, (status, [s_id, box_id]) => {
+			//serialization hack
+			if(box_id == 'key')
+				return status;
+			let box = value[s_id][box_id];
+			let resolve_params = box.resolve_params;
+			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {
+				let atom = ingredient.getAtom(plans_path);
+				result[index] = atom.resolve({
+						query: resolve_params,
+						options: {}
+					})
+					.then((resolved) => {
+						resolved.reserve(resolve_params);
+						return atom.save(resolved);
+					})
+					.then((saved) => {
+						if(!(saved))
+							return false;
+						return true;
+					})
+					.catch((err) => {
+						console.error(err.stack);
+						return false;
+					});
+				return result;
+			}, {});
+			status[box_id] = Promise.props(saving)
+				.then((saved) => {
+					if(_.keys(saved).length != _.filter(saved, (val) => !!val).length)
+						return false;
+					let ticket = {};
+					ticket.key = 'ticket-' + uuid.v1();
+					ticket.service = s_id;
+					ticket.operator = resolve_params.operator_id;
+					ticket.state = 0;
+					return this.storage_accessor.set(ticket);
+				})
+				.catch((err) => {
+					console.error(err.stack);
+					return false;
+				});
+			return status;
+		}, {});
+		return Promise.props(result);
 	}
 }
 

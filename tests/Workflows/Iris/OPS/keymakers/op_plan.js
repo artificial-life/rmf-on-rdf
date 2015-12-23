@@ -53,5 +53,16 @@ module.exports = {
 
 		return query;
 
+	},
+	set: function(data) {
+		let access = [];
+		_.map(_.values(data), (val) => {
+			let node = val.db_data;
+			delete val.key;
+			delete val.db_data;
+			node["iris://vocabulary/domain#hasTimeDescription"][0]['@value'] = JSON.stringify(val);
+			access.push(node);
+		})
+		return access;
 	}
 };

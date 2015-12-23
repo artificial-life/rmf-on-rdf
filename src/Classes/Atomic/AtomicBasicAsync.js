@@ -15,27 +15,30 @@ class AtomicBasicAsync {
 	}
 
 	resolve(params) {
-			return this.accessor.get(params)
-				.then((data) => {
-					return Promise.resolve(this.builder(data));
-				});
-		}
-		//@TODO async this
-	save(data, direct_call = true) {
+		return this.accessor.get(params)
+			.then((data) => {
+				return Promise.resolve(this.builder(data));
+			});
+	}
+	save(data, direct_call = true, compact = true) {
+		let saving = [];
 		//@NOTE: direct_call indicates that saving was called right from atom or thru atom chain
 		if(_.isArray(data.stored_changes) && !direct_call) {
 			//@NOTE: Here should be step by step commit of changes
 			var changes = data.stored_changes;
 			//@TODO: this getter will be reworked
 			var params = data.resolve_params;
-			var resolved = this.resolve(params);
-			var result = _.map(changes, (change) => resolved.put(change));
+			saving = this.resolve(params)
+				.then((resolved) => {
+					let put = _.map(changes, (change) => resolved.put(change));
+					return this.save(resolved, true);
+				});
 			//@TODO: check result here
-			this.save(resolved, true);
 		}
-		let serialize = Object.getPrototypeOf(data)['serialize'];
-		if(serialize instanceof Function) return this.accessor.set(data.serialize());
-
+		if(compact) {
+			let serialize = Object.getPrototypeOf(data)['serialize'];
+			if(serialize instanceof Function) return this.accessor.set(data.serialize());
+		}
 		return this.accessor.set(data);
 	}
 	builder(data) {

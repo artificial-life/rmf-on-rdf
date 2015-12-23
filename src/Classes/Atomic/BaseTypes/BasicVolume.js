@@ -44,7 +44,6 @@ class BasicVolume extends AbstractVolume {
 		});
 
 		result.push(volume);
-
 		//@NOTE: just temporary
 		// var final = new this.constructor(this);
 		// final.build(result);

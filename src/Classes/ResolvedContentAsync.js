@@ -32,7 +32,6 @@ class ResolvedContentAsync {
 	/*=======================TEST=======================*/
 	save() {
 		//@NOTE : bullshit above
-
 		var path = this.selector().traverse();
 		var atom_data;
 		var result = [];
@@ -47,8 +46,7 @@ class ResolvedContentAsync {
 
 			result.push(status);
 		}
-
-		return result;
+		return Promise.all(result);
 	}
 	getSourceAtom(atom) {
 		return !atom.source_atom ? atom : this.getSourceAtom(atom.source_atom)
@@ -76,7 +74,7 @@ class ResolvedContentAsync {
 				return this;
 			});
 	}
-	reserve() {
+	reserve(query) {
 		var atom_data;
 
 		for(atom_data of this.path) {
@@ -84,8 +82,7 @@ class ResolvedContentAsync {
 				atom_path: atom_path,
 				atom: atom
 			} = atom_data;
-
-			var params = this.path.getQueryParams();
+			var params = query || this.path.getQueryParams() || {};
 
 			var after_reserve = atom.reserve(params);
 

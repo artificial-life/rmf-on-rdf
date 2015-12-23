@@ -30,10 +30,16 @@ class LDPlan extends Plan {
 				build_data = item['iris://vocabulary/domain#hasTimeDescription'][0]['@value'];
 				build_data = JSON.parse(build_data);
 			}
-			this.db_id = item['@id'];
+			this.db_data = item;
 		}
 
 		super.build(build_data);
+	}
+
+	serialize() {
+		let data = super.serialize();
+		data.db_data = this.db_data;
+		return data;
 	}
 
 }
