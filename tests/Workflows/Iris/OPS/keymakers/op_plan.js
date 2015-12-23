@@ -51,9 +51,7 @@ module.exports = {
 				return reduced;
 			}
 		};
-
 		return query;
-
 	},
 	set: function(data) {
 		let access = [];
