@@ -65,8 +65,7 @@ class TSFactoryDataProvider {
 							vv[index][property] = part.serialize();
 							//@HACK appliable only for plans
 							query.selection = vv[index][property][0].data;
-							// query[property] = part[0].data;
-							vv[index].query = query;
+							vv[index].resolve_params = query;
 							return vv;
 						}, {});
 						return acc;

@@ -21,10 +21,10 @@
 	}, {
 		"@id": "ci:office-1",
 		"@type": "iris:Office",
+		"rdfs:label": "Office 1",
 		"iris:hasUnit": {
 			"@id": "ci:department-1"
-		},
-		"rdfs:label": "Office 1"
+		}
 	}, {
 		"@id": "ci:pc-2",
 		"@type": "iris:AWP",
@@ -66,13 +66,13 @@
 	}, {
 		"@id": "ci:department-1",
 		"@type": "iris:Department",
+		"rdfs:label": "Department 1",
 		"iris:hasSchedule": {
 			"@id": "ci:schedule-3"
 		},
 		"iris:unitOf": {
 			"@id": "ci:office-1"
-		},
-		"rdfs:label": "Department 1"
+		}
 	}, {
 		"@id": "ci:orgroot-1",
 		"@type": "iris:FormalOrganization",
@@ -204,7 +204,7 @@
 		"iris:hasDay": {
 			"@id": "iris:Monday"
 		},
-		"iris:hasTimeDescription": "[[30000000, 46800000]]",
+		"iris:hasTimeDescription": "[[30000000, 70000000]]",
 		"iris:scheduleOf": {
 			"@id": "ci:service-1"
 		}

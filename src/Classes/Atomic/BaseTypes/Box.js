@@ -23,7 +23,7 @@ class Box extends Hashmap {
 			result[index] = obj;
 			return result;
 		}, {});
-		this.resolve_params = items.query;
+		this.resolve_params = items.resolve_params;
 		return this;
 	}
 

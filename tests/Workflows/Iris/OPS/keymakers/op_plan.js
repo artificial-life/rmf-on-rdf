@@ -4,6 +4,7 @@ let u = require("./keymaker_utils");
 
 module.exports = {
 	get: function(p) {
+
 		let day = p.day ? "iris://vocabulary/domain#" + p.day : '*';
 		let op_keys = undefined;
 		if(p.operator_id == '*') {

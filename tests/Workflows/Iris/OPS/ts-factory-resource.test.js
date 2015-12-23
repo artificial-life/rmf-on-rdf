@@ -175,20 +175,35 @@ describe.only('Workflow: TS Factory ', () => {
 						'@id': ticket.operator
 					}];
 					node["iris://vocabulary/domain#hasState"] = ticket.state;
+					node["iris://vocabulary/domain#hasBookingDate"] = (new Date()).toUTCString();
+					node["iris://vocabulary/domain#hasDedicatedDate"] = ticket.day;
+					node["iris://vocabulary/domain#hasTimeDescription"] = ticket.time_descripton;
 					return node;
 				});
 			})
 			.keymaker('get', (p) => {
-				let keys = p['id'];
-
+				let keys = p.id;
+				let day = p.day;
+				let op_id = p.operator_id;
+				let s_id = p.service_id;
 				if(keys == '*') {
 					//@NOTE: and?
 					//@NOTE: submit view key
 					//@IDEA: new View('view-name',params), parse view in DP
-					return _.reduce(TEST_STORAGE, (result, item, index) => {
-						if(~index.indexOf('box')) result.push(index);
-						return result;
-					}, []);
+					return {
+						type: 'view',
+						query: {
+							tickets: {
+								select: "*",
+								where: {
+									"@type": "iris://vocabulary/domain#Ticket"
+								},
+								test: function(data, query) {
+									return true
+								}
+							}
+						}
+					}
 				}
 
 				if(_.isArray(keys)) return keys;
