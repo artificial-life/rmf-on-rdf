@@ -16,7 +16,6 @@ class LDAccessor extends BasicAccessorAsync {
 		};
 		if(context.query) {
 			access_obj.query = this.makeAccessObject('get', context.query);
-			deep = access_obj.query.key_depth;
 		}
 		if(context.keys) {
 			let keys = _.isArray(context.keys) ? context.keys : [context.keys];

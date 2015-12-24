@@ -4,8 +4,6 @@ module.exports = {
 		let keys = (_.isArray(p.id)) ? p.id : [p.id];
 
 		let params_map = {
-			booking_date: "iris://vocabulary/domain#hasBookingDate",
-			dedicated_date: "iris://vocabulary/domain#hasDedicatedDate",
 			operator_id: "iris://vocabulary/domain#hasOperator",
 			service_id: "iris://vocabulary/domain#hasService",
 			state: "iris://vocabulary/domain#hasState"
@@ -13,22 +11,39 @@ module.exports = {
 
 		let where = _.reduce(params_map, (acc, val, key) => {
 			if(p[key]) {
-				acc[val] = (key == 'booking_date' || key == 'dedicated_date') ? new Date(p[key]).toUTCString() : p[key];
+				acc[val] = p[key];
 			}
 			return acc;
 		}, {});
 
+
 		where["@type"] = "iris://vocabulary/domain#Ticket";
+
 		console.log("WHERE", where, p);
 
-		if(keys == '*') {
+		let date_map = {
+			booking_date: "iris://vocabulary/domain#hasBookingDate",
+			dedicated_date: "iris://vocabulary/domain#hasDedicatedDate"
+		};
+		let test = (data, query) => {
+			return _.reduce(date_map, (acc, val, key) => {
+				if(!p[key]) return acc;
+				return acc && ((new Date(p[key])).toLocaleDateString() == (new Date(data[val][0]['@value']).toLocaleDateString()));
+			}, true);
+		}
+
+		if(p.id == '*') {
 			let query = {
 				type: 'view',
 				query: {
 					tickets: {
-						select: "*",
-						where: where
+						select: "@id",
+						where: where,
+						test: test
 					}
+				},
+				final: (query) => {
+					return query.tickets;
 				}
 			};
 

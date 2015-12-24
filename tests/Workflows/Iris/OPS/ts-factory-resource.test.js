@@ -1,25 +1,21 @@
 'use strict'
-
-let _ = require('lodash');
-let uuid = require('node-uuid');
-
-let CouchbirdLinkedDataProvider = require(_base + '/build/externals/CouchbirdLinkedDataProvider.js');
 let RDFcb = require("cbird-rdf").LD;
-let LDCacheAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDCacheAccessor');
 let Couchbird = require("couchbird");
 
 let TSFactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider.js');
-let IngredientDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/IngredientDataProvider.js');
-let ResourceFactoryAsync = require(_base + '/build/Classes/ResourceFactoryAsync.js');
+let CouchbirdLinkedDataProvider = require(_base + '/build/externals/CouchbirdLinkedDataProvider.js');
+
+let LDCacheAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDCacheAccessor');
 var BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor.js');
 var LDAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDAccessor.js');
-var ContentAsync = require(_base + '/build/Classes/ContentAsync.js');
 
-let HashmapDataProvider = require(_base + '/build/externals/HashmapDataProvider.js');
+var ContentAsync = require(_base + '/build/Classes/ContentAsync.js');
+let ResourceFactoryAsync = require(_base + '/build/Classes/ResourceFactoryAsync.js');
+
 let AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 
 
-describe.only('Workflow: TS Factory ', () => {
+describe('Workflow: TS Factory ', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -148,6 +144,15 @@ describe.only('Workflow: TS Factory ', () => {
 			params: 'service_id'
 		};
 
+		let c_data_model = {
+			type: {
+				deco: 'BaseCollection',
+				type: ['LDPlan']
+			},
+			deco: 'BaseCollection',
+			params: 'box_id'
+		};
+
 
 		let factory_provider = new TSFactoryDataProvider();
 
@@ -163,7 +168,7 @@ describe.only('Workflow: TS Factory ', () => {
 			})
 			.keymaker('get', (p) => p);
 
-		let storage_accessor = new LDAccessor(dp);
+		storage_accessor = new LDAccessor(dp);
 		storage_accessor.keymaker('set', keymakers.ticket.set)
 			.keymaker('get', keymakers.ticket.get);
 
@@ -178,7 +183,7 @@ describe.only('Workflow: TS Factory ', () => {
 		});
 
 		let box_storage = AtomicFactory.create('BasicAsync', {
-			type: data_model,
+			type: c_data_model,
 			accessor: storage_accessor
 		});
 		factory = new ResourceFactoryAsync();
@@ -257,22 +262,27 @@ describe.only('Workflow: TS Factory ', () => {
 						console.log("SAVED", require('util').inspect(saved, {
 							depth: null
 						}));
-						factory.selector().reset()
-							.add()
-							.id('<namespace>builder').id('box').query({
-								query: {
-									keys: '*',
-								},
-								options: {}
-							});
+						// factory.selector().reset()
+						// 	.add()
+						// 	.id('<namespace>content').id('box').query({
+						// 		query: {
+						// 			id: '*',
+						//
+						// 		},
+						// 		options: {}
+						// 	});
 
-						return factory.resolve();
+						return storage_accessor.get({
+							query: {
+								id: '*',
+							},
+							options: {}
+						});
 					})
 					.then((res) => {
 						console.log("BOXES", require('util').inspect(res, {
 							depth: null
 						}));
-
 					})
 			});
 		});

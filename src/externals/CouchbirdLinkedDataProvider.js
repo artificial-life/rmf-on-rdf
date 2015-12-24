@@ -102,7 +102,6 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 					});
 
 					let fin_keys = _.isFunction(keys.final) ? keys.final(result) : result;
-
 					return this.getNodes(fin_keys, options);
 				});
 		}
