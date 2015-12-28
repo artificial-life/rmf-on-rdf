@@ -32,13 +32,12 @@ class LDPlan extends Plan {
 			}
 			this.db_data = item;
 		}
-
 		super.build(build_data);
 	}
 
 	serialize() {
 		let data = super.serialize();
-		data.db_data = this.db_data;
+		data.db_data = this.db_data || {};
 		return data;
 	}
 

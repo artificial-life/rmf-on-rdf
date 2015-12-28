@@ -5,7 +5,7 @@ let Couchbird = require("couchbird");
 let IrisWorkflow = require(_base + '/build/Workflows/Iris/IrisWorkflow.js');
 
 
-describe.only('Workflow: IRIS ', () => {
+describe('Workflow: IRIS ', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -104,7 +104,7 @@ describe.only('Workflow: IRIS ', () => {
 
 					return iris.getTicketsData({
 							id: '*',
-							booking_date: (new Date()).toUTCString()
+							booking_date: 'Thu, 24 Dec 2015 00:00:00 GMT'
 						})
 						.then((res) => {
 							console.log("BOXES", require('util').inspect(res, {

@@ -88,7 +88,6 @@ class Plan extends BasicVolume {
 		_.forEach(this.getContent(), (chunk) => {
 			_.forEach(other_content, (second_chunk) => {
 				var local_intersection = chunk.intersection(second_chunk);
-
 				if(local_intersection) result.push(solid ? chunk : local_intersection);
 			});
 		});
@@ -114,7 +113,6 @@ class Plan extends BasicVolume {
 		if(plan instanceof TimeChunk) {
 			other_content = [plan];
 		}
-
 		var result = this.rawIntersection(other_content, solid);
 		var plan = new this.constructor(this);
 		plan.build(result);

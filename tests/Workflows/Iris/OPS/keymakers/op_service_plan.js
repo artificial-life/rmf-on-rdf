@@ -66,9 +66,11 @@ module.exports = {
 			},
 			order: ['op_keys', 'service_keys', 'schedules'],
 			final: function(query) {
+				// console.log("QUERY", query);
 				let grouped = _.groupBy(query.schedules, function(sch) {
 					return u.flatten_ld(sch["iris://vocabulary/domain#scheduleOf"])[0];
 				});
+
 				delete query.service_keys.check_keys;
 				let reduced = _.transform(query.service_keys, (res, s_ids, op_id) => {
 					res[op_id] = _.reduce(s_ids, (acc, s_id) => {

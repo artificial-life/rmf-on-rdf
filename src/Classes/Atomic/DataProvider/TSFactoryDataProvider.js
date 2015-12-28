@@ -12,6 +12,7 @@ class TSFactoryDataProvider {
 		this.storage_accessor = accessor;
 		return this;
 	}
+
 	addIngredient(ing_name, ingredient) {
 		this.ingredients[ing_name] = ingredient;
 		return this;
@@ -21,12 +22,25 @@ class TSFactoryDataProvider {
 		let count = params.count;
 		let plans_path = ['<namespace>content', 'plan'];
 		let services_path = ['<namespace>attribute', 'services'];
+		//only one service so far
 		let service_id = params.query.selection.service_id;
+		service_id = _.isArray(service_id) ? service_id[0] : service_id;
 
 		let observing = _.reduce(this.ingredients, (result, ingredient, property) => {
 			result[property] = ingredient.resolve(params)
 				.then((resolved) => {
-					return resolved.observe(params.query);
+					//just like ingredients, but not ingredients
+					//had to choose between such notation and additional * queries to db
+					let services = resolved.getAtom(services_path);
+					let op_plans = resolved.getAtom(plans_path);
+					let o_atoms = {
+						services: services.observe(params.query),
+						op_plans: op_plans.observe({
+							operator_id: params.query.operator_id,
+							selection: params.query.selection.selection
+						})
+					};
+					return Promise.props(o_atoms);
 				})
 			return result;
 		}, {});
@@ -35,9 +49,9 @@ class TSFactoryDataProvider {
 				//@FIXIT : flush this monkey code ASAP
 				//f*ck I tried to avoid this
 				let complete = _.reduce(observed, (result, ingredient, property) => {
-					let services = ingredient.getAtom(services_path);
-					let op_plans = ingredient.getAtom(plans_path);
 
+					let services = ingredient.services;
+					let op_plans = ingredient.op_plans;
 					let intersected = _.reduce(op_plans.content, (acc, op_plan, op_id) => {
 						let service_plans = services.content[op_id];
 						acc[op_id] = service_plans.intersection({
@@ -49,40 +63,38 @@ class TSFactoryDataProvider {
 
 					//just pick a random op
 					let op_id = _.sample(_.keys(intersected));
+					let plan = intersected[op_id].content[service_id];
 					//if intersection is empty
 					if(!op_id) return result;
-					let source = _.reduce(intersected[op_id].content, (acc, plan, s_id) => {
-						acc[s_id] = plan.split(ts_size, count);
-						return acc;
-					}, {});
 
-					return _.reduce(source, (acc, s_source, s_key) => {
-						acc[s_key] = _.reduce(s_source, (vv, part, index) => {
-							let query = {
-								operator_id: op_id,
-								date: params.query.date
-							};
-							// let query = {};
-							vv[index] = vv[index] || {};
-							vv[index][property] = part.serialize();
-							//@HACK appliable only for plans
-							query.selection = vv[index][property][0].data;
-							vv[index].resolve_params = query;
-							return vv;
-						}, {});
-						return acc;
+					let s_source = plan.split(ts_size, count);
+					return _.reduce(s_source, (vv, part, index) => {
+						vv[index] = vv[index] || {};
+						vv[index][property] = part.serialize();
+						//@HACK appliable only for plans
+						vv[index]['ticket'] = vv[index]['ticket'] || {};
+						let tick = {
+							time_descripton: vv[index][property][0].data,
+							service: service_id,
+							operator: op_id,
+							dedicated_date: params.query.date,
+							priority: 0,
+							state: 0
+						};
+						_.assign(vv[index]['ticket'], tick);
+						return vv;
 					}, result);
-				}, {});
+				}, []);
 				return complete;
 			});
 	}
 	set(keys, value) {
 		let plans_path = ['<namespace>content', 'plan'];
-		let result = _.reduce(keys, (status, [s_id, box_id]) => {
+		let result = _.reduce(keys, (status, box_id) => {
 			//serialization hack
 			if(box_id == 'key')
 				return status;
-			let box = value[s_id][box_id];
+			let box = value[box_id];
 			let resolve_params = box.resolve_params;
 			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {
 				let atom = ingredient.getAtom(plans_path);
@@ -111,7 +123,7 @@ class TSFactoryDataProvider {
 						return false;
 					let ticket = {};
 					ticket.key = 'ticket-' + uuid.v1();
-					ticket.service = s_id;
+					ticket.service = resolve_params.service_id;
 					ticket.operator = resolve_params.operator_id;
 					ticket.state = 0;
 					ticket.date = resolve_params.date;

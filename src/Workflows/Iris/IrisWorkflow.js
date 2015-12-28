@@ -31,13 +31,7 @@ let classmap = {
 			},
 			map_values: {
 				"iris://vocabulary/domain#hasTimeDescription": function(value) {
-					let parsed = JSON.parse(value[0]['@value']);
-					return _.map(parsed, (chunk) => {
-						return {
-							data: [chunk],
-							state: 'a'
-						};
-					});
+					return JSON.parse(value[0]['@value']);
 				}
 			},
 			typecast: "iris://vocabulary/domain#Plan"

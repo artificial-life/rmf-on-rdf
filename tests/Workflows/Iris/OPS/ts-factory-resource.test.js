@@ -15,7 +15,7 @@ let ResourceFactoryAsync = require(_base + '/build/Classes/ResourceFactoryAsync.
 let AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory.js');
 
 
-describe('Workflow: TS Factory ', () => {
+describe.only('Workflow: TS Factory ', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -53,13 +53,7 @@ describe('Workflow: TS Factory ', () => {
 				},
 				map_values: {
 					"iris://vocabulary/domain#hasTimeDescription": function(value) {
-						let parsed = JSON.parse(value[0]['@value']);
-						return _.map(parsed, (chunk) => {
-							return {
-								data: [chunk],
-								state: 'a'
-							};
-						});
+						return JSON.parse(value[0]['@value']);
 					}
 				},
 				typecast: "iris://vocabulary/domain#Plan"
@@ -133,38 +127,25 @@ describe('Workflow: TS Factory ', () => {
 		//@NOTE: prepare variables
 		let data_model = {
 			type: {
-				type: {
-					deco: 'Box',
-					type: ['LDPlan']
-				},
-				deco: 'BaseCollection',
-				params: 'box_id'
-			},
-			deco: 'BaseCollection',
-			params: 'service_id'
-		};
-
-		let c_data_model = {
-			type: {
-				deco: 'BaseCollection',
-				type: ['LDPlan']
+				deco: 'Box',
+				type: ['LDPlan', 'Ticket']
 			},
 			deco: 'BaseCollection',
 			params: 'box_id'
 		};
 
-
 		let factory_provider = new TSFactoryDataProvider();
 
 		factory_accessor = new BasicAccessor(factory_provider);
 		factory_accessor.keymaker('set', (p) => {
-				let keys = [];
-				_.forEach(p, (boxes, s_id) => {
-					_.forEach(boxes, (box, box_id) => {
-						keys.push([s_id, box_id]);
-					});
-				});
-				return keys;
+				// let keys = [];
+				// _.forEach(p, (boxes, s_id) => {
+				// 	_.forEach(boxes, (box, box_id) => {
+				// 		keys.push([s_id, box_id]);
+				// 	});
+				// });
+				// return keys;
+				return _.keys(p);
 			})
 			.keymaker('get', (p) => p);
 
@@ -183,7 +164,7 @@ describe('Workflow: TS Factory ', () => {
 		});
 
 		let box_storage = AtomicFactory.create('BasicAsync', {
-			type: c_data_model,
+			type: data_model,
 			accessor: storage_accessor
 		});
 		factory = new ResourceFactoryAsync();
@@ -210,8 +191,8 @@ describe('Workflow: TS Factory ', () => {
 							operator_id: '*',
 							date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
 							selection: {
-								service_id: 'iris://data#service-2',
-								selection: [50400000, 50800000]
+								service_id: ['iris://data#service-2', 'iris://data#service-1'],
+								selection: [40000000, 60000000]
 							}
 						},
 						options: {}
@@ -225,65 +206,59 @@ describe('Workflow: TS Factory ', () => {
 						});
 					})
 					.then((produced) => {
-						// console.log("PRODUCED", require('util').inspect(produced.content_map, {
-						// 	depth: null
-						// }));
+						console.log("PRODUCED", require('util').inspect(produced.content_map, {
+							depth: null
+						}));
 						produced.selector().reset()
 							.add()
 							.id('<namespace>builder').id('box').query({
-								service_id: '*',
-								selection: {
-									box_id: '*'
-								}
+								box_id: '*'
 							});
 
 						return produced.observe();
 					})
 					.then((produced) => {
-						// console.log("OBSERVED", require('util').inspect(produced.content_map, {
-						// 	depth: null
-						// }));
+						console.log("OBSERVED", require('util').inspect(produced.content_map, {
+							depth: null
+						}));
 						produced.selector().reset()
 							.add()
 							.id('<namespace>builder').id('box').query({
-								service_id: '*',
-								selection: {
-									box_id: '2'
-								}
+								box_id: '2'
 							});
 
 						produced.reserve();
 						console.log("RESERVED", require('util').inspect(produced.content_map, {
 							depth: null
 						}));
-						return produced.save();
+						// return produced.save();
 					})
-					.then((saved) => {
-						console.log("SAVED", require('util').inspect(saved, {
-							depth: null
-						}));
-						// factory.selector().reset()
-						// 	.add()
-						// 	.id('<namespace>content').id('box').query({
-						// 		query: {
-						// 			id: '*',
-						//
-						// 		},
-						// 		options: {}
-						// 	});
-
-						return storage_accessor.get({
-							query: {
-								id: '*',
-							},
-							options: {}
-						});
-					})
-					.then((res) => {
-						console.log("BOXES", require('util').inspect(res, {
-							depth: null
-						}));
-					})
+					// .then((saved) => {
+					// 	console.log("SAVED", require('util').inspect(saved, {
+					// 		depth: null
+					// 	}));
+					// 	// factory.selector().reset()
+					// 	// 	.add()
+					// 	// 	.id('<namespace>content').id('box').query({
+					// 	// 		query: {
+					// 	// 			id: '*',
+					// 	//
+					// 	// 		},
+					// 	// 		options: {}
+					// 	// 	});
+					//
+					// 	return storage_accessor.get({
+					// 		query: {
+					// 			id: '*',
+					// 		},
+					// 		options: {}
+					// 	});
+					// })
+					// .then((res) => {
+					// 	console.log("BOXES", require('util').inspect(res, {
+					// 		depth: null
+					// 	}));
+					// })
 			});
 		});
 	})

@@ -53,7 +53,7 @@ class BaseCollection {
 		if(ids == '*') {
 			ids = _.keys(this.content);
 		} else
-		if(_.isObject(ids)) {
+		if(_.isObject(ids) && !_.isArray(ids)) {
 			let from = ids.from;
 			let to = ids.to;
 			let prefix = ids.prefix || '';

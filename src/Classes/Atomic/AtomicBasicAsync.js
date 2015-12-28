@@ -46,7 +46,6 @@ class AtomicBasicAsync {
 		let obj = new Model();
 
 		obj.build(data);
-
 		return obj;
 	}
 }
