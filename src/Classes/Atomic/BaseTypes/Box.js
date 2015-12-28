@@ -14,11 +14,9 @@ class Box extends Hashmap {
 
 	build(items) {
 		this.content = _.reduce(this.collection_type, (result, Model, index) => {
-			let obj = items[index];
-			if(!(obj instanceof Model)) {
-				obj = new Model();
-				obj.build(items[index]);
-			}
+			let obj = null;
+			obj = new Model();
+			obj.build(items[index]);
 
 			result[index] = obj;
 			return result;
@@ -44,6 +42,7 @@ class Box extends Hashmap {
 			result.content = this.content;
 			return result;
 		}
+
 		for(let i = 0; i < ids.length; i += 1) {
 			let id = ids[i];
 			collection[id] = this.content[id][method_name](passed.selection[id]);

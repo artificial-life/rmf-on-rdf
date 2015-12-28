@@ -127,7 +127,7 @@ describe.only('Workflow: TS Factory ', () => {
 		//@NOTE: prepare variables
 		let data_model = {
 			type: {
-				deco: 'Box',
+				deco: 'StatefulBox',
 				type: ['LDPlan', 'Ticket']
 			},
 			deco: 'BaseCollection',
@@ -231,7 +231,7 @@ describe.only('Workflow: TS Factory ', () => {
 						console.log("RESERVED", require('util').inspect(produced.content_map, {
 							depth: null
 						}));
-						// return produced.save();
+						return produced.save();
 					})
 					// .then((saved) => {
 					// 	console.log("SAVED", require('util').inspect(saved, {

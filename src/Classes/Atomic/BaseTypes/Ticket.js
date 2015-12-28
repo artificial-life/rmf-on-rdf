@@ -3,7 +3,7 @@
 class Ticket {
 	constructor() {
 		//no memory, no siblings, no regrets
-		this.fields = ['time_description', 'operator', 'service', "code", "label", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count"];
+		this.fields = ['source', 'time_description', 'operator', 'service', "code", "label", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count"];
 		this.content_map = {};
 		//@TODO validators?
 	}

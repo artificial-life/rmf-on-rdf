@@ -74,14 +74,16 @@ class TSFactoryDataProvider {
 						//@HACK appliable only for plans
 						vv[index]['ticket'] = vv[index]['ticket'] || {};
 						let tick = {
-							time_descripton: vv[index][property][0].data,
+							time_description: vv[index][property][0].data,
 							service: service_id,
 							operator: op_id,
 							dedicated_date: params.query.date,
 							priority: 0,
-							state: 0
+							state: 0,
+							source: op_plans.content[op_id].parent.db_data['@id']
 						};
 						_.assign(vv[index]['ticket'], tick);
+						vv[index].state_model = 'ticket';
 						return vv;
 					}, result);
 				}, []);
