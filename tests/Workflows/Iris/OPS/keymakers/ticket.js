@@ -1,17 +1,18 @@
 'use strict'
 module.exports = {
 	get: (p) => {
+		console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 		let keys = (_.isArray(p.id)) ? p.id : [p.id];
+		//almost the same as in ticket
+		let transform_prop = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
+		}
+		let fields = ['source', 'operator', 'service', "code", "label", "destination", "priority", "state", "user_info", "service_count"];
 
-		let params_map = {
-			operator_id: "iris://vocabulary/domain#hasOperator",
-			service_id: "iris://vocabulary/domain#hasService",
-			state: "iris://vocabulary/domain#hasState"
-		};
 
-		let where = _.reduce(params_map, (acc, val, key) => {
+		let where = _.reduce(fields, (acc, key) => {
 			if(p[key]) {
-				acc[val] = p[key];
+				acc[transform_prop(key)] = p[key];
 			}
 			return acc;
 		}, {});
@@ -22,8 +23,8 @@ module.exports = {
 		console.log("WHERE", where, p);
 
 		let date_map = {
-			booking_date: "iris://vocabulary/domain#hasBookingDate",
-			dedicated_date: "iris://vocabulary/domain#hasDedicatedDate"
+			booking_date: transform_prop('booking_date'),
+			dedicated_date: transform_prop('dedicated_date')
 		};
 		let test = (data, query) => {
 			return _.reduce(date_map, (acc, val, key) => {
@@ -53,21 +54,32 @@ module.exports = {
 	},
 	set: (data) => {
 		let tickets = _.isArray(data) ? data : [data];
-		return _.map(tickets, (ticket) => {
+		return _.map(tickets, (item) => {
+			let transform_prop = item.propertyKeyTransform;
+			let ticket = item.serialize();
 			let node = {};
-			node['@id'] = "iris://data#" + ticket.key;
-			//@TODO update the vocab with this
+			//vocab
+			node['@id'] = "iris://data#" + ticket.id;
 			node['@type'] = "iris://vocabulary/domain#Ticket";
+			//refs
 			node["iris://vocabulary/domain#hasService"] = [{
 				'@id': ticket.service
 			}];
 			node["iris://vocabulary/domain#hasOperator"] = [{
 				'@id': ticket.operator
 			}];
-			node["iris://vocabulary/domain#hasState"] = ticket.state;
-			node["iris://vocabulary/domain#hasBookingDate"] = (new Date()).toUTCString();
-			node["iris://vocabulary/domain#hasDedicatedDate"] = ticket.date;
-			node["iris://vocabulary/domain#hasTimeDescription"] = JSON.stringify(ticket.time_descripton);
+			node["iris://vocabulary/domain#hasDestination"] = [{
+				'@id': ticket.destination
+			}];
+			node["iris://vocabulary/domain#hasSource"] = [{
+				'@id': ticket.source
+			}];
+			//rest
+			_.map(ticket, (val, key) => {
+				if(key == 'id') return;
+				let nkey = transform_prop(key);
+				node[nkey] = node[nkey] || val;
+			});
 			return node;
 		});
 	}

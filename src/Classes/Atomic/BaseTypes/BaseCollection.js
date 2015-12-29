@@ -64,13 +64,13 @@ class BaseCollection {
 		} else {
 			ids = _.isArray(ids) ? ids : [ids];
 		}
+		// console.log("BC CM", this.collection_id, method_name, passed, ids);
 
 		let Me = this.constructor;
 		let result = new Me(this.collection_type, this.collection_id);
 		let data = {};
 
 		//@NOTE: generator will be here
-		// console.log("BC CM", this.collection_id, method_name, passed, ids);
 		result.content = _.reduce(ids, (collection, id) => {
 			if(!this.content[id])
 				return collection;

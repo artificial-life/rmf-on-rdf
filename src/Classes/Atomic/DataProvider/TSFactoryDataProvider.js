@@ -13,123 +13,73 @@ class TSFactoryDataProvider {
 		return this;
 	}
 
+	addFinalizedModel(model) {
+		this.finalizedModel = model;
+		return this;
+	}
+
 	addIngredient(ing_name, ingredient) {
 		this.ingredients[ing_name] = ingredient;
 		return this;
 	}
 	get(params) {
-		let ts_size = params.size || 15 * 3600;
-		let count = params.count;
-		let plans_path = ['<namespace>content', 'plan'];
-		let services_path = ['<namespace>attribute', 'services'];
-		//only one service so far
-		let service_id = params.query.selection.service_id;
-		service_id = _.isArray(service_id) ? service_id[0] : service_id;
-
-		let observing = _.reduce(this.ingredients, (result, ingredient, property) => {
-			result[property] = ingredient.resolve(params)
-				.then((resolved) => {
-					//just like ingredients, but not ingredients
-					//had to choose between such notation and additional * queries to db
-					let services = resolved.getAtom(services_path);
-					let op_plans = resolved.getAtom(plans_path);
-					let o_atoms = {
-						services: services.observe(params.query),
-						op_plans: op_plans.observe({
-							operator_id: params.query.operator_id,
-							selection: params.query.selection.selection
-						})
-					};
-					return Promise.props(o_atoms);
-				})
-			return result;
-		}, {});
-		return Promise.props(observing)
-			.then((observed) => {
-				//@FIXIT : flush this monkey code ASAP
-				//f*ck I tried to avoid this
-				let complete = _.reduce(observed, (result, ingredient, property) => {
-
-					let services = ingredient.services;
-					let op_plans = ingredient.op_plans;
-					let intersected = _.reduce(op_plans.content, (acc, op_plan, op_id) => {
-						let service_plans = services.content[op_id];
-						acc[op_id] = service_plans.intersection({
-							service_id: service_id,
-							selection: op_plan
-						});
-						return acc;
-					}, {});
-
-					//just pick a random op
-					let op_id = _.sample(_.keys(intersected));
-					let plan = intersected[op_id].content[service_id];
+		//@NOTE only one service so far
+		//@FIXIT : flush this monkey code ASAP
+		//f*ck I tried to avoid this
+		let complete = _.reduce(this.ingredients, (result, ingredient, property) => {
+			return ingredient.get(params)
+				.then((splitted) => {
+					//just pick a random op for now
+					let op_id = _.sample(_.keys(splitted));
+					let s_source = splitted[op_id];
 					//if intersection is empty
 					if(!op_id) return result;
 
-					let s_source = plan.split(ts_size, count);
 					return _.reduce(s_source, (vv, part, index) => {
 						vv[index] = vv[index] || {};
 						vv[index][property] = part.serialize();
 						//@HACK appliable only for plans
-						vv[index]['ticket'] = vv[index]['ticket'] || {};
-						let tick = {
-							time_description: vv[index][property][0].data,
-							service: service_id,
+						vv[index].resolve_params = vv[index].resolve_params || {};
+						let tick = {}; //params.selection[property];
+						_.merge(tick, {
 							operator: op_id,
-							dedicated_date: params.query.date,
-							priority: 0,
-							state: 0,
-							source: op_plans.content[op_id].parent.db_data['@id']
-						};
-						_.assign(vv[index]['ticket'], tick);
-						vv[index].state_model = 'ticket';
+							service: params.selection[property].selection.service_id,
+							source: part.parent.db_data['@id'],
+							time_description: part.getContent()[0].serialize().data[0],
+							dedicated_date: params.selection[property].date
+						});
+						vv[index].resolve_params[property] = tick;
 						return vv;
 					}, result);
-				}, []);
-				return complete;
-			});
+				});
+			return result;
+		}, {});
+		return Promise.props(complete);
 	}
+
 	set(keys, value) {
-		let plans_path = ['<namespace>content', 'plan'];
 		let result = _.reduce(keys, (status, box_id) => {
-			//serialization hack
-			if(box_id == 'key')
-				return status;
 			let box = value[box_id];
-			let resolve_params = box.resolve_params;
 			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {
-				let atom = ingredient.getAtom(plans_path);
-				result[index] = atom.resolve({
-						query: resolve_params,
-						options: {}
-					})
-					.then((resolved) => {
-						resolved.reserve(resolve_params);
-						return atom.save(resolved);
-					})
-					.then((saved) => {
-						if(!(saved))
-							return false;
-						return true;
-					})
-					.catch((err) => {
-						console.error(err.stack);
-						return false;
-					});
+				result[index] = ingredient.set(box_id, box[index]);
 				return result;
 			}, {});
 			status[box_id] = Promise.props(saving)
 				.then((saved) => {
-					if(_.keys(saved).length != _.filter(saved, (val) => !!val).length)
+					if(_.keys(saved).length != _.compact(_.values(saved)).length)
 						return false;
-					let ticket = {};
-					ticket.key = 'ticket-' + uuid.v1();
-					ticket.service = resolve_params.service_id;
-					ticket.operator = resolve_params.operator_id;
-					ticket.state = 0;
-					ticket.date = resolve_params.date;
-					ticket.time_descripton = resolve_params.selection;
+					let ticket_raw =
+						_.reduce(saved, (acc, val, key) => {
+							_.merge(acc, box[key].resolve_params)
+							return acc;
+						}, {});
+					ticket_raw.id = 'ticket-' + uuid.v1();
+					let FModel = this.finalizedModel;
+					let ticket = new FModel();
+					ticket.build(ticket_raw);
+					if(!ticket.isValid())
+						return false;
+
 					return this.storage_accessor.set(ticket);
 				})
 				.catch((err) => {

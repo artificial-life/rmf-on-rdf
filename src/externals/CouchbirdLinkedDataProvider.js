@@ -66,6 +66,8 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 										return true;
 									if((!_.eq(doc[key], val)) && !~_.indexOf(doc[key], val) && (!_.find(doc[key], {
 											'@id': val
+										})) && (!_.find(doc[key], {
+											'@value': val
 										}))) {
 										return false;
 									}

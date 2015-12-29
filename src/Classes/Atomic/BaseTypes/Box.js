@@ -73,10 +73,10 @@ class Box extends Hashmap {
 		let res = _.reduce(this.content, (result, item, key) => {
 			let data = item.serialize();
 			data.key = key;
+			data.resolve_params = this.resolve_params[key];
 			result[key] = data;
 			return result;
 		}, {});
-		res.resolve_params = this.resolve_params;
 		return res;
 	}
 }

@@ -1,37 +1,19 @@
 'use strict'
 
-var _ = require('lodash');
-
 var Path = require('./Path/Path.js');
+var ResolvedContent = require('./ResolvedContent');
 
 //@NOTE: may be ResolvedContent and Content should have common parent class
 //@NOTE: something like AbcstractContent
 //@NOTE: this will separated methods linked to content_map
 
-class ResolvedContentAsync {
+class ResolvedContentAsync extends ResolvedContent {
 	constructor(parent) {
-		if(!parent) throw new Error('parent required');
-		this.parent = parent;
-		this.content_map = {};
-		this.path = new Path(this.content_map);
-		//@NOTE: this inherits query params  from resolver
-		this.path.query(parent.selector().getQueryParams());
-	}
-	addAtom(path, atom) {
-		_.set(this.content_map, path, atom);
-		return this;
-	}
-	getAtom(path) {
-		return _.get(this.content_map, path);
-	}
-	selector() {
-		return this.path;
+		super(parent);
 	}
 
-
-	/*=======================TEST=======================*/
 	save() {
-		//@NOTE : bullshit above
+		//@NOTE : bullshit below
 		var path = this.selector().traverse();
 		var atom_data;
 		var result = [];
@@ -48,9 +30,7 @@ class ResolvedContentAsync {
 		}
 		return Promise.all(result);
 	}
-	getSourceAtom(atom) {
-		return !atom.source_atom ? atom : this.getSourceAtom(atom.source_atom)
-	}
+
 	observe(query) {
 		let atom_data;
 		let observed_atoms = [];
@@ -91,23 +71,6 @@ class ResolvedContentAsync {
 
 		return this;
 	}
-	reset() {
-		var path = this.selector().traverse();
-		var atom_data;
-
-		for(atom_data of path) {
-			var {
-				atom_path: atom_path,
-				atom: atom
-			} = atom_data;
-
-			if(atom.parent) this.addAtom(atom_path, atom.parent);
-		}
-
-		return this;
-	}
-
-	/*=======================TEST=======================*/
 
 }
 

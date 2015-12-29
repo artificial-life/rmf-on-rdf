@@ -15,7 +15,16 @@ class LDCacheAccessor extends CacheAccessor {
 	}
 	set(data) {
 		let access_obj = this.makeAccessObject('set', data);
-		return this.data_provider.upsert(access_obj);
+		let values = [];
+		let opts = {};
+		if(access_obj.options && access_obj.values) {
+			values = access_obj.values;
+			opts = access_obj.options;
+		} else {
+			values = access_obj;
+			opts = {};
+		}
+		return this.data_provider.upsert(values, opts);
 	}
 	get(context) {
 		let access_obj = {

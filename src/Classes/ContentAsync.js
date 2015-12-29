@@ -1,40 +1,13 @@
 'use strict'
 
-var _ = require('lodash');
 
 var ResolvedContentAsync = require('./ResolvedContentAsync.js');
+var Content = require('./Content.js');
 var Path = require('./Path/Path.js');
 
-class ContentAsync {
+class ContentAsync extends Content {
 	constructor(Resolved_Model = ResolvedContentAsync) {
-		this.content_map = {
-			'<namespace>content': null,
-			'<namespace>attribute': null
-		};
-
-		this.Resolved_Model = Resolved_Model;
-		this.path = new Path(this.content_map);
-
-		//@NOTE: this hack is very dirty and ugly
-		//@TODO: do something, pls
-		this.selector().resolve = this.resolve.bind(this);
-		this.selector().observe = (params) => {
-			this.resolve(params).observe(params);
-			this.path.selector().reset();
-		}
-	}
-	addAtom(atom, atom_type, ...path) {
-		path = path.length ? path : ['<namespace>content'];
-		path.push(atom_type);
-
-		if(_.has(this.content_map, path)) throw new Error("This path is used already");
-
-		_.set(this.content_map, path, atom);
-
-		return this;
-	}
-	selector() {
-		return this.path;
+		super(Resolved_Model);
 	}
 
 	//@NOTE: semantics of this method changed
@@ -48,6 +21,7 @@ class ContentAsync {
 				atom_path: atom_path,
 				atom: atom
 			} = atom_data;
+			console.log("CA ATOM", atom_data);
 			//@NOTE: params should be specific for each branch of selection
 			let params = query || this.path.getQueryParams() || {};
 			this.path.query(params);
@@ -70,8 +44,7 @@ class ContentAsync {
 			});
 	}
 	save(data) {
-		console.log("CA SAVE", data);
-		return _.map(data, (item, index) => {
+		return Promise.all(_.map(data, (item, index) => {
 			//@TODO: need some cheks here
 			if(_.isEmpty(item)) return true;
 
@@ -85,10 +58,7 @@ class ContentAsync {
 			var atom = this.getAtom(path);
 
 			return content instanceof atom.Model ? atom.save(content) : false;
-		});
-	}
-	getAtom(path) {
-		return _.get(this.content_map, path);
+		}));
 	}
 }
 

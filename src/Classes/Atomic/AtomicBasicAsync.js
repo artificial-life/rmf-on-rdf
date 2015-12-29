@@ -1,19 +1,10 @@
 'use strict'
 
-var _ = require('lodash');
-
+let AtomicBasic = require("./AtomicBasic");
 //Content with writable initial data storage
 //storage should be represented as static data, not function
-var AbstractVolume = require('./BaseTypes/AbstractVolume.js');
-var BaseCollection = require('./BaseTypes/BaseCollection.js');
 
-class AtomicBasicAsync {
-	constructor(Model, accessor) {
-		this.Model = Model;
-		this.model_decription = {}
-		this.accessor = accessor;
-	}
-
+class AtomicBasicAsync extends AtomicBasic {
 	resolve(params) {
 		return this.accessor.get(params)
 			.then((data) => {
@@ -22,6 +13,7 @@ class AtomicBasicAsync {
 	}
 	save(data, direct_call = true, compact = true) {
 		let saving = [];
+
 		//@NOTE: direct_call indicates that saving was called right from atom or thru atom chain
 		if(_.isArray(data.stored_changes) && !direct_call) {
 			//@NOTE: Here should be step by step commit of changes
@@ -40,13 +32,6 @@ class AtomicBasicAsync {
 			if(serialize instanceof Function) return this.accessor.set(data.serialize());
 		}
 		return this.accessor.set(data);
-	}
-	builder(data) {
-		let Model = this.Model;
-		let obj = new Model();
-
-		obj.build(data);
-		return obj;
 	}
 }
 

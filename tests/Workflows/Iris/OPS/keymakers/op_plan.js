@@ -60,13 +60,25 @@ module.exports = {
 	},
 	set: function(data) {
 		let access = [];
+		let opts = {};
 		_.map(_.values(data), (val) => {
 			let node = val.db_data;
+			let cas = val.cas;
 			delete val.key;
+			delete val.cas;
 			delete val.db_data;
-			node["iris://vocabulary/domain#hasTimeDescription"][0]['@value'] = JSON.stringify(val);
+			node["iris://vocabulary/domain#hasTimeDescription"] = JSON.stringify(val);
 			access.push(node);
+			if(cas) {
+				opts[node['@id']] = {
+					cas: cas
+				};
+			}
 		})
-		return access;
+
+		return {
+			values: access,
+			options: opts
+		};
 	}
 };

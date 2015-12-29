@@ -91,7 +91,6 @@ class Plan extends BasicVolume {
 				if(local_intersection) result.push(solid ? chunk : local_intersection);
 			});
 		});
-
 		return result;
 	}
 

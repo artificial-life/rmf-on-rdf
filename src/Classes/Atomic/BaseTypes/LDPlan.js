@@ -37,7 +37,10 @@ class LDPlan extends Plan {
 
 	serialize() {
 		let data = super.serialize();
-		data.db_data = this.db_data || {};
+		if(this.db_data) {
+			data.db_data = this.db_data;
+			data.cas = this.cas;
+		}
 		return data;
 	}
 

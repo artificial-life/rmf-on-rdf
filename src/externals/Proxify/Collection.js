@@ -21,6 +21,7 @@ function ProxifyCollection(collection) {
 				return target.then;
 
 			return function(...args) {
+				// console.log("PROXY", propKey, target.collection_id, args);
 				let params = args[0] || {};
 				let id = params[target.collection_id];
 				if(id) {
