@@ -58,6 +58,7 @@ class TSFactoryDataProvider {
 	}
 
 	set(keys, value) {
+		console.log("TSFDP", keys, value);
 		let result = _.reduce(keys, (status, box_id) => {
 			let box = value[box_id];
 			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {

@@ -18,7 +18,7 @@ let Ticket = require(_base + '/build/Classes/Atomic/BaseTypes/Ticket');
 let AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory');
 
 
-describe.only('Workflow: TS Factory ', () => {
+describe('Workflow: TS Factory ', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");

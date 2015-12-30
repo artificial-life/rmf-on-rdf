@@ -5,7 +5,7 @@ let Couchbird = require("couchbird");
 let IrisWorkflow = require(_base + '/build/Workflows/Iris/IrisWorkflow.js');
 
 
-describe('Workflow: IRIS ', () => {
+describe.only('Workflow: IRIS ', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -58,44 +58,50 @@ describe('Workflow: IRIS ', () => {
 
 			return Promise.resolve(true)
 				.then(() => {
-					return iris.build({
-						query: {
-							operator_id: '*',
-							date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
-							selection: {
-								service_id: 'iris://data#service-2',
-								selection: [50400000, 50800000]
+					return iris.observe({
+						selection: {
+							ldplan: {
+								operator_id: '*',
+								date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
+								selection: {
+									service_id: 'iris://data#service-2',
+									selection: [40000000, 60000000]
+								}
 							}
 						},
+						box_id: 2
+					}, {
 						count: 6,
 						size: 30 * 3600
 					});
 				})
 				.then((produced) => {
-					console.log("PRODUCED", require('util').inspect(iris.produced.content_map, {
+					console.log("OBSERVED", require('util').inspect(produced, {
 						depth: null
 					}));
-					return iris.observe({
-						service_id: '*',
-						selection: {
-							box_id: '*'
-						}
-					});
-				})
-				.then((produced) => {
-					console.log("OBSERVED", require('util').inspect(iris.produced.content_map, {
-						depth: null
-					}));
-					iris.reserve({
-						service_id: '*',
-						selection: {
-							box_id: '2'
-						}
-					});
-					console.log("RESERVED", require('util').inspect(iris.produced.content_map, {
-						depth: null
-					}));
-					return iris.save();
+					let data = _.reduce(produced, (acc, box, box_id) => {
+						console.log("AAA", box, box_id);
+						let rp = box['ldplan'].resolve_params;
+						rp.code = "456789";
+						rp.label = "P54";
+						rp.user_info = "none"
+						rp.destination = "none"
+						rp.service_count = 1;
+						rp.priority = 1;
+						rp.state = 0;
+						rp.booking_date = (new Date()).toUTCString();
+						acc[box_id] = box;
+						acc[box_id]['ldplan'].resolve_params = rp;
+						return acc;
+					}, {});
+					// console.log("DATA", require('util').inspect(data, {
+					// 	depth: null
+					// }));
+					// return produced.save();
+					// console.log("RESERVED", require('util').inspect(iris.produced.content_map, {
+					// 	depth: null
+					// }));
+					return iris.reserve(data);
 				})
 				.then((saved) => {
 					console.log("SAVED", require('util').inspect(saved, {
@@ -103,14 +109,22 @@ describe('Workflow: IRIS ', () => {
 					}));
 
 					return iris.getTicketsData({
+						query: {
 							id: '*',
-							booking_date: 'Thu, 24 Dec 2015 00:00:00 GMT'
-						})
-						.then((res) => {
-							console.log("BOXES", require('util').inspect(res, {
-								depth: null
-							}));
-						});
+							service: "iris://data#service-2",
+							state: 0,
+							priority: 1,
+							label: "P54"
+						},
+						options: {}
+					}, {
+						count: 5
+					})
+				})
+				.then((res) => {
+					console.log("BOXES", require('util').inspect(res, {
+						depth: null
+					}));
 				});
 		});
 	})
