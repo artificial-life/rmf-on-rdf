@@ -26,7 +26,7 @@ module.exports = {
 		service_keys = {
 			select: "*",
 			where: {
-				"@type": "iris://vocabulary/domain#Person"
+				"@type": "iris://vocabulary/domain#Employee"
 			},
 			test: function(data, query) {
 				let res = data["@id"];

@@ -48,12 +48,6 @@ class Ticket {
 		}).length);
 	}
 
-	observe() {
-		return this;
-	}
-	reserve() {
-		return this;
-	}
 	serialize() {
 		let data = {};
 		_.merge(data, this.content_map);

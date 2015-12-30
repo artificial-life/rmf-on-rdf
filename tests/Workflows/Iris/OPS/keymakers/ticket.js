@@ -1,7 +1,6 @@
 'use strict'
 module.exports = {
 	get: (p) => {
-		console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 		let keys = (_.isArray(p.id)) ? p.id : [p.id];
 		//almost the same as in ticket
 		let transform_prop = (prop) => {
@@ -20,7 +19,7 @@ module.exports = {
 
 		where["@type"] = "iris://vocabulary/domain#Ticket";
 
-		console.log("WHERE", where, p);
+		// console.log("WHERE", where, p);
 
 		let date_map = {
 			booking_date: transform_prop('booking_date'),

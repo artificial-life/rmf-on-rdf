@@ -2,11 +2,8 @@
 	"@context": {
 		"ci": "iris://data#",
 		"iris": "iris://vocabulary/domain#",
-		"owl": "http://www.w3.org/2002/07/owl#",
-		"owlTime": "http://www.w3.org/2006/time#",
 		"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 		"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-		"rmf": "iris://vocabulary/basic#",
 		"xsd": "http://www.w3.org/2001/XMLSchema#"
 	},
 	"@graph": [{
@@ -19,12 +16,22 @@
 			"@id": "ci:human-1"
 		}
 	}, {
-		"@id": "ci:office-1",
-		"@type": "iris:Office",
-		"rdfs:label": "Office 1",
-		"iris:hasUnit": {
-			"@id": "ci:department-1"
-		}
+		"@id": "ci:service-2",
+		"@type": "iris:Service",
+		"iris:codeFRGU": "Smth",
+		"iris:deptCodeFRGU": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-5"
+		},
+		"iris:liveOperationTime": 1200000,
+		"iris:order": 6,
+		"iris:prebookInterval": 172800000,
+		"iris:prebookOperationTime": 1200000,
+		"iris:prebookPercentage": 50,
+		"iris:prebookTodayPercentage": 20,
+		"iris:prefix": "Smth",
+		"iris:priority": 3,
+		"iris:serviceCodeEPGU": "Smth"
 	}, {
 		"@id": "ci:pc-2",
 		"@type": "iris:AWP",
@@ -35,8 +42,39 @@
 			"@id": "ci:human-2"
 		}
 	}, {
+		"@id": "ci:human-1",
+		"@type": "iris:Employee",
+		"iris:firstName": {
+			"@language": "en",
+			"@value": "Vasily"
+		},
+		"iris:hasMembership": {
+			"@id": "ci:membership-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-1"
+		},
+		"iris:lastName": {
+			"@language": "en",
+			"@value": "Ivanov"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "vasyoQ"
+		},
+		"iris:middleName": {
+			"@language": "en",
+			"@value": "Ivanovich"
+		},
+		"iris:password": "123456",
+		"iris:provides": [{
+			"@id": "ci:service-2"
+		}, {
+			"@id": "ci:service-1"
+		}]
+	}, {
 		"@id": "ci:human-2",
-		"@type": "iris:Person",
+		"@type": "iris:Employee",
 		"iris:firstName": {
 			"@language": "en",
 			"@value": "Maria"
@@ -66,50 +104,13 @@
 	}, {
 		"@id": "ci:department-1",
 		"@type": "iris:Department",
-		"rdfs:label": "Department 1",
 		"iris:hasSchedule": {
 			"@id": "ci:schedule-3"
 		},
 		"iris:unitOf": {
 			"@id": "ci:office-1"
-		}
-	}, {
-		"@id": "ci:orgroot-1",
-		"@type": "iris:FormalOrganization",
-		"iris:hasUnit": {
-			"@id": "ci:office-1"
-		}
-	}, {
-		"@id": "ci:human-1",
-		"@type": "iris:Person",
-		"iris:firstName": {
-			"@language": "en",
-			"@value": "Vasily"
 		},
-		"iris:hasMembership": {
-			"@id": "ci:membership-1"
-		},
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-1"
-		},
-		"iris:lastName": {
-			"@language": "en",
-			"@value": "Ivanov"
-		},
-		"iris:login": {
-			"@language": "en",
-			"@value": "vasyoQ"
-		},
-		"iris:middleName": {
-			"@language": "en",
-			"@value": "Ivanovich"
-		},
-		"iris:password": "123456",
-		"iris:provides": [{
-			"@id": "ci:service-1"
-		}, {
-			"@id": "ci:service-2"
-		}]
+		"rdfs:label": "Department 1"
 	}, {
 		"@id": "ci:membership-2",
 		"@type": "iris:Membership",
@@ -135,39 +136,18 @@
 			"@id": "iris:Operator"
 		}
 	}, {
-		"@id": "ci:service-1",
-		"@type": "iris:Service",
-		"iris:codeFRGU": "Smth",
-		"iris:deptCodeFRGU": "Smth",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-4"
-		},
-		"iris:liveOperationTime": 900000,
-		"iris:order": 1,
-		"iris:prebookInterval": 172800000,
-		"iris:prebookOperationTime": 900000,
-		"iris:prebookPercentage": 45,
-		"iris:prebookTodayPercentage": 15,
-		"iris:prefix": "Smth",
-		"iris:priority": 1,
-		"iris:serviceCodeEPGU": "Smth"
+		"@id": "ci:orgroot-1",
+		"@type": "iris:FormalOrganization",
+		"iris:hasUnit": {
+			"@id": "ci:office-1"
+		}
 	}, {
-		"@id": "ci:service-2",
-		"@type": "iris:Service",
-		"iris:codeFRGU": "Smth",
-		"iris:deptCodeFRGU": "Smth",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-5"
+		"@id": "ci:office-1",
+		"@type": "iris:Office",
+		"iris:hasUnit": {
+			"@id": "ci:department-1"
 		},
-		"iris:liveOperationTime": 1200000,
-		"iris:order": 6,
-		"iris:prebookInterval": 172800000,
-		"iris:prebookOperationTime": 1200000,
-		"iris:prebookPercentage": 50,
-		"iris:prebookTodayPercentage": 20,
-		"iris:prefix": "Smth",
-		"iris:priority": 3,
-		"iris:serviceCodeEPGU": "Smth"
+		"rdfs:label": "Office 1"
 	}, {
 		"@id": "ci:plan-6",
 		"@type": "iris:Plan",
@@ -184,7 +164,7 @@
 		"iris:hasDay": {
 			"@id": "iris:Thursday"
 		},
-		"iris:hasTimeDescription": "[[50400000, 64800000]]",
+		"iris:hasTimeDescription": "[{\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-2"
 		}
@@ -194,7 +174,7 @@
 		"iris:hasDay": {
 			"@id": "iris:Monday"
 		},
-		"iris:hasTimeDescription": "[[50400000, 64800000]]",
+		"iris:hasTimeDescription": "[{\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:service-2"
 		}
@@ -204,7 +184,7 @@
 		"iris:hasDay": {
 			"@id": "iris:Monday"
 		},
-		"iris:hasTimeDescription": "[[30000000, 70000000]]",
+		"iris:hasTimeDescription": "[{\"data\": [[33300000, 64800000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:service-1"
 		}
@@ -214,14 +194,17 @@
 		"iris:hasDay": {
 			"@id": "iris:Monday"
 		},
-		"iris:hasTimeDescription": "[[30000000, 46800000], [50400000, 64800000]]",
+		"iris:hasTimeDescription": "[{\"data\": [[30000000, 46800000]], \"state\": \"a\"}, {\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:department-1"
 		}
 	}, {
 		"@id": "ci:schedule-2",
 		"@type": "iris:Schedule",
-		"iris:hasTimeDescription": "[[32400000, 46800000], [50400000, 64800000]]",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[32400000, 46800000]], \"state\": \"a\"}, {\"data\":[[50400000, 64800000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-2"
 		}
@@ -231,9 +214,26 @@
 		"iris:hasDay": {
 			"@id": "iris:Monday"
 		},
-		"iris:hasTimeDescription": "[[32400000, 46800000], [50400000, 64800000]]",
+		"iris:hasTimeDescription": "[{\"data\":[[32400000, 46800000]], \"state\": \"a\"}, {\"data\":[[50400000, 64800000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-1"
 		}
+	}, {
+		"@id": "ci:service-1",
+		"@type": "iris:Service",
+		"iris:codeFRGU": "Smth",
+		"iris:deptCodeFRGU": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-4"
+		},
+		"iris:liveOperationTime": 900000,
+		"iris:order": 1,
+		"iris:prebookInterval": 172800000,
+		"iris:prebookOperationTime": 900000,
+		"iris:prebookPercentage": 45,
+		"iris:prebookTodayPercentage": 15,
+		"iris:prefix": "Smth",
+		"iris:priority": 1,
+		"iris:serviceCodeEPGU": "Smth"
 	}]
 }

@@ -248,9 +248,9 @@ describe.only('Workflow: TS Factory ', () => {
 						return produced.save();
 					})
 					.then((saved) => {
-						console.log("SAVED", require('util').inspect(saved, {
-							depth: null
-						}));
+						// console.log("SAVED", require('util').inspect(saved, {
+						// 	depth: null
+						// }));
 						factory.selector().reset()
 							.add()
 							.id('<namespace>content').id('box').query({
@@ -267,7 +267,7 @@ describe.only('Workflow: TS Factory ', () => {
 						return factory.build()
 					})
 					.then((res) => {
-						console.log("BOXES", require('util').inspect(res.content_map, {
+						console.log("BOXES", require('util').inspect(res.getAtom(["<namespace>content", 'box']).serialize(), {
 							depth: null
 						}));
 					})

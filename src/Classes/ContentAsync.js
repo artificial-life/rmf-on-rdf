@@ -21,7 +21,6 @@ class ContentAsync extends Content {
 				atom_path: atom_path,
 				atom: atom
 			} = atom_data;
-			console.log("CA ATOM", atom_data);
 			//@NOTE: params should be specific for each branch of selection
 			let params = query || this.path.getQueryParams() || {};
 			this.path.query(params);
