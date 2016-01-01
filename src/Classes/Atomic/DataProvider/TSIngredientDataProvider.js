@@ -18,25 +18,41 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let selection = params.selection[this.property];
 		let plans_path = ['<namespace>content', 'plan'];
 		let services_path = ['<namespace>attribute', 'services'];
-		let service_id = selection.selection.service_id;
+		let service_id = selection.service;
 
 		return this.ingredient.resolve({
-				query: selection
+				query: {
+					operator_id: selection.operator,
+					date: selection.dedicated_date,
+					selection: {
+						service_id: selection.service,
+						selection: selection.time_description
+					}
+				}
 			})
 			.then((resolved) => {
-				//had to choose between this outrageous notation and additional * queries to db
+				console.log("resolved", require('util').inspect(resolved.content_map, {
+					depth: null
+				})); //had to choose between this outrageous notation and additional * queries to db
 				let services = resolved.getAtom(services_path);
 				let op_plans = resolved.getAtom(plans_path);
 				let o_atoms = {
-					services: services.observe(selection),
+					services: services.observe({
+						operator_id: selection.operator,
+						selection: {
+							service_id: selection.service,
+							selection: selection.time_description
+						}
+					}),
 					op_plans: op_plans.observe({
-						operator_id: selection.operator_id,
-						selection: selection.selection.selection
+						operator_id: selection.operator,
+						selection: selection.time_description
 					})
 				};
 				return Promise.props(o_atoms);
 			})
 			.then((observed) => {
+
 				let services = observed.services;
 				let op_plans = observed.op_plans;
 				let intersected = _.reduce(services.content, (acc, s_plans, op_id) => {

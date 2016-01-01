@@ -46,5 +46,12 @@ class IrisWorkflow {
 				return res.getAtom(['<namespace>content', 'box']).serialize();
 			});
 	}
+
+	setTicket(ticket_data) {
+		let ticket = this.factory.buildFinalized(data);
+		if(!ticket.isValid())
+			return false;
+		return res.getAtom(['<namespace>content', 'box']).save(ticket);
+	}
 }
 module.exports = IrisWorkflow;

@@ -18,6 +18,13 @@ class TSFactoryDataProvider {
 		return this;
 	}
 
+	buildFinalized(data) {
+		let FModel = this.finalizedModel;
+		let ticket = new FModel();
+		ticket.build(data);
+		return ticket;
+	}
+
 	addIngredient(ing_name, ingredient) {
 		this.ingredients[ing_name] = ingredient;
 		return this;
@@ -30,7 +37,9 @@ class TSFactoryDataProvider {
 			return ingredient.get(params)
 				.then((splitted) => {
 					//just pick a random op for now
-					let op_id = _.sample(_.keys(splitted));
+					let op_keys = _.keys(splitted);
+					let op_id = _.sample(op_keys);
+					let alt_ops = _.without(op_keys, op_id);
 					let s_source = splitted[op_id];
 					//if intersection is empty
 					if(!op_id) return result;
@@ -43,10 +52,11 @@ class TSFactoryDataProvider {
 						let tick = {}; //params.selection[property];
 						_.merge(tick, {
 							operator: op_id,
-							service: params.selection[property].selection.service_id,
+							alt_operator: alt_ops,
+							service: params.selection[property].service,
 							source: part.parent.db_data['@id'],
 							time_description: part.getContent()[0].serialize().data[0],
-							dedicated_date: params.selection[property].date
+							dedicated_date: params.selection[property].dedicated_date
 						});
 						vv[index].resolve_params[property] = tick;
 						return vv;
@@ -58,7 +68,6 @@ class TSFactoryDataProvider {
 	}
 
 	set(keys, value) {
-		console.log("TSFDP", keys, value);
 		let result = _.reduce(keys, (status, box_id) => {
 			let box = value[box_id];
 			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {
@@ -75,9 +84,7 @@ class TSFactoryDataProvider {
 							return acc;
 						}, {});
 					ticket_raw.id = 'ticket-' + uuid.v1();
-					let FModel = this.finalizedModel;
-					let ticket = new FModel();
-					ticket.build(ticket_raw);
+					let ticket = this.buildFinalized(ticket_raw);
 					if(!ticket.isValid())
 						return false;
 

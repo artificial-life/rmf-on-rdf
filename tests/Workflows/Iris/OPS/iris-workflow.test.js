@@ -61,12 +61,10 @@ describe.only('Workflow: IRIS ', () => {
 					return iris.observe({
 						selection: {
 							ldplan: {
-								operator_id: '*',
-								date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
-								selection: {
-									service_id: 'iris://data#service-2',
-									selection: [40000000, 60000000]
-								}
+								operator: '*',
+								dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
+								service: 'iris://data#service-2',
+								time_description: [40000000, 60000000]
 							}
 						},
 						box_id: 2
@@ -83,7 +81,7 @@ describe.only('Workflow: IRIS ', () => {
 						console.log("AAA", box, box_id);
 						let rp = box['ldplan'].resolve_params;
 						rp.code = "456789";
-						rp.label = "P54";
+						rp.label = "P84";
 						rp.user_info = "none"
 						rp.destination = "none"
 						rp.service_count = 1;
@@ -114,7 +112,7 @@ describe.only('Workflow: IRIS ', () => {
 							service: "iris://data#service-2",
 							state: 0,
 							priority: 1,
-							label: "P54"
+							label: "P84"
 						},
 						options: {}
 					}, {
@@ -125,6 +123,11 @@ describe.only('Workflow: IRIS ', () => {
 					console.log("BOXES", require('util').inspect(res, {
 						depth: null
 					}));
+					let tick = _.sample(res);
+					console.log("TICKET CHOSEN", require('util').inspect(tick, {
+						depth: null
+					}));
+
 				});
 		});
 	})

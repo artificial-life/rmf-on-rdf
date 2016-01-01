@@ -28,7 +28,6 @@ class IrisBuilder {
 	}
 	static getResourceSource() {
 		let dp = new CouchbirdLinkedDataProvider(this.db.bucket(this.cfg.buckets.main));
-		let resource_source = new ContentAsync();
 
 		let ops_plan_accessor = new LDCacheAccessor(dp);
 		let services_accessor = new LDCacheAccessor(dp);
@@ -36,8 +35,9 @@ class IrisBuilder {
 		ops_plan_accessor.mapper(classmap);
 		services_accessor.mapper(classmap);
 
-		ops_plan_accessor.keymaker('get', keymakers.op_plan.get);
-		ops_plan_accessor.keymaker('set', keymakers.op_plan.set);
+		ops_plan_accessor
+			.keymaker('get', keymakers.op_plan.get)
+			.keymaker('set', keymakers.op_plan.set);
 		services_accessor.keymaker('get', keymakers.op_service_plan.get);
 
 
@@ -66,6 +66,8 @@ class IrisBuilder {
 			type: attributes_services_datamodel,
 			accessor: services_accessor
 		});
+
+		let resource_source = new ContentAsync();
 
 		resource_source.addAtom(plan_collection, 'plan');
 		resource_source.addAtom(operator_services_collection, 'services', '<namespace>attribute');
@@ -131,6 +133,31 @@ class IrisBuilder {
 			.addAtom(box_storage, 'box', '<namespace>content');
 
 		return factory;
+	}
+
+	static getUserInfoStorage() {
+		let dp = new CouchbirdLinkedDataProvider(this.db.bucket(this.cfg.buckets.main));
+		let datamodel = {
+			type: 'UserInfo',
+			deco: 'BaseCollection',
+			params: 'user_id'
+		};
+
+		let accessor = new LDCacheAccessor(dp);
+		accessor
+			.keymaker('set', keymakers.user_info.set)
+			.keymaker('get', keymakers.user_info.get)
+			.mapper(classmap);
+
+		let ui_collection = AtomicFactory.create('BasicAsync', {
+			type: datamodel,
+			accessor: accessor
+		});
+
+		let resource_source = new ContentAsync();
+		resource_source.addAtom(ui_collection, 'user_info');
+
+		return resource_source;
 	}
 }
 
