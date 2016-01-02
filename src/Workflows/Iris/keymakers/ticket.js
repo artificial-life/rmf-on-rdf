@@ -1,12 +1,20 @@
 'use strict'
 module.exports = {
-	get: (p) => {
+	get: ({
+		query: p,
+		keys: ids
+	}) => {
+		if(ids)
+			return {
+				keys: ids
+			};
 		let keys = (_.isArray(p.id)) ? p.id : [p.id];
+
 		//almost the same as in ticket
 		let transform_prop = (prop) => {
 			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
 		}
-		let fields = ['source', 'operator', 'service', "code", "label", "destination", "priority", "state", "user_info", "service_count"];
+		let fields = ['id', 'source', 'time_description', 'operator', 'alt_operator', 'service', "code", "label", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count"];
 
 
 		let where = _.reduce(fields, (acc, key) => {
@@ -32,7 +40,7 @@ module.exports = {
 			}, true);
 		}
 
-		if(p.id == '*') {
+		if(_.isUndefined(p.id) || p.id == '*') {
 			let query = {
 				type: 'view',
 				query: {
@@ -47,9 +55,13 @@ module.exports = {
 				}
 			};
 
-			return query;
+			return {
+				query: query
+			};
 		}
-		return keys;
+		return {
+			keys: keys
+		};
 	},
 	set: (data) => {
 		let tickets = _.isArray(data) ? data : [data];
@@ -67,6 +79,11 @@ module.exports = {
 			node["iris://vocabulary/domain#hasOperator"] = [{
 				'@id': ticket.operator
 			}];
+			node["iris://vocabulary/domain#hasAltOperator"] = _.map(ticket.alt_operator, (op) => {
+				return {
+					'@id': op
+				}
+			});
 			node["iris://vocabulary/domain#hasDestination"] = [{
 				'@id': ticket.destination
 			}];

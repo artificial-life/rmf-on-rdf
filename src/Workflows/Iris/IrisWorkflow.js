@@ -37,7 +37,7 @@ class IrisWorkflow {
 		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
 	}
 
-	getTicketsData(query, factory_params = {}) {
+	getTicket(query, factory_params = {}) {
 		this.factory.selector().reset()
 			.add()
 			.id('<namespace>content').id('box').query(query);

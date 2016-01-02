@@ -31,15 +31,10 @@ class LDCacheAccessor extends CacheAccessor {
 			options: context.options || {}
 		};
 		let deep = 0;
-		if(context.query) {
-			access_obj.query = this.makeAccessObject('get', context.query);
+		access_obj = _.assign(access_obj, this.makeAccessObject('get', context));
+
+		if(access_obj.query) {
 			deep = access_obj.query.key_depth;
-		}
-		if(context.keys) {
-			let keys = _.isArray(context.keys) ? context.keys : [context.keys];
-			access_obj.keys = _.map(keys, (key) => {
-				return this.makeAccessObject('get', key);
-			});
 		}
 		// let tm = Date.now();
 

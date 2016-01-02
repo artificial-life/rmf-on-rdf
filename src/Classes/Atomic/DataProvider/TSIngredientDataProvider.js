@@ -31,9 +31,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				}
 			})
 			.then((resolved) => {
-				console.log("resolved", require('util').inspect(resolved.content_map, {
-					depth: null
-				})); //had to choose between this outrageous notation and additional * queries to db
+				//had to choose between this outrageous notation and additional * queries to db
 				let services = resolved.getAtom(services_path);
 				let op_plans = resolved.getAtom(plans_path);
 				let o_atoms = {

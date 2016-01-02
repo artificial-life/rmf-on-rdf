@@ -3,7 +3,9 @@
 let u = require("./keymaker_utils");
 
 module.exports = {
-	get: function(p) {
+	get: function({
+		query: p
+	}) {
 		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		let date = p.date ? new Date(p.date) : new Date();
 		let day = "iris://vocabulary/domain#" + days[date.getDay()];
@@ -56,7 +58,9 @@ module.exports = {
 				return reduced;
 			}
 		};
-		return query;
+		return {
+			query: query
+		};
 	},
 	set: function(data) {
 		let access = [];

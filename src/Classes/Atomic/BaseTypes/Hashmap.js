@@ -2,7 +2,8 @@
 
 var _ = require('lodash');
 
-var ProxifyCollection = require(_base + '/build/externals/Proxify/Collection.js');
+// var ProxifyCollection = require(_base + '/build/externals/Proxify/Collection.js');
+var ProxifyCollection = require('../../../externals/Proxify/Collection.js');
 var BaseCollection = require('./BaseCollection.js');
 
 class Hashmap extends BaseCollection {

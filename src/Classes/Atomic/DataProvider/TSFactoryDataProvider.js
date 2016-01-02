@@ -39,7 +39,7 @@ class TSFactoryDataProvider {
 					//just pick a random op for now
 					let op_keys = _.keys(splitted);
 					let op_id = _.sample(op_keys);
-					let alt_ops = _.without(op_keys, op_id);
+					// let alt_ops = _.without(op_keys, op_id);
 					let s_source = splitted[op_id];
 					//if intersection is empty
 					if(!op_id) return result;
@@ -52,7 +52,7 @@ class TSFactoryDataProvider {
 						let tick = {}; //params.selection[property];
 						_.merge(tick, {
 							operator: op_id,
-							alt_operator: alt_ops,
+							alt_operator: op_keys,
 							service: params.selection[property].service,
 							source: part.parent.db_data['@id'],
 							time_description: part.getContent()[0].serialize().data[0],

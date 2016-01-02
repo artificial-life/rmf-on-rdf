@@ -2,7 +2,8 @@
 
 var _ = require('lodash');
 
-var ProxifyCollection = require(_base + '/build/externals/Proxify/Collection.js');
+// var ProxifyCollection = require(_base + '/build/externals/Proxify/Collection.js');
+var ProxifyCollection = require('../../../externals/Proxify/Collection.js');
 
 const default_collection_id = 'id';
 

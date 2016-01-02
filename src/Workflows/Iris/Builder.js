@@ -1,33 +1,34 @@
 'use strict'
 
-let RDFcb = require("cbird-rdf").LD;
 let keymakers = require("./keymakers");
 let classmap = require("./classmap");
+let base_dir = "../../../";
 
-let AtomicFactory = require(_base + '/build/Classes/Atomic/AtomicFactory');
+let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 
-let TSFactoryDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
-let TSIngredientDataProvider = require(_base + '/build/Classes/Atomic/DataProvider/TSIngredientDataProvider');
-let CouchbirdLinkedDataProvider = require(_base + '/build/externals/CouchbirdLinkedDataProvider');
+let TSFactoryDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
+let TSIngredientDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSIngredientDataProvider');
+let CouchbirdLinkedDataProvider = require(base_dir + '/build/externals/CouchbirdLinkedDataProvider');
 
-let LDCacheAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDCacheAccessor');
-let BasicAccessor = require(_base + '/build/Classes/Atomic/Accessor/BasicAccessor');
-let LDAccessor = require(_base + '/build/Classes/Atomic/Accessor/LDAccessor.js');
+let LDCacheAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDCacheAccessor');
+let BasicAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/BasicAccessor');
+let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor.js');
 
-let ContentAsync = require(_base + '/build/Classes/ContentAsync');
-let ResourceFactoryAsync = require(_base + '/build/Classes/ResourceFactoryAsync');
+let ContentAsync = require(base_dir + '/build/Classes/ContentAsync');
+let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsync');
 
-let Ticket = require(_base + '/build/Classes/Atomic/BaseTypes/Ticket');
+let Ticket = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
+let cbird = require("cbird-rdf").LD;
 
 
 class IrisBuilder {
-	static init(cfg) {
+	static init(bname) {
 		this.default_slot_size = 15 * 3600;
-		this.cfg = cfg;
-		this.db = new RDFcb(this.cfg.couchbird);
+
+		this.db = (new cbird()).bucket(bname);
 	}
 	static getResourceSource() {
-		let dp = new CouchbirdLinkedDataProvider(this.db.bucket(this.cfg.buckets.main));
+		let dp = new CouchbirdLinkedDataProvider(this.db);
 
 		let ops_plan_accessor = new LDCacheAccessor(dp);
 		let services_accessor = new LDCacheAccessor(dp);
@@ -76,7 +77,7 @@ class IrisBuilder {
 	}
 
 	static getFactory(ingredients) {
-		let dp = new CouchbirdLinkedDataProvider(this.db.bucket(this.cfg.buckets.main));
+		let dp = new CouchbirdLinkedDataProvider(this.db);
 
 		let data_model = {
 			type: {
@@ -136,7 +137,7 @@ class IrisBuilder {
 	}
 
 	static getUserInfoStorage() {
-		let dp = new CouchbirdLinkedDataProvider(this.db.bucket(this.cfg.buckets.main));
+		let dp = new CouchbirdLinkedDataProvider(this.db);
 		let datamodel = {
 			type: 'UserInfo',
 			deco: 'BaseCollection',

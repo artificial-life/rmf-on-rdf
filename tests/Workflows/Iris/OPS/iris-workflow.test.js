@@ -3,6 +3,7 @@ let RDFcb = require("cbird-rdf").LD;
 let Couchbird = require("couchbird");
 
 let IrisWorkflow = require(_base + '/build/Workflows/Iris/IrisWorkflow.js');
+let gpc = require('generate-pincode');
 
 
 describe.only('Workflow: IRIS ', () => {
@@ -43,9 +44,10 @@ describe.only('Workflow: IRIS ', () => {
 		// bucket.setVocabulary(cfg.vocabulary);
 		bucket.upsertNodes(test_data);
 		bucket.removeNodes("iris://data#plan-1--2015-12-21");
+		bucket.removeNodes("iris://data#plan-2--2015-12-21");
 
 		iris = new IrisWorkflow();
-		iris.init(cfg);
+		iris.init(cfg.buckets.main);
 		//@NOTE: building factory
 		//@NOTE: prepare variables
 
@@ -78,9 +80,8 @@ describe.only('Workflow: IRIS ', () => {
 						depth: null
 					}));
 					let data = _.reduce(produced, (acc, box, box_id) => {
-						console.log("AAA", box, box_id);
 						let rp = box['ldplan'].resolve_params;
-						rp.code = "456789";
+						rp.code = gpc(10).toString();
 						rp.label = "P84";
 						rp.user_info = "none"
 						rp.destination = "none"
@@ -106,17 +107,13 @@ describe.only('Workflow: IRIS ', () => {
 						depth: null
 					}));
 
-					return iris.getTicketsData({
+					return iris.getTicket({
 						query: {
-							id: '*',
-							service: "iris://data#service-2",
-							state: 0,
-							priority: 1,
-							label: "P84"
+							code: "3033291418"
 						},
 						options: {}
 					}, {
-						count: 5
+						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {

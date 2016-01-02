@@ -23,15 +23,7 @@ class LDAccessor extends BasicAccessorAsync {
 		let access_obj = {
 			options: context.options || {}
 		};
-		if(context.query) {
-			access_obj.query = this.makeAccessObject('get', context.query);
-		}
-		if(context.keys) {
-			let keys = _.isArray(context.keys) ? context.keys : [context.keys];
-			access_obj.keys = _.map(keys, (key) => {
-				return this.makeAccessObject('get', key);
-			});
-		}
+		access_obj = _.assign(access_obj, this.makeAccessObject('get', context));
 		// let tm = Date.now();
 
 		return Promise.resolve(this.data_provider.get(access_obj));
