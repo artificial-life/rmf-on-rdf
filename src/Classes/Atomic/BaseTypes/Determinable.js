@@ -30,7 +30,6 @@ class Determinable {
 	}
 
 	build(data) {
-		console.log("BUILD", data);
 		if(data.value) {
 			//construct from db
 			this.cas = data.cas;
