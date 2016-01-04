@@ -1,7 +1,5 @@
-global._base = process.cwd();
-global.expect = require('chai').expect;
 global._ = require('lodash');
-global.DogeError = require('./externals/Error/DogeError.js');
+global.DogeError = require('./build/externals/Error/DogeError.js');
 global.Promise = require('bluebird');
 
 module.exports = {
