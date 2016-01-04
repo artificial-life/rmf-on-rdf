@@ -1,7 +1,6 @@
 'use strict'
 
-var _ = require('lodash');
-var uuid = require('node-uuid');
+let uuid = require('node-uuid');
 
 class TSFactoryDataProvider {
 	constructor() {
@@ -84,11 +83,7 @@ class TSFactoryDataProvider {
 							return acc;
 						}, {});
 					ticket_raw.id = 'ticket-' + uuid.v1();
-					let ticket = this.buildFinalized(ticket_raw);
-					if(!ticket.isValid())
-						return false;
-
-					return this.storage_accessor.set(ticket);
+					return this.storage_accessor.set(ticket_raw);
 				})
 				.catch((err) => {
 					console.error(err.stack);

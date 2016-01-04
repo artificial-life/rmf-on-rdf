@@ -18,6 +18,7 @@ let ContentAsync = require(base_dir + '/build/Classes/ContentAsync');
 let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsync');
 
 let Ticket = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
+let UserInfo = require(base_dir + '/build/Classes/Atomic/BaseTypes/UserInfo');
 let cbird = require("cbird-rdf").LD;
 
 
@@ -111,8 +112,26 @@ class IrisBuilder {
 			.keymaker('get', (p) => p);
 
 		let storage_accessor = new LDAccessor(dp);
-		storage_accessor.keymaker('set', keymakers.ticket.set)
-			.keymaker('get', keymakers.ticket.get);
+		storage_accessor.keymaker('set', (data) => {
+				let tickets = _.isArray(data) ? data : [data];
+				let res = _.map(tickets, (t_data) => {
+					let ticket = new Ticket();
+					ticket.build(t_data);
+					return ticket;
+				});
+				//@TODO: some checks?
+				return keymakers.ticket.set(res);
+			})
+			.keymaker('get', (data) => {
+				let res = data;
+				if(data.query) {
+					let ticket = new Ticket();
+					ticket.build(data.query);
+					res.query = ticket.getAsQuery();
+				}
+				//@TODO: some checks?
+				return keymakers.ticket.get(res);
+			});
 
 		factory_provider
 			.addFinalizedModel(Ticket)
@@ -146,9 +165,35 @@ class IrisBuilder {
 
 		let accessor = new LDCacheAccessor(dp);
 		accessor
-			.keymaker('set', keymakers.user_info.set)
-			.keymaker('get', keymakers.user_info.get)
-			.mapper(classmap);
+			.keymaker('set', (data) => {
+				let uis = _.isArray(data) ? data : [data];
+				let res = _.map(uis, (t_data) => {
+					let ui = new UserInfo();
+					ui.build(t_data);
+					return ui;
+				});
+				return keymakers.user_info.set(res);
+			})
+			.keymaker('get', (data) => {
+				let res = data;
+				if(data.query) {
+					let ui = new UserInfo();
+					ui.build(data.query);
+					res.query = ui.getAsQuery();
+				}
+				//@TODO: some checks?
+				return keymakers.user_info.get(res);
+			})
+			.template((key, ctx) => {
+				let ui = new UserInfo();
+				let data = {
+					value: ctx.query
+				};
+				data.value['@id'] = key;
+				ui.build(data);
+
+				return Promise.resolve(ui.serialize());
+			});
 
 		let ui_collection = AtomicFactory.create('BasicAsync', {
 			type: datamodel,

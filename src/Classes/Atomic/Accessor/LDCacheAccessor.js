@@ -13,6 +13,11 @@ class LDCacheAccessor extends CacheAccessor {
 		this.template();
 		return this;
 	}
+	makeInitial(...context) {
+		if(!this.template_maker) throw new Error('template is not defined');
+
+		return this.template_maker.apply(this, context);
+	}
 	set(data) {
 		let access_obj = this.makeAccessObject('set', data);
 		let values = [];
@@ -49,7 +54,7 @@ class LDCacheAccessor extends CacheAccessor {
 					} else {
 						return Promise.all(_.map(data, (val, key) => {
 							// console.log(key, Date.now() - tm);
-							return(_.isUndefined(val) ? this.makeInitial(key) : val);
+							return(_.isUndefined(val) ? this.makeInitial(key, context) : val);
 						}));
 					}
 				};

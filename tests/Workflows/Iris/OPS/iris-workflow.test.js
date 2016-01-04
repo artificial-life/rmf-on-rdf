@@ -109,7 +109,8 @@ describe.only('Workflow: IRIS ', () => {
 
 					return iris.getTicket({
 						query: {
-							code: "3033291418"
+							code: "3033291418",
+							dedicated_date: "Mon, 21 Dec 2015 00:00:00 GMT"
 						},
 						options: {}
 					}, {
@@ -117,14 +118,62 @@ describe.only('Workflow: IRIS ', () => {
 					})
 				})
 				.then((res) => {
-					console.log("BOXES", require('util').inspect(res, {
+					console.log("BYQ", require('util').inspect(res, {
 						depth: null
 					}));
 					let tick = _.sample(res);
 					console.log("TICKET CHOSEN", require('util').inspect(tick, {
 						depth: null
 					}));
-
+					tick.state = 4;
+					return iris.setTicket(tick);
+				})
+				.then((res) => {
+					console.log("TICK SET", require('util').inspect(res, {
+						depth: null
+					}));
+					return iris.getTicket({
+						keys: ["iris://data#ticket-92f6d120-b268-11e5-9885-637e638a715a", "iris://data#ticket-d91b1280-b0fe-11e5-8f80-bdb52904e4c4"],
+						options: {}
+					}, {
+						count: 5 // @NOTE not implemented
+					})
+				})
+				.then((res) => {
+					console.log("BYKEY", require('util').inspect(res, {
+						depth: null
+					}));
+					return iris.getUserInfo({
+						query: {
+							first_name: "Ivaniy"
+						}
+					})
+				})
+				.then((res) => {
+					console.log("USERINFO", require('util').inspect(res, {
+						depth: null
+					}));
+					let iv = _.sample(res);
+					return iris.setUserInfo({
+						id: iv.id,
+						first_name: iv.first_name,
+						last_name: "Cocainum",
+						middle_name: "Mihalych",
+						phone: 1234654897
+					})
+				})
+				.then((res) => {
+					console.log("USERINFO SET", require('util').inspect(res, {
+						depth: null
+					}));
+					// return iris.setUserInfo({
+					// 	query: {
+					// 		first_name: "Ivaniy",
+					// 		second_name: "Cocainum",
+					// 		middle_name: "Mihalych",
+					// 		phone: 1234654897
+					// 	}
+					// })
 				});
 		});
 	})

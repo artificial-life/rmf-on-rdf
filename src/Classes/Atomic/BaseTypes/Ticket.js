@@ -1,59 +1,56 @@
 'use strict'
 
-class Ticket {
-	constructor() {
-			//no memory, no siblings, no regrets
-			this.fields = ['id', 'source', 'time_description', 'operator', 'alt_operator', 'service', "code", "label", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count"];
-			this.content_map = {};
-			//@TODO validators?
-		}
-		//this should be somewhere else
-	propertyKeyTransform(prop) {
-		return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
-	};
+let Determinable = require("./Determinable");
+
+class Ticket extends Determinable {
+	constructor(validator_model) {
+		//no memory, no siblings, no regrets
+		let fields = ['id', 'source', 'time_description', 'operator', 'alt_operator', 'service', "code", "label", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count"];
+		super(fields, validator_model);
+		//@TODO validators?
+		this.setKeyTransform((prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
+		});
+	}
 
 	build(data) {
-		if(data.cas) {
-			//construct from db
-			this.cas = data.cas;
-			//meh
-			let db_data = data.value;
-			this.content_map.id = db_data['@id'];
-
-			_.map(this.fields, (property) => {
-				let key = this.propertyKeyTransform(property);
-				if(!_.isUndefined(db_data[key])) {
-					let val = _.map(db_data[key], (piece) => {
-						return piece['@id'] || piece['@value'];
-					})
-					this.content_map[property] = val[0];
-				}
-			});
+		super.build(data);
+		if((data.value) || _.isString(this.content_map.time_description))
 			this.content_map.time_description = JSON.parse(this.content_map.time_description);
-		} else {
-			_.map(this.fields, (property) => {
-				if(!_.isUndefined(data[property]))
-					this.content_map[property] = data[property];
-			});
-		}
 	}
 
 	invalidate(fieldname) {
 		this.content_map[fieldname] = undefined;
 	}
 
-	isValid() {
-		return(this.fields.length == _.filter(_.values(this.content_map), (val) => {
-			return !_.isUndefined(val)
-		}).length);
+	dbSerialize() {
+		let node = super.dbSerialize();
+		//refs
+		let refs = ['service', 'operator', 'alt_operator', 'destination', 'source'];
+		_.map(refs, (ref) => {
+				let key = this.keyTransform(ref);
+				let ref_val = _.isArray(this.content_map[ref]) ? this.content_map[ref] : [this.content_map[ref]];
+				let value = _.map(ref_val, (val) => {
+					return _.isUndefined(val) ? false : {
+						'@id': val
+					};
+				});
+				node[key] = _.compact(value);
+			})
+			//time description
+		node["iris://vocabulary/domain#hasTimeDescription"] = [{
+			"@value": JSON.stringify(this.content_map.time_description)
+		}];
+		return node;
+	}
+	getAsQuery() {
+		let data = super.dbSerialize();
+		return _.reduce(data, (acc, val, key) => {
+			if(!_.isUndefined(val)) acc[key] = val;
+			return acc;
+		}, {});
 	}
 
-	serialize() {
-		let data = {};
-		_.merge(data, this.content_map);
-		data.time_description = JSON.stringify(data.time_description);
-		return data;
-	}
 }
 
 module.exports = Ticket;

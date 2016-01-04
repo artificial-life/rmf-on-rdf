@@ -1,16 +1,15 @@
 'use strict'
 
-class UserInfo {
-	constructor() {
-			this.fields = ["phone", "first_name", "last_name", "middle_name"];
-			this.content_map = {};
-		}
-		//this should be somewhere else
-	propertyKeyTransform(prop) {
-		return "iris://vocabulary/domain#" + _.camelCase(prop);
-	};
+let Determinable = require("./Determinable");
 
-	build(data) {
-
+class UserInfo extends Determinable {
+	constructor(validator_model) {
+		let fields = ["id", "phone", "first_name", "last_name", "middle_name"];
+		super(fields, validator_model);
+		this.setKeyTransform((prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase(prop);
+		});
 	}
 }
+
+module.exports = UserInfo;

@@ -2,18 +2,39 @@ module.exports = {
 	set: (q) => {
 		let access = [];
 		_.map(_.values(q), (val) => {
-			let node = val.db_data;
+			let node = val.dbSerialize();
 			delete val.key;
 			delete val.cas;
-			delete val.db_data;
 			access.push(node);
-		})
+		});
 
 		return access;
 	},
-	get: (q) => {
-		//here should be a query
-		let key = "iris://data#user_info-" + q.phone;
-		return q;
+	get: ({
+		query: p,
+		keys: ids
+	}) => {
+		if(ids)
+			return {
+				keys: ids
+			};
+
+		let query = {
+			type: 'view',
+			query: {
+				ui: {
+					select: "@id",
+					where: p
+				}
+			},
+			final: (query) => {
+				let random_id = 'user_info-' + (require('node-uuid')).v1();
+				return _.isEmpty(query.ui) ? random_id : query.ui;
+			}
+		};
+
+		return {
+			query: query
+		};
 	}
 };

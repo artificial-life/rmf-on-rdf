@@ -12,6 +12,7 @@ class IrisWorkflow {
 		this.factory = IrisBuilder.getFactory({
 			'ldplan': rs
 		});
+		this.user_info = IrisBuilder.getUserInfoStorage();
 	}
 
 	build(query, factory_params = {}) {
@@ -48,10 +49,17 @@ class IrisWorkflow {
 	}
 
 	setTicket(ticket_data) {
-		let ticket = this.factory.buildFinalized(data);
-		if(!ticket.isValid())
-			return false;
-		return res.getAtom(['<namespace>content', 'box']).save(ticket);
+		return this.factory.getAtom(['<namespace>content', 'box']).save(ticket_data);
+	}
+
+	getUserInfo(data) {
+		return this.user_info.resolve(data)
+			.then((res) => {
+				return res.getAtom(['<namespace>content', 'user_info']).serialize();
+			});
+	}
+	setUserInfo(data) {
+		return this.user_info.getAtom(['<namespace>content', 'user_info']).save(data);
 	}
 }
 module.exports = IrisWorkflow;
