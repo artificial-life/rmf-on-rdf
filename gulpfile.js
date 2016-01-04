@@ -10,68 +10,67 @@ var demon;
 
 
 gulp.task("default", function() {
-  return gulp.src("src/**/*.js")
-    .pipe(babel({
-      blacklist: ['bluebirdCoroutines', 'regenerator']
-    }))
-    .pipe(gulp.dest("build")).on('end', function() {
-      require('./build/index.js');
-      setTimeout(function() {
-        console.log('timeout');
-        process.exit()
-      }, 30000);
-    });
+	return gulp.src("src/**/*.js")
+		.pipe(babel({
+			blacklist: ['bluebirdCoroutines', 'regenerator']
+		}))
+		.pipe(gulp.dest("build")).on('end', function() {
+			require('./build/index.js');
+			setTimeout(function() {
+				console.log('timeout');
+				process.exit()
+			}, 30000);
+		});
 });
 
 gulp.task("sourcemaps", function() {
-  return gulp.src("src/**/*.js")
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      blacklist: ['bluebirdCoroutines', 'regenerator']
-    }))
-    .pipe(sourcemaps.write("./maps"))
-    .pipe(gulp.dest("build"));
+	return gulp.src("src/**/*.js")
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			blacklist: ['bluebirdCoroutines', 'regenerator']
+		}))
+		.pipe(sourcemaps.write("./maps"))
+		.pipe(gulp.dest("build"));
 });
 
 gulp.task('serve', ['start'], function() {
-  gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6']);
+	gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6']);
 });
 
 
 gulp.task('es6', function() {
-  return gulp.src(["src/**/*.js", "tests/**/*.js"])
-    .pipe(changed("build"))
-    .pipe(plumber({
-      errorHandler: function(e) {
-        console.log('error', e);
-      }
-    }))
-    .pipe(babel({
-      "whitelist": [
-        "strict",
-        "es6.modules",
-        "es6.parameters.rest",
-        "es6.parameters.default",
-        "es6.destructuring"
-      ]
-    }))
-    .pipe(gulp.dest("build"))
-    .on('end', function() {
-      console.log('build');
-    });
+	return gulp.src(["src/**/*.js", "tests/**/*.js"])
+		.pipe(changed("build"))
+		.pipe(plumber({
+			errorHandler: function(e) {
+				console.log('error', e);
+			}
+		}))
+		.pipe(babel({
+			"whitelist": [
+				"strict",
+				"es6.modules",
+				"es6.parameters",
+				"es6.destructuring"
+			]
+		}))
+		.pipe(gulp.dest("build"))
+		.on('end', function() {
+			console.log('build');
+		});
 })
 
 
 gulp.task('start', function() {
-  demon = nodemon({
-    script: 'build/run.js',
-    watch: ['build/'],
-    execMap: {
-      "js": "node  --harmony --harmony_proxies"
-    },
-    env: {
-      'NODE_ENV': 'development'
-    }
-  });
+	demon = nodemon({
+		script: 'build/run.js',
+		watch: ['build/'],
+		execMap: {
+			"js": "node  --harmony --harmony_proxies"
+		},
+		env: {
+			'NODE_ENV': 'development'
+		}
+	});
 
 })

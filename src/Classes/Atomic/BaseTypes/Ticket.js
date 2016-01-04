@@ -19,10 +19,6 @@ class Ticket extends Determinable {
 			this.content_map.time_description = JSON.parse(this.content_map.time_description);
 	}
 
-	invalidate(fieldname) {
-		this.content_map[fieldname] = undefined;
-	}
-
 	dbSerialize() {
 		let node = super.dbSerialize();
 		//refs

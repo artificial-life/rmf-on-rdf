@@ -12,18 +12,6 @@ class TSFactoryDataProvider {
 		return this;
 	}
 
-	addFinalizedModel(model) {
-		this.finalizedModel = model;
-		return this;
-	}
-
-	buildFinalized(data) {
-		let FModel = this.finalizedModel;
-		let ticket = new FModel();
-		ticket.build(data);
-		return ticket;
-	}
-
 	addIngredient(ing_name, ingredient) {
 		this.ingredients[ing_name] = ingredient;
 		return this;

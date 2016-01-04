@@ -4,6 +4,8 @@ let keymakers = require("./keymakers");
 let classmap = require("./classmap");
 let base_dir = "../../../";
 
+let TicketApi = require("./TicketApi");
+
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 
 let TSFactoryDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
@@ -17,16 +19,12 @@ let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor.j
 let ContentAsync = require(base_dir + '/build/Classes/ContentAsync');
 let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsync');
 
-let Ticket = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
 let UserInfo = require(base_dir + '/build/Classes/Atomic/BaseTypes/UserInfo');
-let cbird = require("cbird-rdf").LD;
-
 
 class IrisBuilder {
-	static init(bname) {
-		this.default_slot_size = 15 * 3600;
-
-		this.db = (new cbird()).bucket(bname);
+	static init(db, cfg) {
+		this.default_slot_size = cfg.default_slot_size;
+		this.db = db;
 	}
 	static getResourceSource() {
 		let dp = new CouchbirdLinkedDataProvider(this.db);
@@ -89,11 +87,6 @@ class IrisBuilder {
 			params: 'box_id'
 		};
 
-		let storage_data_model = {
-			type: 'Ticket',
-			deco: 'BaseCollection',
-			params: 'ticket_id'
-		};
 
 		let factory_provider = new TSFactoryDataProvider();
 		_.map(ingredients, (resource_source, key) => {
@@ -111,40 +104,15 @@ class IrisBuilder {
 			})
 			.keymaker('get', (p) => p);
 
-		let storage_accessor = new LDAccessor(dp);
-		storage_accessor.keymaker('set', (data) => {
-				let tickets = _.isArray(data) ? data : [data];
-				let res = _.map(tickets, (t_data) => {
-					let ticket = new Ticket();
-					ticket.build(t_data);
-					return ticket;
-				});
-				//@TODO: some checks?
-				return keymakers.ticket.set(res);
-			})
-			.keymaker('get', (data) => {
-				let res = data;
-				if(data.query) {
-					let ticket = new Ticket();
-					ticket.build(data.query);
-					res.query = ticket.getAsQuery();
-				}
-				//@TODO: some checks?
-				return keymakers.ticket.get(res);
-			});
+		let t_api = new TicketApi();
+		let box_storage = t_api.initContent().getContent();
 
 		factory_provider
-			.addFinalizedModel(Ticket)
-			.addStorage(storage_accessor);
+			.addStorage(box_storage.accessor);
 
 		let box_builder = AtomicFactory.create('BasicAsync', {
 			type: data_model,
 			accessor: factory_accessor
-		});
-
-		let box_storage = AtomicFactory.create('BasicAsync', {
-			type: storage_data_model,
-			accessor: storage_accessor
 		});
 
 		let factory = new ResourceFactoryAsync();

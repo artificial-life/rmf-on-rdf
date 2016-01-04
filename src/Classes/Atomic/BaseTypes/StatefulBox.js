@@ -17,19 +17,13 @@ class StatefulBox extends Box {
 				obj = new Model();
 				obj.build(items[index]);
 			}
-			if(items.state_model && index == items.state_model) {
-				this.state_description = obj;
-				delete this.collection_type[index];
-			} else {
-				result[index] = obj;
-			}
+			result[index] = obj;
 			return result;
 		}, {});
 		return this;
 	}
 	collectionMethod(method_name, passed) {
 		let result = super.collectionMethod(method_name, passed);
-		result.state_description = this.state_description;
 		return result;
 	}
 	reserve(params) {
@@ -53,11 +47,13 @@ class StatefulBox extends Box {
 			result[key] = data;
 			return result;
 		}, {});
-		res.state_description = this.state_description.serialize();
 		return res;
 	}
-	getState() {
-		return this.state_description.isValid();
+
+	valid() {
+		return _.reduce(this.content, (acc, val, key) => {
+			return acc && val.valid();
+		}, true);
 	}
 }
 

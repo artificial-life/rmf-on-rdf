@@ -2,11 +2,11 @@
 let RDFcb = require("cbird-rdf").LD;
 let Couchbird = require("couchbird");
 
-let IrisWorkflow = require(_base + '/build/Workflows/Iris/IrisWorkflow.js');
+let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe.only('Workflow: IRIS ', () => {
+describe('Workflow: IRIS Ticket', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -46,67 +46,21 @@ describe.only('Workflow: IRIS ', () => {
 		bucket.removeNodes("iris://data#plan-1--2015-12-21");
 		bucket.removeNodes("iris://data#plan-2--2015-12-21");
 
-		iris = new IrisWorkflow();
-		iris.init(cfg.buckets.main);
+		IrisWorkflow.initializer(cfg.buckets.main);
+		let TicketApi = IrisWorkflow.TicketApi;
+		iris = new TicketApi();
+		iris.initContent();
 		//@NOTE: building factory
 		//@NOTE: prepare variables
 
 	});
 
 
-	describe('basic observe-reserve', function() {
+	describe('get/set ticket', function() {
 		this.timeout(10000);
-		it('build concrete', () => {
-
+		it('get ticket', () => {
 			return Promise.resolve(true)
 				.then(() => {
-					return iris.observe({
-						selection: {
-							ldplan: {
-								operator: '*',
-								dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
-								service: 'iris://data#service-2',
-								time_description: [40000000, 60000000]
-							}
-						},
-						box_id: 2
-					}, {
-						count: 6,
-						size: 30 * 3600
-					});
-				})
-				.then((produced) => {
-					console.log("OBSERVED", require('util').inspect(produced, {
-						depth: null
-					}));
-					let data = _.reduce(produced, (acc, box, box_id) => {
-						let rp = box['ldplan'].resolve_params;
-						rp.code = gpc(10).toString();
-						rp.label = "P84";
-						rp.user_info = "none"
-						rp.destination = "none"
-						rp.service_count = 1;
-						rp.priority = 1;
-						rp.state = 0;
-						rp.booking_date = (new Date()).toUTCString();
-						acc[box_id] = box;
-						acc[box_id]['ldplan'].resolve_params = rp;
-						return acc;
-					}, {});
-					// console.log("DATA", require('util').inspect(data, {
-					// 	depth: null
-					// }));
-					// return produced.save();
-					// console.log("RESERVED", require('util').inspect(iris.produced.content_map, {
-					// 	depth: null
-					// }));
-					return iris.reserve(data);
-				})
-				.then((saved) => {
-					console.log("SAVED", require('util').inspect(saved, {
-						depth: null
-					}));
-
 					return iris.getTicket({
 						query: {
 							code: "3033291418",
@@ -143,37 +97,7 @@ describe.only('Workflow: IRIS ', () => {
 					console.log("BYKEY", require('util').inspect(res, {
 						depth: null
 					}));
-					return iris.getUserInfo({
-						query: {
-							first_name: "Ivaniy"
-						}
-					})
-				})
-				.then((res) => {
-					console.log("USERINFO", require('util').inspect(res, {
-						depth: null
-					}));
-					let iv = _.sample(res);
-					return iris.setUserInfo({
-						id: iv.id,
-						first_name: iv.first_name,
-						last_name: "Cocainum",
-						middle_name: "Mihalych",
-						phone: 1234654897
-					})
-				})
-				.then((res) => {
-					console.log("USERINFO SET", require('util').inspect(res, {
-						depth: null
-					}));
-					// return iris.setUserInfo({
-					// 	query: {
-					// 		first_name: "Ivaniy",
-					// 		second_name: "Cocainum",
-					// 		middle_name: "Mihalych",
-					// 		phone: 1234654897
-					// 	}
-					// })
+
 				});
 		});
 	})

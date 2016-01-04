@@ -1,13 +1,18 @@
 'use_strict'
 
 let IrisBuilder = require("./Builder");
+let IrisApi = require("./IrisApi");
 
 //temporary here
 //@TODO make all this bullshit in a righteous way
-class IrisWorkflow {
-	constructor() {}
-	init(cfg) {
-		IrisBuilder.init(cfg);
+class BookingApi extends IrisApi {
+	constructor() {
+		super();
+	}
+	initContent() {
+		IrisBuilder.init(this.db, {
+			default_slot_size: 15 * 3600
+		});
 		let rs = IrisBuilder.getResourceSource();
 		this.factory = IrisBuilder.getFactory({
 			'ldplan': rs
@@ -38,20 +43,6 @@ class IrisWorkflow {
 		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
 	}
 
-	getTicket(query, factory_params = {}) {
-		this.factory.selector().reset()
-			.add()
-			.id('<namespace>content').id('box').query(query);
-		return this.factory.build(factory_params)
-			.then((res) => {
-				return res.getAtom(['<namespace>content', 'box']).serialize();
-			});
-	}
-
-	setTicket(ticket_data) {
-		return this.factory.getAtom(['<namespace>content', 'box']).save(ticket_data);
-	}
-
 	getUserInfo(data) {
 		return this.user_info.resolve(data)
 			.then((res) => {
@@ -62,4 +53,4 @@ class IrisWorkflow {
 		return this.user_info.getAtom(['<namespace>content', 'user_info']).save(data);
 	}
 }
-module.exports = IrisWorkflow;
+module.exports = BookingApi;

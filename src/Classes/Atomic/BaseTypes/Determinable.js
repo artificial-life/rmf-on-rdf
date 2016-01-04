@@ -21,6 +21,11 @@ class Determinable {
 		return this.validator.validate();
 	}
 
+	invalidate(fieldname) {
+		if(this.content_map[fieldname])
+			this.content_map[fieldname] = undefined;
+	}
+
 	setKeyTransform(fn) {
 		this.key_transformer = fn;
 	}

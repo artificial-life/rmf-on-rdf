@@ -7,43 +7,18 @@
 		"xsd": "http://www.w3.org/2001/XMLSchema#"
 	},
 	"@graph": [{
-		"@id": "ci:pc-1",
-		"@type": "iris:AWP",
-		"iris:attachedTo": {
-			"@id": "ci:department-1"
-		},
-		"iris:deviceOf": {
-			"@id": "ci:human-1"
-		}
-	}, {
-		"@id": "ci:service-2",
-		"@type": "iris:Service",
-		"iris:codeFRGU": "Smth",
-		"iris:deptCodeFRGU": "Smth",
+		"@id": "ci:department-1",
+		"@type": "iris:Department",
 		"iris:hasSchedule": {
-			"@id": "ci:schedule-5"
+			"@id": "ci:schedule-3"
 		},
-		"iris:liveOperationTime": 1200000,
-		"iris:order": 6,
-		"iris:prebookInterval": 172800000,
-		"iris:prebookOperationTime": 1200000,
-		"iris:prebookPercentage": 50,
-		"iris:prebookTodayPercentage": 20,
-		"iris:prefix": "Smth",
-		"iris:priority": 3,
-		"iris:serviceCodeEPGU": "Smth"
-	}, {
-		"@id": "ci:pc-2",
-		"@type": "iris:AWP",
-		"iris:attachedTo": {
-			"@id": "ci:department-1"
+		"iris:unitOf": {
+			"@id": "ci:office-1"
 		},
-		"iris:deviceOf": {
-			"@id": "ci:human-2"
-		}
+		"rdfs:label": "Department 1"
 	}, {
 		"@id": "ci:human-1",
-		"@type": "iris:Employee",
+		"@type": "iris:Person",
 		"iris:firstName": {
 			"@language": "en",
 			"@value": "Vasily"
@@ -73,8 +48,124 @@
 			"@id": "ci:service-1"
 		}]
 	}, {
+		"@id": "ci:orgroot-1",
+		"@type": "iris:FormalOrganization",
+		"iris:hasUnit": {
+			"@id": "ci:office-1"
+		}
+	}, {
+		"@id": "ci:pc-1",
+		"@type": "iris:Workplace",
+		"iris:allowsRole": [{
+			"@id": "iris:Operator"
+		}, {
+			"@id": "iris:Administrator"
+		}],
+		"iris:attachedTo": {
+			"@id": "ci:department-1"
+		},
+		"iris:deviceOf": {
+			"@id": "ci:human-1"
+		}
+	}, {
+		"@id": "ci:pc-2",
+		"@type": "iris:Workplace",
+		"iris:allowsRole": {
+			"@id": "iris:Operator"
+		},
+		"iris:attachedTo": {
+			"@id": "ci:department-1"
+		},
+		"iris:deviceOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:schedule-2",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[32400000, 46800000]], \"state\": \"a\"}, {\"data\":[[50400000, 64800000]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:schedule-3",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[30000000, 46800000]], \"state\": \"a\"}, {\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:department-1"
+		}
+	}, {
+		"@id": "ci:schedule-1",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[32400000, 46800000]], \"state\": \"a\"}, {\"data\":[[50400000, 64800000]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-1"
+		}
+	}, {
+		"@id": "ci:schedule-6",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Thursday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:office-1",
+		"@type": "iris:Office",
+		"iris:hasUnit": {
+			"@id": "ci:department-1"
+		},
+		"rdfs:label": "Office 1"
+	}, {
+		"@id": "ci:schedule-4",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[33300000, 64800000]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-1"
+		}
+	}, {
+		"@id": "ci:schedule-5",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-2"
+		}
+	}, {
+		"@id": "ci:service-1",
+		"@type": "iris:Service",
+		"iris:codeFRGU": "Smth",
+		"iris:deptCodeFRGU": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-4"
+		},
+		"iris:liveOperationTime": 900000,
+		"iris:order": 1,
+		"iris:prebookInterval": 172800000,
+		"iris:prebookOperationTime": 900000,
+		"iris:prebookPercentage": 45,
+		"iris:prebookTodayPercentage": 15,
+		"iris:prefix": "Smth",
+		"iris:priority": 1,
+		"iris:serviceCodeEPGU": "Smth"
+	}, {
 		"@id": "ci:human-2",
-		"@type": "iris:Employee",
+		"@type": "iris:Person",
 		"iris:firstName": {
 			"@language": "en",
 			"@value": "Maria"
@@ -102,15 +193,32 @@
 			"@id": "ci:service-2"
 		}
 	}, {
-		"@id": "ci:department-1",
-		"@type": "iris:Department",
+		"@id": "ci:plan-6",
+		"@type": "iris:Plan",
+		"iris:hasDay": {
+			"@id": "iris:Thursday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[50400000,60400000]],\"state\":\"r\"},{\"data\":[[60400000,64800000]],\"state\":\"a\"}]",
+		"iris:planOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:service-2",
+		"@type": "iris:Service",
+		"iris:codeFRGU": "Smth",
+		"iris:deptCodeFRGU": "Smth",
 		"iris:hasSchedule": {
-			"@id": "ci:schedule-3"
+			"@id": "ci:schedule-5"
 		},
-		"iris:unitOf": {
-			"@id": "ci:office-1"
-		},
-		"rdfs:label": "Department 1"
+		"iris:liveOperationTime": 1200000,
+		"iris:order": 6,
+		"iris:prebookInterval": 172800000,
+		"iris:prebookOperationTime": 1200000,
+		"iris:prebookPercentage": 50,
+		"iris:prebookTodayPercentage": 20,
+		"iris:prefix": "Smth",
+		"iris:priority": 3,
+		"iris:serviceCodeEPGU": "Smth"
 	}, {
 		"@id": "ci:membership-2",
 		"@type": "iris:Membership",
@@ -135,105 +243,5 @@
 		"iris:role": {
 			"@id": "iris:Operator"
 		}
-	}, {
-		"@id": "ci:orgroot-1",
-		"@type": "iris:FormalOrganization",
-		"iris:hasUnit": {
-			"@id": "ci:office-1"
-		}
-	}, {
-		"@id": "ci:office-1",
-		"@type": "iris:Office",
-		"iris:hasUnit": {
-			"@id": "ci:department-1"
-		},
-		"rdfs:label": "Office 1"
-	}, {
-		"@id": "ci:plan-6",
-		"@type": "iris:Plan",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[50400000,60400000]],\"state\":\"r\"},{\"data\":[[60400000,64800000]],\"state\":\"a\"}]",
-		"iris:planOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:schedule-6",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:schedule-5",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:service-2"
-		}
-	}, {
-		"@id": "ci:schedule-4",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[33300000, 64800000]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:service-1"
-		}
-	}, {
-		"@id": "ci:schedule-3",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[30000000, 46800000]], \"state\": \"a\"}, {\"data\": [[50400000, 64800000]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:department-1"
-		}
-	}, {
-		"@id": "ci:schedule-2",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[32400000, 46800000]], \"state\": \"a\"}, {\"data\":[[50400000, 64800000]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:schedule-1",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[32400000, 46800000]], \"state\": \"a\"}, {\"data\":[[50400000, 64800000]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-1"
-		}
-	}, {
-		"@id": "ci:service-1",
-		"@type": "iris:Service",
-		"iris:codeFRGU": "Smth",
-		"iris:deptCodeFRGU": "Smth",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-4"
-		},
-		"iris:liveOperationTime": 900000,
-		"iris:order": 1,
-		"iris:prebookInterval": 172800000,
-		"iris:prebookOperationTime": 900000,
-		"iris:prebookPercentage": 45,
-		"iris:prebookTodayPercentage": 15,
-		"iris:prefix": "Smth",
-		"iris:priority": 1,
-		"iris:serviceCodeEPGU": "Smth"
 	}]
 }
