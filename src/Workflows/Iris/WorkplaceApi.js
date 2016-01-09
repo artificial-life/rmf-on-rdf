@@ -5,7 +5,8 @@ let keymakers = require("./keymakers");
 let base_dir = "../../../";
 
 //Model
-let Workplace = require(base_dir + '/build/Classes/Atomic/BaseTypes/Workplace');
+let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Workplace');
+let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 //Atomics
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 //DP
@@ -21,10 +22,20 @@ class WorkplaceApi extends IrisApi {
 	}
 
 	initContent() {
-		let dp = new CouchbirdLinkedDataProvider(this.db);
 
+		let dp = new CouchbirdLinkedDataProvider(this.db);
+		let translator = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase(prop);
+		};
+		let Model = DecoModel.bind(DecoModel, TypeModel, {
+			map_keys: translator
+		});
 		let storage_data_model = {
-			type: 'Workplace',
+			type: {
+				type: 'Workplace',
+				deco: 'LDEntity',
+				params: translator
+			},
 			deco: 'BaseCollection',
 			params: 'workplace_id'
 		};
@@ -34,7 +45,7 @@ class WorkplaceApi extends IrisApi {
 		storage_accessor.keymaker('set', (data) => {
 				let items = _.isArray(data) ? data : [data];
 				let res = _.map(items, (t_data) => {
-					let item = new Workplace();
+					let item = new Model();
 					item.build(t_data);
 					return item;
 				});
@@ -44,7 +55,7 @@ class WorkplaceApi extends IrisApi {
 			.keymaker('get', (data) => {
 				let res = data;
 				if(data.query) {
-					let item = new Workplace();
+					let item = new Model();
 					item.build(data.query);
 					res.query = item.getAsQuery();
 				}

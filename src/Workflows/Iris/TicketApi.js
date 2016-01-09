@@ -4,7 +4,8 @@ let keymakers = require("./keymakers");
 let base_dir = "../../../";
 
 //Model
-let Ticket = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
+let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
+let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 //Atomics
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 //DP
@@ -21,19 +22,26 @@ class TicketApi extends IrisApi {
 
 	initContent() {
 		let dp = new CouchbirdLinkedDataProvider(this.db);
-
+		let translator = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
+		};
 		let storage_data_model = {
-			type: 'Ticket',
+			type: {
+				type: 'Ticket',
+				deco: 'LDEntity',
+				params: translator
+			},
 			deco: 'BaseCollection',
 			params: 'ticket_id'
 		};
+		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 
 		let storage_accessor = new LDAccessor(dp);
 
 		storage_accessor.keymaker('set', (data) => {
 				let tickets = _.isArray(data) ? data : [data];
 				let res = _.map(tickets, (t_data) => {
-					let ticket = new Ticket();
+					let ticket = new Model();
 					ticket.build(t_data);
 					return ticket;
 				});
@@ -43,7 +51,7 @@ class TicketApi extends IrisApi {
 			.keymaker('get', (data) => {
 				let res = data;
 				if(data.query) {
-					let ticket = new Ticket();
+					let ticket = new Model();
 					ticket.build(data.query);
 					res.query = ticket.getAsQuery();
 				}

@@ -1,11 +1,11 @@
 'use strict'
 
-let Determinable = require("./Determinable");
+let Fieldset = require("./Fieldset");
 
-class UserInfo extends Determinable {
-	constructor(validator_model) {
+class UserInfo extends Fieldset {
+	constructor() {
 		let fields = ["id", "phone", "first_name", "last_name", "middle_name"];
-		super(fields, validator_model);
+		super(fields);
 		this.setKeyTransform((prop) => {
 			return "iris://vocabulary/domain#" + _.camelCase(prop);
 		});
