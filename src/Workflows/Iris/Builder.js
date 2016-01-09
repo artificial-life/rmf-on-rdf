@@ -19,7 +19,8 @@ let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor.j
 let ContentAsync = require(base_dir + '/build/Classes/ContentAsync');
 let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsync');
 
-let UserInfo = require(base_dir + '/build/Classes/Atomic/BaseTypes/UserInfo');
+let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/UserInfo');
+let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 
 class IrisBuilder {
 	static init(db, cfg) {
@@ -123,56 +124,6 @@ class IrisBuilder {
 		return factory;
 	}
 
-	static getUserInfoStorage() {
-		let dp = new CouchbirdLinkedDataProvider(this.db);
-		let datamodel = {
-			type: 'UserInfo',
-			deco: 'BaseCollection',
-			params: 'user_id'
-		};
-
-		let accessor = new LDCacheAccessor(dp);
-		accessor
-			.keymaker('set', (data) => {
-				let uis = _.isArray(data) ? data : [data];
-				let res = _.map(uis, (t_data) => {
-					let ui = new UserInfo();
-					ui.build(t_data);
-					return ui;
-				});
-				return keymakers.user_info.set(res);
-			})
-			.keymaker('get', (data) => {
-				let res = data;
-				if(data.query) {
-					let ui = new UserInfo();
-					ui.build(data.query);
-					res.query = ui.getAsQuery();
-				}
-				//@TODO: some checks?
-				return keymakers.user_info.get(res);
-			})
-			.template((key, ctx) => {
-				let ui = new UserInfo();
-				let data = {
-					value: ctx.query
-				};
-				data.value['@id'] = key;
-				ui.build(data);
-
-				return Promise.resolve(ui.serialize());
-			});
-
-		let ui_collection = AtomicFactory.create('BasicAsync', {
-			type: datamodel,
-			accessor: accessor
-		});
-
-		let resource_source = new ContentAsync();
-		resource_source.addAtom(ui_collection, 'user_info');
-
-		return resource_source;
-	}
 }
 
 module.exports = IrisBuilder;

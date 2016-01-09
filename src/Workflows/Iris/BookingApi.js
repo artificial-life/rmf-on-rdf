@@ -17,7 +17,6 @@ class BookingApi extends IrisApi {
 		this.factory = IrisBuilder.getFactory({
 			'ldplan': rs
 		});
-		this.user_info = IrisBuilder.getUserInfoStorage();
 	}
 
 	build(query, factory_params = {}) {
@@ -43,14 +42,5 @@ class BookingApi extends IrisApi {
 		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
 	}
 
-	getUserInfo(data) {
-		return this.user_info.resolve(data)
-			.then((res) => {
-				return res.getAtom(['<namespace>content', 'user_info']).serialize();
-			});
-	}
-	setUserInfo(data) {
-		return this.user_info.getAtom(['<namespace>content', 'user_info']).save(data);
-	}
 }
 module.exports = BookingApi;
