@@ -11,7 +11,6 @@ class LDPlan extends Plan {
 		super(parent);
 		this.PrimitiveVolume = TimeChunk;
 	}
-
 	build(data) {
 		let build_data = data || [{
 			data: [

@@ -6,7 +6,7 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Booking', () => {
+describe.only('Workflow: IRIS Booking', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -63,45 +63,43 @@ describe('Workflow: IRIS Booking', () => {
 			return Promise.resolve(true)
 				.then(() => {
 					return iris.observe({
-						selection: {
-							ldplan: {
-								operator: '*',
-								dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
-								service: 'iris://data#service-2',
-								time_description: [40000000, 60000000]
-							}
-						},
-						box_id: 2
+						dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
+						services: [{
+							service: "iris://data#service-2",
+							time_description: 10800 // or whatever it is default
+						}],
+						time_description: [40000000, 60000000] //from now till the day ends or something
 					}, {
-						count: 6,
-						size: 30 * 3600
+						count: 3 //how many tickets per service you want
+							// not here
+							// size: 30 * 3600
 					});
 				})
-				.then((produced) => {
-					console.log("OBSERVED", require('util').inspect(produced, {
-						depth: null
-					}));
-					let data = _.reduce(produced, (acc, box, box_id) => {
-						let rp = box['ldplan'].resolve_params;
-						rp.code = gpc(10).toString();
-						rp.label = "P84";
-						rp.user_info = "none"
-						rp.destination = "none"
-						rp.service_count = 1;
-						rp.priority = 1;
-						rp.state = 0;
-						rp.booking_date = (new Date()).toUTCString();
-						acc[box_id] = box;
-						acc[box_id]['ldplan'].resolve_params = rp;
-						return acc;
-					}, {});
-					return iris.reserve(data);
-				})
-				.then((saved) => {
-					console.log("SAVED", require('util').inspect(saved, {
-						depth: null
-					}));
-				})
+				// 	.then((produced) => {
+				// 		console.log("OBSERVED", require('util').inspect(produced, {
+				// 			depth: null
+				// 		}));
+				// 		let data = _.reduce(produced, (acc, box, box_id) => {
+				// 			let rp = box['ldplan'].resolve_params;
+				// 			rp.code = gpc(10).toString();
+				// 			rp.label = "P84";
+				// 			rp.user_info = "none"
+				// 			rp.destination = "none"
+				// 			rp.service_count = 1;
+				// 			rp.priority = 1;
+				// 			rp.state = 0;
+				// 			rp.booking_date = (new Date()).toUTCString();
+				// 			acc[box_id] = box;
+				// 			acc[box_id]['ldplan'].resolve_params = rp;
+				// 			return acc;
+				// 		}, {});
+				// 		return iris.reserve(data);
+				// 	})
+				// 	.then((saved) => {
+				// 		console.log("SAVED", require('util').inspect(saved, {
+				// 			depth: null
+				// 		}));
+				// 	})
 		});
 	})
 })

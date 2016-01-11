@@ -19,6 +19,10 @@ class BookingApi extends IrisApi {
 		});
 	}
 
+	getContent() {
+		return this.factory;
+	}
+
 	build(query, factory_params = {}) {
 		this.factory.selector().reset()
 			.add()
@@ -27,20 +31,33 @@ class BookingApi extends IrisApi {
 	}
 
 	observe(query, factory_params = {}) {
-		return this.build(query, factory_params)
-			.then((produced) => {
-				return produced.observe({
-					box_id: query.box_id || '*'
+			let s_ids = _.pluck(query.services, 'service');
+			let real_query = {
+				selection: {
+					ldplan: {
+						operator: '*',
+						service: '*',
+						dedicated_date: query.dedicated_date,
+						time_description: query.time_description
+					}
+				},
+				services: query.services,
+				box_id: '*'
+			};
+			return this.build(real_query, factory_params)
+				.then((produced) => {
+					return produced.observe({
+						box_id: query.box_id || '*'
+					});
+				})
+				.then((res) => {
+					return res.getAtom(['<namespace>builder', 'box']).serialize();
 				});
-			})
-			.then((res) => {
-				return res.getAtom(['<namespace>builder', 'box']).serialize();
-			});
-	}
-
-	reserve(data) {
-		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
-	}
+		}
+		//
+		// reserve(data) {
+		// 	return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
+		// }
 
 }
 module.exports = BookingApi;

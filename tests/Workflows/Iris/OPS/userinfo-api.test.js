@@ -5,7 +5,7 @@ let Couchbird = require("couchbird");
 let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 
 
-describe.only('API: IRIS  UserInfo', () => {
+describe('API: IRIS  UserInfo', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");

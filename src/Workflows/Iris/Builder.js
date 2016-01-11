@@ -19,7 +19,7 @@ let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor.j
 let ContentAsync = require(base_dir + '/build/Classes/ContentAsync');
 let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsync');
 
-let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/UserInfo');
+let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
 let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 
 class IrisBuilder {
@@ -88,7 +88,7 @@ class IrisBuilder {
 			params: 'box_id'
 		};
 
-
+		//setting resource volume
 		let factory_provider = new TSFactoryDataProvider();
 		_.map(ingredients, (resource_source, key) => {
 			let i_provider = new TSIngredientDataProvider();
@@ -108,8 +108,22 @@ class IrisBuilder {
 		let t_api = new TicketApi();
 		let box_storage = t_api.initContent().getContent();
 
+		let translator = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
+		};
+		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
+
 		factory_provider
-			.addStorage(box_storage.accessor);
+			.addStorage(box_storage)
+			.addFinalizer((data) => {
+				let tickets = _.isArray(data) ? data : [data];
+				let res = _.map(tickets, (t_data) => {
+					let ticket = new Model();
+					ticket.build(t_data);
+					return ticket;
+				});
+				return res;
+			});
 
 		let box_builder = AtomicFactory.create('BasicAsync', {
 			type: data_model,

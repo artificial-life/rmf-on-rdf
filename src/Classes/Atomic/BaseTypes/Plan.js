@@ -13,8 +13,9 @@ class Plan extends BasicVolume {
 	}
 	sort() {
 		this.content = _.sortBy(this.content, function(chunk) {
-			return this.start;
+			return chunk.start;
 		});
+		return this;
 	}
 
 	/*=======================TEST===========================================*/

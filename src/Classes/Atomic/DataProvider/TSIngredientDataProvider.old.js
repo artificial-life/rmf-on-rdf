@@ -12,8 +12,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		this.ingredient = resource_source;
 		return this;
 	}
-
-
 	get(params) {
 		let count = params.count;
 		let size = params.size || this.size;
@@ -21,7 +19,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let plans_path = ['<namespace>content', 'plan'];
 		let services_path = ['<namespace>attribute', 'services'];
 		let service_id = selection.service;
-		let time_description = selection.time_description;
 
 		return this.ingredient.resolve({
 				query: {
@@ -29,7 +26,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 					date: selection.dedicated_date,
 					selection: {
 						service_id: selection.service,
-						selection: time_description
+						selection: selection.time_description
 					}
 				}
 			})
@@ -42,32 +39,33 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 						operator_id: selection.operator,
 						selection: {
 							service_id: selection.service,
-							selection: time_description
+							selection: selection.time_description
 						}
 					}),
 					op_plans: op_plans.observe({
 						operator_id: selection.operator,
-						selection: time_description
+						selection: selection.time_description
 					})
 				};
 				return Promise.props(o_atoms);
 			})
 			.then((observed) => {
-				// console.log("I_OBSERVED", require('util').inspect(observed, {
-				// 	depth: null
-				// }));
+
 				let services = observed.services;
 				let op_plans = observed.op_plans;
-				return _.reduce(services.content, (acc, s_plans, op_id) => {
+				let intersected = _.reduce(services.content, (acc, s_plans, op_id) => {
 					let op_plan = op_plans.content[op_id];
-					let s_ids = (service_id == '*' || !service_id) ? _.keys(s_plans.content) : service_id;
-					s_ids = _.isArray(s_ids) ? s_ids : [s_ids];
-					acc[op_id] = _.reduce(s_ids, (op_services, s_id) => {
-						let plan = op_plan.intersection(s_plans.content[s_id]);
-						op_services[s_id] = params.split ? plan.split(size, count) : plan;
-						return op_services;
-					}, {});
+					let s_plan = s_plans.content[service_id];
+					acc[op_id] = op_plan.intersection(s_plan);
 					return acc;
+				}, {});
+				// console.log("INTERSECTED", require('util').inspect(intersected, {
+				// 	depth: null
+				// }));
+
+				return _.reduce(intersected, (splitted, plan, op_id) => {
+					splitted[op_id] = plan.split(size, count);
+					return splitted;
 				}, {});
 			});
 
