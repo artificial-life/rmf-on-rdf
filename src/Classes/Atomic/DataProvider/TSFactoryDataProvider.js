@@ -70,7 +70,7 @@ class TSFactoryDataProvider {
 	}
 
 	resolvePlacing(tickets, sources) {
-		let data = _.values(tickets.serialize());
+		let data = tickets;
 		let remains = sources;
 		let ordered = _.sortByOrder(data, ['priority', (tick) => {
 			return(new Date(tick.booking_date)).getTime();
@@ -144,7 +144,7 @@ class TSFactoryDataProvider {
 				// }));
 				//place them on available space
 				//get remaining space
-				let remains = this.resolvePlacing(tickets, plans);
+				let remains = this.resolvePlacing(_.values(tickets.serialize()), plans);
 				console.log("REMAINS", require('util').inspect(remains, {
 					depth: null
 				}));
@@ -173,7 +173,8 @@ class TSFactoryDataProvider {
 					}
 				});
 				let new_tickets = this.finalizer(ticket_data);
-				console.log("NEW TICKS", require('util').inspect(new_tickets, {
+				let placed = this.resolvePlacing(new_tickets, remains);
+				console.log("NEW TICKS PLACED", require('util').inspect(placed, {
 					depth: null
 				}));
 			});

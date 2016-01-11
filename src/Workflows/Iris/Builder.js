@@ -120,7 +120,7 @@ class IrisBuilder {
 				let res = _.map(tickets, (t_data) => {
 					let ticket = new Model();
 					ticket.build(t_data);
-					return ticket;
+					return ticket.serialize();
 				});
 				return res;
 			});
