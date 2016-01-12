@@ -78,11 +78,15 @@ class IrisBuilder {
 
 	static getFactory(ingredients) {
 		let dp = new CouchbirdLinkedDataProvider(this.db);
+		let translator = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
+		};
 
 		let data_model = {
 			type: {
-				deco: 'Box',
-				type: ['LDPlan']
+				deco: 'LDEntity',
+				type: 'Ticket',
+				params: translator
 			},
 			deco: 'BaseCollection',
 			params: 'box_id'
@@ -108,9 +112,7 @@ class IrisBuilder {
 		let t_api = new TicketApi();
 		let box_storage = t_api.initContent().getContent();
 
-		let translator = (prop) => {
-			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
-		};
+
 		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 
 		factory_provider

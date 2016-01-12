@@ -20,16 +20,12 @@ class Ticket extends Determinable {
 	}
 	dbSerialize(data) {
 		let node = data;
-		console.log("AAAAA", require('util').inspect(node, {
-			depth: null
-		}));
 		//time description
 		node["iris://vocabulary/domain#hasTimeDescription"] = [{
 			"@value": JSON.stringify(this.content_map.time_description)
 		}];
 		return node;
 	}
-
 
 }
 

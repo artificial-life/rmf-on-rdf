@@ -18,6 +18,7 @@ class Fieldset {
 				this.content_map[property] = data[property];
 		});
 	}
+
 	serialize() {
 		let data = {};
 		_.merge(data, this.content_map);

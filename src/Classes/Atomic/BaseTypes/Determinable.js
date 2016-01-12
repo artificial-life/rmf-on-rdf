@@ -17,6 +17,7 @@ class Determinable extends Fieldset {
 		if(this.content_map[fieldname])
 			this.content_map[fieldname] = undefined;
 	}
+
 }
 
 module.exports = Determinable;

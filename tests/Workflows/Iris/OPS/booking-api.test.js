@@ -66,35 +66,37 @@ describe.only('Workflow: IRIS Booking', () => {
 						dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
 						services: [{
 							service: "iris://data#service-2",
-							time_description: 10800 // or whatever it is default
+							time_description: 1000000 // or whatever it is default
+						}, {
+							service: "iris://data#service-1",
+							time_description: 500000 // or whatever it is default
 						}],
 						time_description: [40000000, 60000000] //from now till the day ends or something
 					}, {
-						count: 3 //how many tickets per service you want
+						count: 2 //how many tickets per service you want
 							// not here
 							// size: 30 * 3600
 					});
 				})
-				// 	.then((produced) => {
-				// 		console.log("OBSERVED", require('util').inspect(produced, {
-				// 			depth: null
-				// 		}));
-				// 		let data = _.reduce(produced, (acc, box, box_id) => {
-				// 			let rp = box['ldplan'].resolve_params;
-				// 			rp.code = gpc(10).toString();
-				// 			rp.label = "P84";
-				// 			rp.user_info = "none"
-				// 			rp.destination = "none"
-				// 			rp.service_count = 1;
-				// 			rp.priority = 1;
-				// 			rp.state = 0;
-				// 			rp.booking_date = (new Date()).toUTCString();
-				// 			acc[box_id] = box;
-				// 			acc[box_id]['ldplan'].resolve_params = rp;
-				// 			return acc;
-				// 		}, {});
-				// 		return iris.reserve(data);
-				// 	})
+				.then((produced) => {
+					console.log("OBSERVED", require('util').inspect(produced, {
+						depth: null
+					}));
+					let data = _.reduce(produced, (acc, tick, box_id) => {
+						let rp = tick;
+						rp.code = gpc(10).toString();
+						rp.label = "P84";
+						rp.user_info = "none"
+						rp.destination = "none"
+						rp.service_count = 1;
+						rp.priority = 0;
+						rp.state = 0;
+						rp.booking_date = (new Date()).toUTCString();
+						acc[box_id] = rp;
+						return acc;
+					}, {});
+					return iris.reserve(data);
+				})
 				// 	.then((saved) => {
 				// 		console.log("SAVED", require('util').inspect(saved, {
 				// 			depth: null

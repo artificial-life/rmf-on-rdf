@@ -95,6 +95,10 @@ class LDEntity {
 		}, {});
 		return _.isFunction(this.content.getAsQuery) ? this.content.getAsQuery(db_data) : db_data;
 	}
+	observe() {
+		return this;
+	}
+
 }
 
 module.exports = LDEntity;
