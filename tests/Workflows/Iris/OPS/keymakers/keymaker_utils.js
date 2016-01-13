@@ -2,7 +2,7 @@
 
 class KeymakerUtil {
 	static flatten_ld(data) {
-		return _.pluck(_.flattenDeep(data), '@id');
+		return _.map(_.flattenDeep(data), '@id');
 	}
 
 	static key_typecast(key, opt) {

@@ -23,7 +23,7 @@ var discover = {
 
 	},
 	atomic: function(data) {
-		var fullpath = `./Atomic${_.capitalize(data)}.js`;
+		var fullpath = `./Atomic${_.upperFirst(data)}.js`;
 
 		return require(fullpath);
 	}

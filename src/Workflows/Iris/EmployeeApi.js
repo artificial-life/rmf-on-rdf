@@ -6,7 +6,7 @@ let classmap = require("./classmap");
 let base_dir = "../../../";
 
 //Model
-let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Workplace');
+let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Employee');
 let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 
 

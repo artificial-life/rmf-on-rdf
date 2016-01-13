@@ -29,6 +29,7 @@ class LDPlan extends Plan {
 				build_data = item['iris://vocabulary/domain#hasTimeDescription'][0]['@value'];
 				build_data = JSON.parse(build_data);
 			}
+			// this.plan_of = (item["iris://vocabulary/domain#planOf"] || item["iris://vocabulary/domain#scheduleOf"])[0]['@id'];
 			this.db_data = item;
 		}
 		super.build(build_data);

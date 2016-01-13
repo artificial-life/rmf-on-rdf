@@ -99,7 +99,7 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 							return _.isFunction(test) ? test(item, result) : true;
 						});
 
-						let selected = (!query.select || (query.select == "*")) ? result[qkey] : _.pluck(result[qkey], query.select);
+						let selected = (!query.select || (query.select == "*")) ? result[qkey] : _.map(result[qkey], query.select);
 						result[qkey] = _.isFunction(query.transform) ? query.transform(selected) : selected;
 					});
 

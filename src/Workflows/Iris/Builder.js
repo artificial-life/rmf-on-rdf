@@ -113,11 +113,12 @@ class IrisBuilder {
 							dedicated_date: query.dedicated_date,
 							time_description: query.time_description
 						}
-					}
+					},
+					reserve: query.reserve || false
 				};
 			})
 			.keymaker('get', (query) => {
-				let s_ids = _.pluck(query.services, 'service');
+				let s_ids = _.map(query.services, 'service');
 				return {
 					selection: {
 						ldplan: {
@@ -142,7 +143,7 @@ class IrisBuilder {
 		factory_provider
 			.addStorage(box_storage)
 			.addFinalizer((data) => {
-				let tickets = _.isArray(data) ? data : [data];
+				let tickets = _.filter(data, _.isPlainObject);
 				let res = _.map(tickets, (t_data) => {
 					let ticket = new Model();
 					ticket.build(t_data);

@@ -59,21 +59,21 @@ describe.only('Workflow: IRIS Booking', () => {
 	describe('basic observe-reserve', function() {
 		this.timeout(10000);
 		it('build concrete', () => {
-
+			let data;
 			return Promise.resolve(true)
 				.then(() => {
 					return iris.observe({
 						dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
 						services: [{
 							service: "iris://data#service-2",
-							time_description: 1000000 // or whatever it is default
+							time_description: 1000 // or whatever it is default
 						}, {
 							service: "iris://data#service-1",
-							time_description: 500000 // or whatever it is default
+							time_description: 500 // or whatever it is default
 						}],
-						time_description: [40000000, 60000000] //from now till the day ends or something
+						time_description: [40000, 68400] //from now till the day ends or something
 					}, {
-						count: 2 //how many tickets per service you want
+						count: 1 //how many tickets per service you want
 							// not here
 							// size: 30 * 3600
 					});
@@ -82,7 +82,7 @@ describe.only('Workflow: IRIS Booking', () => {
 					console.log("OBSERVED", require('util').inspect(produced, {
 						depth: null
 					}));
-					let data = _.reduce(produced, (acc, tick, box_id) => {
+					data = _.reduce(produced, (acc, tick, box_id) => {
 						let rp = tick;
 						rp.id = 'ticket-' + uuid.v1();
 						rp.code = gpc(10).toString();
@@ -96,13 +96,39 @@ describe.only('Workflow: IRIS Booking', () => {
 						acc[box_id] = rp;
 						return acc;
 					}, {});
+					data.dedicated_date = 'Mon, 21 Dec 2015 00:00:00 GMT';
+					data.time_description = [40000, 68400];
 					return iris.confirm(data);
 				})
 				.then((saved) => {
 					console.log("SAVED", require('util').inspect(saved, {
 						depth: null
 					}));
+					let dt = new Date();
+					let secs = dt.getSeconds() + (60 * (dt.getMinutes() + (60 * dt.getHours())));
+					let to_call = _.reduce(saved.placed, (acc, tick, box_id) => {
+						let rp = {
+							id: _.last(box_id.split("#"))
+						};
+						rp.destination = "iris://data#pc-1";
+						rp.operator = "iris://data#human-1"
+						rp.priority = 2;
+						rp.state = 1;
+						acc[box_id] = rp;
+						return acc;
+					}, {});
+					to_call.dedicated_date = 'Mon, 21 Dec 2015 00:00:00 GMT';
+					to_call.time_description = [40000, 68400];
+					console.log("TO_CALL", require('util').inspect(to_call, {
+						depth: null
+					}));
+					return iris.reserve(to_call);
 				})
-		});
+				.then((saved) => {
+					console.log("CALLED", require('util').inspect(saved, {
+						depth: null
+					}));
+				});
+		})
 	})
 })

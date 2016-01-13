@@ -73,7 +73,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
 		let ingredient_atom = this.ingredient.getAtom(plans_path);
-		let data = value[0].data;
+		let data = value;
 		let selection = params.selection[this.property];
 
 		return ingredient_atom.resolve({
@@ -88,8 +88,8 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			.then((resolved) => {
 				let reserve =
 					resolved.reserve({
-						operator_id: selection.operator,
-						selection: [selection.time_description]
+						operator_id: data.operator,
+						selection: [data.time_description]
 					});
 
 				return ingredient_atom.save(resolved);

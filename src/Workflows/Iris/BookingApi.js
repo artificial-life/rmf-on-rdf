@@ -43,10 +43,12 @@ class BookingApi extends IrisApi {
 	}
 
 	reserve(data) {
+		data.reserve = true;
 		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
 	}
 
 	confirm(data) {
+		data.reserve = false;
 		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
 	}
 

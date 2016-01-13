@@ -6,7 +6,7 @@ var AtomicBasic = require('../Atomic/AtomicBasic.js');
 var discover = {
   module_cache: {},
   Iterator: function(name) {
-    var fullname = _.capitalize(name);
+    var fullname = _.upperFirst(name);
     var fullpath = `./Iterator/${fullname}Iterator.js`;
 
     if (!this.module_cache.hasOwnProperty(fullpath)) {

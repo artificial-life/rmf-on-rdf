@@ -26,21 +26,23 @@ class TSFactoryDataProvider {
 	}
 
 	getNearestSource(sources, query) {
-		let ops = _.reduce(_.pick(sources, query.alt_operator), (acc, op_s, op_id) => {
-			if(op_s[query.service])
+		let picker = _.isEmpty(query.operator) ? query.alt_operator : query.operator;
+		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
+			if(op_s[query.service]) {
 				acc[op_id] = op_s[query.service];
+				acc[op_id].plan_of = op_id;
+			}
 			return acc;
 		}, {});
-		// console.log("OPS", require('util').inspect(ops, {
-		// 	depth: null
-		// }));
+
 		let ordered = _.sortBy(ops, (plan, op_id) => {
-			plan.op_id = op_id;
 			return _.find(plan.sort().getContent(), (ch) => {
 				return(ch.getState().haveState('a'));
 			}).start;
 		});
-
+		// console.log("OPS", require('util').inspect(ordered, {
+		// 	depth: null
+		// }));
 		//to resolve this crap
 		let time_description = false;
 		let service = query.service;
@@ -50,15 +52,11 @@ class TSFactoryDataProvider {
 			let first = _.find(src.sort().getContent(), (ch) => {
 				return(ch.getState().haveState('a'));
 			});
-			//@TODO temporary. Try to make LDPlan like a Fieldset and get this fiels directly
-			operator = src.op_id;
+			//@TODO temporary. Try to make LDPlan like a Fieldset and get this fields directly
+			operator = src.plan_of;
 			time_description = [first.start, first.start + query.time_description];
 			return(first.getLength() > query.time_description);
 		});
-		// console.log("RES", require('util').inspect(res, {
-		// 	depth: null
-		// }));
-
 		return {
 			source: res,
 			params: {
@@ -71,7 +69,7 @@ class TSFactoryDataProvider {
 
 	resolvePlacing(tickets, sources, set_data = false) {
 		let remains = sources;
-		let ordered = _.sortByOrder(tickets, ['priority', (tick) => {
+		let ordered = _.orderBy(tickets, ['priority', (tick) => {
 			return(new Date(tick.booking_date)).getTime();
 		}], ['desc', 'asc']);
 		let [placed, lost] = _.partition(ordered, (ticket) => {
@@ -83,13 +81,16 @@ class TSFactoryDataProvider {
 					service: service
 				}
 			} = this.getNearestSource(sources, ticket);
-			// console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
-			if(!plan)
+			console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
+			if(!plan) {
 				return false;
+			}
 			if(set_data) {
 				ticket.time_description = time_description;
 				ticket.operator = operator;
 				ticket.service = service;
+				//@FIXIT
+				ticket.source = plan.parent.db_data['@id'];
 			}
 			remains[operator][service] = plan.reserve([time_description]).intersection(remains[operator][service]);
 			return true;
@@ -183,43 +184,78 @@ class TSFactoryDataProvider {
 	}
 
 	set(params, value) {
-		console.log("SETTING", require('util').inspect(value, value, {
-			depth: null
-		}));
+		// console.log("SETTING", require('util').inspect(params, {
+		// 	depth: null
+		// }));
+		let new_tickets = this.finalizer(value);
+		if(params.reserve) {
+			//expect new tickets to be concrete and fully determined
+			// console.log("NEW TICKS", require('util').inspect(new_tickets, {
+			// 	depth: null
+			// }));
+			let keys = _.map(new_tickets, 'id');
+			console.log(keys);
+			return Promise.props({
+					space: this.getAllSpace(params),
+					tickets: this.storage_accessor.resolve({
+						keys
+					})
+				})
+				.then(({
+					space: {
+						ldplan: plans
+					},
+					tickets: tickets
+				}) => {
+					let to_reserve = _.values(_.merge(_.keyBy(tickets.serialize(), 'id'), _.keyBy(new_tickets, 'id')));
+					let {
+						placed, lost, remains
+					} = this.resolvePlacing(to_reserve, plans, true);
+
+					console.log("TICKS", require('util').inspect(remains, {
+						depth: null
+					}));
+					let complete = _.reduce(placed, (result, tick) => {
+						result[tick.key] = this.ingredients.ldplan.set(params, tick)
+							.then((res) => {
+								if(!res)
+									return false;
+								return this.storage_accessor.save(tick);
+							});
+						return result;
+					}, {});
+
+					return Promise.props({
+						placed: Promise.props(complete),
+						lost: lost
+					});
+				});
+			// let completed  = _.reduce(this.ingredients, (result, ingredient, key) => {
+			// 	result[key] = ingredient.set()
+			// 	return result;
+			// });
+			return [];
+		}
 		return this.placeExisting(params)
 			.then(({
 				remains, placed, lost
 			}) => {
 				if(_.size(lost) > 0) {
-					//cannot handle even existing tickets
-					//call the police!
-					return [];
+					return Promise.props({
+						placed: [],
+						lost: new_tickets
+					});
 				}
-			});
-		let result = _.reduce(value, (status, ticket, box_id) => {
-			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {
-				result[index] = ingredient.set(keys, ticket);
-				return result;
-			}, {});
-			status[box_id] = Promise.props(saving)
-				.then((saved) => {
-					if(_.keys(saved).length != _.compact(_.values(saved)).length)
-						return false;
-					let ticket_raw =
-						_.reduce(saved, (acc, val, key) => {
-							_.merge(acc, box[key].resolve_params)
-							return acc;
-						}, {});
-					ticket_raw.id = 'ticket-' + uuid.v1();
-					return this.storage_accessor.set(ticket_raw);
-				})
-				.catch((err) => {
-					console.error(err.stack);
-					return false;
+				let {
+					placed: placed_new,
+					lost: lost_new,
+					remains: remains_new
+				} = this.resolvePlacing(new_tickets, remains);
+				return Promise.props({
+					placed: this.storage_accessor.save(placed_new),
+					lost: lost_new
 				});
-			return status;
-		}, {});
-		return Promise.props(result);
+			});
 	}
 }
 

@@ -55,6 +55,9 @@ class TicketApi extends IrisApi {
 					ticket.build(data.query);
 					res.query = ticket.getAsQuery();
 				}
+				if(data.keys) {
+					res.keys = _.map(data.keys, k => ("iris://data#" + _.last(k.split("#"))));
+				}
 				//@TODO: some checks?
 				return keymakers.ticket.get(res);
 			});

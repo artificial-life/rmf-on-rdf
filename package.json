@@ -27,10 +27,10 @@
   "dependencies": {
     "babel": "^5.8.21",
     "bluebird": "^2.9.34",
-    "custom-queue": "git+https://github.com/artificial-life/custom-queue.git",
     "cbird-rdf": "git+https://github.com/YuuKohaku/cbird-rdf.git",
+    "custom-queue": "git+https://github.com/artificial-life/custom-queue.git",
     "harmony-reflect": "^1.4.2",
-    "lodash": "^3.10.0",
+    "lodash": "^4.0.0",
     "node-uuid": "^1.4.7"
   },
   "devDependencies": {

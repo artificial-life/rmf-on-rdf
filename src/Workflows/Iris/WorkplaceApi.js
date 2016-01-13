@@ -27,9 +27,7 @@ class WorkplaceApi extends IrisApi {
 		let translator = (prop) => {
 			return "iris://vocabulary/domain#" + _.camelCase(prop);
 		};
-		let Model = DecoModel.bind(DecoModel, TypeModel, {
-			map_keys: translator
-		});
+		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 		let storage_data_model = {
 			type: {
 				type: 'Workplace',

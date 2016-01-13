@@ -56,7 +56,7 @@ describe('Workflow: IRIS Workplace', () => {
 	});
 
 
-	describe.only('get/set wp', function() {
+	describe('get/set wp', function() {
 		this.timeout(10000);
 		it('get Workplace', () => {
 			return Promise.resolve(true)
