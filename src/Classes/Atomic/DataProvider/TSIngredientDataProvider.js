@@ -53,9 +53,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				return Promise.props(o_atoms);
 			})
 			.then((observed) => {
-				// console.log("I_OBSERVED", require('util').inspect(observed, {
-				// 	depth: null
-				// }));
 				let services = observed.services;
 				let op_plans = observed.op_plans;
 				return _.reduce(services.content, (acc, s_plans, op_id) => {
@@ -72,26 +69,27 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			});
 
 	}
-	set(key, value) {
+	set(params, value) {
+		console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
 		let ingredient_atom = this.ingredient.getAtom(plans_path);
 		let data = value[0].data;
-		let params = value.resolve_params;
+		let selection = params.selection[this.property];
 
 		return ingredient_atom.resolve({
 				query: {
-					operator_id: params.operator,
-					date: params.dedicated_date,
+					operator_id: selection.operator,
+					date: selection.dedicated_date,
 					selection: {
-						service_id: params.service
+						service_id: selection.service
 					}
 				}
 			})
 			.then((resolved) => {
 				let reserve =
 					resolved.reserve({
-						operator_id: params.operator,
-						selection: [params.time_description]
+						operator_id: selection.operator,
+						selection: [selection.time_description]
 					});
 
 				return ingredient_atom.save(resolved);

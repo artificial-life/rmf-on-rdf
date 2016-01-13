@@ -4,7 +4,7 @@ let Couchbird = require("couchbird");
 
 let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
-
+let uuid = require('node-uuid');
 
 describe.only('Workflow: IRIS Booking', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
@@ -84,6 +84,7 @@ describe.only('Workflow: IRIS Booking', () => {
 					}));
 					let data = _.reduce(produced, (acc, tick, box_id) => {
 						let rp = tick;
+						rp.id = 'ticket-' + uuid.v1();
 						rp.code = gpc(10).toString();
 						rp.label = "P84";
 						rp.user_info = "none"
@@ -95,13 +96,13 @@ describe.only('Workflow: IRIS Booking', () => {
 						acc[box_id] = rp;
 						return acc;
 					}, {});
-					return iris.reserve(data);
+					return iris.confirm(data);
 				})
-				// 	.then((saved) => {
-				// 		console.log("SAVED", require('util').inspect(saved, {
-				// 			depth: null
-				// 		}));
-				// 	})
+				.then((saved) => {
+					console.log("SAVED", require('util').inspect(saved, {
+						depth: null
+					}));
+				})
 		});
 	})
 })

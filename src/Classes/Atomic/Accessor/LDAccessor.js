@@ -17,6 +17,7 @@ class LDAccessor extends BasicAccessorAsync {
 			values = access_obj;
 			opts = {};
 		}
+
 		return this.data_provider.upsert(values, opts);
 	}
 	get(context) {

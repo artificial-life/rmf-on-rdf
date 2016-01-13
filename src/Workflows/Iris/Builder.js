@@ -104,10 +104,34 @@ class IrisBuilder {
 		});
 
 		let factory_accessor = new BasicAccessor(factory_provider);
-		factory_accessor.keymaker('set', (p) => {
-				return _.keys(p);
+		factory_accessor.keymaker('set', (query) => {
+				return {
+					selection: {
+						ldplan: {
+							operator: '*',
+							service: '*',
+							dedicated_date: query.dedicated_date,
+							time_description: query.time_description
+						}
+					}
+				};
 			})
-			.keymaker('get', (p) => p);
+			.keymaker('get', (query) => {
+				let s_ids = _.pluck(query.services, 'service');
+				return {
+					selection: {
+						ldplan: {
+							operator: '*',
+							service: '*',
+							dedicated_date: query.dedicated_date,
+							time_description: query.time_description
+						}
+					},
+					services: query.services,
+					box_id: '*',
+					count: query.count
+				};
+			});
 
 		let t_api = new TicketApi();
 		let box_storage = t_api.initContent().getContent();

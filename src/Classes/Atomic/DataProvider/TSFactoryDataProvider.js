@@ -69,7 +69,7 @@ class TSFactoryDataProvider {
 		};
 	}
 
-	resolvePlacing(tickets, sources) {
+	resolvePlacing(tickets, sources, set_data = false) {
 		let remains = sources;
 		let ordered = _.sortByOrder(tickets, ['priority', (tick) => {
 			return(new Date(tick.booking_date)).getTime();
@@ -86,6 +86,11 @@ class TSFactoryDataProvider {
 			// console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
 			if(!plan)
 				return false;
+			if(set_data) {
+				ticket.time_description = time_description;
+				ticket.operator = operator;
+				ticket.service = service;
+			}
 			remains[operator][service] = plan.reserve([time_description]).intersection(remains[operator][service]);
 			return true;
 		});
@@ -160,6 +165,7 @@ class TSFactoryDataProvider {
 						ticket_data.push({
 							alt_operator: ops_by_service[s_id],
 							time_description: time_description,
+							dedicated_date: params.selection.ldplan.dedicated_date,
 							service: s_id
 						});
 					}
@@ -176,14 +182,23 @@ class TSFactoryDataProvider {
 
 	}
 
-	set(keys, value) {
-		console.log("SETTING", require('util').inspect(value, {
+	set(params, value) {
+		console.log("SETTING", require('util').inspect(value, value, {
 			depth: null
 		}));
-		let result = _.reduce(keys, (status, box_id) => {
-			let box = value[box_id];
+		return this.placeExisting(params)
+			.then(({
+				remains, placed, lost
+			}) => {
+				if(_.size(lost) > 0) {
+					//cannot handle even existing tickets
+					//call the police!
+					return [];
+				}
+			});
+		let result = _.reduce(value, (status, ticket, box_id) => {
 			let saving = _.reduce(this.ingredients, (result, ingredient, index) => {
-				result[index] = ingredient.set(box_id, box[index]);
+				result[index] = ingredient.set(keys, ticket);
 				return result;
 			}, {});
 			status[box_id] = Promise.props(saving)
