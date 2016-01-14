@@ -61,16 +61,21 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 						.then((res) => {
 							let filtered = _.filter(res, (doc) => {
 								for(let key in query.where) {
-									let val = query.where[key];
-									if(val == '*')
+									let value = query.where[key];
+									if(value == '*')
 										return true;
-									if((!_.eq(doc[key], val)) && !~_.indexOf(doc[key], val) && (!_.find(doc[key], {
-											'@id': val
-										})) && (!_.find(doc[key], {
-											'@value': val
-										}))) {
-										return false;
-									}
+									let valmap = _.isArray(value) ? value : [value];
+									let res = _.filter(valmap, (val) => {
+										if((!_.eq(doc[key], val)) && !~_.indexOf(doc[key], val) && (!_.find(doc[key], {
+												'@id': val
+											})) && (!_.find(doc[key], {
+												'@value': val
+											}))) {
+											return false;
+										}
+										return true;
+									});
+									return !!res.length;
 								}
 								return true;
 							});
