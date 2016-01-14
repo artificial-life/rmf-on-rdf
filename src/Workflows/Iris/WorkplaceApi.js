@@ -41,8 +41,8 @@ class WorkplaceApi extends IrisApi {
 		let storage_accessor = new LDAccessor(dp);
 
 		storage_accessor
-			.keymaker('set', keymakers('generic_ld')(Model, 'workplace').set)
-			.keymaker('get', keymakers('generic_ld')(Model, 'workplace').get);
+			.keymaker('set', keymakers('generic_ld')(Model).set)
+			.keymaker('get', keymakers('generic_ld')(Model).get);
 
 
 		let storage = AtomicFactory.create('BasicAsync', {
@@ -58,13 +58,24 @@ class WorkplaceApi extends IrisApi {
 		return this.content;
 	}
 
-	getWorkplace(query, factory_params = {}) {
+	getWorkplace(query) {
 		return this.content.resolve(query)
 			.then((res) => {
 				return res.serialize();
 			});
 	}
-
+	setWorkplaceField(query, assignment) {
+		return this.getWorkplace(query)
+			.then((res) => {
+				let set = _.map(res, (emp) => {
+					return _.defaults(assignment, emp);
+				});
+				console.log("WP", require('util').inspect(set, {
+					depth: null
+				}));
+				return this.setWorkplace(set);
+			});
+	}
 	setWorkplace(data) {
 		return this.content.save(data);
 	}

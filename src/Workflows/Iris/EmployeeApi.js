@@ -123,7 +123,7 @@ class EmployeeApi extends IrisApi {
 				}
 			})
 			.then((res) => {
-				return _.map(res.serialize(), 'role');
+				return res.serialize();
 			});
 	}
 }

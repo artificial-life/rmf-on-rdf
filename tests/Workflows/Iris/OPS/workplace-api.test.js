@@ -6,7 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Workplace', () => {
+// describe('Workflow: IRIS Workplace', () => {
+describe.only('Workflow: IRIS Workplace', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -66,8 +67,6 @@ describe('Workflow: IRIS Workplace', () => {
 							device_of: "iris://data#human-1"
 						},
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {
@@ -80,8 +79,6 @@ describe('Workflow: IRIS Workplace', () => {
 							occupied_by: "iris://data#human-1"
 						},
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					});
 				})
 				.then((res) => {
@@ -93,8 +90,6 @@ describe('Workflow: IRIS Workplace', () => {
 							allows_role: "iris://vocabulary/domain#Administrator"
 						},
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {
@@ -104,8 +99,6 @@ describe('Workflow: IRIS Workplace', () => {
 					return iris.getWorkplace({
 						keys: "iris://data#pc-1",
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {
@@ -115,21 +108,26 @@ describe('Workflow: IRIS Workplace', () => {
 
 				});
 		});
+
 		it('set Workplace', () => {
 			return Promise.resolve(true)
 				.then((res) => {
 					return iris.getWorkplace({
 						keys: "iris://data#pc-1",
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {
+					console.log("BYKEY", require('util').inspect(res, {
+						depth: null
+					}));
 					let wp = _.sample(res);
-					wp.occupied_by = "iris://data#human-1";
-
-					return iris.setWorkplace(wp)
+					delete wp.allows_role;
+					return iris.setWorkplaceField({
+						query: wp
+					}, {
+						occupied_by: "iris://data#human-1"
+					})
 				})
 				.then((res) => {
 					console.log("DEVICE SAVED", require('util').inspect(res, {

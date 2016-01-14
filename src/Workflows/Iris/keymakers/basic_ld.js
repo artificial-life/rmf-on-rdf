@@ -20,7 +20,9 @@ module.exports = {
 				return query.ids;
 			}
 		};
-
+		// console.log("QQ", require('util').inspect(query, {
+		// 	depth: null
+		// }));
 		return {
 			query: query
 		};
@@ -31,8 +33,7 @@ module.exports = {
 			delete entity.cas;
 			return entity;
 		});
-		return {
-			values: access
-		};
+
+		return access;
 	}
 };
