@@ -13,7 +13,8 @@ function generic_ld(Model, finalizer = 'basic_ld') {
 			}
 			if(data.keys) {
 				let item = new Model();
-				result.keys = _.map(data.keys, key => {
+				let keys = _.isArray(data.keys) ? data.keys : [data.keys];
+				result.keys = _.map(keys, key => {
 					item.build({
 						id: key
 					});

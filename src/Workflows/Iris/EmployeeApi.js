@@ -95,25 +95,35 @@ class EmployeeApi extends IrisApi {
 		return this.content;
 	}
 
-	getEmployee(query, factory_params = {}) {
+	getEmployee(query) {
 		return this.content.resolve(query)
 			.then((res) => {
 				return res.serialize();
 			});
 	}
 
-	setEmployeeField(data) {
-		// return this.content.save(data);
+	setEmployeeField(query, assignment) {
+		return this.getEmployee(query)
+			.then((res) => {
+				let set = _.map(res, (emp) => {
+					return _.defaults(assignment, emp);
+				});
+				return this.setEmployee(set);
+			});
 	}
 
 	setEmployee(data) {
 		return this.content.save(data);
 	}
 
-	getEmployeeRoles(query) {
-		return this.membership.resolve(query)
+	getEmployeeRoles(id) {
+		return this.membership.resolve({
+				query: {
+					member: id
+				}
+			})
 			.then((res) => {
-				return res.serialize();
+				return _.map(res.serialize(), 'role');
 			});
 	}
 }

@@ -72,19 +72,47 @@ describe.only('API: IRIS  Employee', () => {
 						depth: null
 					}));
 					let iv = _.sample(res);
-					// return iris.setUserInfo({
-					// 	id: iv.id,
-					// 	first_name: iv.first_name + '!!11',
-					// 	last_name: "Cocainum-raz",
-					// 	middle_name: "Mihalych",
-					// 	phone: 1234654897
-					// })
+					iv.password = iv.password + '!';
+					return iris.setEmployee(iv)
+						.then((res) => {
+							console.log("SET", res);
+							return iris.getEmployee({
+								keys: iv.id
+							});
+						})
 				})
 				.then((res) => {
-					console.log("USERINFO SET", require('util').inspect(res, {
+					console.log("EMPLOYEE SET", require('util').inspect(res, {
 						depth: null
 					}));
-
+					let iv = _.sample(res);
+					return iris.setEmployeeField({
+							query: iv
+						}, {
+							password: iv.password + '?'
+						})
+						.then((res) => {
+							console.log("SET", res);
+							return iris.getEmployee({
+								keys: iv.id
+							});
+						})
+				})
+				.then((res) => {
+					console.log("EMPLOYEE FIELD SET", require('util').inspect(res, {
+						depth: null
+					}));
+					let iv = _.sample(_.keys(res));
+					return iris.getEmployeeRoles(iv);
+				})
+				.then((res) => {
+					console.log("EMPLOYEE ROLES", require('util').inspect(res, {
+						depth: null
+					}));
+					let iv = _.sample(res);
+					return iris.getEmployeeRoles({
+						query: iv
+					});
 				})
 		});
 	})
