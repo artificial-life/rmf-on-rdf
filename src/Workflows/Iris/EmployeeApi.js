@@ -28,31 +28,31 @@ class EmployeeApi extends IrisApi {
 				params: translator
 			},
 			deco: 'BaseCollection',
-			params: 'ticket_id'
+			params: 'employee_id'
 		};
 		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 
 		let storage_accessor = new LDAccessor(dp);
 
 		storage_accessor.keymaker('set', (data) => {
-				let tickets = _.isArray(data) ? data : [data];
-				let res = _.map(tickets, (t_data) => {
-					let ticket = new Model();
-					ticket.build(t_data);
+				let items = _.isArray(data) ? data : [data];
+				let res = _.map(items, (t_data) => {
+					let item = new Model();
+					item.build(t_data);
 					return ticket;
 				});
 				//@TODO: some checks?
-				return keymakers.ticket.set(res);
+				return keymakers.employee.set(res);
 			})
 			.keymaker('get', (data) => {
 				let res = data;
 				if(data.query) {
-					let ticket = new Model();
-					ticket.build(data.query);
-					res.query = ticket.getAsQuery();
+					let item = new Model();
+					item.build(data.query);
+					res.query = item.getAsQuery();
 				}
 				//@TODO: some checks?
-				return keymakers.ticket.get(res);
+				return keymakers.employee.get(res);
 			});
 
 		let storage = AtomicFactory.create('BasicAsync', {
@@ -80,7 +80,7 @@ class EmployeeApi extends IrisApi {
 	}
 
 	setEmployee(data) {
-		return this.content.save(ata);
+		return this.content.save(data);
 	}
 }
 
