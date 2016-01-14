@@ -22,7 +22,7 @@ describe('Workflow: TS Factory ', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
-	let keymakers = require(_base + "/tests/Workflows/Iris/OPS/keymakers");
+	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {
 		"couchbird": {
 			"server_ip": "127.0.0.1",
@@ -94,9 +94,9 @@ describe('Workflow: TS Factory ', () => {
 		let services_accessor = new LDCacheAccessor(dp);
 		services_accessor.mapper(classmap);
 
-		ops_plan_accessor.keymaker('get', keymakers.op_plan.get);
-		ops_plan_accessor.keymaker('set', keymakers.op_plan.set);
-		services_accessor.keymaker('get', keymakers.op_service_plan.get);
+		ops_plan_accessor.keymaker('get', keymakers('op_plan').get);
+		ops_plan_accessor.keymaker('set', keymakers('op_plan').set);
+		services_accessor.keymaker('get', keymakers('op_service_plan').get);
 
 		resource_source = new ContentAsync();
 
@@ -156,8 +156,8 @@ describe('Workflow: TS Factory ', () => {
 			.keymaker('get', (p) => p);
 
 		storage_accessor = new LDAccessor(dp);
-		storage_accessor.keymaker('set', keymakers.ticket.set)
-			.keymaker('get', keymakers.ticket.get);
+		storage_accessor.keymaker('set', keymakers('ticket').set)
+			.keymaker('get', keymakers('ticket').get);
 
 		factory_provider
 			.addIngredient('ldplan', plans_provider)

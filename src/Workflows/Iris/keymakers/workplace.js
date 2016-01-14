@@ -26,23 +26,9 @@ module.exports = {
 		};
 	},
 	set: (data) => {
-		let workplaces = _.isArray(data) ? data : [data];
 		let opts = {};
-		let access = _.map(workplaces, (item) => {
-			let workplace = item.dbSerialize();
-			console.log(require('util').inspect(workplace, {
-				depth: null
-			}));
-			//cas
-			let cas = workplace.cas;
-			if(cas) {
-				if(cas) {
-					delete workplace.cas;
-					opts[workplace['@id']] = {
-						cas: cas
-					};
-				}
-			}
+		let access = _.map(workplaces, (workplace) => {
+			delete workplace.cas;
 			return workplace;
 		});
 		return {

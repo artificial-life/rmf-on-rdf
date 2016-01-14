@@ -194,7 +194,6 @@ class TSFactoryDataProvider {
 			// 	depth: null
 			// }));
 			let keys = _.map(new_tickets, 'id');
-			console.log(keys);
 			return Promise.props({
 					space: this.getAllSpace(params),
 					tickets: this.storage_accessor.resolve({
@@ -207,7 +206,7 @@ class TSFactoryDataProvider {
 					},
 					tickets: tickets
 				}) => {
-					let to_reserve = _.values(_.merge(_.keyBy(tickets.serialize(), 'id'), _.keyBy(new_tickets, 'id')));
+					let to_reserve = _.merge(_.keyBy(tickets.serialize(), 'id'), _.keyBy(new_tickets, 'id'));
 					let {
 						placed, lost, remains
 					} = this.resolvePlacing(to_reserve, plans, true);
@@ -215,26 +214,24 @@ class TSFactoryDataProvider {
 					console.log("TICKS", require('util').inspect(remains, {
 						depth: null
 					}));
-					let complete = _.reduce(placed, (result, tick) => {
-						result[tick.key] = this.ingredients.ldplan.set(params, tick)
-							.then((res) => {
-								if(!res)
+					let placed_new = _.reduce(placed, (acc, tick, id) => {
+						let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
+							result[key] = this.ingredients[key].set(params, tick);
+							return result;
+						}, {});
+						acc[tick.id] = Promise.props(complete)
+							.then((saved) => {
+								if(_.keys(saved).length != _.filter(saved, _.identity).length)
 									return false;
 								return this.storage_accessor.save(tick);
 							});
-						return result;
+						return acc;
 					}, {});
-
 					return Promise.props({
-						placed: Promise.props(complete),
+						placed: Promise.props(placed_new),
 						lost: lost
 					});
 				});
-			// let completed  = _.reduce(this.ingredients, (result, ingredient, key) => {
-			// 	result[key] = ingredient.set()
-			// 	return result;
-			// });
-			return [];
 		}
 		return this.placeExisting(params)
 			.then(({

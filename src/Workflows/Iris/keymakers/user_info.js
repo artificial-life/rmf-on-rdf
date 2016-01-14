@@ -1,14 +1,14 @@
 module.exports = {
-	set: (q) => {
-		let access = [];
-		_.map(_.values(q), (val) => {
-			let node = val.dbSerialize();
-			delete val.key;
-			delete val.cas;
-			access.push(node);
+	set: (query) => {
+		let access = _.map(query, (val) => {
+			let node = val;
+			delete node.cas;
+			return node;
 		});
 
-		return access;
+		return {
+			values: access
+		};
 	},
 	get: ({
 		query: p,

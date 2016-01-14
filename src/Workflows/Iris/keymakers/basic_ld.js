@@ -11,13 +11,13 @@ module.exports = {
 		let query = {
 			type: 'view',
 			query: {
-				employees: {
+				ids: {
 					select: "@id",
 					where: p
 				}
 			},
 			final: (query) => {
-				return query.employees;
+				return query.ids;
 			}
 		};
 
@@ -26,15 +26,13 @@ module.exports = {
 		};
 	},
 	set: (data) => {
-		let opts = {};
 		let access = _.map(data, (item) => {
-			let employee = item;
-			delete employee.cas;
-			return employee;
+			let entity = item;
+			delete entity.cas;
+			return entity;
 		});
 		return {
-			values: access,
-			options: opts
+			values: access
 		};
 	}
 };

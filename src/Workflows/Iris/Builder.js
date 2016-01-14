@@ -37,9 +37,9 @@ class IrisBuilder {
 		services_accessor.mapper(classmap);
 
 		ops_plan_accessor
-			.keymaker('get', keymakers.op_plan.get)
-			.keymaker('set', keymakers.op_plan.set);
-		services_accessor.keymaker('get', keymakers.op_service_plan.get);
+			.keymaker('get', keymakers('op_plan').get)
+			.keymaker('set', keymakers('op_plan').set);
+		services_accessor.keymaker('get', keymakers('op_service_plan').get);
 
 
 		let datamodel = {

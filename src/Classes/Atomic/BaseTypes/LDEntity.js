@@ -42,6 +42,8 @@ class LDEntity {
 			});
 		} else {
 			content_map = data;
+			if(data.id)
+				content_map.id = _.last(data.id.split("#"));
 		}
 		entity.build(content_map);
 		this.content = entity;

@@ -38,25 +38,8 @@ class UserInfoApi extends IrisApi {
 
 		let accessor = new LDCacheAccessor(dp);
 		accessor
-			.keymaker('set', (data) => {
-				let uis = _.isArray(data) ? data : [data];
-				let res = _.map(uis, (t_data) => {
-					let ui = new Model();
-					ui.build(t_data);
-					return ui;
-				});
-				return keymakers.user_info.set(res);
-			})
-			.keymaker('get', (data) => {
-				let res = data;
-				if(data.query) {
-					let ui = new Model();
-					ui.build(data.query);
-					res.query = ui.getAsQuery();
-				}
-				//@TODO: some checks?
-				return keymakers.user_info.get(res);
-			})
+			.keymaker('set', keymakers('generic_ld')(Model, 'user_info').set)
+			.keymaker('get', keymakers('generic_ld')(Model, 'user_info').get)
 			.template((key, ctx) => {
 				let ui = new Model();
 				let data = {

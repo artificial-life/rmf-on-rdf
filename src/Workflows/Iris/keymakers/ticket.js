@@ -21,25 +21,20 @@ module.exports = {
 				return query.tickets;
 			}
 		};
-
 		return {
 			query: query
 		};
 	},
 	set: (data) => {
-		let tickets = _.isArray(data) ? data : [data];
 		let opts = {};
-		let access = _.map(tickets, (item) => {
-			let ticket = item.dbSerialize();
+		let access = _.map(data, (ticket) => {
 			//cas
 			let cas = ticket.cas;
 			if(cas) {
-				if(cas) {
-					delete ticket.cas;
-					opts[ticket['@id']] = {
-						cas: cas
-					};
-				}
+				delete ticket.cas;
+				opts[ticket['@id']] = {
+					cas: cas
+				};
 			}
 			return ticket;
 		});

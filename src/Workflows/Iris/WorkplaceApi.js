@@ -40,26 +40,10 @@ class WorkplaceApi extends IrisApi {
 
 		let storage_accessor = new LDAccessor(dp);
 
-		storage_accessor.keymaker('set', (data) => {
-				let items = _.isArray(data) ? data : [data];
-				let res = _.map(items, (t_data) => {
-					let item = new Model();
-					item.build(t_data);
-					return item;
-				});
-				//@TODO: some checks?
-				return keymakers.workplace.set(res);
-			})
-			.keymaker('get', (data) => {
-				let res = data;
-				if(data.query) {
-					let item = new Model();
-					item.build(data.query);
-					res.query = item.getAsQuery();
-				}
-				//@TODO: some checks?
-				return keymakers.workplace.get(res);
-			});
+		storage_accessor
+			.keymaker('set', keymakers('generic_ld')(Model, 'workplace').set)
+			.keymaker('get', keymakers('generic_ld')(Model, 'workplace').get);
+
 
 		let storage = AtomicFactory.create('BasicAsync', {
 			type: storage_data_model,

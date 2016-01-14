@@ -38,29 +38,9 @@ class TicketApi extends IrisApi {
 
 		let storage_accessor = new LDAccessor(dp);
 
-		storage_accessor.keymaker('set', (data) => {
-				let tickets = _.isArray(data) ? data : [data];
-				let res = _.map(tickets, (t_data) => {
-					let ticket = new Model();
-					ticket.build(t_data);
-					return ticket;
-				});
-				//@TODO: some checks?
-				return keymakers.ticket.set(res);
-			})
-			.keymaker('get', (data) => {
-				let res = data;
-				if(data.query) {
-					let ticket = new Model();
-					ticket.build(data.query);
-					res.query = ticket.getAsQuery();
-				}
-				if(data.keys) {
-					res.keys = _.map(data.keys, k => ("iris://data#" + _.last(k.split("#"))));
-				}
-				//@TODO: some checks?
-				return keymakers.ticket.get(res);
-			});
+		storage_accessor
+			.keymaker('set', keymakers('generic_ld')(Model, 'ticket').set)
+			.keymaker('get', keymakers('generic_ld')(Model, 'ticket').get);
 
 		let storage = AtomicFactory.create('BasicAsync', {
 			type: storage_data_model,

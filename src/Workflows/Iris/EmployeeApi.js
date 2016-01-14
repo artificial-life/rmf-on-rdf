@@ -1,14 +1,22 @@
 'use strict'
 
-let IrisApi = require("./IrisApi");
 let keymakers = require("./keymakers");
 let classmap = require("./classmap");
 let base_dir = "../../../";
 
 //Model
 let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Employee');
+let MembershipTypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Membership');
 let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 
+//Atomics
+let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
+//DP
+let CouchbirdLinkedDataProvider = require(base_dir + '/build/externals/CouchbirdLinkedDataProvider');
+//accessor
+let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor');
+//parent
+let IrisApi = require("./IrisApi");
 
 class EmployeeApi extends IrisApi {
 	constructor() {
@@ -21,6 +29,7 @@ class EmployeeApi extends IrisApi {
 		let translator = (prop) => {
 			return "iris://vocabulary/domain#" + _.camelCase(prop);
 		};
+		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 		let storage_data_model = {
 			type: {
 				type: 'Employee',
@@ -30,30 +39,14 @@ class EmployeeApi extends IrisApi {
 			deco: 'BaseCollection',
 			params: 'employee_id'
 		};
-		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
+
 
 		let storage_accessor = new LDAccessor(dp);
 
-		storage_accessor.keymaker('set', (data) => {
-				let items = _.isArray(data) ? data : [data];
-				let res = _.map(items, (t_data) => {
-					let item = new Model();
-					item.build(t_data);
-					return ticket;
-				});
-				//@TODO: some checks?
-				return keymakers.employee.set(res);
-			})
-			.keymaker('get', (data) => {
-				let res = data;
-				if(data.query) {
-					let item = new Model();
-					item.build(data.query);
-					res.query = item.getAsQuery();
-				}
-				//@TODO: some checks?
-				return keymakers.employee.get(res);
-			});
+		storage_accessor
+			.keymaker('set', keymakers('generic_ld')(Model, 'employee').set)
+			.keymaker('get', keymakers('generic_ld')(Model, 'employee').get);
+
 
 		let storage = AtomicFactory.create('BasicAsync', {
 			type: storage_data_model,
@@ -61,6 +54,40 @@ class EmployeeApi extends IrisApi {
 		});
 		//@NOTE: actually not content, but atomic
 		this.content = storage;
+
+		this.initMembershipContent();
+
+		return this;
+	}
+
+	initMembershipContent() {
+		let dp = new CouchbirdLinkedDataProvider(this.db);
+		let storage_accessor = new LDAccessor(dp);
+		let translator = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase(prop);
+		};
+		let Model = DecoModel.bind(DecoModel, MembershipTypeModel, translator);
+		let storage_data_model = {
+			type: {
+				type: 'Membership',
+				deco: 'LDEntity',
+				params: translator
+			},
+			deco: 'BaseCollection',
+			params: 'membership_id'
+		};
+
+		storage_accessor
+			.keymaker('set', keymakers('generic_ld')(Model).set)
+			.keymaker('get', keymakers('generic_ld')(Model).get);
+
+		let storage = AtomicFactory.create('BasicAsync', {
+			type: storage_data_model,
+			accessor: storage_accessor
+		});
+
+		//@NOTE: actually not content, but atomic
+		this.membership = storage;
 		return this;
 	}
 
@@ -81,6 +108,13 @@ class EmployeeApi extends IrisApi {
 
 	setEmployee(data) {
 		return this.content.save(data);
+	}
+
+	getEmployeeRoles(query) {
+		return this.membership.resolve(query)
+			.then((res) => {
+				return res.serialize();
+			});
 	}
 }
 

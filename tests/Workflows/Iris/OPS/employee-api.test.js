@@ -3,10 +3,9 @@ let RDFcb = require("cbird-rdf").LD;
 let Couchbird = require("couchbird");
 
 let IrisWorkflow = require(_base + '/build/Workflows/Iris');
-let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Ticket', () => {
+describe.only('API: IRIS  Employee', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -47,8 +46,8 @@ describe('Workflow: IRIS Ticket', () => {
 		bucket.removeNodes("iris://data#plan-2--2015-12-21");
 
 		IrisWorkflow.initializer(cfg.buckets.main);
-		let TicketApi = IrisWorkflow.TicketApi;
-		iris = new TicketApi();
+		let EmployeeApi = IrisWorkflow.EmployeeApi;
+		iris = new EmployeeApi();
 		iris.initContent();
 		//@NOTE: building factory
 		//@NOTE: prepare variables
@@ -56,49 +55,37 @@ describe('Workflow: IRIS Ticket', () => {
 	});
 
 
-	describe('get/set ticket', function() {
+	describe('get/set employee', function() {
 		this.timeout(10000);
-		it('get ticket', () => {
+		it('get/set emp', () => {
+
 			return Promise.resolve(true)
 				.then(() => {
-					return iris.getTicket({
+					return iris.getEmployee({
 						query: {
-							code: "3033291418",
-							dedicated_date: "Mon, 21 Dec 2015 00:00:00 GMT"
-						},
-						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
-					})
+							first_name: "Maria"
+						}
+					});
 				})
 				.then((res) => {
-					console.log("BYQ", require('util').inspect(res, {
+					console.log("EMPLOYEE", require('util').inspect(res, {
 						depth: null
 					}));
-					let tick = _.sample(res);
-					console.log("TICKET CHOSEN", require('util').inspect(tick, {
-						depth: null
-					}));
-					tick.state = 4;
-					return iris.setTicket(tick);
+					let iv = _.sample(res);
+					// return iris.setUserInfo({
+					// 	id: iv.id,
+					// 	first_name: iv.first_name + '!!11',
+					// 	last_name: "Cocainum-raz",
+					// 	middle_name: "Mihalych",
+					// 	phone: 1234654897
+					// })
 				})
 				.then((res) => {
-					console.log("TICK SET", require('util').inspect(res, {
-						depth: null
-					}));
-					return iris.getTicket({
-						keys: ["iris://data#ticket-92f6d120-b268-11e5-9885-637e638a715a", "iris://data#ticket-d91b1280-b0fe-11e5-8f80-bdb52904e4c4"],
-						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
-					})
-				})
-				.then((res) => {
-					console.log("BYKEY", require('util').inspect(res, {
+					console.log("USERINFO SET", require('util').inspect(res, {
 						depth: null
 					}));
 
-				});
+				})
 		});
 	})
 })

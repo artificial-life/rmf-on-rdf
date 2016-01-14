@@ -10,7 +10,7 @@ describe('Workflow: IRIS Workplace', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
-	let keymakers = require(_base + "/tests/Workflows/Iris/OPS/keymakers");
+	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {
 		"couchbird": {
 			"server_ip": "127.0.0.1",
