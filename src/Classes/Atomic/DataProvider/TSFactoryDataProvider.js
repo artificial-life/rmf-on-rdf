@@ -211,7 +211,7 @@ class TSFactoryDataProvider {
 						placed, lost, remains
 					} = this.resolvePlacing(to_reserve, plans, true);
 
-					console.log("TICKS", require('util').inspect(remains, {
+					console.log("TICKS", require('util').inspect(placed, {
 						depth: null
 					}));
 					let placed_new = _.reduce(placed, (acc, tick, id) => {

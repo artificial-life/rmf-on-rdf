@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-// describe('Workflow: IRIS Workplace', () => {
-describe.only('Workflow: IRIS Workplace', () => {
+describe('Workflow: IRIS Workplace', () => {
+	// describe.only('Workflow: IRIS Workplace', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");

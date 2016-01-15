@@ -1,5 +1,5 @@
 {
-  "name": "resource-managment-framework",
+  "name": "resource-management-framework",
   "version": "0.1.0",
   "description": "rdf-based framework",
   "main": "index.js",

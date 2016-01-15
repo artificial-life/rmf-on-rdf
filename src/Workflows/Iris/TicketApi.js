@@ -61,6 +61,15 @@ class TicketApi extends IrisApi {
 				return res.serialize();
 			});
 	}
+	setTicketField(query, assignment) {
+		return this.getTicket(query)
+			.then((res) => {
+				let set = _.map(res, (item) => {
+					return _.defaults(assignment, item);
+				});
+				return this.setTicket(set);
+			});
+	}
 
 	setTicket(ticket_data) {
 		return this.content.save(ticket_data);
