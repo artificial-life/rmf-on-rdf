@@ -112,7 +112,7 @@ class TSFactoryDataProvider {
 		let query = {
 			query: {
 				dedicated_date: params.dedicated_date,
-				state: 0
+				state: ['registered']
 			},
 			options: {}
 		};

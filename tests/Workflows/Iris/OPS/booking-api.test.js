@@ -92,7 +92,7 @@ describe.only('Workflow: IRIS Booking', () => {
 						rp.destination = "none"
 						rp.service_count = 1;
 						rp.priority = 0;
-						rp.state = 0;
+						rp.state = 'registered';
 						rp.booking_date = (new Date()).toUTCString();
 						acc[box_id] = rp;
 						return acc;
@@ -114,7 +114,7 @@ describe.only('Workflow: IRIS Booking', () => {
 						rp.destination = "iris://data#pc-1";
 						rp.operator = "iris://data#human-1"
 						rp.priority = 2;
-						rp.state = 1;
+						rp.state = 'called';
 						acc[box_id] = rp;
 						return acc;
 					}, {});
@@ -123,7 +123,7 @@ describe.only('Workflow: IRIS Booking', () => {
 					console.log("TO_CALL", require('util').inspect(to_call, {
 						depth: null
 					}));
-					return iris.reserve(to_call);
+					// return iris.reserve(to_call);
 				})
 				.then((saved) => {
 					console.log("CALLED", require('util').inspect(saved, {

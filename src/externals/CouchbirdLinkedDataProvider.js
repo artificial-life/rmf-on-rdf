@@ -62,9 +62,9 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 							let filtered = _.filter(res, (doc) => {
 								for(let key in query.where) {
 									let value = query.where[key];
-									if(value == '*')
-										return true;
 									let valmap = _.isArray(value) ? value : [value];
+									if(value == '*')
+										continue;
 									let res = _.filter(valmap, (val) => {
 										if((!_.eq(doc[key], val)) && !~_.indexOf(doc[key], val) && (!_.find(doc[key], {
 												'@id': val
@@ -75,7 +75,9 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 										}
 										return true;
 									});
-									return !!res.length;
+									// console.log("AAAA", valmap, res, key);
+									if(!res.length)
+										return false;
 								}
 								return true;
 							});
