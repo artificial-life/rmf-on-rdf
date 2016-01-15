@@ -1,4 +1,120 @@
 [{
+	"@id": "iris://data#schedule-3",
+	"@type": [
+		"iris://vocabulary/domain#Schedule"
+	],
+	"iris://vocabulary/domain#hasDay": [{
+		"@id": "iris://vocabulary/domain#Monday"
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]"
+	}],
+	"iris://vocabulary/domain#scheduleOf": [{
+		"@id": "iris://data#department-1"
+	}]
+}, {
+	"@id": "iris://data#schedule-2",
+	"@type": [
+		"iris://vocabulary/domain#Schedule"
+	],
+	"iris://vocabulary/domain#hasDay": [{
+		"@id": "iris://vocabulary/domain#Monday"
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
+	}],
+	"iris://vocabulary/domain#scheduleOf": [{
+		"@id": "iris://data#human-2"
+	}]
+}, {
+	"@id": "iris://data#schedule-1",
+	"@type": [
+		"iris://vocabulary/domain#Schedule"
+	],
+	"iris://vocabulary/domain#hasDay": [{
+		"@id": "iris://vocabulary/domain#Monday"
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
+	}],
+	"iris://vocabulary/domain#scheduleOf": [{
+		"@id": "iris://data#human-1"
+	}]
+}, {
+	"@id": "iris://data#pc-2",
+	"@type": [
+		"iris://vocabulary/domain#Workplace"
+	],
+	"iris://vocabulary/domain#allowsRole": [{
+		"@id": "iris://vocabulary/domain#Operator"
+	}],
+	"iris://vocabulary/domain#attachedTo": [{
+		"@id": "iris://data#department-1"
+	}],
+	"iris://vocabulary/domain#defaultEmployee": [{
+		"@id": "iris://data#human-2"
+	}],
+	"iris://vocabulary/domain#deviceLabel": [{
+		"@value": "Window 2"
+	}],
+	"iris://vocabulary/domain#deviceType": [{
+		"@value": "control-panel"
+	}]
+}, {
+	"@id": "iris://data#schedule-6",
+	"@type": [
+		"iris://vocabulary/domain#Schedule"
+	],
+	"iris://vocabulary/domain#hasDay": [{
+		"@id": "iris://vocabulary/domain#Thursday"
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]"
+	}],
+	"iris://vocabulary/domain#scheduleOf": [{
+		"@id": "iris://data#human-2"
+	}]
+}, {
+	"@id": "iris://data#schedule-5",
+	"@type": [
+		"iris://vocabulary/domain#Schedule"
+	],
+	"iris://vocabulary/domain#hasDay": [{
+		"@id": "iris://vocabulary/domain#Monday"
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]"
+	}],
+	"iris://vocabulary/domain#scheduleOf": [{
+		"@id": "iris://data#service-2"
+	}]
+}, {
+	"@id": "iris://data#department-1",
+	"@type": [
+		"iris://vocabulary/domain#Department"
+	],
+	"iris://vocabulary/domain#hasSchedule": [{
+		"@id": "iris://data#schedule-3"
+	}],
+	"iris://vocabulary/domain#unitOf": [{
+		"@id": "iris://data#office-1"
+	}],
+	"http://www.w3.org/2000/01/rdf-schema#label": [{
+		"@value": "Department 1"
+	}]
+}, {
+	"@id": "iris://data#webwidget-1",
+	"@type": [
+		"iris://vocabulary/domain#SystemEntity"
+	],
+	"iris://vocabulary/domain#login": [{
+		"@language": "en",
+		"@value": "webwidget"
+	}],
+	"iris://vocabulary/domain#password": [{
+		"@value": "123456"
+	}]
+}, {
 	"@id": "iris://data#service-1",
 	"@type": [
 		"iris://vocabulary/domain#Service"
@@ -38,32 +154,6 @@
 	}],
 	"iris://vocabulary/domain#serviceCodeEPGU": [{
 		"@value": "Smth"
-	}]
-}, {
-	"@id": "iris://data#webwidget-1",
-	"@type": [
-		"iris://vocabulary/domain#SystemEntity"
-	],
-	"iris://vocabulary/domain#login": [{
-		"@language": "en",
-		"@value": "webwidget"
-	}],
-	"iris://vocabulary/domain#password": [{
-		"@value": "123456"
-	}]
-}, {
-	"@id": "iris://data#plan-6",
-	"@type": [
-		"iris://vocabulary/domain#Plan"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Thursday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]"
-	}],
-	"iris://vocabulary/domain#planOf": [{
-		"@id": "iris://data#human-2"
 	}]
 }, {
 	"@id": "iris://data#service-2",
@@ -107,6 +197,78 @@
 		"@value": "Smth"
 	}]
 }, {
+	"@id": "iris://data#plan-6",
+	"@type": [
+		"iris://vocabulary/domain#Plan"
+	],
+	"iris://vocabulary/domain#hasDay": [{
+		"@id": "iris://vocabulary/domain#Thursday"
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]"
+	}],
+	"iris://vocabulary/domain#planOf": [{
+		"@id": "iris://data#human-2"
+	}]
+}, {
+	"@id": "iris://data#membership-2",
+	"@type": [
+		"iris://vocabulary/domain#Membership"
+	],
+	"iris://vocabulary/domain#member": [{
+		"@id": "iris://data#human-2"
+	}],
+	"iris://vocabulary/domain#organization": [{
+		"@id": "iris://data#department-1"
+	}],
+	"iris://vocabulary/domain#role": [{
+		"@id": "iris://vocabulary/domain#Operator"
+	}]
+}, {
+	"@id": "iris://data#human-2",
+	"@type": [
+		"iris://vocabulary/domain#Employee"
+	],
+	"iris://vocabulary/domain#firstName": [{
+		"@language": "en",
+		"@value": "Maria"
+	}],
+	"iris://vocabulary/domain#hasMembership": [{
+		"@id": "iris://data#membership-2"
+	}],
+	"iris://vocabulary/domain#hasSchedule": [{
+		"@id": "iris://data#schedule-2"
+	}],
+	"iris://vocabulary/domain#lastName": [{
+		"@language": "en",
+		"@value": "Medvedeva"
+	}],
+	"iris://vocabulary/domain#login": [{
+		"@language": "en",
+		"@value": "masha"
+	}],
+	"iris://vocabulary/domain#middleName": [{
+		"@language": "en",
+		"@value": "Ivanovna"
+	}],
+	"iris://vocabulary/domain#password": [{
+		"@value": "1"
+	}],
+	"iris://vocabulary/domain#provides": [{
+		"@id": "iris://data#service-2"
+	}]
+}, {
+	"@id": "iris://data#office-1",
+	"@type": [
+		"iris://vocabulary/domain#Office"
+	],
+	"iris://vocabulary/domain#hasUnit": [{
+		"@id": "iris://data#department-1"
+	}],
+	"http://www.w3.org/2000/01/rdf-schema#label": [{
+		"@value": "Office 1"
+	}]
+}, {
 	"@id": "iris://data#human-1",
 	"@type": [
 		"iris://vocabulary/domain#Employee"
@@ -142,85 +304,12 @@
 		"@id": "iris://data#service-2"
 	}]
 }, {
-	"@id": "iris://data#membership-2",
+	"@id": "iris://data#orgroot-1",
 	"@type": [
-		"iris://vocabulary/domain#Membership"
-	],
-	"iris://vocabulary/domain#member": [{
-		"@id": "iris://data#human-2"
-	}],
-	"iris://vocabulary/domain#organization": [{
-		"@id": "iris://data#department-1"
-	}],
-	"iris://vocabulary/domain#role": [{
-		"@id": "iris://vocabulary/domain#Operator"
-	}]
-}, {
-	"@id": "iris://data#office-1",
-	"@type": [
-		"iris://vocabulary/domain#Office"
+		"iris://vocabulary/domain#FormalOrganization"
 	],
 	"iris://vocabulary/domain#hasUnit": [{
-		"@id": "iris://data#department-1"
-	}],
-	"http://www.w3.org/2000/01/rdf-schema#label": [{
-		"@value": "Office 1"
-	}]
-}, {
-	"@id": "iris://data#schedule-2",
-	"@type": [
-		"iris://vocabulary/domain#Schedule"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Monday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
-	}],
-	"iris://vocabulary/domain#scheduleOf": [{
-		"@id": "iris://data#human-2"
-	}]
-}, {
-	"@id": "iris://data#schedule-3",
-	"@type": [
-		"iris://vocabulary/domain#Schedule"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Monday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]"
-	}],
-	"iris://vocabulary/domain#scheduleOf": [{
-		"@id": "iris://data#department-1"
-	}]
-}, {
-	"@id": "iris://data#schedule-1",
-	"@type": [
-		"iris://vocabulary/domain#Schedule"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Monday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
-	}],
-	"iris://vocabulary/domain#scheduleOf": [{
-		"@id": "iris://data#human-1"
-	}]
-}, {
-	"@id": "iris://data#schedule-6",
-	"@type": [
-		"iris://vocabulary/domain#Schedule"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Thursday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]"
-	}],
-	"iris://vocabulary/domain#scheduleOf": [{
-		"@id": "iris://data#human-2"
+		"@id": "iris://data#office-1"
 	}]
 }, {
 	"@id": "iris://data#schedule-4",
@@ -237,20 +326,6 @@
 		"@id": "iris://data#service-1"
 	}]
 }, {
-	"@id": "iris://data#schedule-5",
-	"@type": [
-		"iris://vocabulary/domain#Schedule"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Monday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]"
-	}],
-	"iris://vocabulary/domain#scheduleOf": [{
-		"@id": "iris://data#service-2"
-	}]
-}, {
 	"@id": "iris://data#pc-1",
 	"@type": [
 		"iris://vocabulary/domain#Workplace"
@@ -263,22 +338,14 @@
 	"iris://vocabulary/domain#attachedTo": [{
 		"@id": "iris://data#department-1"
 	}],
-	"iris://vocabulary/domain#deviceOf": [{
+	"iris://vocabulary/domain#defaultEmployee": [{
 		"@id": "iris://data#human-1"
-	}]
-}, {
-	"@id": "iris://data#pc-2",
-	"@type": [
-		"iris://vocabulary/domain#Workplace"
-	],
-	"iris://vocabulary/domain#allowsRole": [{
-		"@id": "iris://vocabulary/domain#Operator"
 	}],
-	"iris://vocabulary/domain#attachedTo": [{
-		"@id": "iris://data#department-1"
+	"iris://vocabulary/domain#deviceLabel": [{
+		"@value": "Window 1"
 	}],
-	"iris://vocabulary/domain#deviceOf": [{
-		"@id": "iris://data#human-2"
+	"iris://vocabulary/domain#deviceType": [{
+		"@value": "control-panel"
 	}]
 }, {
 	"@id": "iris://data#membership-1",
@@ -293,60 +360,5 @@
 	}],
 	"iris://vocabulary/domain#role": [{
 		"@id": "iris://vocabulary/domain#Operator"
-	}]
-}, {
-	"@id": "iris://data#department-1",
-	"@type": [
-		"iris://vocabulary/domain#Department"
-	],
-	"iris://vocabulary/domain#hasSchedule": [{
-		"@id": "iris://data#schedule-3"
-	}],
-	"iris://vocabulary/domain#unitOf": [{
-		"@id": "iris://data#office-1"
-	}],
-	"http://www.w3.org/2000/01/rdf-schema#label": [{
-		"@value": "Department 1"
-	}]
-}, {
-	"@id": "iris://data#orgroot-1",
-	"@type": [
-		"iris://vocabulary/domain#FormalOrganization"
-	],
-	"iris://vocabulary/domain#hasUnit": [{
-		"@id": "iris://data#office-1"
-	}]
-}, {
-	"@id": "iris://data#human-2",
-	"@type": [
-		"iris://vocabulary/domain#Employee"
-	],
-	"iris://vocabulary/domain#firstName": [{
-		"@language": "en",
-		"@value": "Maria"
-	}],
-	"iris://vocabulary/domain#hasMembership": [{
-		"@id": "iris://data#membership-2"
-	}],
-	"iris://vocabulary/domain#hasSchedule": [{
-		"@id": "iris://data#schedule-2"
-	}],
-	"iris://vocabulary/domain#lastName": [{
-		"@language": "en",
-		"@value": "Medvedeva"
-	}],
-	"iris://vocabulary/domain#login": [{
-		"@language": "en",
-		"@value": "masha"
-	}],
-	"iris://vocabulary/domain#middleName": [{
-		"@language": "en",
-		"@value": "Ivanovna"
-	}],
-	"iris://vocabulary/domain#password": [{
-		"@value": "654321"
-	}],
-	"iris://vocabulary/domain#provides": [{
-		"@id": "iris://data#service-2"
 	}]
 }]

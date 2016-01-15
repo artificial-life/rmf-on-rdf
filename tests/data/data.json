@@ -7,6 +7,88 @@
 		"xsd": "http://www.w3.org/2001/XMLSchema#"
 	},
 	"@graph": [{
+		"@id": "ci:schedule-3",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:department-1"
+		}
+	}, {
+		"@id": "ci:schedule-2",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:schedule-1",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-1"
+		}
+	}, {
+		"@id": "ci:pc-2",
+		"@type": "iris:Workplace",
+		"iris:allowsRole": {
+			"@id": "iris:Operator"
+		},
+		"iris:attachedTo": {
+			"@id": "ci:department-1"
+		},
+		"iris:defaultEmployee": {
+			"@id": "ci:human-2"
+		},
+		"iris:deviceLabel": "Window 2",
+		"iris:deviceType": "control-panel"
+	}, {
+		"@id": "ci:schedule-6",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Thursday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:schedule-5",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-2"
+		}
+	}, {
+		"@id": "ci:department-1",
+		"@type": "iris:Department",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-3"
+		},
+		"iris:unitOf": {
+			"@id": "ci:office-1"
+		},
+		"rdfs:label": "Department 1"
+	}, {
+		"@id": "ci:webwidget-1",
+		"@type": "iris:SystemEntity",
+		"iris:login": {
+			"@language": "en",
+			"@value": "webwidget"
+		},
+		"iris:password": "123456"
+	}, {
 		"@id": "ci:service-1",
 		"@type": "iris:Service",
 		"iris:codeFRGU": "Smth",
@@ -24,24 +106,6 @@
 		"iris:priority": 1,
 		"iris:serviceCodeEPGU": "Smth"
 	}, {
-		"@id": "ci:webwidget-1",
-		"@type": "iris:SystemEntity",
-		"iris:login": {
-			"@language": "en",
-			"@value": "webwidget"
-		},
-		"iris:password": "123456"
-	}, {
-		"@id": "ci:plan-6",
-		"@type": "iris:Plan",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]",
-		"iris:planOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
 		"@id": "ci:service-2",
 		"@type": "iris:Service",
 		"iris:codeFRGU": "Smth",
@@ -58,6 +122,64 @@
 		"iris:prefix": "Smth",
 		"iris:priority": 3,
 		"iris:serviceCodeEPGU": "Smth"
+	}, {
+		"@id": "ci:plan-6",
+		"@type": "iris:Plan",
+		"iris:hasDay": {
+			"@id": "iris:Thursday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]",
+		"iris:planOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:membership-2",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "ci:human-2"
+		},
+		"iris:organization": {
+			"@id": "ci:department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Operator"
+		}
+	}, {
+		"@id": "ci:human-2",
+		"@type": "iris:Employee",
+		"iris:firstName": {
+			"@language": "en",
+			"@value": "Maria"
+		},
+		"iris:hasMembership": {
+			"@id": "ci:membership-2"
+		},
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-2"
+		},
+		"iris:lastName": {
+			"@language": "en",
+			"@value": "Medvedeva"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "masha"
+		},
+		"iris:middleName": {
+			"@language": "en",
+			"@value": "Ivanovna"
+		},
+		"iris:password": "1",
+		"iris:provides": {
+			"@id": "ci:service-2"
+		}
+	}, {
+		"@id": "ci:office-1",
+		"@type": "iris:Office",
+		"iris:hasUnit": {
+			"@id": "ci:department-1"
+		},
+		"rdfs:label": "Office 1"
 	}, {
 		"@id": "ci:human-1",
 		"@type": "iris:Employee",
@@ -90,63 +212,10 @@
 			"@id": "ci:service-2"
 		}]
 	}, {
-		"@id": "ci:membership-2",
-		"@type": "iris:Membership",
-		"iris:member": {
-			"@id": "ci:human-2"
-		},
-		"iris:organization": {
-			"@id": "ci:department-1"
-		},
-		"iris:role": {
-			"@id": "iris:Operator"
-		}
-	}, {
-		"@id": "ci:office-1",
-		"@type": "iris:Office",
+		"@id": "ci:orgroot-1",
+		"@type": "iris:FormalOrganization",
 		"iris:hasUnit": {
-			"@id": "ci:department-1"
-		},
-		"rdfs:label": "Office 1"
-	}, {
-		"@id": "ci:schedule-2",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:schedule-3",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:department-1"
-		}
-	}, {
-		"@id": "ci:schedule-1",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-1"
-		}
-	}, {
-		"@id": "ci:schedule-6",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-2"
+			"@id": "ci:office-1"
 		}
 	}, {
 		"@id": "ci:schedule-4",
@@ -159,16 +228,6 @@
 			"@id": "ci:service-1"
 		}
 	}, {
-		"@id": "ci:schedule-5",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:service-2"
-		}
-	}, {
 		"@id": "ci:pc-1",
 		"@type": "iris:Workplace",
 		"iris:allowsRole": [{
@@ -179,21 +238,11 @@
 		"iris:attachedTo": {
 			"@id": "ci:department-1"
 		},
-		"iris:deviceOf": {
+		"iris:defaultEmployee": {
 			"@id": "ci:human-1"
-		}
-	}, {
-		"@id": "ci:pc-2",
-		"@type": "iris:Workplace",
-		"iris:allowsRole": {
-			"@id": "iris:Operator"
 		},
-		"iris:attachedTo": {
-			"@id": "ci:department-1"
-		},
-		"iris:deviceOf": {
-			"@id": "ci:human-2"
-		}
+		"iris:deviceLabel": "Window 1",
+		"iris:deviceType": "control-panel"
 	}, {
 		"@id": "ci:membership-1",
 		"@type": "iris:Membership",
@@ -205,51 +254,6 @@
 		},
 		"iris:role": {
 			"@id": "iris:Operator"
-		}
-	}, {
-		"@id": "ci:department-1",
-		"@type": "iris:Department",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-3"
-		},
-		"iris:unitOf": {
-			"@id": "ci:office-1"
-		},
-		"rdfs:label": "Department 1"
-	}, {
-		"@id": "ci:orgroot-1",
-		"@type": "iris:FormalOrganization",
-		"iris:hasUnit": {
-			"@id": "ci:office-1"
-		}
-	}, {
-		"@id": "ci:human-2",
-		"@type": "iris:Employee",
-		"iris:firstName": {
-			"@language": "en",
-			"@value": "Maria"
-		},
-		"iris:hasMembership": {
-			"@id": "ci:membership-2"
-		},
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-2"
-		},
-		"iris:lastName": {
-			"@language": "en",
-			"@value": "Medvedeva"
-		},
-		"iris:login": {
-			"@language": "en",
-			"@value": "masha"
-		},
-		"iris:middleName": {
-			"@language": "en",
-			"@value": "Ivanovna"
-		},
-		"iris:password": "654321",
-		"iris:provides": {
-			"@id": "ci:service-2"
 		}
 	}]
 }
