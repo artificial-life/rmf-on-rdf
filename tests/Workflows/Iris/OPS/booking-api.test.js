@@ -123,7 +123,7 @@ describe.only('Workflow: IRIS Booking', () => {
 					console.log("TO_CALL", require('util').inspect(to_call, {
 						depth: null
 					}));
-					// return iris.reserve(to_call);
+					return iris.reserve(to_call);
 				})
 				.then((saved) => {
 					console.log("CALLED", require('util').inspect(saved, {

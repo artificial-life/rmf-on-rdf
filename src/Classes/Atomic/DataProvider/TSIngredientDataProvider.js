@@ -20,12 +20,15 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let selection = params.selection[this.property];
 		let plans_path = ['<namespace>content', 'plan'];
 		let services_path = ['<namespace>attribute', 'services'];
+		let ops_info_path = ['<namespace>attribute', 'ops_info'];
+
 		let service_id = selection.service;
 		let time_description = selection.time_description;
 
 		return this.ingredient.resolve({
 				query: {
 					operator_id: selection.operator,
+					employee_id: selection.operator,
 					date: selection.dedicated_date,
 					selection: {
 						service_id: selection.service,
@@ -37,6 +40,8 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				//had to choose between this outrageous notation and additional * queries to db
 				let services = resolved.getAtom(services_path);
 				let op_plans = resolved.getAtom(plans_path);
+				let info_atom = resolved.getAtom(ops_info_path);
+
 				let o_atoms = {
 					services: services.observe({
 						operator_id: selection.operator,
@@ -48,15 +53,21 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 					op_plans: op_plans.observe({
 						operator_id: selection.operator,
 						selection: time_description
+					}),
+					ops_info: info_atom.observe({
+						employee_id: selection.operator
 					})
 				};
 				return Promise.props(o_atoms);
 			})
 			.then((observed) => {
-				let services = observed.services;
-				let op_plans = observed.op_plans;
-				return _.reduce(services.content, (acc, s_plans, op_id) => {
-					let op_plan = op_plans.content[op_id];
+				let ops_info = observed.ops_info;
+				let allowed_ops = _.keys(_.pickBy(ops_info.serialize(), (op) => (op.state === 'active')));
+				let services = _.pick(observed.services.content, allowed_ops);
+				let op_plans = _.pick(observed.op_plans.content, allowed_ops);
+
+				return _.reduce(services, (acc, s_plans, op_id) => {
+					let op_plan = op_plans[op_id];
 					let s_ids = (service_id == '*' || !service_id) ? _.keys(s_plans.content) : service_id;
 					s_ids = _.isArray(s_ids) ? s_ids : [s_ids];
 					acc[op_id] = _.reduce(s_ids, (op_services, s_id) => {
@@ -72,20 +83,37 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 	set(params, value) {
 		// console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
+		let ops_info_path = ['<namespace>attribute', 'ops_info'];
 		let ingredient_atom = this.ingredient.getAtom(plans_path);
+		let info_atom = this.ingredient.getAtom(ops_info_path);
 		let data = _.isArray(value) ? value : [value];
 		let selection = params.selection[this.property];
 
-		return ingredient_atom.resolve({
-				query: {
-					operator_id: selection.operator,
-					date: selection.dedicated_date,
-					selection: {
-						service_id: selection.service
+		return Promise.props({
+				filter: info_atom.resolve({
+					query: {
+						employee_id: '*'
 					}
-				}
+				}),
+				source: ingredient_atom.resolve({
+					query: {
+						operator_id: selection.operator,
+						date: selection.dedicated_date,
+						selection: {
+							service_id: selection.service
+						}
+					}
+				})
 			})
-			.then((resolved) => {
+			.then(({
+				source: resolved,
+				filter: ops_info
+			}) => {
+				let allowed_ops = _.keys(_.pickBy(ops_info.serialize(), (op) => (op.state === 'active')));
+				let approval = _.every(data, (tick) => (!!~_.indexOf(allowed_ops, tick.operator)));
+
+				if(!approval)
+					return false;
 				_.map(data, (tick) => {
 					resolved.reserve({
 						operator_id: tick.operator,
