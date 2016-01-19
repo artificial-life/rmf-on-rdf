@@ -47,8 +47,8 @@ describe('API: IRIS  Employee', () => {
 		bucket.removeNodes("iris://data#plan-2--2015-12-21");
 
 		IrisWorkflow.initializer(cfg.buckets.main);
-		let EmployeeApi = IrisWorkflow.EmployeeApi;
-		iris = new EmployeeApi();
+		let AgentApi = IrisWorkflow.AgentApi;
+		iris = new AgentApi();
 		iris.initContent();
 		//@NOTE: building factory
 		//@NOTE: prepare variables

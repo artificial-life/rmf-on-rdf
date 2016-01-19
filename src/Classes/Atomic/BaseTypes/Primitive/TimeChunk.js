@@ -85,7 +85,7 @@ class TimeChunk extends PrimitiveVolume {
 			], this.state);
 			result.push(second);
 		}
-		console.log("CH CUT RES", first, second);
+
 		return result;
 	}
 	union(chunk) {

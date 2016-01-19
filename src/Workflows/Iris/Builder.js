@@ -5,7 +5,7 @@ let classmap = require("./classmap");
 let base_dir = "../../../";
 
 let TicketApi = require("./TicketApi");
-let EmployeeApi = require("./EmployeeApi");
+let AgentApi = require("./AgentApi");
 
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 
@@ -68,7 +68,7 @@ class IrisBuilder {
 			type: attributes_services_datamodel,
 			accessor: services_accessor
 		});
-		let e_api = new EmployeeApi();
+		let e_api = new AgentApi();
 		let e_atom = e_api.initContent().getContent();
 		let resource_source = new ContentAsync();
 
@@ -114,7 +114,8 @@ class IrisBuilder {
 							operator: '*',
 							service: '*',
 							dedicated_date: query.dedicated_date,
-							time_description: query.time_description
+							time_description: query.time_description,
+							service_count: query.service_count
 						}
 					},
 					reserve: query.reserve || false
@@ -128,7 +129,8 @@ class IrisBuilder {
 							operator: '*',
 							service: '*',
 							dedicated_date: query.dedicated_date,
-							time_description: query.time_description
+							time_description: query.time_description,
+							service_count: query.service_count
 						}
 					},
 					services: query.services,

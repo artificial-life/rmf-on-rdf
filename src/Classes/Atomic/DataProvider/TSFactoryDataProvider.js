@@ -140,9 +140,9 @@ class TSFactoryDataProvider {
 	}
 
 	get(params) {
-		console.log("PARAMS", require('util').inspect(params, {
-			depth: null
-		}));
+		// console.log("PARAMS", require('util').inspect(params, {
+		// 	depth: null
+		// }));
 		return this.placeExisting(params)
 			.then(({
 				remains, placed, lost
@@ -173,7 +173,8 @@ class TSFactoryDataProvider {
 							alt_operator: ops_by_service[s_id],
 							time_description: time_description,
 							dedicated_date: params.selection.ldplan.dedicated_date,
-							service: s_id
+							service: s_id,
+							service_count: params.selection.ldplan.service_count
 						});
 					}
 				});
@@ -189,12 +190,6 @@ class TSFactoryDataProvider {
 
 	}
 	saveTicket(params, to_place, to_remove = {}) {
-		console.log("SAVESAVE", require('util').inspect(to_place, {
-			depth: null
-		}));
-		console.log("SAVERM", require('util').inspect(to_remove, {
-			depth: null
-		}));
 		let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
 			let pre_clean = (to_remove.id) ? this.ingredients[key].free(to_remove) : Promise.resolve(true);
 			result[key] = pre_clean.then((res) => {
@@ -219,15 +214,11 @@ class TSFactoryDataProvider {
 	}
 
 	set(params, value) {
-		console.log("SETTING", require('util').inspect(params, {
-			depth: null
-		}));
+		// console.log("SETTING", require('util').inspect(params, {
+		// 	depth: null
+		// }));
 		let new_tickets = this.finalizer(value);
 		if(params.reserve) {
-			//expect new tickets to be concrete and fully determined
-			// console.log("NEW TICKS", require('util').inspect(new_tickets, {
-			// 	depth: null
-			// }));
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
 					keys
@@ -243,9 +234,6 @@ class TSFactoryDataProvider {
 							return srcValue;
 						}
 					});
-					console.log("TO FREE", require('util').inspect(to_free, {
-						depth: null
-					}));
 					let placing = _.reduce(to_reserve, (acc, tick, key) => {
 						acc[key] = this.saveTicket(params, tick, to_free[key] || {});
 						return acc;

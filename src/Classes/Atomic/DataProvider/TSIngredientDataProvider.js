@@ -92,17 +92,10 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				}
 			})
 			.then((resolved) => {
-				console.log("I FREE", require('util').inspect(resolved.content, {
-					depth: null
-				}));
 				resolved.free({
 					operator_id: value.operator,
 					selection: [value.time_description]
 				});
-				console.log("I FREE", require('util').inspect(resolved.content, {
-					depth: null
-				}));
-
 				return ingredient_atom.save(resolved);
 			})
 			.then((saved) => {
@@ -158,7 +151,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				return ingredient_atom.save(resolved);
 			})
 			.then((saved) => {
-				console.log("I SAVED I", saving_meta);
 				return saving_meta || false;
 			})
 			.catch((err) => {
