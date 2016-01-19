@@ -55,6 +55,10 @@ class LDEntity {
 		return data;
 	}
 
+	getLDType() {
+		return this.entity_type.ldtype ? this.entity_type.ldtype : this.entity_type.name;
+	}
+
 	transformKeys() {
 		let data = this.serialize();
 		let db_data = _.reduce(data, (acc, val, key) => {
@@ -68,7 +72,7 @@ class LDEntity {
 			}
 			return acc;
 		}, {});
-		db_data['@type'] = "iris://vocabulary/domain#" + this.entity_type.name;
+		db_data['@type'] = "iris://vocabulary/domain#" + this.getLDType();
 		return db_data;
 	}
 	dbSerialize() {

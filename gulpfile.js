@@ -11,9 +11,7 @@ var demon;
 
 gulp.task("default", function() {
 	return gulp.src("src/**/*.js")
-		.pipe(babel({
-			blacklist: ['bluebirdCoroutines', 'regenerator']
-		}))
+		.pipe(babel())
 		.pipe(gulp.dest("build")).on('end', function() {
 			require('./build/index.js');
 			setTimeout(function() {
@@ -26,9 +24,7 @@ gulp.task("default", function() {
 gulp.task("sourcemaps", function() {
 	return gulp.src("src/**/*.js")
 		.pipe(sourcemaps.init())
-		.pipe(babel({
-			blacklist: ['bluebirdCoroutines', 'regenerator']
-		}))
+		.pipe(babel())
 		.pipe(sourcemaps.write("./maps"))
 		.pipe(gulp.dest("build"));
 });
@@ -46,14 +42,7 @@ gulp.task('es6', function() {
 				console.log('error', e);
 			}
 		}))
-		.pipe(babel({
-			"whitelist": [
-				"strict",
-				"es6.modules",
-				"es6.parameters",
-				"es6.destructuring"
-			]
-		}))
+		.pipe(babel())
 		.pipe(gulp.dest("build"))
 		.on('end', function() {
 			console.log('build');

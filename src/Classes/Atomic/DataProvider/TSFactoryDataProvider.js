@@ -229,7 +229,6 @@ class TSFactoryDataProvider {
 					let to_free = {};
 					let to_reserve = _.mergeWith(prev_set, next_set, (objValue, srcValue, key, obj, src) => {
 						if(key === "time_description" && _.isArray(objValue) && _.size(objValue) == 2 && obj.source) {
-							console.log(objValue, srcValue);
 							to_free[src.id] = _.cloneDeep(obj);
 							return srcValue;
 						}

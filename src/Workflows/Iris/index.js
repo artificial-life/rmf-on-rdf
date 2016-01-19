@@ -3,7 +3,7 @@ module.exports = {
 	BookingApi: require("./BookingApi"),
 	UserInfoApi: require("./UserInfoApi"),
 	TicketApi: require("./TicketApi"),
-	AgentApi: require("./AgentApi"),
+	EmployeeApi: require("./EmployeeApi"),
 	WorkplaceApi: require("./WorkplaceApi"),
 	HistoryApi: require("./HistoryApi")
 };

@@ -18,7 +18,7 @@ let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor')
 //parent
 let IrisApi = require("./IrisApi");
 
-class AgentApi extends IrisApi {
+class EmployeeApi extends IrisApi {
 	constructor() {
 		super();
 	}
@@ -128,7 +128,7 @@ class AgentApi extends IrisApi {
 	}
 }
 
-module.exports = AgentApi;
+module.exports = EmployeeApi;
 
 // changeState() {}
 // login() {}

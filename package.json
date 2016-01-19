@@ -1,13 +1,13 @@
 {
 	"name": "resource-management-framework",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "rdf-based framework",
 	"main": "index.js",
 	"directories": {
 		"test": "test"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "mocha ./build/**/*.test.js -r ./build/index.js",
 		"install": "gulp --gulpfile build.js"
 	},
 	"repository": {
@@ -18,6 +18,10 @@
 		"resource",
 		"rdf"
 	],
+	"babel": {
+		"presets": ["node5"],
+		"babelrc": false
+	},
 	"author": "SS",
 	"license": "ISC",
 	"bugs": {
@@ -32,10 +36,11 @@
 		"node-uuid": ">=1.4.7"
 	},
 	"devDependencies": {
+		"babel-preset-node5": "^10.3.0",
 		"chai": "^3.3.0",
 		"generate-pincode": "^3.0.1",
 		"gulp": "^3.9.0",
-		"gulp-babel": ">=5.1.0",
+		"gulp-babel": "^6.1.1",
 		"gulp-changed": ">=1.2.1",
 		"gulp-concat": ">=2.5.2",
 		"gulp-develop-server": ">=0.4.3",
