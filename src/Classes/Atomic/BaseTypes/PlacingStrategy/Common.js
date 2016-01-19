@@ -8,10 +8,14 @@ Common.all((newbee, oldone) => {
 }).except('r=>a', (newbee, oldone) => {
 	return oldone.cut(newbee);
 }).except('a=>r', (newbee, oldone) => {
+	let touching = newbee.start == oldone.end || oldone.start == newbee.end;
 	return oldone.cut(newbee);
 }).except('r=>r', (newbee, oldone) => {
 	let touching = newbee.start == oldone.end || oldone.start == newbee.end;
 	return touching ? oldone : new Error('reserved on reserved');
+}).except('a=>a', (newbee, oldone) => {
+	let touching = newbee.start == oldone.end || oldone.start == newbee.end;
+	return touching ? oldone : new Error('av on av');
 });
 
 

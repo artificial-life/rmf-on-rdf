@@ -44,6 +44,43 @@ class LDPlan extends Plan {
 		return data;
 	}
 
+	free(params) {
+		//@NOTE: proxy to parent if it exists
+		let target = this.parent ? this.parent : this;
+
+		if(!params) {
+			//@NOTE: free all
+			let status = true;
+			let content = this.getContent();
+			let result = [];
+			for(let i in content) {
+				let placed = target.put({
+					data: content[i].serialize().data,
+					state: 'a'
+				});
+				if(!placed) {
+					status = false;
+					break;
+				}
+				result.push(placed);
+			}
+			if(status)
+				this.stored_changes = this.stored_changes.concat(result);
+
+			return status ? target : false;
+		}
+
+		let placed = target.put({
+			data: params,
+			state: 'a'
+		});
+
+		if(placed) {
+			this.stored_changes.push(placed);
+		}
+
+		return placed ? target : false;
+	}
 }
 
 module.exports = LDPlan;

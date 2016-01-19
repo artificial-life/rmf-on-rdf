@@ -147,9 +147,9 @@ class TSFactoryDataProvider {
 			.then(({
 				remains, placed, lost
 			}) => {
-				console.log("OLD TICKS PLACED", require('util').inspect(lost, {
-					depth: null
-				}));
+				// console.log("OLD TICKS PLACED", require('util').inspect(lost, {
+				// 	depth: null
+				// }));
 				if(_.size(lost) > 0) {
 					//cannot handle even existing tickets
 					//call the police!
@@ -181,12 +181,41 @@ class TSFactoryDataProvider {
 				let {
 					placed: placed_new
 				} = this.resolvePlacing(new_tickets, remains);
-				console.log("NEW TICKS PLACED", require('util').inspect(placed_new, {
-					depth: null
-				}));
+				// console.log("NEW TICKS PLACED", require('util').inspect(placed_new, {
+				// 	depth: null
+				// }));
 				return placed_new;
 			});
 
+	}
+	saveTicket(params, to_place, to_remove = {}) {
+		console.log("SAVESAVE", require('util').inspect(to_place, {
+			depth: null
+		}));
+		console.log("SAVERM", require('util').inspect(to_remove, {
+			depth: null
+		}));
+		let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
+			let pre_clean = (to_remove.id) ? this.ingredients[key].free(to_remove) : Promise.resolve(true);
+			result[key] = pre_clean.then((res) => {
+				if(!res)
+					return false;
+				return this.ingredients[key].set(params, to_place);
+			});
+			return result;
+		}, {});
+		return Promise.props(complete)
+			.then((saved) => {
+				if(!_.every(saved))
+					return false;
+				let tick = to_place;
+				tick.source = saved.ldplan[tick.id];
+				return this.storage_accessor.save(tick)
+					.catch((err) => {
+						console.log(err.stack);
+						return false;
+					});
+			});
 	}
 
 	set(params, value) {
@@ -200,52 +229,40 @@ class TSFactoryDataProvider {
 			// 	depth: null
 			// }));
 			let keys = _.map(new_tickets, 'id');
-			return Promise.props({
-					space: this.getAllSpace(params),
-					tickets: this.storage_accessor.resolve({
-						keys
-					})
+			return this.storage_accessor.resolve({
+					keys
 				})
-				.then(({
-					space: {
-						ldplan: plans
-					},
-					tickets: tickets
-				}) => {
+				.then((tickets) => {
 					let prev_set = _.keyBy(tickets.serialize(), 'id');
 					let next_set = _.keyBy(new_tickets, 'id');
-					let to_reserve = _.mergeWith(prev_set, next_set, (objValue, srcValue, key) => {
-						if(key === "time_description" && _.isArray(srcValue) && _.size(srcValue) == 2 && _.isArray(objValue) && _.size(objValue) == 2) {
-							let src = srcValue.source;
-							let op = srcValue.operator;
-							let service = srcValue.service;
-							// plans
+					let to_free = {};
+					let to_reserve = _.mergeWith(prev_set, next_set, (objValue, srcValue, key, obj, src) => {
+						if(key === "time_description" && _.isArray(objValue) && _.size(objValue) == 2 && obj.source) {
+							console.log(objValue, srcValue);
+							to_free[src.id] = _.cloneDeep(obj);
+							return srcValue;
 						}
 					});
-					let {
-						placed, lost, remains
-					} = this.resolvePlacing(to_reserve, plans, true);
-
-					console.log("TICKS", require('util').inspect(placed, {
+					console.log("TO FREE", require('util').inspect(to_free, {
 						depth: null
 					}));
-					let placed_new = _.reduce(placed, (acc, tick, id) => {
-						let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
-							result[key] = this.ingredients[key].set(params, tick);
-							return result;
-						}, {});
-						acc[tick.id] = Promise.props(complete)
-							.then((saved) => {
-								if(!_.every(saved))
-									return false;
-								return this.storage_accessor.save(tick);
-							});
+					let placing = _.reduce(to_reserve, (acc, tick, key) => {
+						acc[key] = this.saveTicket(params, tick, to_free[key] || {});
 						return acc;
 					}, {});
-					return Promise.props({
-						placed: Promise.props(placed_new),
-						lost: lost
-					});
+
+					return Promise.props(placing)
+						.then((res) => {
+							console.log(res);
+							let placed = {};
+							let lost = {};
+							_.map(res, (val, key) => {
+								(val ? placed : lost)[key] = val;
+							});
+							return {
+								placed, lost
+							};
+						});
 				});
 		}
 		return this.placeExisting(params)

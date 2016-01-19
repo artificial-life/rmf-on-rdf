@@ -80,6 +80,39 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			});
 
 	}
+
+	free(value) {
+		let plans_path = ['<namespace>content', 'plan'];
+		let ingredient_atom = this.ingredient.getAtom(plans_path);
+
+		return ingredient_atom.resolve({
+				query: {
+					operator_id: value.operator,
+					date: value.dedicated_date
+				}
+			})
+			.then((resolved) => {
+				console.log("I FREE", require('util').inspect(resolved.content, {
+					depth: null
+				}));
+				resolved.free({
+					operator_id: value.operator,
+					selection: [value.time_description]
+				});
+				console.log("I FREE", require('util').inspect(resolved.content, {
+					depth: null
+				}));
+
+				return ingredient_atom.save(resolved);
+			})
+			.then((saved) => {
+				return saved || false;
+			})
+			.catch((err) => {
+				console.error(err.stack);
+				return false;
+			});
+	}
 	set(params, value) {
 		// console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
@@ -88,6 +121,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let info_atom = this.ingredient.getAtom(ops_info_path);
 		let data = _.isArray(value) ? value : [value];
 		let selection = params.selection[this.property];
+		let saving_meta = {};
 
 		return Promise.props({
 				filter: info_atom.resolve({
@@ -119,13 +153,13 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 						operator_id: tick.operator,
 						selection: [tick.time_description]
 					});
+					saving_meta[tick.id] = resolved.content[tick.operator].db_data['@id'];
 				});
 				return ingredient_atom.save(resolved);
 			})
 			.then((saved) => {
-				if(!(saved))
-					return false;
-				return true;
+				console.log("I SAVED I", saving_meta);
+				return saving_meta || false;
 			})
 			.catch((err) => {
 				console.error(err.stack);

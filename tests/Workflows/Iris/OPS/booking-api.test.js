@@ -32,6 +32,7 @@ describe.only('Workflow: IRIS Booking', () => {
 
 
 	let iris = null;
+	let tickets = null;
 	let db = null;
 	let bucket = null;
 
@@ -49,8 +50,11 @@ describe.only('Workflow: IRIS Booking', () => {
 
 		IrisWorkflow.initializer(cfg.buckets.main);
 		let BookingApi = IrisWorkflow.BookingApi;
+		let TicketApi = IrisWorkflow.TicketApi;
 		iris = new BookingApi();
+		tickets = new TicketApi();
 		iris.initContent();
+		tickets.initContent();
 		//@NOTE: building factory
 		//@NOTE: prepare variables
 
@@ -105,16 +109,14 @@ describe.only('Workflow: IRIS Booking', () => {
 					console.log("SAVED", require('util').inspect(saved, {
 						depth: null
 					}));
-					let dt = new Date();
-					let secs = dt.getSeconds() + (60 * (dt.getMinutes() + (60 * dt.getHours())));
 					let to_call = _.reduce(saved.placed, (acc, tick, box_id) => {
 						let rp = {
 							id: _.last(box_id.split("#"))
 						};
 						rp.destination = "iris://data#pc-1";
 						rp.operator = "iris://data#human-1"
-						rp.priority = 2;
 						rp.state = 'called';
+						rp.time_description = [55000, 55666];
 						acc[box_id] = rp;
 						return acc;
 					}, {});
@@ -129,7 +131,29 @@ describe.only('Workflow: IRIS Booking', () => {
 					console.log("CALLED", require('util').inspect(saved, {
 						depth: null
 					}));
-				});
-		})
+					let to_close = _.keys(saved.placed)[0];
+					return tickets.getTicket({
+							keys: [to_close]
+						})
+						.then((res) => {
+							let tick = _.values(res)[0];
+							tick.time_description[1] += 400;
+							let tick_close = {
+								dedicated_date: tick.dedicated_date,
+								time_description: [40000, 68400]
+							};
+							tick_close[tick.id] = tick;
+							console.log("TO_CLOSE", require('util').inspect(tick_close, {
+								depth: null
+							}));
+							return iris.reserve(tick_close);
+						});
+				})
+				.then((saved) => {
+					console.log("CLOSED", require('util').inspect(saved, {
+						depth: null
+					}));
+				})
+		});
 	})
 })

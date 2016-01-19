@@ -30,12 +30,13 @@ class BasicVolume extends AbstractVolume {
 		_.forEach(this.getContent(), (chunk) => {
 
 			if(!chunk.intersectsWith(volume)) {
+				console.log("CH PASSED", chunk);
 				result.push(chunk);
 				return true;
 			}
 
 			let processed = this.applyStrategy(volume, chunk);
-
+			console.log("CH PROCESSED", processed);
 			if(processed.length || processed instanceof this.PrimitiveVolume) { //@TODO: check performance here
 				result = result.concat(processed);
 			}
