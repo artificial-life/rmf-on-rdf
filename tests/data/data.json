@@ -8,7 +8,7 @@
 	},
 	"@graph": [{
 		"@id": "ci:pc-1",
-		"@type": "iris:Workplace",
+		"@type": "iris:Workstation",
 		"iris:allowsRole": [{
 			"@id": "iris:Administrator"
 		}, {
@@ -24,7 +24,7 @@
 		"iris:deviceType": "control-panel"
 	}, {
 		"@id": "ci:pc-2",
-		"@type": "iris:Workplace",
+		"@type": "iris:Workstation",
 		"iris:allowsRole": {
 			"@id": "iris:Operator"
 		},

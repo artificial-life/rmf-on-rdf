@@ -619,7 +619,7 @@
 			"@id": "gr:BusinessEntity"
 		}
 	}, {
-		"@id": "iris:defaultWorkplace",
+		"@id": "iris:defaultWorkstation",
 		"@type": [
 			"owl:ObjectProperty",
 			"rdf:Property"
@@ -632,7 +632,7 @@
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "defaultWorkplace"
+			"@value": "defaultWorkstation"
 		},
 		"rdfs:range": {
 			"@id": "iris:ActiveDevice"
@@ -1170,7 +1170,7 @@
 			"@value": "hasDestination"
 		},
 		"rdfs:range": {
-			"@id": "iris:Workplace"
+			"@id": "iris:Workstation"
 		}
 	}, {
 		"@id": "iris:Schedule",
@@ -1210,7 +1210,7 @@
 			"@list": [{
 				"@id": "iris:Terminal"
 			}, {
-				"@id": "iris:Workplace"
+				"@id": "iris:Workstation"
 			}, {
 				"@id": "iris:RoomDisplay"
 			}, {
@@ -1313,18 +1313,18 @@
 			"@value": "ServiceStatus"
 		}
 	}, {
-		"@id": "iris:Workplace",
+		"@id": "iris:Workstation",
 		"@type": [
 			"rdfs:Class",
 			"owl:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
-			"@value": "Automated workplace."
+			"@value": "Automated workstation."
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "Automated workplace."
+			"@value": "Automated workstation."
 		},
 		"rdfs:subClassOf": {
 			"@id": "iris:ActiveDevice"

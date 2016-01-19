@@ -2,7 +2,7 @@
 
 let Fieldset = require("./Fieldset");
 
-class Workplace extends Fieldset {
+class Workstation extends Fieldset {
 	constructor() {
 		let fields = ["id", "occupied_by", "default_employee", "attached_to", "device_sound", "device_design", "allows_role", "device_type", "device_label"];
 		super(fields);
@@ -12,4 +12,4 @@ class Workplace extends Fieldset {
 	}
 }
 
-module.exports = Workplace;
+module.exports = Workstation;

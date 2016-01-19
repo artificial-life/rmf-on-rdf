@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Workplace', () => {
-	// describe.only('Workflow: IRIS Workplace', () => {
+describe('Workflow: IRIS Workstation', () => {
+	// describe.only('Workflow: IRIS Workstation', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -48,8 +48,8 @@ describe('Workflow: IRIS Workplace', () => {
 		bucket.removeNodes("iris://data#plan-2--2015-12-21");
 
 		IrisWorkflow.initializer(cfg.buckets.main);
-		let WorkplaceApi = IrisWorkflow.WorkplaceApi;
-		iris = new WorkplaceApi();
+		let WorkstationApi = IrisWorkflow.WorkstationApi;
+		iris = new WorkstationApi();
 		iris.initContent();
 		//@NOTE: building factory
 		//@NOTE: prepare variables
@@ -59,10 +59,10 @@ describe('Workflow: IRIS Workplace', () => {
 
 	describe('get/set wp', function() {
 		this.timeout(10000);
-		it('get Workplace', () => {
+		it('get Workstation', () => {
 			return Promise.resolve(true)
 				.then(() => {
-					return iris.getWorkplace({
+					return iris.getWorkstation({
 						query: {
 							device_of: "iris://data#human-1"
 						},
@@ -74,7 +74,7 @@ describe('Workflow: IRIS Workplace', () => {
 						depth: null
 					}));
 
-					return iris.getWorkplace({
+					return iris.getWorkstation({
 						query: {
 							occupied_by: "iris://data#human-1"
 						},
@@ -85,7 +85,7 @@ describe('Workflow: IRIS Workplace', () => {
 					console.log("OCCUPIED BY OP", require('util').inspect(res, {
 						depth: null
 					}));
-					return iris.getWorkplace({
+					return iris.getWorkstation({
 						query: {
 							allows_role: "iris://vocabulary/domain#Administrator"
 						},
@@ -96,7 +96,7 @@ describe('Workflow: IRIS Workplace', () => {
 					console.log("BY ROLE", require('util').inspect(res, {
 						depth: null
 					}));
-					return iris.getWorkplace({
+					return iris.getWorkstation({
 						keys: "iris://data#pc-1",
 						options: {}
 					})
@@ -109,10 +109,10 @@ describe('Workflow: IRIS Workplace', () => {
 				});
 		});
 
-		it('set Workplace', () => {
+		it('set Workstation', () => {
 			return Promise.resolve(true)
 				.then((res) => {
-					return iris.getWorkplace({
+					return iris.getWorkstation({
 						keys: "iris://data#pc-1",
 						options: {}
 					})
@@ -123,7 +123,7 @@ describe('Workflow: IRIS Workplace', () => {
 					}));
 					let wp = _.sample(res);
 					delete wp.allows_role;
-					return iris.setWorkplaceField({
+					return iris.setWorkstationField({
 						query: wp
 					}, {
 						occupied_by: "iris://data#human-1"
@@ -133,7 +133,7 @@ describe('Workflow: IRIS Workplace', () => {
 					console.log("DEVICE SAVED", require('util').inspect(res, {
 						depth: null
 					}));
-					return iris.getWorkplace({
+					return iris.getWorkstation({
 						query: {
 							occupied_by: "iris://data#human-1"
 						},

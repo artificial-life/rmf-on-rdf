@@ -1,7 +1,7 @@
 [{
 	"@id": "iris://data#pc-1",
 	"@type": [
-		"iris://vocabulary/domain#Workplace"
+		"iris://vocabulary/domain#Workstation"
 	],
 	"iris://vocabulary/domain#allowsRole": [{
 		"@id": "iris://vocabulary/domain#Administrator"
@@ -23,7 +23,7 @@
 }, {
 	"@id": "iris://data#pc-2",
 	"@type": [
-		"iris://vocabulary/domain#Workplace"
+		"iris://vocabulary/domain#Workstation"
 	],
 	"iris://vocabulary/domain#allowsRole": [{
 		"@id": "iris://vocabulary/domain#Operator"
