@@ -8,7 +8,7 @@ class Workstation extends Fieldset {
 		super(fields);
 	}
 	get references() {
-		return ['occupied_by', 'attached_to', 'device_of', 'allows_role'];
+		return ['occupied_by', 'attached_to', 'default_employee', 'allows_role'];
 	}
 }
 

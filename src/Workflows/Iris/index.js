@@ -4,6 +4,7 @@ module.exports = {
 	UserInfoApi: require("./UserInfoApi"),
 	TicketApi: require("./TicketApi"),
 	EmployeeApi: require("./EmployeeApi"),
+	ServiceApi: require("./ServiceApi"),
 	WorkstationApi: require("./WorkstationApi"),
 	HistoryApi: require("./HistoryApi")
 };

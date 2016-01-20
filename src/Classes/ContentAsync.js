@@ -17,7 +17,7 @@ class ContentAsync extends Content {
 
 		let resolved_atoms = [];
 		for(let atom_data of this.path) {
-			let {
+			var {
 				atom_path: atom_path,
 				atom: atom
 			} = atom_data;
@@ -28,7 +28,7 @@ class ContentAsync extends Content {
 			resolved.resolve_params = params;
 			//@TODO even more dirty with all of those promises
 			let resolve_atom = {
-				atom_path: Promise.all(atom_path),
+				atom_path: Promise.resolve(_.clone(atom_path)),
 				atom: atom.resolve(params)
 			};
 
@@ -36,8 +36,10 @@ class ContentAsync extends Content {
 		}
 		return Promise.all(resolved_atoms)
 			.then((res) => {
-				_.map(res, (resolved_atom) => {
-					resolved.addAtom(resolved_atom.atom_path, resolved_atom.atom);
+				_.map(res, ({
+					atom_path, atom
+				}) => {
+					resolved.addAtom(atom_path, atom);
 				});
 				return resolved;
 			});

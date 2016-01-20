@@ -7,6 +7,153 @@
 		"xsd": "http://www.w3.org/2001/XMLSchema#"
 	},
 	"@graph": [{
+		"@id": "ci:webwidget-1",
+		"@type": "iris:SystemEntity",
+		"iris:login": {
+			"@language": "en",
+			"@value": "webwidget"
+		},
+		"iris:password": "123456"
+	}, {
+		"@id": "ci:service-1",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "Smth",
+		"iris:deptCodeFrgu": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-4"
+		},
+		"iris:liveOperationTime": 900,
+		"iris:order": 1,
+		"iris:prebookInterval": 172800,
+		"iris:prebookOperationTime": 900,
+		"iris:prebookPercentage": 45,
+		"iris:prebookTodayPercentage": 15,
+		"iris:prefix": "Smth",
+		"iris:priority": 1,
+		"iris:serviceCodeEpgu": "Smth",
+		"iris:serviceLabel": "Test service 1"
+	}, {
+		"@id": "ci:service-2",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "Smth",
+		"iris:deptCodeFrgu": "Smth",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-5"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 6,
+		"iris:prebookInterval": 172800,
+		"iris:prebookOperationTime": 1200,
+		"iris:prebookPercentage": 50,
+		"iris:prebookTodayPercentage": 20,
+		"iris:prefix": "Smth",
+		"iris:priority": 3,
+		"iris:serviceCodeEpgu": "Smth",
+		"iris:serviceLabel": "Test service 2"
+	}, {
+		"@id": "ci:plan-6",
+		"@type": "iris:Plan",
+		"iris:hasDay": {
+			"@id": "iris:Thursday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]",
+		"iris:planOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:membership-2",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "ci:human-2"
+		},
+		"iris:organization": {
+			"@id": "ci:department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Operator"
+		}
+	}, {
+		"@id": "ci:office-1",
+		"@type": "iris:Office",
+		"rdfs:label": "Office 1",
+		"iris:hasUnit": {
+			"@id": "ci:department-1"
+		}
+	}, {
+		"@id": "ci:schedule-3",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:department-1"
+		}
+	}, {
+		"@id": "ci:schedule-2",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:megatron-1",
+		"@type": "iris:SystemEntity",
+		"iris:boundServiceGroups:": {
+			"@id": "ci:sg-1"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "megatron"
+		},
+		"iris:password": "1",
+		"iris:state": "inactive"
+	}, {
+		"@id": "ci:membership-1",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "ci:human-1"
+		},
+		"iris:organization": {
+			"@id": "ci:department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Operator"
+		}
+	}, {
+		"@id": "ci:schedule-6",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Thursday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:human-2"
+		}
+	}, {
+		"@id": "ci:schedule-5",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-2"
+		}
+	}, {
+		"@id": "ci:schedule-4",
+		"@type": "iris:Schedule",
+		"iris:hasDay": {
+			"@id": "iris:Monday"
+		},
+		"iris:hasTimeDescription": "[{\"data\": [[33300, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:service-1"
+		}
+	}, {
 		"@id": "ci:pc-1",
 		"@type": "iris:Workstation",
 		"iris:allowsRole": [{
@@ -36,6 +183,100 @@
 		},
 		"iris:deviceLabel": "Window 2",
 		"iris:deviceType": "control-panel"
+	}, {
+		"@id": "ci:orgroot-1",
+		"@type": "iris:FormalOrganization",
+		"iris:hasUnit": {
+			"@id": "ci:office-1"
+		}
+	}, {
+		"@id": "ci:sg-1",
+		"@type": "iris:ServiceGroup",
+		"iris:serviceGroupContent": [{
+			"@id": "ci:service-2"
+		}, {
+			"@id": "ci:service-1"
+		}, {
+			"@id": "ci:sg-2"
+		}],
+		"iris:serviceGroupIcon": "icon.png",
+		"iris:serviceGroupLabel": "Тестовая рутовая группа",
+		"iris:serviceGroupName": "root",
+		"iris:serviceGroupType": "base"
+	}, {
+		"@id": "ci:sg-2",
+		"@type": "iris:ServiceGroup",
+		"iris:serviceGroupContent": {
+			"@id": "ci:service-1"
+		},
+		"iris:serviceGroupIcon": "icon.png",
+		"iris:serviceGroupLabel": "Тестовая  группа",
+		"iris:serviceGroupName": "blah",
+		"iris:serviceGroupType": "base"
+	}, {
+		"@id": "ci:sg-3",
+		"@type": "iris:ServiceGroup",
+		"iris:serviceGroupContent": {
+			"@id": "ci:sg-2"
+		},
+		"iris:serviceGroupIcon": "icon.png",
+		"iris:serviceGroupLabel": "Another Тестовая  группа",
+		"iris:serviceGroupName": "blah",
+		"iris:serviceGroupType": "notbase"
+	}, {
+		"@id": "ci:sg-4",
+		"@type": "iris:ServiceGroup",
+		"iris:serviceGroupContent": [{
+			"@id": "ci:sg-1"
+		}, {
+			"@id": "ci:sg-3"
+		}],
+		"iris:serviceGroupIcon": "icon.png",
+		"iris:serviceGroupLabel": "Another Тестовая  группа",
+		"iris:serviceGroupName": "rooftop",
+		"iris:serviceGroupType": "notbase"
+	}, {
+		"@id": "ci:human-1",
+		"@type": "iris:Employee",
+		"iris:firstName": {
+			"@language": "en",
+			"@value": "Vasily"
+		},
+		"iris:hasMembership": {
+			"@id": "ci:membership-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-1"
+		},
+		"iris:lastName": {
+			"@language": "en",
+			"@value": "Ivanov"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "vasyoQ"
+		},
+		"iris:middleName": {
+			"@language": "en",
+			"@value": "Ivanovich"
+		},
+		"iris:password": "123456",
+		"iris:provides": [{
+			"@id": "ci:service-1"
+		}, {
+			"@id": "ci:service-2"
+		}],
+		"iris:state": "active"
+	}, {
+		"@id": "ci:department-1",
+		"@type": "iris:Department",
+		"rdfs:label": "Department 1",
+		"iris:hasSchedule": {
+			"@id": "ci:schedule-3"
+		},
+		"iris:unitOf": {
+			"@id": "ci:office-1"
+		}
 	}, {
 		"@id": "ci:human-2",
 		"@type": "iris:Employee",
@@ -67,157 +308,6 @@
 		},
 		"iris:state": "active"
 	}, {
-		"@id": "ci:office-1",
-		"@type": "iris:Office",
-		"iris:hasUnit": {
-			"@id": "ci:department-1"
-		},
-		"rdfs:label": "Office 1"
-	}, {
-		"@id": "ci:department-1",
-		"@type": "iris:Department",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-3"
-		},
-		"iris:unitOf": {
-			"@id": "ci:office-1"
-		},
-		"rdfs:label": "Department 1"
-	}, {
-		"@id": "ci:human-1",
-		"@type": "iris:Employee",
-		"iris:firstName": {
-			"@language": "en",
-			"@value": "Vasily"
-		},
-		"iris:hasMembership": {
-			"@id": "ci:membership-1"
-		},
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-1"
-		},
-		"iris:lastName": {
-			"@language": "en",
-			"@value": "Ivanov"
-		},
-		"iris:login": {
-			"@language": "en",
-			"@value": "vasyoQ"
-		},
-		"iris:middleName": {
-			"@language": "en",
-			"@value": "Ivanovich"
-		},
-		"iris:password": "123456",
-		"iris:provides": [{
-			"@id": "ci:service-2"
-		}, {
-			"@id": "ci:service-1"
-		}],
-		"iris:state": "active"
-	}, {
-		"@id": "ci:orgroot-1",
-		"@type": "iris:FormalOrganization",
-		"iris:hasUnit": {
-			"@id": "ci:office-1"
-		}
-	}, {
-		"@id": "ci:service-1",
-		"@type": "iris:Service",
-		"iris:codeFRGU": "Smth",
-		"iris:deptCodeFRGU": "Smth",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-4"
-		},
-		"iris:liveOperationTime": 900,
-		"iris:order": 1,
-		"iris:prebookInterval": 172800,
-		"iris:prebookOperationTime": 900,
-		"iris:prebookPercentage": 45,
-		"iris:prebookTodayPercentage": 15,
-		"iris:prefix": "Smth",
-		"iris:priority": 1,
-		"iris:serviceCodeEPGU": "Smth"
-	}, {
-		"@id": "ci:webwidget-1",
-		"@type": "iris:SystemEntity",
-		"iris:login": {
-			"@language": "en",
-			"@value": "webwidget"
-		},
-		"iris:password": "123456"
-	}, {
-		"@id": "ci:plan-6",
-		"@type": "iris:Plan",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]",
-		"iris:planOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:service-2",
-		"@type": "iris:Service",
-		"iris:codeFRGU": "Smth",
-		"iris:deptCodeFRGU": "Smth",
-		"iris:hasSchedule": {
-			"@id": "ci:schedule-5"
-		},
-		"iris:liveOperationTime": 1200,
-		"iris:order": 6,
-		"iris:prebookInterval": 172800,
-		"iris:prebookOperationTime": 1200,
-		"iris:prebookPercentage": 50,
-		"iris:prebookTodayPercentage": 20,
-		"iris:prefix": "Smth",
-		"iris:priority": 3,
-		"iris:serviceCodeEPGU": "Smth"
-	}, {
-		"@id": "ci:membership-2",
-		"@type": "iris:Membership",
-		"iris:member": {
-			"@id": "ci:human-2"
-		},
-		"iris:organization": {
-			"@id": "ci:department-1"
-		},
-		"iris:role": {
-			"@id": "iris:Operator"
-		}
-	}, {
-		"@id": "ci:membership-1",
-		"@type": "iris:Membership",
-		"iris:member": {
-			"@id": "ci:human-1"
-		},
-		"iris:organization": {
-			"@id": "ci:department-1"
-		},
-		"iris:role": {
-			"@id": "iris:Operator"
-		}
-	}, {
-		"@id": "ci:schedule-2",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:schedule-3",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:department-1"
-		}
-	}, {
 		"@id": "ci:schedule-1",
 		"@type": "iris:Schedule",
 		"iris:hasDay": {
@@ -226,36 +316,6 @@
 		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-1"
-		}
-	}, {
-		"@id": "ci:schedule-6",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
-		"@id": "ci:schedule-4",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[33300, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:service-1"
-		}
-	}, {
-		"@id": "ci:schedule-5",
-		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
-		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
-		"iris:scheduleOf": {
-			"@id": "ci:service-2"
 		}
 	}]
 }

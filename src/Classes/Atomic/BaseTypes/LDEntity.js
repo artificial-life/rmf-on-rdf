@@ -8,6 +8,7 @@ class LDEntity {
 		let translator = _.isFunction(translator_fn) ? translator_fn : (key) => key;
 		this.setKeyTransform(translator_fn);
 		this.entity_type = entity_type;
+		this.content = {};
 		if(this.constructor.name == 'LDEntity') return ProxifyEntity(this);
 	}
 	setKeyTransform(fn) {
@@ -28,6 +29,8 @@ class LDEntity {
 			//meh
 			let db_data = data.value;
 			content_map.id = _.last(db_data['@id'].split("#"));
+			//@TODO use it wisely
+			content_map.type = _.last(db_data['@type'][0].split("#"));
 
 			_.map(entity.fields, (property) => {
 				let key = this.keyTransform(property);
@@ -45,8 +48,7 @@ class LDEntity {
 			if(data.id)
 				content_map.id = _.last(data.id.split("#"));
 		}
-		entity.build(content_map);
-		this.content = entity;
+		this.content = entity.build(content_map) || entity;
 	}
 
 	serialize() {
@@ -56,7 +58,7 @@ class LDEntity {
 	}
 
 	getLDType() {
-		return this.entity_type.ldtype ? this.entity_type.ldtype : this.entity_type.name;
+		return this.content.ldtype ? this.content.ldtype : this.entity_type.name;
 	}
 
 	transformKeys() {
