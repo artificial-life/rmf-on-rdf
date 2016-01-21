@@ -53,7 +53,6 @@ class ContentAsync extends Content {
 				content: content,
 				path: path
 			} = item;
-			console.log("CA SAVE", content, path);
 			if(!path || !content) return false;
 
 			var atom = this.getAtom(path);
