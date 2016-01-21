@@ -83,18 +83,18 @@ class CommonApi extends IrisApi {
 	}
 
 	setEntryField(type, query, assignment) {
-		let pre = ((!type || !this.content[type]) && query.keys) ? this.checkEntryType(query.keys) : Promise.resolve(type);
+		let pre = (!type || !this.content[type]) && query.keys ? this.checkEntryType(query.keys) : Promise.resolve(type);
 
-		return pre.then((tp) => {
+		return pre.then(tp => {
 			if(!tp || !this.content[tp])
 				return {};
 
-			return this.getEntry(type, query)
-				.then((res) => {
-					let set = _.map(res, (entry) => {
+			return this.getEntry(tp, query)
+				.then(res => {
+					let set = _.map(res, entry => {
 						return _.defaults(assignment, entry);
 					});
-					return this.setEntry(type, set);
+					return this.setEntry(tp, set);
 				});
 		});
 	}
