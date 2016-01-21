@@ -12,6 +12,7 @@ class AgentApi extends CommonApi {
 	initContent() {
 		super.initContent('Employee');
 		super.initContent('Membership');
+		super.initContent('SystemEntity');
 		return this;
 	}
 
