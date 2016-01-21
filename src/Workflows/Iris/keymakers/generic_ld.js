@@ -2,7 +2,7 @@
 
 function generic_ld(Model, finalizer = 'basic_ld') {
 	// console.log("GENERIC LD KM", Model.name, finalizer);
-	let fin_keymaker = require("./index")(finalizer);
+	let fin_keymaker = require("./index")(finalizer) || require("./index")('basic_ld');
 	return {
 		get: (data) => {
 			let result = data;

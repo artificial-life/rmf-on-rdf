@@ -1,10 +1,22 @@
 'use strict'
 
-let IrisApi = require("./IrisApi");
+let CommonApi = require("./CommonApi");
 
-class HistoryApi extends IrisApi {
+class HistoryApi extends CommonApi {
 	constructor() {
 		super();
+	}
+
+	initContent() {
+		super.initContent('History');
+		return this;
+	}
+
+	getEntry(query) {
+		return super.getEntry('History', query);
+	}
+	setEntry(data) {
+		return super.stEntry('History', data);
 	}
 }
 

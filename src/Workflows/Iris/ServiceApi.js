@@ -1,114 +1,30 @@
 'use strict'
 
-let keymakers = require("./keymakers");
-let classmap = require("./classmap");
 let base_dir = "../../../";
 
-//Model
-let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Service');
-let SGTypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/ServiceGroup');
-let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
+let CommonApi = require("./CommonApi");
+let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 
-//Atomics
-let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
-//DP
-let CouchbirdLinkedDataProvider = require(base_dir + '/build/externals/CouchbirdLinkedDataProvider');
-//accessor
-let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor');
-//parent
-let IrisApi = require("./IrisApi");
-
-class ServiceApi extends IrisApi {
+class ServiceApi extends CommonApi {
 	constructor() {
 		super();
-		this.models = {};
 	}
 
 
 	initContent() {
-		let dp = new CouchbirdLinkedDataProvider(this.db);
-		let translator = (prop) => {
-			return "iris://vocabulary/domain#" + _.camelCase(prop);
-		};
-		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
-		this.models[TypeModel.name] = Model;
-		let storage_data_model = {
-			type: {
-				type: 'Service',
-				deco: 'LDEntity',
-				params: translator
-			},
-			deco: 'BaseCollection',
-			params: 'service_id'
-		};
-
-
-		let storage_accessor = new LDAccessor(dp);
-
-		storage_accessor
-			.keymaker('set', keymakers('generic_ld')(Model).set)
-			.keymaker('get', keymakers('generic_ld')(Model).get);
-
-
-		let storage = AtomicFactory.create('BasicAsync', {
-			type: storage_data_model,
-			accessor: storage_accessor
-		});
-		//@NOTE: actually not content, but atomic
-		this.content = storage;
-
-		this.initServiceGroupContent();
-
+		super.initContent('Service');
+		super.initContent('ServiceGroup');
+		this.models = _.reduce(this.content, (acc, val, key) => {
+			acc[key] = getModel.dataType(val.model_decription.type);
+			return acc;
+		}, {});
 		return this;
-	}
-
-	initServiceGroupContent() {
-		let dp = new CouchbirdLinkedDataProvider(this.db);
-		let storage_accessor = new LDAccessor(dp);
-		let translator = (prop) => {
-			return "iris://vocabulary/domain#" + _.camelCase(prop);
-		};
-		let Model = DecoModel.bind(DecoModel, SGTypeModel, translator);
-		this.models[SGTypeModel.name] = Model;
-		let storage_data_model = {
-			type: {
-				type: 'ServiceGroup',
-				deco: 'LDEntity',
-				params: translator
-			},
-			deco: 'BaseCollection',
-			params: 'service_group_id'
-		};
-
-		storage_accessor
-			.keymaker('set', keymakers('generic_ld')(Model).set)
-			.keymaker('get', keymakers('generic_ld')(Model).get);
-
-		let storage = AtomicFactory.create('BasicAsync', {
-			type: storage_data_model,
-			accessor: storage_accessor
-		});
-
-		//@NOTE: actually not content, but atomic
-		this.service_groups = storage;
-		return this;
-	}
-
-	getContent() {
-		return this.content;
-	}
-
-	getService(query) {
-		return this.content.resolve(query)
-			.then((res) => {
-				return res.serialize();
-			});
 	}
 
 	getServiceTree(query) {
 		let groups = {};
 		let services = {};
-		let direct = this.service_groups.accessor;
+		let direct = this.content['ServiceGroup'].accessor;
 		let unroll = (keys) => {
 			return direct.get({
 					keys
@@ -144,7 +60,7 @@ class ServiceApi extends IrisApi {
 						});
 						let ordered = _.mapValues(_.groupBy(nested, 'service_group_type'), (val) => {
 							return _.keyBy(val, (item) => {
-								return(item.service_group_name === 'root') ? item.service_group_name : item.id;
+								return(item.service_group_name === 'root' || _.size(val) == 1) ? 'root' : item.id;
 							});
 						});
 						return ordered;
@@ -152,39 +68,27 @@ class ServiceApi extends IrisApi {
 			});
 	}
 
-	setServiceField(query, assignment) {
-		return this.getService(query)
-			.then((res) => {
-				let set = _.map(res, (emp) => {
-					return _.defaults(assignment, emp);
-				});
-				return this.setService(set);
-			});
+	getService(query) {
+		return super.getEntry('Service', query);
 	}
 
-	setServiceGroupField(query, assignment) {
-		return this.getServiceGroup(query)
-			.then((res) => {
-				let set = _.map(res, (emp) => {
-					return _.defaults(assignment, emp);
-				});
-				return this.setServiceGroup(set);
-			});
+	setServiceField(query, assignment) {
+		return super.setEntryField('Service', query, assignment);
 	}
 
 	setService(data) {
-		return this.content.save(data);
+		return super.setEntry('Service', data);
 	}
 
 	getServiceGroup(query) {
-		return this.service_groups.resolve(query)
-			.then((res) => {
-				return res.serialize();
-			});
+		return super.getEntry('ServiceGroup', query);
+	}
+	setServiceGroupField(query, assignment) {
+		return super.setEntryField('ServiceGroup', query, assignment);
 	}
 
 	setServiceGroup(data) {
-		return this.service_groups.save(data);
+		return super.setEntry('ServiceGroup', data);
 	}
 }
 

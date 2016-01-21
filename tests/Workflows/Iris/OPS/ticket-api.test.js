@@ -7,6 +7,7 @@ let gpc = require('generate-pincode');
 
 
 describe('Workflow: IRIS Ticket', () => {
+	// describe.only('Workflow: IRIS Ticket', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -63,12 +64,9 @@ describe('Workflow: IRIS Ticket', () => {
 				.then(() => {
 					return iris.getTicket({
 						query: {
-							code: "3033291418",
 							dedicated_date: "Mon, 21 Dec 2015 00:00:00 GMT"
 						},
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {
@@ -79,7 +77,7 @@ describe('Workflow: IRIS Ticket', () => {
 					console.log("TICKET CHOSEN", require('util').inspect(tick, {
 						depth: null
 					}));
-					tick.state = 4;
+					tick.state = 'postponed';
 					return iris.setTicket(tick);
 				})
 				.then((res) => {
@@ -87,10 +85,8 @@ describe('Workflow: IRIS Ticket', () => {
 						depth: null
 					}));
 					return iris.getTicket({
-						keys: ["iris://data#ticket-92f6d120-b268-11e5-9885-637e638a715a", "iris://data#ticket-d91b1280-b0fe-11e5-8f80-bdb52904e4c4"],
+						keys: _.keys(res),
 						options: {}
-					}, {
-						count: 5 // @NOTE not implemented
 					})
 				})
 				.then((res) => {

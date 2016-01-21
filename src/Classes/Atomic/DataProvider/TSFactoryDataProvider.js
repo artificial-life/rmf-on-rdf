@@ -84,7 +84,7 @@ class TSFactoryDataProvider {
 					service: service
 				}
 			} = this.getNearestSource(sources, ticket);
-			console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
+			// console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
 			if(!plan) {
 				return false;
 			}

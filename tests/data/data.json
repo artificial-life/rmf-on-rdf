@@ -105,6 +105,9 @@
 		"iris:boundServiceGroups:": {
 			"@id": "ci:sg-1"
 		},
+		"iris:defaultWorkstation": {
+			"@id": "ci:term-1"
+		},
 		"iris:login": {
 			"@language": "en",
 			"@value": "megatron"
@@ -164,11 +167,19 @@
 		"iris:attachedTo": {
 			"@id": "ci:department-1"
 		},
-		"iris:defaultEmployee": {
+		"iris:defaultAgent": {
 			"@id": "ci:human-1"
 		},
 		"iris:deviceLabel": "Window 1",
 		"iris:deviceType": "control-panel"
+	}, {
+		"@id": "ci:term-1",
+		"@type": "iris:Terminal",
+		"iris:attachedTo": {
+			"@id": "ci:department-1"
+		},
+		"iris:deviceLabel": "Terminal 1",
+		"iris:deviceType": "terminal"
 	}, {
 		"@id": "ci:pc-2",
 		"@type": "iris:Workstation",
@@ -178,7 +189,7 @@
 		"iris:attachedTo": {
 			"@id": "ci:department-1"
 		},
-		"iris:defaultEmployee": {
+		"iris:defaultAgent": {
 			"@id": "ci:human-2"
 		},
 		"iris:deviceLabel": "Window 2",

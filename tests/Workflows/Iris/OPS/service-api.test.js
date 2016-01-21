@@ -106,7 +106,7 @@ describe.only('Workflow: IRIS Service', () => {
 		it('set Service', () => {
 			return Promise.resolve(true)
 				.then((res) => {
-					return iris.getService({
+					return iris.getEntry(false, {
 						keys: "iris://data#service-1",
 						options: {}
 					})
@@ -116,7 +116,6 @@ describe.only('Workflow: IRIS Service', () => {
 						depth: null
 					}));
 					let wp = _.sample(res);
-					delete wp.allows_role;
 					return iris.setServiceField({
 						query: wp
 					}, {

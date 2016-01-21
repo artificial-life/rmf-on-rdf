@@ -5,7 +5,6 @@ let classmap = require("./classmap");
 let base_dir = "../../../";
 
 let TicketApi = require("./TicketApi");
-let EmployeeApi = require("./EmployeeApi");
 
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 
@@ -68,13 +67,10 @@ class IrisBuilder {
 			type: attributes_services_datamodel,
 			accessor: services_accessor
 		});
-		let e_api = new EmployeeApi();
-		let e_atom = e_api.initContent().getContent();
 		let resource_source = new ContentAsync();
 
 		resource_source.addAtom(plan_collection, 'plan');
 		resource_source.addAtom(operator_services_collection, 'services', '<namespace>attribute');
-		resource_source.addAtom(e_atom, 'ops_info', '<namespace>attribute');
 
 		return resource_source;
 	}
@@ -140,7 +136,7 @@ class IrisBuilder {
 			});
 
 		let t_api = new TicketApi();
-		let box_storage = t_api.initContent().getContent();
+		let box_storage = t_api.initContent().getContent('Ticket');
 
 
 		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
