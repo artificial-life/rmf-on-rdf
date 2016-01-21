@@ -93,14 +93,10 @@ class CommonApi extends IrisApi {
 	}
 
 	setEntry(type, data) {
-		let pre = ((!type || !this.content[type]) && query.keys) ? this.checkEntryType(query.keys) : Promise.resolve(type);
+		if(!tp || !this.content[tp])
+			return {};
 
-		return pre.then((tp) => {
-			if(!tp || !this.content[tp])
-				return {};
-
-			return this.content[type].save(data);
-		});
+		return this.content[type].save(data);
 	}
 
 }
