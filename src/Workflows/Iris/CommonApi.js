@@ -93,7 +93,7 @@ class CommonApi extends IrisApi {
 	}
 
 	setEntry(type, data) {
-		if(!tp || !this.content[tp])
+		if(!type || !this.content[type])
 			return {};
 
 		return this.content[type].save(data);
