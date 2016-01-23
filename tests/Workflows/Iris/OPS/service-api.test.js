@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-// describe('Workflow: IRIS Service', () => {
-describe.only('Workflow: IRIS Service', () => {
+describe('Workflow: IRIS Service', () => {
+	// describe.only('Workflow: IRIS Service', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -57,7 +57,7 @@ describe.only('Workflow: IRIS Service', () => {
 
 	describe('get services', function() {
 		this.timeout(10000);
-		it('get service group', () => {
+		it('get service group', (done) => {
 			return Promise.resolve(true)
 				.then(() => {
 					return iris.getServiceGroup({
@@ -90,20 +90,11 @@ describe.only('Workflow: IRIS Service', () => {
 					console.log("SERVICE TREE", require('util').inspect(res, {
 						depth: null
 					}));
-					// return iris.getWorkstation({
-					// 	keys: "iris://data#pc-1",
-					// 	options: {}
-					// })
-				})
-				.then((res) => {
-					console.log("BYKEY", require('util').inspect(res, {
-						depth: null
-					}));
-
+					done();
 				});
 		});
 
-		it('set Service', () => {
+		it('set Service', (done) => {
 			return Promise.resolve(true)
 				.then((res) => {
 					return iris.getEntry(false, {
@@ -137,6 +128,7 @@ describe.only('Workflow: IRIS Service', () => {
 					console.log("CHANGEDD PRIORITY", require('util').inspect(res, {
 						depth: null
 					}));
+					done();
 				})
 		});
 	})

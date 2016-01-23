@@ -64,7 +64,7 @@ describe('Workflow: IRIS Workstation', () => {
 				.then(() => {
 					return iris.getWorkstation({
 						query: {
-							device_of: "iris://data#human-1"
+							default_agent: "iris://data#human-1"
 						},
 						options: {}
 					})
@@ -127,7 +127,7 @@ describe('Workflow: IRIS Workstation', () => {
 						query: wp
 					}, {
 						occupied_by: "iris://data#human-1"
-					})
+					}, true)
 				})
 				.then((res) => {
 					console.log("DEVICE SAVED", require('util').inspect(res, {
@@ -136,6 +136,29 @@ describe('Workflow: IRIS Workstation', () => {
 					return iris.getWorkstation({
 						query: {
 							occupied_by: "iris://data#human-1"
+						},
+						options: {}
+					});
+				})
+				.then((res) => {
+					console.log("OCC 1", require('util').inspect(res, {
+						depth: null
+					}));
+					let wp = _.sample(res);
+					delete wp.allows_role;
+					return iris.setWorkstationField({
+						query: wp
+					}, {
+						occupied_by: "iris://data#human-2"
+					}, true)
+				})
+				.then((res) => {
+					console.log("DEVICE SAVED", require('util').inspect(res, {
+						depth: null
+					}));
+					return iris.getWorkstation({
+						query: {
+							occupied_by: "iris://data#human-2"
 						},
 						options: {}
 					});

@@ -205,6 +205,7 @@ class TSFactoryDataProvider {
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
+				console.log("TICK SV", tick);
 				return this.storage_accessor.save(tick)
 					.catch((err) => {
 						console.log(err.stack);

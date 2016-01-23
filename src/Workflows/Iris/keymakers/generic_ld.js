@@ -9,7 +9,11 @@ function generic_ld(Model, finalizer = 'basic_ld') {
 			if(data.query) {
 				let item = new Model();
 				item.build(data.query);
-				result.query = item.getAsQuery();
+				if(_.size(_.filter(item.serialize())) !== _.size(data.query)) {
+					result.keys = [];
+				} else {
+					result.query = item.getAsQuery();
+				}
 			}
 			if(data.keys) {
 				let item = new Model();
@@ -21,6 +25,7 @@ function generic_ld(Model, finalizer = 'basic_ld') {
 					return item.getAsQuery()['@id'];
 				});
 			}
+
 			return fin_keymaker.get(result);
 		},
 		set: (data) => {

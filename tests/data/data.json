@@ -178,6 +178,9 @@
 		"iris:attachedTo": {
 			"@id": "ci:department-1"
 		},
+		"iris:defaultAgent": {
+			"@id": "ci:megatron-1"
+		},
 		"iris:deviceLabel": "Terminal 1",
 		"iris:deviceType": "terminal"
 	}, {

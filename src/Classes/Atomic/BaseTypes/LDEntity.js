@@ -2,6 +2,14 @@
 
 var ProxifyEntity = require('../../../externals/Proxify/Entity.js');
 
+let discover = (name) => {
+	try {
+		return require(`./${name}.js`);
+	} catch(e) {
+		return require("./Fieldset.js");
+	}
+}
+
 class LDEntity {
 	constructor(entity_type, translator_fn) {
 		//@TODO implement translator
@@ -30,7 +38,7 @@ class LDEntity {
 			let db_data = data.value;
 			content_map.id = _.last(db_data['@id'].split("#"));
 			//@TODO use it wisely
-			content_map.type = _.last(db_data['@type'][0].split("#"));
+			entity.ldtype = _.last(db_data['@type'][0].split("#"));
 
 			_.map(entity.fields, (property) => {
 				let key = this.keyTransform(property);
@@ -54,11 +62,12 @@ class LDEntity {
 	serialize() {
 		let data = this.content.serialize();
 		data.cas = this.content.cas;
+		data.ldtype = this.content.ldtype;
 		return data;
 	}
 
 	getLDType() {
-		return this.content.ldtype ? this.content.ldtype : this.entity_type.name;
+		return this.content.ldtype || this.entity_type.name;
 	}
 
 	transformKeys() {
@@ -77,6 +86,8 @@ class LDEntity {
 		db_data['@type'] = "iris://vocabulary/domain#" + this.getLDType();
 		return db_data;
 	}
+
+
 	dbSerialize() {
 		let db_data = this.transformKeys();
 

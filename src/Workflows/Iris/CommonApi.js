@@ -19,9 +19,10 @@ class CommonApi extends IrisApi {
 		this.content = {};
 	}
 
-	checkEntryType(key) {
+	getEntryType(key) {
 		let k = _.isArray(key) ? key[0] : key;
-		return this.db.get(k)
+		let id = "iris://data#" + _.last(k.split("#"));
+		return this.db.get(id)
 			.then((res) => {
 				let data = res.value;
 				return data['@type'] ? _.last(data['@type'][0].split("#")) : false;
@@ -70,7 +71,7 @@ class CommonApi extends IrisApi {
 	}
 
 	getEntry(type, query) {
-		let pre = ((!type || !this.content[type]) && query.keys) ? this.checkEntryType(query.keys) : Promise.resolve(type);
+		let pre = ((!type || !this.content[type]) && query.keys) ? this.getEntryType(query.keys) : Promise.resolve(type);
 
 		return pre.then((tp) => {
 			if(!tp || !this.content[tp])
@@ -82,8 +83,15 @@ class CommonApi extends IrisApi {
 		});
 	}
 
-	setEntryField(type, query, assignment) {
-		let pre = (!type || !this.content[type]) && query.keys ? this.checkEntryType(query.keys) : Promise.resolve(type);
+	getAllEntries(query) {
+		return Promise.props(_.reduce(this.content, (acc, val, key) => {
+			acc[key] = this.getEntry(key, query);
+			return acc;
+		}, {}));
+	}
+
+	setEntryField(type, query, assignment, concat = false) {
+		let pre = (!type || !this.content[type]) && query.keys ? this.getEntryType(query.keys) : Promise.resolve(type);
 
 		return pre.then(tp => {
 			if(!tp || !this.content[tp])
@@ -92,7 +100,12 @@ class CommonApi extends IrisApi {
 			return this.getEntry(tp, query)
 				.then(res => {
 					let set = _.map(res, entry => {
-						return _.defaults(assignment, entry);
+						return _.mergeWith(entry, assignment, (objValue, srcValue) => {
+							if(concat) {
+								let val = _.isArray(objValue) ? objValue : [objValue];
+								return _.uniq(_.concat(val, srcValue));
+							}
+						});
 					});
 					return this.setEntry(tp, set);
 				});
@@ -100,10 +113,10 @@ class CommonApi extends IrisApi {
 	}
 
 	setEntry(type, data) {
-		if(!type || !this.content[type])
+		let tp = (!type || !this.content[type]) ? data[0].ldtype : type;
+		if(!tp || !this.content[tp])
 			return {};
-
-		return this.content[type].save(data);
+		return this.content[tp].save(data);
 	}
 
 }

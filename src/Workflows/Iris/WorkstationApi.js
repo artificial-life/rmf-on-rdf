@@ -19,10 +19,13 @@ class WorkstationApi extends CommonApi {
 	}
 
 	getWorkstation(query) {
+		let type = query.keys ? false : 'Workstation';
 		return super.getEntry('Workstation', query);
 	}
-	setWorkstationField(query, assignment) {
-		return super.setEntryField('Workstation', query, assignment);
+	setWorkstationField(query, assignment, concat = false) {
+		let type = query.keys ? false : 'Workstation';
+
+		return super.setEntryField(type, query, assignment, concat);
 	}
 	setWorkstation(data) {
 		return super.setEntry('Workstation', data);

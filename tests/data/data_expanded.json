@@ -275,6 +275,9 @@
 	"iris://vocabulary/domain#deviceLabel": [{
 		"@value": "Terminal 1"
 	}],
+	"iris://vocabulary/domain#defaultAgent": [{
+		"@id": "iris://data#megatron-1"
+	}],
 	"iris://vocabulary/domain#deviceType": [{
 		"@value": "terminal"
 	}]

@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 let uuid = require('node-uuid');
 
-// describe.only('Workflow: IRIS Booking', () => {
-describe('Workflow: IRIS Booking', () => {
+describe.only('Workflow: IRIS Booking', () => {
+	// describe('Workflow: IRIS Booking', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -138,6 +138,7 @@ describe('Workflow: IRIS Booking', () => {
 						.then((res) => {
 							let tick = _.values(res)[0];
 							tick.time_description[1] += 400;
+							tick.state = 'closed';
 							let tick_close = {
 								dedicated_date: tick.dedicated_date,
 								time_description: [40000, 68400]

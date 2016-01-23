@@ -29,10 +29,22 @@ gulp.task("sourcemaps", function() {
 		.pipe(gulp.dest("build"));
 });
 
-gulp.task('serve', ['start'], function() {
+gulp.task('serve', ['start-serve'], function() {
 	gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6']);
 });
 
+gulp.task('upd', ['es6'], function() {
+	return gulp.src(["build/**/*.js"])
+		.pipe(gulp.dest("../iris-v2/node_modules/resource-management-framework/build"));
+});
+
+gulp.task('test-upd', ['start-test'], function() {
+	gulp.watch(["src/**/*.js", "tests/**/*.js"], ['upd']);
+});
+
+gulp.task('test', ['start-test'], function() {
+	gulp.watch(["src/**/*.js", "tests/**/*.js"], ['es6']);
+});
 
 gulp.task('es6', function() {
 	return gulp.src(["src/**/*.js", "tests/**/*.js"])
@@ -50,7 +62,7 @@ gulp.task('es6', function() {
 })
 
 
-gulp.task('start', function() {
+gulp.task('start-test', function() {
 	demon = nodemon({
 		script: 'build/run.js',
 		watch: ['build/'],
@@ -61,5 +73,17 @@ gulp.task('start', function() {
 			'NODE_ENV': 'development'
 		}
 	});
+});
 
-})
+gulp.task('start-serve', function() {
+	demon = nodemon({
+		script: 'build/run.js',
+		watch: ['build/'],
+		execMap: {
+			"js": "node  --harmony --harmony_proxies"
+		},
+		env: {
+			'NODE_ENV': 'development'
+		}
+	});
+});
