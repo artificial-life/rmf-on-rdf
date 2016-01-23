@@ -35,6 +35,14 @@ class AgentApi extends CommonApi {
 			}
 		});
 	}
+
+	getActiveEmployees() {
+		return this.getEmployee({
+			query: {
+				state: 'active'
+			}
+		});
+	}
 }
 
 module.exports = AgentApi;
