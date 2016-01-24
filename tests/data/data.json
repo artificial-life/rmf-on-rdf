@@ -51,16 +51,6 @@
 		"iris:serviceCodeEpgu": "Smth",
 		"iris:serviceLabel": "Test service 2"
 	}, {
-		"@id": "ci:plan-6",
-		"@type": "iris:Plan",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
-		"iris:hasTimeDescription": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]",
-		"iris:planOf": {
-			"@id": "ci:human-2"
-		}
-	}, {
 		"@id": "ci:membership-2",
 		"@type": "iris:Membership",
 		"iris:member": {
@@ -82,9 +72,21 @@
 	}, {
 		"@id": "ci:schedule-3",
 		"@type": "iris:Schedule",
-		"iris:hasDay": {
+		"iris:hasDay": [{
 			"@id": "iris:Monday"
-		},
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Sunday"
+		}],
 		"iris:hasTimeDescription": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:department-1"
@@ -92,9 +94,17 @@
 	}, {
 		"@id": "ci:schedule-2",
 		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Monday"
-		},
+		"iris:hasDay": [{
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Saturday"
+		}],
 		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-2"
@@ -129,9 +139,11 @@
 	}, {
 		"@id": "ci:schedule-6",
 		"@type": "iris:Schedule",
-		"iris:hasDay": {
-			"@id": "iris:Thursday"
-		},
+		"iris:hasDay": [{
+			"@id": "iris:Monday"
+		}, {
+			"@id": "iris:Sunday"
+		}],
 		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-2"
@@ -139,9 +151,21 @@
 	}, {
 		"@id": "ci:schedule-5",
 		"@type": "iris:Schedule",
-		"iris:hasDay": {
+		"iris:hasDay": [{
 			"@id": "iris:Monday"
-		},
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Sunday"
+		}],
 		"iris:hasTimeDescription": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:service-2"
@@ -149,9 +173,21 @@
 	}, {
 		"@id": "ci:schedule-4",
 		"@type": "iris:Schedule",
-		"iris:hasDay": {
+		"iris:hasDay": [{
 			"@id": "iris:Monday"
-		},
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Sunday"
+		}],
 		"iris:hasTimeDescription": "[{\"data\": [[33300, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:service-1"
@@ -324,9 +360,21 @@
 	}, {
 		"@id": "ci:schedule-1",
 		"@type": "iris:Schedule",
-		"iris:hasDay": {
+		"iris:hasDay": [{
 			"@id": "iris:Monday"
-		},
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Sunday"
+		}],
 		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:human-1"

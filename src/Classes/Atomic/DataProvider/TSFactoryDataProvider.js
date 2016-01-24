@@ -135,6 +135,9 @@ class TSFactoryDataProvider {
 				},
 				tickets: tickets
 			}) => {
+				// console.log("PLANS", require('util').inspect(plans, {
+				// 	depth: null
+				// }));
 				return this.resolvePlacing(_.values(tickets.serialize()), plans);
 			});
 	}
@@ -182,7 +185,7 @@ class TSFactoryDataProvider {
 				let {
 					placed: placed_new
 				} = this.resolvePlacing(new_tickets, remains);
-				// console.log("NEW TICKS PLACED", require('util').inspect(placed_new, {
+				// console.log("NEW TICKS PLACED", ops_by_service, require('util').inspect(remains, {
 				// 	depth: null
 				// }));
 				return placed_new;

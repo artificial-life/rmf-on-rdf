@@ -64,7 +64,7 @@ describe('Workflow: IRIS Ticket', () => {
 				.then(() => {
 					return iris.getTicket({
 						query: {
-							dedicated_date: "Mon, 21 Dec 2015 00:00:00 GMT"
+							dedicated_date: (new Date()).toLocaleDateString()
 						},
 						options: {}
 					})

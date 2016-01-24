@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 let uuid = require('node-uuid');
 
-// describe.only('Workflow: IRIS Booking', () => {
 describe('Workflow: IRIS Booking', () => {
+	// describe.only('Workflow: IRIS Booking', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -60,7 +60,7 @@ describe('Workflow: IRIS Booking', () => {
 
 	});
 
-
+	let today = new Date();
 	describe('basic observe-reserve', function() {
 		this.timeout(10000);
 		it('build concrete', () => {
@@ -68,7 +68,6 @@ describe('Workflow: IRIS Booking', () => {
 			return Promise.resolve(true)
 				.then(() => {
 					return iris.observe({
-						dedicated_date: 'Mon, 21 Dec 2015 00:00:00 GMT', //UTC string or any object valid for new Date(obj)
 						services: [{
 							service: "iris://data#service-2",
 							time_description: 1000 // or whatever it is default
@@ -76,9 +75,10 @@ describe('Workflow: IRIS Booking', () => {
 							service: "iris://data#service-1",
 							time_description: 500 // or whatever it is default
 						}],
-						time_description: [40000, 68400] //from now till the day ends or something
+						dedicated_date: today.toLocaleDateString(), //UTC string or any object valid for new Date(obj)
+						time_description: [8 * 3600, 18 * 3600] //from now till the day ends or something
 					}, {
-						count: 1 //how many tickets per service you want
+						count: 3 //how many tickets per service you want
 							// not here
 							// size: 30 * 3600
 					});
@@ -101,8 +101,8 @@ describe('Workflow: IRIS Booking', () => {
 						acc[box_id] = rp;
 						return acc;
 					}, {});
-					data.dedicated_date = 'Mon, 21 Dec 2015 00:00:00 GMT';
-					data.time_description = [40000, 68400];
+					data.dedicated_date = today.toLocaleDateString(), //UTC string or any object valid for new Date(obj)
+						data.time_description = [8 * 3600, 18 * 3600] //from now till the day ends or something
 					return iris.confirm(data);
 				})
 				.then((saved) => {
@@ -120,12 +120,12 @@ describe('Workflow: IRIS Booking', () => {
 						acc[box_id] = rp;
 						return acc;
 					}, {});
-					to_call.dedicated_date = 'Mon, 21 Dec 2015 00:00:00 GMT';
-					to_call.time_description = [40000, 68400];
+					to_call.dedicated_date = today.toLocaleDateString(), //UTC string or any object valid for new Date(obj)
+						to_call.time_description = [8 * 3600, 18 * 3600] //from now till the day ends or something
 					console.log("TO_CALL", require('util').inspect(to_call, {
 						depth: null
 					}));
-					return iris.reserve(to_call);
+					// return iris.reserve(to_call);
 				})
 				.then((saved) => {
 					console.log("CALLED", require('util').inspect(saved, {
@@ -140,8 +140,8 @@ describe('Workflow: IRIS Booking', () => {
 							tick.time_description[1] += 400;
 							tick.state = 'closed';
 							let tick_close = {
-								dedicated_date: tick.dedicated_date,
-								time_description: [40000, 68400]
+								dedicated_date: today.toLocaleDateString(), //UTC string or any object valid for new Date(obj)
+								time_description: [8 * 3600, 18 * 3600] //from now till the day ends or something
 							};
 							tick_close[tick.id] = tick;
 							console.log("TO_CLOSE", require('util').inspect(tick_close, {

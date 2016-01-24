@@ -6,6 +6,7 @@ module.exports = {
 	get: function({
 		query: query
 	}) {
+		// console.log("QQ", query);
 		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		let date = query.date ? new Date(query.date) : new Date();
 		let day = "iris://vocabulary/domain#" + days[date.getDay()];
@@ -40,10 +41,11 @@ module.exports = {
 				let result = _.transform(data, (acc, item) => {
 					let res = u.flatten_ld(item["iris://vocabulary/domain#provides"]);
 					acc[item['@id']] = (service_ids == '*') ? res : _.intersection(res, keys);
-					check = _.union(check, acc[item['@id']]);
+					check = _.concat(check, acc[item['@id']]);
 					return acc;
 				}, {});
-				result.check_keys = check;
+				// console.log("CHECK", check);
+				result.check_keys = _.uniq(check);
 				return result;
 			}
 		};
@@ -85,7 +87,7 @@ module.exports = {
 						return acc;
 					}, {});
 				});
-				// console.log("REDUCED", reduced);
+				// console.log("REDUCED SS", reduced);
 				return reduced;
 			}
 		};

@@ -16,6 +16,7 @@ class TicketApi extends CommonApi {
 	}
 
 	getTicket(query) {
+		console.log("GETTING", query);
 		return super.getEntry('Ticket', query)
 	}
 

@@ -7,6 +7,10 @@ class Employee extends Fieldset {
 		let fields = ["id", "phone", "first_name", "last_name", "middle_name", "login", "password", "provides", "has_schedule", "has_permission", "state"];
 		super(fields);
 	}
+
+	get references() {
+		return ["provides", "has_schedule", "has_permission"];
+	}
 }
 
 module.exports = Employee;

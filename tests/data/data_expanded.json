@@ -99,20 +99,6 @@
 		"@value": "Test service 2"
 	}]
 }, {
-	"@id": "iris://data#plan-6",
-	"@type": [
-		"iris://vocabulary/domain#Plan"
-	],
-	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Thursday"
-	}],
-	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\":[[50400,60400]],\"state\":\"r\"},{\"data\":[[60400,64800]],\"state\":\"a\"}]"
-	}],
-	"iris://vocabulary/domain#planOf": [{
-		"@id": "iris://data#human-2"
-	}]
-}, {
 	"@id": "iris://data#membership-2",
 	"@type": [
 		"iris://vocabulary/domain#Membership"
@@ -144,6 +130,18 @@
 	],
 	"iris://vocabulary/domain#hasDay": [{
 		"@id": "iris://vocabulary/domain#Monday"
+	}, {
+		"@id": "iris://vocabulary/domain#Tuesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Wednesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Thursday"
+	}, {
+		"@id": "iris://vocabulary/domain#Friday"
+	}, {
+		"@id": "iris://vocabulary/domain#Saturday"
+	}, {
+		"@id": "iris://vocabulary/domain#Sunday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
 		"@value": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]"
@@ -157,7 +155,15 @@
 		"iris://vocabulary/domain#Schedule"
 	],
 	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Monday"
+		"@id": "iris://vocabulary/domain#Tuesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Wednesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Thursday"
+	}, {
+		"@id": "iris://vocabulary/domain#Friday"
+	}, {
+		"@id": "iris://vocabulary/domain#Saturday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
 		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
@@ -206,7 +212,9 @@
 		"iris://vocabulary/domain#Schedule"
 	],
 	"iris://vocabulary/domain#hasDay": [{
-		"@id": "iris://vocabulary/domain#Thursday"
+		"@id": "iris://vocabulary/domain#Monday"
+	}, {
+		"@id": "iris://vocabulary/domain#Sunday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
 		"@value": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]"
@@ -221,6 +229,18 @@
 	],
 	"iris://vocabulary/domain#hasDay": [{
 		"@id": "iris://vocabulary/domain#Monday"
+	}, {
+		"@id": "iris://vocabulary/domain#Tuesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Wednesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Thursday"
+	}, {
+		"@id": "iris://vocabulary/domain#Friday"
+	}, {
+		"@id": "iris://vocabulary/domain#Saturday"
+	}, {
+		"@id": "iris://vocabulary/domain#Sunday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
 		"@value": "[{\"data\": [[50400, 64800]], \"state\": \"a\"}]"
@@ -235,6 +255,18 @@
 	],
 	"iris://vocabulary/domain#hasDay": [{
 		"@id": "iris://vocabulary/domain#Monday"
+	}, {
+		"@id": "iris://vocabulary/domain#Tuesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Wednesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Thursday"
+	}, {
+		"@id": "iris://vocabulary/domain#Friday"
+	}, {
+		"@id": "iris://vocabulary/domain#Saturday"
+	}, {
+		"@id": "iris://vocabulary/domain#Sunday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
 		"@value": "[{\"data\": [[33300, 64800]], \"state\": \"a\"}]"
@@ -490,6 +522,18 @@
 	],
 	"iris://vocabulary/domain#hasDay": [{
 		"@id": "iris://vocabulary/domain#Monday"
+	}, {
+		"@id": "iris://vocabulary/domain#Tuesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Wednesday"
+	}, {
+		"@id": "iris://vocabulary/domain#Thursday"
+	}, {
+		"@id": "iris://vocabulary/domain#Friday"
+	}, {
+		"@id": "iris://vocabulary/domain#Saturday"
+	}, {
+		"@id": "iris://vocabulary/domain#Sunday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
 		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
