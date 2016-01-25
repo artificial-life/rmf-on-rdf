@@ -19,6 +19,9 @@
 		"@type": "iris:Service",
 		"iris:codeFrgu": "Smth",
 		"iris:deptCodeFrgu": "Smth",
+		"iris:hasProvider": {
+			"@id": "ci:department-1"
+		},
 		"iris:hasSchedule": {
 			"@id": "ci:schedule-4"
 		},
@@ -28,7 +31,7 @@
 		"iris:prebookOperationTime": 900,
 		"iris:prebookPercentage": 45,
 		"iris:prebookTodayPercentage": 15,
-		"iris:prefix": "Smth",
+		"iris:prefix": "AA",
 		"iris:priority": 1,
 		"iris:serviceCodeEpgu": "Smth",
 		"iris:serviceLabel": "Test service 1"
@@ -37,6 +40,9 @@
 		"@type": "iris:Service",
 		"iris:codeFrgu": "Smth",
 		"iris:deptCodeFrgu": "Smth",
+		"iris:hasProvider": {
+			"@id": "ci:department-1"
+		},
 		"iris:hasSchedule": {
 			"@id": "ci:schedule-5"
 		},
@@ -46,7 +52,7 @@
 		"iris:prebookOperationTime": 1200,
 		"iris:prebookPercentage": 50,
 		"iris:prebookTodayPercentage": 20,
-		"iris:prefix": "Smth",
+		"iris:prefix": "B",
 		"iris:priority": 3,
 		"iris:serviceCodeEpgu": "Smth",
 		"iris:serviceLabel": "Test service 2"
@@ -65,10 +71,10 @@
 	}, {
 		"@id": "ci:office-1",
 		"@type": "iris:Office",
-		"rdfs:label": "Office 1",
 		"iris:hasUnit": {
 			"@id": "ci:department-1"
-		}
+		},
+		"iris:orgLabel": "Office 1"
 	}, {
 		"@id": "ci:schedule-3",
 		"@type": "iris:Schedule",
@@ -82,12 +88,20 @@
 			"@id": "iris:Thursday"
 		}, {
 			"@id": "iris:Friday"
-		}, {
+		}],
+		"iris:hasTimeDescription": "[{\"data\": [[30000, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "ci:department-1"
+		}
+	}, {
+		"@id": "ci:schedule-8",
+		"@type": "iris:Schedule",
+		"iris:hasDay": [{
 			"@id": "iris:Saturday"
 		}, {
 			"@id": "iris:Sunday"
 		}],
-		"iris:hasTimeDescription": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]",
+		"iris:hasTimeDescription": "[{\"data\": [[30000, 50000]], \"state\": \"a\"}]",
 		"iris:scheduleOf": {
 			"@id": "ci:department-1"
 		}
@@ -320,10 +334,14 @@
 	}, {
 		"@id": "ci:department-1",
 		"@type": "iris:Department",
-		"rdfs:label": "Department 1",
-		"iris:hasSchedule": {
+		"iris:hasSchedule": [{
 			"@id": "ci:schedule-3"
-		},
+		}, {
+			"@id": "ci:schedule-8"
+		}],
+		"iris:orgLabel": "Dept 1",
+		"iris:orgTimezone": "Azia/Novosibirsk",
+		"iris:pinCodePrefix": "001",
 		"iris:unitOf": {
 			"@id": "ci:office-1"
 		}
@@ -337,9 +355,11 @@
 		"iris:hasMembership": {
 			"@id": "ci:membership-2"
 		},
-		"iris:hasSchedule": {
+		"iris:hasSchedule": [{
 			"@id": "ci:schedule-2"
-		},
+		}, {
+			"@id": "ci:schedule-6"
+		}],
 		"iris:lastName": {
 			"@language": "en",
 			"@value": "Medvedeva"

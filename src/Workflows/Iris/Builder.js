@@ -107,8 +107,9 @@ class IrisBuilder {
 				return {
 					selection: {
 						ldplan: {
-							operator: '*',
+							operator: query.operator || '*',
 							service: '*',
+							day: query.day,
 							dedicated_date: query.dedicated_date,
 							time_description: query.time_description,
 							service_count: query.service_count
@@ -118,12 +119,12 @@ class IrisBuilder {
 				};
 			})
 			.keymaker('get', (query) => {
-				let s_ids = _.map(query.services, 'service');
 				return {
 					selection: {
 						ldplan: {
-							operator: '*',
+							operator: query.operator || '*',
 							service: '*',
+							day: query.day,
 							dedicated_date: query.dedicated_date,
 							time_description: query.time_description,
 							service_count: query.service_count
@@ -151,6 +152,11 @@ class IrisBuilder {
 					return ticket.serialize();
 				});
 				return res;
+			})
+			.addOrder((tickets) => {
+				return _.orderBy(tickets, ['priority', (tick) => {
+					return(new Date(tick.booking_date)).getTime();
+				}], ['desc', 'asc'])
 			});
 
 		let box_builder = AtomicFactory.create('BasicAsync', {

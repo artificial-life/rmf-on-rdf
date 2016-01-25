@@ -6,10 +6,9 @@ module.exports = {
 	get: function({
 		query: query
 	}) {
-		// console.log("QQ", query);
-		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-		let date = query.date ? new Date(query.date) : new Date();
-		let day = "iris://vocabulary/domain#" + days[date.getDay()];
+		console.log("QQ", query);
+		let date = query.date;
+		let day = "iris://vocabulary/domain#" + query.day;
 		let service_ids = query.selection.service_id || '*';
 		let op_keys = undefined;
 		if(query.operator_id == '*') {

@@ -14,11 +14,53 @@ class ServiceApi extends CommonApi {
 	initContent() {
 		super.initContent('Service');
 		super.initContent('ServiceGroup');
+		super.initContent('Organization');
+		super.initContent('Schedule');
 		this.models = _.reduce(this.content, (acc, val, key) => {
 			acc[key] = getModel.dataType(val.model_decription.type);
 			return acc;
 		}, {});
 		return this;
+	}
+
+	getServiceProvider(query) {
+		let out;
+		let prov;
+		return this.getService(query)
+			.then((res) => {
+				// console.log("SERVICES", res);
+				out = _.groupBy(_.values(res), 'has_provider');
+				let keys = _.keys(out);
+				return super.getEntry("Organization", {
+					keys
+				});
+			})
+			.then((res) => {
+				prov = res;
+				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
+					return prov.has_schedule
+				}));
+				// console.log("PROVIDERS", res, keys);
+
+				return super.getEntry("Schedule", {
+					keys
+				})
+			})
+			.then((res) => {
+				// console.log("PROVIDERS II", res);
+				prov = _.mapValues(prov, (p, key) => {
+					let sch = _.isArray(p.has_schedule) ? p.has_schedule : [p.has_schedule];
+					p.has_schedule = _.map(sch, (schedule) => res[schedule]);
+					return p;
+				});
+
+				return _.map(prov, (p, k) => {
+					return {
+						services: out[k],
+						provider: p
+					}
+				})
+			});
 	}
 
 	getServiceTree(query) {

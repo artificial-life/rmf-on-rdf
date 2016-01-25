@@ -27,6 +27,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		return this.ingredient.resolve({
 				query: {
 					operator_id: selection.operator,
+					day: selection.day,
 					date: selection.dedicated_date,
 					selection: {
 						service_id: selection.service,
@@ -36,28 +37,23 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			})
 			.then((resolved) => {
 				//had to choose between this outrageous notation and additional * queries to db
-				// console.log("TSI", require('util').inspect(resolved.content_map, {
+				// console.log("TSI", selection, require('util').inspect(resolved.content_map, {
 				// 	depth: null
 				// }));
-				let services = resolved.getAtom(services_path);
-				let op_plans = resolved.getAtom(plans_path);
-
-				let o_atoms = {
-					services: services.observe({
+				let observed = {
+					services: resolved.getAtom(services_path).observe({
 						operator_id: selection.operator,
 						selection: {
 							service_id: selection.service,
 							selection: time_description
 						}
 					}),
-					op_plans: op_plans.observe({
+					op_plans: resolved.getAtom(plans_path).observe({
 						operator_id: selection.operator,
 						selection: time_description
 					})
 				};
-				return Promise.props(o_atoms);
-			})
-			.then((observed) => {
+
 				let services = observed.services.content;
 				let op_plans = observed.op_plans.content;
 
@@ -83,6 +79,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		return ingredient_atom.resolve({
 				query: {
 					operator_id: value.operator,
+					day: selection.day,
 					date: value.dedicated_date
 				}
 			})
@@ -113,6 +110,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				source: ingredient_atom.resolve({
 					query: {
 						operator_id: selection.operator,
+						day: selection.day,
 						date: selection.dedicated_date,
 						selection: {
 							service_id: selection.service

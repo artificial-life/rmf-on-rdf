@@ -6,10 +6,10 @@ module.exports = {
 	get: function({
 		query: p
 	}) {
-		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-		let date = p.date ? new Date(p.date) : new Date();
-		let day = "iris://vocabulary/domain#" + days[date.getDay()];
-		let plan_day_id = date.toLocaleDateString(); // yyyy-mm-dd
+		console.log("QQO", p);
+		let date = p.date;
+		let day = "iris://vocabulary/domain#" + p.day;
+		let plan_day_id = date; // yyyy-mm-dd
 		let op_keys = undefined;
 		if(p.operator_id == '*') {
 			op_keys = {

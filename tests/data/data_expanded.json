@@ -21,6 +21,9 @@
 	"iris://vocabulary/domain#deptCodeFrgu": [{
 		"@value": "Smth"
 	}],
+	"iris://vocabulary/domain#hasProvider": [{
+		"@id": "iris://data#department-1"
+	}],
 	"iris://vocabulary/domain#hasSchedule": [{
 		"@id": "iris://data#schedule-4"
 	}],
@@ -43,7 +46,7 @@
 		"@value": 15
 	}],
 	"iris://vocabulary/domain#prefix": [{
-		"@value": "Smth"
+		"@value": "AA"
 	}],
 	"iris://vocabulary/domain#priority": [{
 		"@value": 1
@@ -64,6 +67,9 @@
 	}],
 	"iris://vocabulary/domain#deptCodeFrgu": [{
 		"@value": "Smth"
+	}],
+	"iris://vocabulary/domain#hasProvider": [{
+		"@id": "iris://data#department-1"
 	}],
 	"iris://vocabulary/domain#hasSchedule": [{
 		"@id": "iris://data#schedule-5"
@@ -87,7 +93,7 @@
 		"@value": 20
 	}],
 	"iris://vocabulary/domain#prefix": [{
-		"@value": "Smth"
+		"@value": "B"
 	}],
 	"iris://vocabulary/domain#priority": [{
 		"@value": 3
@@ -120,7 +126,7 @@
 	"iris://vocabulary/domain#hasUnit": [{
 		"@id": "iris://data#department-1"
 	}],
-	"http://www.w3.org/2000/01/rdf-schema#label": [{
+	"iris://vocabulary/domain#orgLabel": [{
 		"@value": "Office 1"
 	}]
 }, {
@@ -138,13 +144,25 @@
 		"@id": "iris://vocabulary/domain#Thursday"
 	}, {
 		"@id": "iris://vocabulary/domain#Friday"
-	}, {
+	}],
+	"iris://vocabulary/domain#hasTimeDescription": [{
+		"@value": "[{\"data\": [[40000, 70000]], \"state\": \"a\"}]"
+	}],
+	"iris://vocabulary/domain#scheduleOf": [{
+		"@id": "iris://data#department-1"
+	}]
+}, {
+	"@id": "iris://data#schedule-8",
+	"@type": [
+		"iris://vocabulary/domain#Schedule"
+	],
+	"iris://vocabulary/domain#hasDay": [{
 		"@id": "iris://vocabulary/domain#Saturday"
 	}, {
 		"@id": "iris://vocabulary/domain#Sunday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\": [[30000, 46800]], \"state\": \"a\"}, {\"data\": [[50400, 64800]], \"state\": \"a\"}]"
+		"@value": "[{\"data\": [[30000, 50000]], \"state\": \"a\"}]"
 	}],
 	"iris://vocabulary/domain#scheduleOf": [{
 		"@id": "iris://data#department-1"
@@ -304,11 +322,11 @@
 	"iris://vocabulary/domain#attachedTo": [{
 		"@id": "iris://data#department-1"
 	}],
-	"iris://vocabulary/domain#deviceLabel": [{
-		"@value": "Terminal 1"
-	}],
 	"iris://vocabulary/domain#defaultAgent": [{
 		"@id": "iris://data#megatron-1"
+	}],
+	"iris://vocabulary/domain#deviceLabel": [{
+		"@value": "Terminal 1"
 	}],
 	"iris://vocabulary/domain#deviceType": [{
 		"@value": "terminal"
@@ -472,12 +490,20 @@
 	],
 	"iris://vocabulary/domain#hasSchedule": [{
 		"@id": "iris://data#schedule-3"
+	}, {
+		"@id": "iris://data#schedule-8"
+	}],
+	"iris://vocabulary/domain#orgLabel": [{
+		"@value": "Dept 1"
+	}],
+	"iris://vocabulary/domain#orgTimezone": [{
+		"@value": "Azia/Novosibirsk"
+	}],
+	"iris://vocabulary/domain#pinCodePrefix": [{
+		"@value": "001"
 	}],
 	"iris://vocabulary/domain#unitOf": [{
 		"@id": "iris://data#office-1"
-	}],
-	"http://www.w3.org/2000/01/rdf-schema#label": [{
-		"@value": "Department 1"
 	}]
 }, {
 	"@id": "iris://data#human-2",
@@ -493,6 +519,8 @@
 	}],
 	"iris://vocabulary/domain#hasSchedule": [{
 		"@id": "iris://data#schedule-2"
+	}, {
+		"@id": "iris://data#schedule-6"
 	}],
 	"iris://vocabulary/domain#lastName": [{
 		"@language": "en",

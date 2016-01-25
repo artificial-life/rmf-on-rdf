@@ -9,12 +9,20 @@ class TSFactoryDataProvider {
 		this.addFinalizer((data) => {
 			return data;
 		});
+		this.addOrder((data) => {
+			return data;
+		});
 	}
 
 	addFinalizer(fn) {
 		this.finalizer = fn;
+		return this;
 	}
 
+	addOrder(fn) {
+		this.order = fn;
+		return this;
+	}
 	addStorage(accessor) {
 		this.storage_accessor = accessor;
 		return this;
@@ -36,14 +44,15 @@ class TSFactoryDataProvider {
 			return acc;
 		}, {});
 
-		let ordered = _.sortBy(ops, (plan, op_id) => {
-			return _.find(plan.sort().getContent(), (ch) => {
-				return(ch.getState().haveState('a'));
-			}).start;
-		});
-		// console.log("OPS", require('util').inspect(ordered, {
+		// console.log("OPS", require('util').inspect(ops, {
 		// 	depth: null
 		// }));
+		let ordered = _.sortBy(ops, (plan, op_id) => {
+			let ch = _.find(plan.sort().getContent(), (ch) => {
+				return(ch.getState().haveState('a'));
+			});
+			return ch ? ch.start : Infinity;
+		});
 		//to resolve this crap
 		let time_description = false;
 		let service = query.service;
@@ -53,7 +62,7 @@ class TSFactoryDataProvider {
 			let first = _.find(src.sort().getContent(), (ch) => {
 				return(ch.getState().haveState('a'));
 			});
-
+			if(!first) return false;
 			//@TODO temporary. Try to make LDPlan like a Fieldset and get this fields directly
 			operator = src.plan_of;
 			let interval = query.time_description * cnt;
@@ -72,9 +81,7 @@ class TSFactoryDataProvider {
 
 	resolvePlacing(tickets, sources, set_data = false) {
 		let remains = sources;
-		let ordered = _.orderBy(tickets, ['priority', (tick) => {
-			return(new Date(tick.booking_date)).getTime();
-		}], ['desc', 'asc']);
+		let ordered = this.order(tickets);
 		let [placed, lost] = _.partition(ordered, (ticket) => {
 			let {
 				source: plan,

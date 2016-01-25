@@ -41,11 +41,11 @@ class ResolvedContentAsync extends ResolvedContent {
 			} = atom_data;
 			let params = query || this.path.getQueryParams() || {};
 			let observed_atom = {
-				atom_path: Promise.resolve(_.clone(atom_path)),
+				atom_path: _.clone(atom_path),
 				atom: atom.observe(params)
 			};
 
-			observed_atoms.push(Promise.props(observed_atom));
+			observed_atoms.push(Promise.resolve(observed_atom));
 		}
 		return Promise.all(observed_atoms)
 			.then((res) => {
