@@ -1,14 +1,13 @@
 module.exports = {
 	set: (query) => {
+		console.log("UI", query);
 		let access = _.map(query, (val) => {
 			let node = val;
 			delete node.cas;
 			return node;
 		});
 
-		return {
-			values: access
-		};
+		return access;
 	},
 	get: ({
 		query: p,

@@ -77,7 +77,7 @@ class LDEntity {
 				acc['@id'] = "iris://data#" + val;
 			} else if(key == 'cas') {
 				acc.cas = val;
-			} else {
+			} else if(key !== 'ldtype') {
 				let nkey = this.keyTransform(key);
 				acc[nkey] = val;
 			}

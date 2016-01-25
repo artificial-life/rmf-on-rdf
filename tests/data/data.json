@@ -340,7 +340,7 @@
 			"@id": "ci:schedule-8"
 		}],
 		"iris:orgLabel": "Dept 1",
-		"iris:orgTimezone": "Azia/Novosibirsk",
+		"iris:orgTimezone": "Asia/Novosibirsk",
 		"iris:pinCodePrefix": "001",
 		"iris:unitOf": {
 			"@id": "ci:office-1"

@@ -1,5 +1,5 @@
 'use strict'
-
+let uuid = require('node-uuid');
 let keymakers = require("./keymakers");
 let classmap = require("./classmap");
 let base_dir = "../../../";
@@ -111,11 +111,12 @@ class IrisBuilder {
 							service: '*',
 							day: query.day,
 							dedicated_date: query.dedicated_date,
-							time_description: query.time_description,
-							service_count: query.service_count
+							time_description: query.time_description
 						}
 					},
-					reserve: query.reserve || false
+					box_id: '*',
+					reserve: query.reserve || false,
+					count: query.count
 				};
 			})
 			.keymaker('get', (query) => {
@@ -147,6 +148,7 @@ class IrisBuilder {
 			.addFinalizer((data) => {
 				let tickets = _.filter(data, _.isPlainObject);
 				let res = _.map(tickets, (t_data) => {
+					t_data.id = t_data.id || "ticket-" + uuid.v1();
 					let ticket = new Model();
 					ticket.build(t_data);
 					return ticket.serialize();

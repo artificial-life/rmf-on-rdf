@@ -6,7 +6,7 @@ module.exports = {
 	get: function({
 		query: p
 	}) {
-		console.log("QQO", p);
+		// console.log("QQO", p);
 		let date = p.date;
 		let day = "iris://vocabulary/domain#" + p.day;
 		let plan_day_id = date; // yyyy-mm-dd

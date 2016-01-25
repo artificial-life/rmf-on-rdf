@@ -497,7 +497,7 @@
 		"@value": "Dept 1"
 	}],
 	"iris://vocabulary/domain#orgTimezone": [{
-		"@value": "Azia/Novosibirsk"
+		"@value": "Asia/Novosibirsk"
 	}],
 	"iris://vocabulary/domain#pinCodePrefix": [{
 		"@value": "001"

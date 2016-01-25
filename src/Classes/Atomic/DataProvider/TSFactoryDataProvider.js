@@ -34,7 +34,7 @@ class TSFactoryDataProvider {
 	}
 
 	getNearestSource(sources, query) {
-		let picker = _.isEmpty(query.operator) ? query.alt_operator : query.operator;
+		let picker = _.isEmpty(query.operator) ? query.alt_operator : _.intersection(query.operator, query.alt_operator);
 		let cnt = query.service_count || 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if(op_s[query.service]) {
@@ -53,6 +53,7 @@ class TSFactoryDataProvider {
 			});
 			return ch ? ch.start : Infinity;
 		});
+
 		//to resolve this crap
 		let time_description = false;
 		let service = query.service;
@@ -82,7 +83,15 @@ class TSFactoryDataProvider {
 	resolvePlacing(tickets, sources, set_data = false) {
 		let remains = sources;
 		let ordered = this.order(tickets);
+		let ops_by_service = _.reduce(remains, (acc, val, key) => {
+			_.map(_.keys(val), (s_id) => {
+				acc[s_id] = acc[s_id] || [];
+				acc[s_id].push(key);
+			});
+			return acc;
+		}, {});
 		let [placed, lost] = _.partition(ordered, (ticket) => {
+			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
 			let {
 				source: plan,
 				params: {
@@ -166,13 +175,6 @@ class TSFactoryDataProvider {
 					return [];
 				}
 				let ticket_data = [];
-				let ops_by_service = _.reduce(remains, (acc, val, key) => {
-					_.map(_.keys(val), (s_id) => {
-						acc[s_id] = acc[s_id] || [];
-						acc[s_id].push(key);
-					});
-					return acc;
-				}, {});
 
 				_.map(params.services, ({
 					service: s_id,
@@ -180,7 +182,6 @@ class TSFactoryDataProvider {
 				}) => {
 					for(let i = 0; i < params.count; i++) {
 						ticket_data.push({
-							alt_operator: ops_by_service[s_id],
 							time_description: time_description,
 							dedicated_date: params.selection.ldplan.dedicated_date,
 							service: s_id,
@@ -215,7 +216,7 @@ class TSFactoryDataProvider {
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
-				console.log("TICK SV", tick);
+				// console.log("TICK SV", tick);
 				return this.storage_accessor.save(tick)
 					.catch((err) => {
 						console.log(err.stack);
@@ -225,10 +226,10 @@ class TSFactoryDataProvider {
 	}
 
 	set(params, value) {
-		// console.log("SETTING", require('util').inspect(params, {
+		let new_tickets = this.finalizer(value);
+		// console.log("SETTING", params, require('util').inspect(new_tickets, {
 		// 	depth: null
 		// }));
-		let new_tickets = this.finalizer(value);
 		if(params.reserve) {
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
@@ -278,6 +279,9 @@ class TSFactoryDataProvider {
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
+				console.log("NEW", require('util').inspect(placed_new, {
+					depth: null
+				}));
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					lost: lost_new
