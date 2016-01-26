@@ -2,27 +2,29 @@
 module.exports = {
 	get: ({
 		query: p,
-		keys: ids
+		keys
 	}) => {
-		if(ids)
+		if(keys && !p)
 			return {
-				keys: ids
+				keys
 			};
-
 		let query = {
 			type: 'view',
 			query: {
-				tickets: {
+				ids: {
 					select: "@id",
 					where: p
 				}
 			},
 			final: (query) => {
-				return query.tickets;
+				return query.ids;
 			}
 		};
+		// console.log("QQ ЗЗ", require('util').inspect(query, {
+		// 	depth: null
+		// }));
 		return {
-			query: query
+			query
 		};
 	},
 	set: (data) => {

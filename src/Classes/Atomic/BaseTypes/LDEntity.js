@@ -62,7 +62,7 @@ class LDEntity {
 	serialize() {
 		let data = this.content.serialize();
 		data.cas = this.content.cas;
-		data.ldtype = this.content.ldtype;
+		data.ldtype = this.getLDType();
 		return data;
 	}
 
@@ -84,6 +84,7 @@ class LDEntity {
 			return acc;
 		}, {});
 		db_data['@type'] = "iris://vocabulary/domain#" + this.getLDType();
+		// console.log("KT", db_data);
 		return db_data;
 	}
 

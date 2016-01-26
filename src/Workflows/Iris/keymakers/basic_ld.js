@@ -2,11 +2,11 @@
 module.exports = {
 	get: ({
 		query: p,
-		keys: ids
+		keys
 	}) => {
-		if(ids)
+		if(keys && !p)
 			return {
-				keys: ids
+				keys
 			};
 		let query = {
 			type: 'view',
@@ -20,7 +20,7 @@ module.exports = {
 				return query.ids;
 			}
 		};
-		// console.log("QQ", require('util').inspect(query, {
+		// console.log("QQ ЗЗ", require('util').inspect(query, {
 		// 	depth: null
 		// }));
 		return {

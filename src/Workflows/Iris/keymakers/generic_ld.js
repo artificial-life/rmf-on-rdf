@@ -9,11 +9,8 @@ function generic_ld(Model, finalizer = 'basic_ld') {
 			if(data.query) {
 				let item = new Model();
 				item.build(data.query);
-				if(_.size(_.filter(item.serialize())) !== _.size(data.query)) {
-					result.keys = [];
-				} else {
-					result.query = item.getAsQuery();
-				}
+				result.keys = [];
+				result.query = item.getAsQuery();
 			}
 			if(data.keys) {
 				let item = new Model();

@@ -34,7 +34,7 @@ class TSFactoryDataProvider {
 	}
 
 	getNearestSource(sources, query) {
-		let picker = _.isEmpty(query.operator) ? query.alt_operator : _.intersection(query.operator, query.alt_operator);
+		let picker = _.isEmpty(query.operator) ? query.alt_operator : query.operator;
 		let cnt = query.service_count || 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if(op_s[query.service]) {
@@ -244,6 +244,9 @@ class TSFactoryDataProvider {
 							to_free[src.id] = _.cloneDeep(obj);
 							return srcValue;
 						}
+						// if(key === "time_description" && _.isArray(srcValue) && _.size(srcValue) == 1) {
+						// 	return [srcValue[0], ];
+						// }
 					});
 					let placing = _.reduce(to_reserve, (acc, tick, key) => {
 						acc[key] = this.saveTicket(params, tick, to_free[key] || {});
@@ -279,9 +282,9 @@ class TSFactoryDataProvider {
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
-				console.log("NEW", require('util').inspect(placed_new, {
-					depth: null
-				}));
+				// console.log("NEW", require('util').inspect(placed_new, {
+				// 	depth: null
+				// }));
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					lost: lost_new

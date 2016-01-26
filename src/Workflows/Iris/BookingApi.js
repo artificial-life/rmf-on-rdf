@@ -16,7 +16,7 @@ class BookingApi extends IrisApi {
 		let rs = IrisBuilder.getResourceSource();
 		this.factory = IrisBuilder.getFactory({
 			'ldplan': rs
-		});
+		}, this.sort);
 	}
 
 	getContent() {
@@ -50,6 +50,12 @@ class BookingApi extends IrisApi {
 	confirm(data) {
 		data.reserve = false;
 		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
+	}
+
+	sort(tickets) {
+		return _.orderBy(tickets, ['priority', (tick) => {
+			return(new Date(tick.booking_date)).getTime();
+		}], ['desc', 'asc']);
 	}
 
 }

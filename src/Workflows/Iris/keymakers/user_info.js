@@ -1,6 +1,5 @@
 module.exports = {
 	set: (query) => {
-		console.log("UI", query);
 		let access = _.map(query, (val) => {
 			let node = val;
 			delete node.cas;
@@ -11,11 +10,11 @@ module.exports = {
 	},
 	get: ({
 		query: p,
-		keys: ids
+		keys
 	}) => {
-		if(ids)
+		if(keys && !p)
 			return {
-				keys: ids
+				keys
 			};
 
 		let query = {

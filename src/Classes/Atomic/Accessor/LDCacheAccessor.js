@@ -52,7 +52,7 @@ class LDCacheAccessor extends CacheAccessor {
 							res[key] = check(val, depth - 1);
 						}));
 					} else {
-						return Promise.all(_.map(data, (val, key) => {
+						return Promise.props(_.mapValues(data, (val, key) => {
 							// console.log(key, Date.now() - tm);
 							return(_.isUndefined(val) ? this.makeInitial(key, context) : val);
 						}));

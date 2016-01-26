@@ -32,7 +32,7 @@ class UserInfoApi extends IrisApi {
 				params: translator
 			},
 			deco: 'BaseCollection',
-			params: 'user_id'
+			params: 'id'
 		};
 		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 

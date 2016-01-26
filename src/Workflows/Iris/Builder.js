@@ -75,7 +75,7 @@ class IrisBuilder {
 		return resource_source;
 	}
 
-	static getFactory(ingredients) {
+	static getFactory(ingredients, order) {
 		let dp = new CouchbirdLinkedDataProvider(this.db);
 		let translator = (prop) => {
 			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
@@ -141,7 +141,7 @@ class IrisBuilder {
 		let box_storage = t_api.initContent().getContent('Ticket');
 
 
-		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
+		let Model = box_storage.Model;
 
 		factory_provider
 			.addStorage(box_storage)
@@ -155,11 +155,7 @@ class IrisBuilder {
 				});
 				return res;
 			})
-			.addOrder((tickets) => {
-				return _.orderBy(tickets, ['priority', (tick) => {
-					return(new Date(tick.booking_date)).getTime();
-				}], ['desc', 'asc'])
-			});
+			.addOrder(order);
 
 		let box_builder = AtomicFactory.create('BasicAsync', {
 			type: data_model,
