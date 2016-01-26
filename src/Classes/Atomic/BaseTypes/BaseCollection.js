@@ -67,7 +67,7 @@ class BaseCollection {
 		} else {
 			ids = _.isArray(ids) ? ids : [ids];
 		}
-		// console.log("BC CM", this.collection_id, method_name, passed, ids);
+		// console.log("BC CM", this.collection_id, method_name, passed, ids, this.content);
 
 		let Me = this.constructor;
 		let result = new Me(this.collection_type, this.collection_id);

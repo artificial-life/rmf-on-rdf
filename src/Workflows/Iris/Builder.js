@@ -141,7 +141,7 @@ class IrisBuilder {
 		let box_storage = t_api.initContent().getContent('Ticket');
 
 
-		let Model = box_storage.Model;
+		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 
 		factory_provider
 			.addStorage(box_storage)
