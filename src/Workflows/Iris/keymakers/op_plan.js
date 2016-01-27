@@ -7,6 +7,8 @@ module.exports = {
 		query: p
 	}) {
 		// console.log("QQO", p);
+		if(!p)
+			return {};
 		let date = p.date;
 		let day = "iris://vocabulary/domain#" + p.day;
 		let plan_day_id = date; // yyyy-mm-dd

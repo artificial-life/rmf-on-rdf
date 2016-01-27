@@ -7,6 +7,8 @@ module.exports = {
 		query: query
 	}) {
 		// console.log("QQ", query);
+		if(!query)
+			return {};
 		let date = query.date;
 		let day = "iris://vocabulary/domain#" + query.day;
 		let service_ids = query.selection.service_id || '*';

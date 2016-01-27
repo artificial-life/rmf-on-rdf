@@ -197,6 +197,9 @@
 	"iris://vocabulary/domain#defaultWorkstation": [{
 		"@id": "iris://data#term-1"
 	}],
+	"iris://vocabulary/domain#availableWorkstation": [{
+		"@id": "iris://data#term-1"
+	}],
 	"iris://vocabulary/domain#login": [{
 		"@language": "en",
 		"@value": "megatron"
@@ -380,10 +383,10 @@
 	"iris://vocabulary/domain#serviceGroupLabel": [{
 		"@value": "Тестовая рутовая группа"
 	}],
-	"iris://vocabulary/domain#serviceGroupName": [{
-		"@value": "root"
+	"iris://vocabulary/domain#serviceGroupOrder": [{
+		"@value": "0"
 	}],
-	"iris://vocabulary/domain#serviceGroupType": [{
+	"iris://vocabulary/domain#serviceGroupViewName": [{
 		"@value": "base"
 	}]
 }, {
@@ -403,10 +406,10 @@
 	"iris://vocabulary/domain#serviceGroupLabel": [{
 		"@value": "Тестовая  группа"
 	}],
-	"iris://vocabulary/domain#serviceGroupName": [{
+	"iris://vocabulary/domain#serviceGroupOrder": [{
 		"@value": "blah"
 	}],
-	"iris://vocabulary/domain#serviceGroupType": [{
+	"iris://vocabulary/domain#serviceGroupViewName": [{
 		"@value": "base"
 	}]
 }, {
@@ -426,10 +429,10 @@
 	"iris://vocabulary/domain#serviceGroupLabel": [{
 		"@value": "Another Тестовая  группа"
 	}],
-	"iris://vocabulary/domain#serviceGroupName": [{
+	"iris://vocabulary/domain#serviceGroupOrder": [{
 		"@value": "blah"
 	}],
-	"iris://vocabulary/domain#serviceGroupType": [{
+	"iris://vocabulary/domain#serviceGroupViewName": [{
 		"@value": "notbase"
 	}]
 }, {
@@ -451,10 +454,10 @@
 	"iris://vocabulary/domain#serviceGroupLabel": [{
 		"@value": "Another Тестовая  группа"
 	}],
-	"iris://vocabulary/domain#serviceGroupName": [{
+	"iris://vocabulary/domain#serviceGroupOrder": [{
 		"@value": "rooftop"
 	}],
-	"iris://vocabulary/domain#serviceGroupType": [{
+	"iris://vocabulary/domain#serviceGroupViewName": [{
 		"@value": "notbase"
 	}]
 }, {
@@ -465,6 +468,12 @@
 	"iris://vocabulary/domain#firstName": [{
 		"@language": "en",
 		"@value": "Vasily"
+	}],
+	"iris://vocabulary/domain#defaultWorkstation": [{
+		"@id": "iris://data#pc-1"
+	}],
+	"iris://vocabulary/domain#availableWorkstation": [{
+		"@id": "iris://data#pc-1"
 	}],
 	"iris://vocabulary/domain#hasMembership": [{
 		"@id": "iris://data#membership-1"
@@ -525,6 +534,14 @@
 	"iris://vocabulary/domain#firstName": [{
 		"@language": "en",
 		"@value": "Maria"
+	}],
+	"iris://vocabulary/domain#defaultWorkstation": [{
+		"@id": "iris://data#pc-2"
+	}],
+	"iris://vocabulary/domain#availableWorkstation": [{
+		"@id": "iris://data#pc-1"
+	}, {
+		"@id": "iris://data#pc-2"
 	}],
 	"iris://vocabulary/domain#hasMembership": [{
 		"@id": "iris://data#membership-2"

@@ -13,6 +13,8 @@ class Ticket extends Determinable {
 		super.build(data);
 		if((data.value) || _.isString(this.content_map.time_description))
 			this.content_map.time_description = JSON.parse(this.content_map.time_description);
+		if((data.value) || _.isString(this.content_map.service_count))
+			this.content_map.service_count = _.parseInt(this.content_map.service_count);
 	}
 
 	get references() {

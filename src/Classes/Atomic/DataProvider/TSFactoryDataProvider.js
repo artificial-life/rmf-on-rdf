@@ -35,6 +35,7 @@ class TSFactoryDataProvider {
 
 	getNearestSource(sources, query) {
 		let picker = _.isEmpty(query.operator) ? query.alt_operator : query.operator;
+		console.log("PICKER", picker);
 		let cnt = query.service_count || 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if(op_s[query.service]) {
@@ -92,6 +93,7 @@ class TSFactoryDataProvider {
 		}, {});
 		let [placed, lost] = _.partition(ordered, (ticket) => {
 			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
+			console.log("OPS_BY_SERV", ops_by_service);
 			let {
 				source: plan,
 				params: {
@@ -185,7 +187,7 @@ class TSFactoryDataProvider {
 							time_description: time_description,
 							dedicated_date: params.selection.ldplan.dedicated_date,
 							service: s_id,
-							service_count: params.selection.ldplan.service_count
+							service_count: _.parseInt(params.selection.ldplan.service_count)
 						});
 					}
 				});
@@ -255,7 +257,6 @@ class TSFactoryDataProvider {
 
 					return Promise.props(placing)
 						.then((res) => {
-							console.log(res);
 							let placed = {};
 							let lost = {};
 							_.map(res, (val, key) => {
@@ -282,9 +283,9 @@ class TSFactoryDataProvider {
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
-				// console.log("NEW", require('util').inspect(placed_new, {
-				// 	depth: null
-				// }));
+				console.log("NEW", require('util').inspect(new_tickets, {
+					depth: null
+				}));
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					lost: lost_new

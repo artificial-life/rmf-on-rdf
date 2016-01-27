@@ -63,6 +63,7 @@ class LDEntity {
 		let data = this.content.serialize();
 		data.cas = this.content.cas;
 		data.ldtype = this.getLDType();
+		data.class = this.entity_type.name;
 		return data;
 	}
 
@@ -77,7 +78,7 @@ class LDEntity {
 				acc['@id'] = "iris://data#" + val;
 			} else if(key == 'cas') {
 				acc.cas = val;
-			} else if(key !== 'ldtype') {
+			} else if(!_.includes(['ldtype', 'class'], key)) {
 				let nkey = this.keyTransform(key);
 				acc[nkey] = val;
 			}

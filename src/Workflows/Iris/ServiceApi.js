@@ -8,9 +8,9 @@ let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 let default_fm_key = 'iris_service_api_fields_model';
 
 class ServiceApi extends CommonApi {
-	constructor({
+	constructor(
 		fields_model_key
-	}) {
+	) {
 		super();
 		this.fields_model_key = fields_model_key || default_fm_key;
 	}
@@ -78,6 +78,7 @@ class ServiceApi extends CommonApi {
 		let groups = {};
 		let services = {};
 		let direct = this.content['ServiceGroup'].accessor;
+		console.log("keys", query);
 		let unroll = (keys) => {
 			return direct.get({
 					keys
@@ -113,7 +114,7 @@ class ServiceApi extends CommonApi {
 						});
 						let ordered = _.mapValues(_.groupBy(nested, 'service_group_view_name'), (val) => {
 							return _.keyBy(val, (item) => {
-								return(item.service_group_order === 0 || _.size(val) == 1) ? 'root' : item.id;
+								return(item.service_group_order == "0" || _.size(val) == 1) ? 'root' : item.id;
 							});
 						});
 						console.log("ORDERED", require('util').inspect(ordered, {

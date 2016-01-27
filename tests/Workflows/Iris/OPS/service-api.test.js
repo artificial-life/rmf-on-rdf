@@ -62,7 +62,7 @@ describe('Workflow: IRIS Service', () => {
 				.then(() => {
 					return iris.getServiceGroup({
 						query: {
-							name: "root"
+							name: "0"
 						},
 						options: {}
 					})

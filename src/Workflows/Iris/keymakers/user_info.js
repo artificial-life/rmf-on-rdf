@@ -16,7 +16,8 @@ module.exports = {
 			return {
 				keys
 			};
-
+		if(!p)
+			return {};
 		let query = {
 			type: 'view',
 			query: {

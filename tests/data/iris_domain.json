@@ -198,7 +198,7 @@
 			"@id": "rdfs:Literal"
 		}
 	}, {
-		"@id": "iris:serviceGroupName",
+		"@id": "iris:serviceGroupOrder",
 		"@type": [
 			"owl:FunctionalProperty",
 			"rdf:Property",
@@ -209,7 +209,7 @@
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "serviceGroupName"
+			"@value": "serviceGroupOrder"
 		},
 		"rdfs:range": {
 			"@id": "rdfs:Literal"
@@ -559,7 +559,7 @@
 			"@id": "xsd:decimal"
 		}
 	}, {
-		"@id": "iris:serviceGroupType",
+		"@id": "iris:serviceGroupViewName",
 		"@type": [
 			"owl:FunctionalProperty",
 			"rdf:Property",
@@ -570,7 +570,7 @@
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "serviceGroupType"
+			"@value": "serviceGroupViewName"
 		},
 		"rdfs:range": {
 			"@id": "rdfs:Literal"
