@@ -194,9 +194,6 @@
 	"@type": [
 		"iris://vocabulary/domain#SystemEntity"
 	],
-	"iris://vocabulary/domain#boundServiceGroups:": [{
-		"@id": "iris://data#sg-1"
-	}],
 	"iris://vocabulary/domain#defaultWorkstation": [{
 		"@id": "iris://data#term-1"
 	}],
@@ -319,6 +316,9 @@
 	"@type": [
 		"iris://vocabulary/domain#Terminal"
 	],
+	"iris://vocabulary/domain#boundServiceGroups": [{
+		"@id": "iris://data#sg-1"
+	}],
 	"iris://vocabulary/domain#attachedTo": [{
 		"@id": "iris://data#department-1"
 	}],
@@ -365,14 +365,17 @@
 		"iris://vocabulary/domain#ServiceGroup"
 	],
 	"iris://vocabulary/domain#serviceGroupContent": [{
-		"@id": "iris://data#service-2"
-	}, {
 		"@id": "iris://data#service-1"
+	}, {
+		"@id": "iris://data#service-2"
 	}, {
 		"@id": "iris://data#sg-2"
 	}],
 	"iris://vocabulary/domain#serviceGroupIcon": [{
 		"@value": "icon.png"
+	}],
+	"iris://vocabulary/domain#itemsPerPage": [{
+		"@value": "15"
 	}],
 	"iris://vocabulary/domain#serviceGroupLabel": [{
 		"@value": "Тестовая рутовая группа"
@@ -391,6 +394,9 @@
 	"iris://vocabulary/domain#serviceGroupContent": [{
 		"@id": "iris://data#service-1"
 	}],
+	"iris://vocabulary/domain#itemsPerPage": [{
+		"@value": "10"
+	}],
 	"iris://vocabulary/domain#serviceGroupIcon": [{
 		"@value": "icon.png"
 	}],
@@ -408,6 +414,9 @@
 	"@type": [
 		"iris://vocabulary/domain#ServiceGroup"
 	],
+	"iris://vocabulary/domain#itemsPerPage": [{
+		"@value": "10"
+	}],
 	"iris://vocabulary/domain#serviceGroupContent": [{
 		"@id": "iris://data#sg-2"
 	}],
@@ -428,6 +437,9 @@
 	"@type": [
 		"iris://vocabulary/domain#ServiceGroup"
 	],
+	"iris://vocabulary/domain#itemsPerPage": [{
+		"@value": "10"
+	}],
 	"iris://vocabulary/domain#serviceGroupContent": [{
 		"@id": "iris://data#sg-1"
 	}, {

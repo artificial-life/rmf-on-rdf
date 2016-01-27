@@ -126,9 +126,6 @@
 	}, {
 		"@id": "ci:megatron-1",
 		"@type": "iris:SystemEntity",
-		"iris:boundServiceGroups:": {
-			"@id": "ci:sg-1"
-		},
 		"iris:defaultWorkstation": {
 			"@id": "ci:term-1"
 		},
@@ -225,6 +222,9 @@
 	}, {
 		"@id": "ci:term-1",
 		"@type": "iris:Terminal",
+		"iris:boundServiceGroups": {
+			"@id": "ci:sg-1"
+		},
 		"iris:attachedTo": {
 			"@id": "ci:department-1"
 		},
@@ -264,6 +264,7 @@
 			"@id": "ci:sg-2"
 		}],
 		"iris:serviceGroupIcon": "icon.png",
+		"iris:itemsPerPage": "15",
 		"iris:serviceGroupLabel": "Тестовая рутовая группа",
 		"iris:serviceGroupName": "root",
 		"iris:serviceGroupType": "base"
@@ -273,6 +274,7 @@
 		"iris:serviceGroupContent": {
 			"@id": "ci:service-1"
 		},
+		"iris:itemsPerPage": "10",
 		"iris:serviceGroupIcon": "icon.png",
 		"iris:serviceGroupLabel": "Тестовая  группа",
 		"iris:serviceGroupName": "blah",
@@ -283,6 +285,7 @@
 		"iris:serviceGroupContent": {
 			"@id": "ci:sg-2"
 		},
+		"iris:itemsPerPage": "10",
 		"iris:serviceGroupIcon": "icon.png",
 		"iris:serviceGroupLabel": "Another Тестовая  группа",
 		"iris:serviceGroupName": "blah",
@@ -295,6 +298,7 @@
 		}, {
 			"@id": "ci:sg-3"
 		}],
+		"iris:itemsPerPage": "10",
 		"iris:serviceGroupIcon": "icon.png",
 		"iris:serviceGroupLabel": "Another Тестовая  группа",
 		"iris:serviceGroupName": "rooftop",

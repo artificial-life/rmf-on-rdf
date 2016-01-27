@@ -87,7 +87,7 @@ describe('Workflow: IRIS Workstation', () => {
 					}));
 					return iris.getWorkstation({
 						query: {
-							allows_role: "iris://vocabulary/domain#Administrator"
+							short_label: "2"
 						},
 						options: {}
 					})
