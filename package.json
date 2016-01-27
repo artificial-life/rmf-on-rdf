@@ -20,7 +20,6 @@
 	],
 	"babel": {
 		"presets": ["node5"],
-		"blacklist": ["regenerator"],
 		"babelrc": false
 	},
 	"author": "SS",
@@ -34,6 +33,7 @@
 		"cbird-rdf": "git+https://github.com/YuuKohaku/cbird-rdf.git",
 		"harmony-reflect": ">=1.4.2",
 		"lodash": ">=4.0.0",
+		"gulp-babel": "^6.1.1",
 		"node-uuid": ">=1.4.7"
 	},
 	"devDependencies": {
@@ -41,7 +41,6 @@
 		"chai": "^3.3.0",
 		"generate-pincode": "^3.0.1",
 		"gulp": "^3.9.0",
-		"gulp-babel": "^6.1.1",
 		"gulp-changed": ">=1.2.1",
 		"gulp-concat": ">=2.5.2",
 		"gulp-develop-server": ">=0.4.3",
