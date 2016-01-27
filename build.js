@@ -7,7 +7,7 @@ gulp.task("es6-js", function() {
 	return gulp.src(["src/**/*.js", "tests/**/*.js"])
 		.pipe(babel({
 			"presets": [
-				"node5"
+				"es2015-node5"
 			],
 			"babelrc": false
 		}))
