@@ -34,6 +34,47 @@ class ServiceApi extends CommonApi {
 			.catch((err) => false);
 	}
 
+	getOrganizationTree(query) {
+		let recurse = (query) => {
+			let org;
+			return super.getEntry("Organization", query)
+				.then((res) => {
+					console.log("RES I", res);
+					org = res;
+					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
+					return _.isEmpty(keys) ? {} : recurse({
+						keys
+					});
+				})
+				.then((res) => {
+					console.log("RES II", res);
+					return _.mapValues(org, (val) => {
+						val.unit_of = res[val.unit_of];
+						return _.defaults(val, val.unit_of);
+					})
+				})
+		}
+		return recurse(query);
+	}
+
+	getOrganizationChain(query) {
+		let recurse = (query, level) => {
+			let org = {};
+			return super.getEntry("Organization", query)
+				.then((res) => {
+					org[level] = _.sample(res);
+					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
+					return _.isEmpty(keys) ? {} : recurse({
+						keys
+					}, level + 1);
+				})
+				.then((res) => {
+					return _.merge(org, res);
+				})
+		}
+		return recurse(query, 0);
+	}
+
 	getServiceProvider(query) {
 		let out;
 		let prov;
@@ -42,7 +83,7 @@ class ServiceApi extends CommonApi {
 				// console.log("SERVICES", res);
 				out = _.groupBy(_.values(res), 'has_provider');
 				let keys = _.keys(out);
-				return super.getEntry("Organization", {
+				return this.getOrganizationTree({
 					keys
 				});
 			})

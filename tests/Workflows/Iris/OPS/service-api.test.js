@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Service', () => {
-	// describe.only('Workflow: IRIS Service', () => {
+// describe('Workflow: IRIS Service', () => {
+describe.only('Workflow: IRIS Service', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -131,5 +131,36 @@ describe('Workflow: IRIS Service', () => {
 					done();
 				})
 		});
+	})
+	describe.only('get org', function() {
+		this.timeout(10000);
+		it('get orgtree', (done) => {
+			iris.getOrganizationTree({
+					keys: "department-1"
+				})
+				.then((res) => {
+					console.log("ORGTREE", require('util').inspect(res, {
+						depth: null
+					}));
+					done();
+				})
+				.catch(err => {
+					done(err);
+				})
+		})
+		it('get orgchain', (done) => {
+			iris.getOrganizationChain({
+					keys: "department-1"
+				})
+				.then((res) => {
+					console.log("ORGCHAIN", require('util').inspect(res, {
+						depth: null
+					}));
+					done();
+				})
+				.catch(err => {
+					done(err);
+				})
+		})
 	})
 })
