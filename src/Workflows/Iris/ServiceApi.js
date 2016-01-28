@@ -62,6 +62,7 @@ class ServiceApi extends CommonApi {
 			let org = {};
 			return super.getEntry("Organization", query)
 				.then((res) => {
+					console.log("RES I", res);
 					org[level] = _.sample(res);
 					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
 					return _.isEmpty(keys) ? {} : recurse({
@@ -69,6 +70,7 @@ class ServiceApi extends CommonApi {
 					}, level + 1);
 				})
 				.then((res) => {
+					console.log("RES II", res);
 					return _.merge(org, res);
 				})
 		}
