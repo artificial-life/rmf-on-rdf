@@ -5,7 +5,7 @@ let base_dir = "../../../";
 let CommonApi = require("./CommonApi");
 let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 
-let default_fm_key = 'iris_service_api_fields_model';
+let default_fm_key = 'iris://config#terminal_fields_model';
 
 class ServiceApi extends CommonApi {
 	constructor(
@@ -62,7 +62,6 @@ class ServiceApi extends CommonApi {
 			let org = {};
 			return super.getEntry("Organization", query)
 				.then((res) => {
-					console.log("RES I", res);
 					org[level] = _.sample(res);
 					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
 					return _.isEmpty(keys) ? {} : recurse({
@@ -70,7 +69,6 @@ class ServiceApi extends CommonApi {
 					}, level + 1);
 				})
 				.then((res) => {
-					console.log("RES II", res);
 					return _.merge(org, res);
 				})
 		}
@@ -94,14 +92,12 @@ class ServiceApi extends CommonApi {
 				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
 					return prov.has_schedule
 				}));
-				// console.log("PROVIDERS", res, keys);
 
 				return super.getEntry("Schedule", {
 					keys
 				})
 			})
 			.then((res) => {
-				// console.log("PROVIDERS II", res);
 				prov = _.mapValues(prov, (p, key) => {
 					let sch = _.isArray(p.has_schedule) ? p.has_schedule : [p.has_schedule];
 					p.has_schedule = _.map(sch, (schedule) => res[schedule]);
@@ -128,6 +124,8 @@ class ServiceApi extends CommonApi {
 				})
 				.then((res) => {
 					return Promise.props(_.mapValues(res, (val, key) => {
+						if(!val)
+							return Promise.resolve({});
 						let type = _.last(val.value['@type'][0].split("#"));
 						let Model = this.models[type];
 						let item = new Model();
@@ -160,9 +158,9 @@ class ServiceApi extends CommonApi {
 								return(item.service_group_order == "0" || _.size(val) == 1) ? 'root' : item.id;
 							});
 						});
-						console.log("ORDERED", require('util').inspect(ordered, {
-							depth: null
-						}));
+						// console.log("ORDERED", require('util').inspect(ordered, {
+						// 	depth: null
+						// }));
 						return ordered;
 					});
 			});

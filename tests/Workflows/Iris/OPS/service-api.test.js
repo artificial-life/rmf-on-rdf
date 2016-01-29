@@ -62,7 +62,7 @@ describe.only('Workflow: IRIS Service', () => {
 				.then(() => {
 					return iris.getServiceGroup({
 						query: {
-							name: "0"
+							service_group_view_namer: "base"
 						},
 						options: {}
 					})
