@@ -3922,11 +3922,15 @@
 		"iris:hasMembership": {
 			"@id": "iris://data#membership-2"
 		},
-		"iris:hasSchedule": [{
-			"@id": "iris://data#schedule-6"
-		}, {
+		"iris:availableWorkstation": {
+			"@id": "iris://data#pc-2"
+		},
+		"iris:defaultWorkstation": {
+			"@id": "iris://data#pc-2"
+		},
+		"iris:hasSchedule": {
 			"@id": "iris://data#schedule-2"
-		}],
+		},
 		"iris:lastName": {
 			"@language": "ru",
 			"@value": "Васильева"
@@ -4205,7 +4209,7 @@
 		}, {
 			"@id": "iris://data#service-62"
 		}],
-		"iris:state": "inactive"
+		"iris:state": "active"
 	}, {
 		"@id": "iris://data#rd-1",
 		"@type": "iris:Roomdisplay",

@@ -35,7 +35,7 @@ class TSFactoryDataProvider {
 
 	getNearestSource(sources, query) {
 		let picker = _.isEmpty(query.operator) ? query.alt_operator : query.operator;
-		console.log("PICKER", picker);
+		// console.log("PICKER", picker, query);
 		let cnt = query.service_count || 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if(op_s[query.service]) {
@@ -93,7 +93,7 @@ class TSFactoryDataProvider {
 		}, {});
 		let [placed, lost] = _.partition(ordered, (ticket) => {
 			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
-			console.log("OPS_BY_SERV", ops_by_service);
+			// console.log("OPS_BY_SERV", ops_by_service);
 			let {
 				source: plan,
 				params: {
@@ -168,7 +168,7 @@ class TSFactoryDataProvider {
 			.then(({
 				remains, placed, lost
 			}) => {
-				// console.log("OLD TICKS PLACED", require('util').inspect(lost, {
+				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null
 				// }));
 				if(_.size(lost) > 0) {
@@ -195,10 +195,13 @@ class TSFactoryDataProvider {
 				let {
 					placed: placed_new
 				} = this.resolvePlacing(new_tickets, remains);
-				// console.log("NEW TICKS PLACED", ops_by_service, require('util').inspect(remains, {
+				// console.log("NEW TICKS PLACED",  require('util').inspect(remains, {
 				// 	depth: null
 				// }));
 				return placed_new;
+			})
+			.catch((err) => {
+				console.log("TS ERR", err.stack);
 			});
 
 	}
@@ -283,9 +286,9 @@ class TSFactoryDataProvider {
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
-				console.log("NEW", require('util').inspect(new_tickets, {
-					depth: null
-				}));
+				// console.log("NEW", require('util').inspect(new_tickets, {
+				// 	depth: null
+				// }));
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					lost: lost_new

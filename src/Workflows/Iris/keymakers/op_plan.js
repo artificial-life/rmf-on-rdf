@@ -25,6 +25,30 @@ module.exports = {
 		} else {
 			op_keys = _.isArray(p.operator_id) ? p.operator_id : [p.operator_id];
 		}
+		// let chain = {
+		// 	type: 'chain',
+		// 	key_depth: 1,
+		// 	query: {
+		// 		op_keys: {
+		// 			keys: (data) => {
+		// 				return op_keys;
+		// 			}
+		// 		},
+		// 		// schedules: {
+		// 		// 	keys: (data)=>{
+		// 		// 		let sch = [];
+		// 		// 		_.map(data, (op)=>{
+		// 		// 			sch =_.concat(sch, u.flatten_ld(op["iris://vocabulary/domain#hasSchedule"]));
+		// 		// 		});
+		// 		// 		return _.uniq(sch);
+		// 		// 	}
+		// 		// },
+		// 		finalize: (fin)=>{
+		// 			let keys = {};
+		//
+		// 		}
+		// 	}
+		// }
 		//return all plans/schedules that belong to persons with operators role
 		let query = {
 			type: 'view',
@@ -57,6 +81,7 @@ module.exports = {
 					acc[op].push(key);
 					return acc;
 				}, {});
+				// console.log("REDUCED", reduced, query);
 				return reduced;
 			}
 		};

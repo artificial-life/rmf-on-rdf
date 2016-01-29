@@ -39,7 +39,7 @@ class ServiceApi extends CommonApi {
 			let org;
 			return super.getEntry("Organization", query)
 				.then((res) => {
-					console.log("RES I", res);
+					// console.log("RES I", res);
 					org = res;
 					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
 					return _.isEmpty(keys) ? {} : recurse({
@@ -47,7 +47,7 @@ class ServiceApi extends CommonApi {
 					});
 				})
 				.then((res) => {
-					console.log("RES II", res);
+					// console.log("RES II", res);
 					return _.mapValues(org, (val) => {
 						val.unit_of = res[val.unit_of];
 						return _.defaults(val, val.unit_of);
@@ -70,7 +70,7 @@ class ServiceApi extends CommonApi {
 				})
 				.then((res) => {
 					return _.merge(org, res);
-				})
+				});
 		}
 		return recurse(query, 0);
 	}

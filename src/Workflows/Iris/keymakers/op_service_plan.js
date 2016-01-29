@@ -64,16 +64,22 @@ module.exports = {
 						'iris://vocabulary/domain#hasDay': day
 					},
 					test: function(data, query) {
-						let res = u.flatten_ld(data["iris://vocabulary/domain#scheduleOf"])[0];
-						return !!~_.indexOf(query.service_keys.check_keys, res);
+						let res = u.flatten_ld(data["iris://vocabulary/domain#scheduleOf"]);
+						// console.log("AA!", res, query.service_keys.check_keys, _.isEmpty(_.intersection(query.service_keys.check_keys, res)))
+						return !_.isEmpty(_.intersection(query.service_keys.check_keys, res));
 					}
 				}
 			},
 			order: ['op_keys', 'service_keys', 'schedules'],
 			final: function(query) {
 				// console.log("QUERY", query);
-				let grouped = _.groupBy(query.schedules, function(sch) {
-					return u.flatten_ld(sch["iris://vocabulary/domain#scheduleOf"])[0];
+				let grouped = {};
+				_.map(query.schedules, function(sch) {
+					let src = u.flatten_ld(sch["iris://vocabulary/domain#scheduleOf"]);
+					_.map(src, (key) => {
+						grouped[key] = grouped[key] || [];
+						grouped[key].push(sch);
+					})
 				});
 
 				delete query.service_keys.check_keys;

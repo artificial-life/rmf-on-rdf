@@ -6462,12 +6462,16 @@
 		"@language": "ru",
 		"@value": "Лариса"
 	}],
+	"iris://vocabulary/domain#availableWorkstation": [{
+		"@id": "iris://data#pc-2"
+	}],
+	"iris://vocabulary/domain#defaultWorkstation": [{
+		"@id": "iris://data#pc-2"
+	}],
 	"iris://vocabulary/domain#hasMembership": [{
 		"@id": "iris://data#membership-2"
 	}],
 	"iris://vocabulary/domain#hasSchedule": [{
-		"@id": "iris://data#schedule-6"
-	}, {
 		"@id": "iris://data#schedule-2"
 	}],
 	"iris://vocabulary/domain#lastName": [{
@@ -6751,7 +6755,7 @@
 		"@id": "iris://data#service-62"
 	}],
 	"iris://vocabulary/domain#state": [{
-		"@value": "inactive"
+		"@value": "active"
 	}]
 }, {
 	"@id": "iris://data#rd-1",

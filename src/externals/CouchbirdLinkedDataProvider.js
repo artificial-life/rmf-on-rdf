@@ -14,8 +14,11 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 		options: options
 	}) {
 		//dirty hack
-		if(query) {
+		if(query && query.type == 'view') {
 			return this.process_query(query, options);
+		}
+		if(query && query.type == 'chain') {
+			return this.process_chain(query, options);
 		}
 		return this._bucket.getNodes(keys, options);
 	}
@@ -39,6 +42,22 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 
 		return p;
 	}
+
+	process_chain(keys, options) {
+		let p = Promise.resolve([]);
+		let fin = {};
+		_.map(keys.query, (query, key) => {
+			p.then((pre) => {
+					return this._bucket.getNodes(query.keys(pre));
+				})
+				.then((res) => {
+					fin[key] = res;
+					return res;
+				});
+		});
+		return this.getNodes(keys.finalize(fin), options);
+	}
+
 	process_query(keys, options) {
 			let promises = {};
 			_.map(keys.query, (query, qkey) => {
@@ -61,6 +80,7 @@ class CouchbirdLinkedDataProvider extends AbstractDataProvider {
 						.then((res) => {
 							let filtered = _.filter(res, (doc) => {
 								for(let key in query.where) {
+									if(_.isUndefined(doc[key]) || _.isEmpty(doc[key])) return false;
 									let value = query.where[key];
 									let valmap = _.isArray(value) ? value : [value];
 									if(value == '*')
