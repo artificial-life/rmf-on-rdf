@@ -5950,7 +5950,7 @@
 		"iris://vocabulary/domain#ServiceGroup"
 	],
 	"iris://vocabulary/domain#itemsPerPage": [{
-		"@value": "9"
+		"@value": "15"
 	}],
 	"iris://vocabulary/domain#serviceGroupContent": [{
 		"@id": "iris://data#sg-4"
@@ -6410,7 +6410,7 @@
 		"@id": "iris://vocabulary/domain#Friday"
 	}],
 	"iris://vocabulary/domain#hasTimeDescription": [{
-		"@value": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]"
+		"@value": "[{\"data\":[[0, 46800]], \"state\": \"a\"}, {\"data\":[[46800, 86400]], \"state\": \"a\"}]"
 	}],
 	"iris://vocabulary/domain#scheduleOf": [{
 		"@id": "iris://data#human-2"
