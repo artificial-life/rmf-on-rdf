@@ -1427,7 +1427,7 @@
 			"@value": "Device sound."
 		},
 		"rdfs:domain": {
-			"@id": "iris:RoomDisplay"
+			"@id": "iris:sound-conjunct"
 		},
 		"rdfs:range": {
 			"@id": "dcterms:Sound"
@@ -1864,7 +1864,7 @@
 			}, {
 				"@id": "iris:Workstation"
 			}, {
-				"@id": "iris:RoomDisplay"
+				"@id": "iris:sound-conjunct"
 			}, {
 				"@id": "iris:OperatorDisplay"
 			}]
@@ -1918,18 +1918,18 @@
 			"@id": "org:organization"
 		}
 	}, {
-		"@id": "iris:RoomDisplay",
+		"@id": "iris:sound-conjunct",
 		"@type": [
 			"rdfs:Class",
 			"owl:Class"
 		],
 		"rdfs:comment": {
 			"@language": "en",
-			"@value": "RoomDisplay."
+			"@value": "sound-conjunct."
 		},
 		"rdfs:label": {
 			"@language": "en",
-			"@value": "RoomDisplay."
+			"@value": "sound-conjunct."
 		},
 		"rdfs:subClassOf": {
 			"@id": "iris:PassiveDevice"
