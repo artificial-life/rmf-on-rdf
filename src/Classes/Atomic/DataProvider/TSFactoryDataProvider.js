@@ -207,7 +207,7 @@ class TSFactoryDataProvider {
 	}
 	saveTicket(params, to_place, to_remove = {}) {
 		let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
-			let pre_clean = (to_remove.id) ? this.ingredients[key].free(to_remove) : Promise.resolve(true);
+			let pre_clean = (to_remove.id) ? this.ingredients[key].free(params, to_remove) : Promise.resolve(true);
 			result[key] = pre_clean.then((res) => {
 				if(!res)
 					return false;
