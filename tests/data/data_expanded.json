@@ -298,6 +298,10 @@
 		"@language": "ru",
 		"@value": "Окно 1"
 	}],
+	"iris://vocabulary/domain#shortLabel": [{
+		"@language": "ru",
+		"@value": "1"
+	}],
 	"iris://vocabulary/domain#deviceType": [{
 		"@value": "control-panel"
 	}]

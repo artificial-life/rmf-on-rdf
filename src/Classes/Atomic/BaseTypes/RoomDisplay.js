@@ -2,7 +2,7 @@
 
 let Fieldset = require("./Fieldset");
 
-class RoomDisplay extends Fieldset {
+class Roomdisplay extends Fieldset {
 	constructor() {
 		let fields = ["id", "default_agent", 'attached_to', "device_type", "device_label", "occupied_by"];
 		super(fields);
@@ -12,4 +12,4 @@ class RoomDisplay extends Fieldset {
 	}
 }
 
-module.exports = RoomDisplay;
+module.exports = Roomdisplay;

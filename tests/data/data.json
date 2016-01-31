@@ -185,6 +185,10 @@
 			"@language": "ru",
 			"@value": "Окно 1"
 		},
+		"iris:shortLabel": {
+			"@language": "ru",
+			"@value": "1"
+		},
 		"iris:deviceType": "control-panel"
 	}, {
 		"@id": "iris://data#megatron-2",
