@@ -79,7 +79,26 @@ class LDPlan extends Plan {
 			this.stored_changes.push(placed);
 		}
 
-		return placed ? target : false;
+		return placed ? target.defragment() : false;
+	}
+
+	defragment() {
+		this.sort();
+		let cnt = [];
+		_.forEach(this.content, (chunk) => {
+			let prev = _.last(cnt);
+			if(prev && prev.getState().haveState('a') && chunk.getState().haveState('a')) {
+				let u = prev.union(chunk);
+				if(u) {
+					cnt = _.dropRight(cnt);
+					cnt.push(u);
+					return cnt;
+				}
+			}
+			cnt.push(chunk);
+		});
+		this.content = cnt;
+		return this;
 	}
 }
 

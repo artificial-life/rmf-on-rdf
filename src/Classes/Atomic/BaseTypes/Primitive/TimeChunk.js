@@ -90,8 +90,8 @@ class TimeChunk extends PrimitiveVolume {
 	}
 	union(chunk) {
 		if(!this.intersectsWith(chunk)) return false;
-		var start = _.min(this.start, chunk.start);
-		var end = _.max(this.end, chunk.end);
+		var start = _.min([this.start, chunk.start]);
+		var end = _.max([this.end, chunk.end]);
 
 		return new TimeChunk([
 			[start, end]
