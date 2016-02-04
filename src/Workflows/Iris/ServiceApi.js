@@ -75,6 +75,27 @@ class ServiceApi extends CommonApi {
 		return recurse(query, 0);
 	}
 
+	getOrganizationSchedulesChain(query) {
+		let prov;
+		return this.getOrganizationChain(query)
+			.then((res) => {
+				prov = res;
+				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
+					return prov.has_schedule;
+				}));
+				return super.getEntry("Schedule", {
+					keys
+				});
+			})
+			.then((res) => {
+				return _.mapValues(prov, (p, key) => {
+					let sch = _.isArray(p.has_schedule) ? p.has_schedule : [p.has_schedule];
+					p.has_schedule = _.map(sch, (schedule) => res[schedule]);
+					return p;
+				});
+			});
+	}
+
 	getServiceProvider(query) {
 		let out;
 		let prov;
@@ -90,7 +111,7 @@ class ServiceApi extends CommonApi {
 			.then((res) => {
 				prov = res;
 				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
-					return prov.has_schedule
+					return prov.has_schedule;
 				}));
 
 				return super.getEntry("Schedule", {
@@ -117,7 +138,6 @@ class ServiceApi extends CommonApi {
 		let groups = {};
 		let services = {};
 		let direct = this.content['ServiceGroup'].accessor;
-		console.log("keys", query);
 		let unroll = (keys) => {
 			return direct.get({
 					keys

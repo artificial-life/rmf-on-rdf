@@ -211,7 +211,7 @@ class TSFactoryDataProvider {
 			result[key] = pre_clean.then((res) => {
 				if(!res)
 					return false;
-				return this.ingredients[key].set(params, to_place);
+				return !_.isArray(to_place.time_description) ? Promise.resolve(true) : this.ingredients[key].set(params, to_place);
 			});
 			return result;
 		}, {});
