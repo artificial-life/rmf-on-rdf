@@ -37,14 +37,14 @@ module.exports = {
 				}
 			},
 			final: (query) => {
-				console.log("FINKEYS", _.map(query.ids, "@id"), query.ids);
+				// console.log("FINKEYS", _.map(query.ids, "@id"), query.ids);
 				return _.map(query.ids, "@id");
 				// return query.ids;
 			}
 		};
-		console.log("QQ ЗЗ", require('util').inspect(query, {
-			depth: null
-		}));
+		// console.log("QQ ЗЗ", require('util').inspect(query, {
+		// 	depth: null
+		// }));
 		return {
 			query
 		};

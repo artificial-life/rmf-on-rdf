@@ -5,8 +5,8 @@ let Couchbird = require("couchbird");
 let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 
 
-// describe('API: IRIS  Employee', () => {
-describe.only('API: IRIS  Employee', () => {
+describe('API: IRIS  Employee', () => {
+	// describe.only('API: IRIS RD Employee', () => {
 	let test_data = require(_base + "/tests/data/data_expanded_parsed.json");
 	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {
@@ -52,7 +52,7 @@ describe.only('API: IRIS  Employee', () => {
 				.then(() => {
 					return iris.getEmployee({
 						query: {
-							first_name: "Maria"
+							first_name: "Иван"
 						}
 					});
 				})
@@ -61,7 +61,7 @@ describe.only('API: IRIS  Employee', () => {
 						depth: null
 					}));
 					let iv = _.sample(res);
-					iv.password = iv.password + '!';
+					iv.password_hash = iv.password_hash + '!';
 					return iris.setEmployee(iv)
 						.then((res) => {
 							console.log("SET", res);
@@ -78,7 +78,7 @@ describe.only('API: IRIS  Employee', () => {
 					return iris.setEmployeeField({
 							query: iv
 						}, {
-							password: iv.password + '?'
+							password_hash: iv.password_hash + '?'
 						})
 						.then((res) => {
 							console.log("SET", res);
@@ -98,10 +98,7 @@ describe.only('API: IRIS  Employee', () => {
 					console.log("EMPLOYEE ROLES", require('util').inspect(res, {
 						depth: null
 					}));
-					let iv = _.sample(res);
-					return iris.getEmployeeRoles({
-						query: iv
-					});
+
 				})
 		});
 	})

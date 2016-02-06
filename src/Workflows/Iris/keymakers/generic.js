@@ -12,7 +12,7 @@ function generic(Model, finalizer = 'basic') {
 				result.keys = [];
 				result.query = item.getAsQuery();
 				result.select = data.select;
-				console.log("GKM ASQUERY", result);
+				// console.log("GKM ASQUERY", result);
 			}
 			if(data.keys) {
 				let item = new Model();
@@ -32,7 +32,7 @@ function generic(Model, finalizer = 'basic') {
 			let result = _.map(items, (t_data) => {
 				let item = new Model();
 				item.build(t_data);
-				console.log("DBSERIALIZED GENERIC", item.dbSerialize());
+				// console.log("DBSERIALIZED GENERIC", item.dbSerialize());
 				return item.dbSerialize();
 			});
 			return fin_keymaker.set(result);

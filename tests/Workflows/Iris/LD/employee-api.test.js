@@ -73,7 +73,7 @@ describe('API: IRIS  Employee', () => {
 						depth: null
 					}));
 					let iv = _.sample(res);
-					iv.password = iv.password + '!';
+					iv.password_hash = iv.password_hash + '!';
 					return iris.setEmployee(iv)
 						.then((res) => {
 							console.log("SET", res);
@@ -90,7 +90,7 @@ describe('API: IRIS  Employee', () => {
 					return iris.setEmployeeField({
 							query: iv
 						}, {
-							password: iv.password + '?'
+							password_hash: iv.password_hash + '?'
 						})
 						.then((res) => {
 							console.log("SET", res);

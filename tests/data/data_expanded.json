@@ -320,7 +320,7 @@
 		"@language": "en",
 		"@value": "rd"
 	}],
-	"iris://vocabulary/domain#password": [{
+	"iris://vocabulary/domain#password_hash": [{
 		"@value": "1"
 	}],
 	"iris://vocabulary/domain#state": [{
@@ -341,7 +341,7 @@
 		"@language": "en",
 		"@value": "megatron"
 	}],
-	"iris://vocabulary/domain#password": [{
+	"iris://vocabulary/domain#password_hash": [{
 		"@value": "1"
 	}],
 	"iris://vocabulary/domain#state": [{
@@ -3064,7 +3064,7 @@
 		"@language": "ru",
 		"@value": "Иванович"
 	}],
-	"iris://vocabulary/domain#password": [{
+	"iris://vocabulary/domain#password_hash": [{
 		"@value": "123456"
 	}],
 	"iris://vocabulary/domain#state": [{
@@ -6490,7 +6490,7 @@
 		"@language": "ru",
 		"@value": "Ивановна"
 	}],
-	"iris://vocabulary/domain#password": [{
+	"iris://vocabulary/domain#password_hash": [{
 		"@value": "123456"
 	}],
 	"iris://vocabulary/domain#provides": [{
@@ -7421,7 +7421,7 @@
 		"@language": "en",
 		"@value": "webwidget"
 	}],
-	"iris://vocabulary/domain#password": [{
+	"iris://vocabulary/domain#password_hash": [{
 		"@value": "123456"
 	}]
 }, {

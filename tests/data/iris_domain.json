@@ -231,7 +231,7 @@
 			"@id": "iris:Schedule"
 		}
 	}, {
-		"@id": "iris:password",
+		"@id": "iris:password_hash",
 		"@type": [
 			"rdf:Property",
 			"owl:DatatypeProperty"

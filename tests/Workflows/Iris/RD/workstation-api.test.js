@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Workstation', () => {
-	// describe.only('Workflow: IRIS Workstation', () => {
+// describe('Workflow: IRIS Workstation', () => {
+describe.only('Workflow: IRIS Workstation', () => {
 	let test_data = require(_base + "/tests/data/data_expanded_parsed.json");
 	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {
@@ -52,7 +52,7 @@ describe('Workflow: IRIS Workstation', () => {
 				.then(() => {
 					return iris.getWorkstation({
 						query: {
-							default_agent: "iris://data#human-1"
+							default_agent: "human-1"
 						},
 						options: {}
 					})
@@ -64,7 +64,7 @@ describe('Workflow: IRIS Workstation', () => {
 
 					return iris.getWorkstation({
 						query: {
-							occupied_by: "iris://data#human-1"
+							occupied_by: "human-1"
 						},
 						options: {}
 					});
@@ -85,7 +85,7 @@ describe('Workflow: IRIS Workstation', () => {
 						depth: null
 					}));
 					return iris.getWorkstation({
-						keys: "iris://data#pc-1",
+						keys: "pc-1",
 						options: {}
 					})
 				})
@@ -101,7 +101,7 @@ describe('Workflow: IRIS Workstation', () => {
 			return Promise.resolve(true)
 				.then((res) => {
 					return iris.getWorkstation({
-						keys: "iris://data#pc-1",
+						keys: "pc-1",
 						options: {}
 					})
 				})
@@ -114,7 +114,7 @@ describe('Workflow: IRIS Workstation', () => {
 					return iris.setWorkstationField({
 						query: wp
 					}, {
-						occupied_by: "iris://data#human-1"
+						occupied_by: "human-1"
 					}, true)
 				})
 				.then((res) => {
@@ -123,7 +123,7 @@ describe('Workflow: IRIS Workstation', () => {
 					}));
 					return iris.getWorkstation({
 						query: {
-							occupied_by: "iris://data#human-1"
+							occupied_by: "human-1"
 						},
 						options: {}
 					});
@@ -137,7 +137,7 @@ describe('Workflow: IRIS Workstation', () => {
 					return iris.setWorkstationField({
 						query: wp
 					}, {
-						occupied_by: "iris://data#human-2"
+						occupied_by: "human-2"
 					}, true)
 				})
 				.then((res) => {
@@ -146,7 +146,7 @@ describe('Workflow: IRIS Workstation', () => {
 					}));
 					return iris.getWorkstation({
 						query: {
-							occupied_by: "iris://data#human-2"
+							occupied_by: "human-2"
 						},
 						options: {}
 					});

@@ -203,7 +203,7 @@
 			"@language": "en",
 			"@value": "rd"
 		},
-		"iris:password": "1",
+		"iris:password_hash": "1",
 		"iris:state": "inactive"
 	}, {
 		"@id": "iris://data#megatron-1",
@@ -218,7 +218,7 @@
 			"@language": "en",
 			"@value": "megatron"
 		},
-		"iris:password": "1",
+		"iris:password_hash": "1",
 		"iris:state": "inactive"
 	}, {
 		"@id": "iris://data#service-122",
@@ -1742,7 +1742,7 @@
 			"@language": "ru",
 			"@value": "Иванович"
 		},
-		"iris:password": "123456",
+		"iris:password_hash": "123456",
 		"iris:state": "inactive"
 	}, {
 		"@id": "iris://data#service-96",
@@ -3947,7 +3947,7 @@
 			"@language": "ru",
 			"@value": "Ивановна"
 		},
-		"iris:password": "123456",
+		"iris:password_hash": "123456",
 		"iris:provides": [{
 			"@id": "iris://data#service-111"
 		}, {
@@ -4582,7 +4582,7 @@
 			"@language": "en",
 			"@value": "webwidget"
 		},
-		"iris:password": "123456"
+		"iris:password_hash": "123456"
 	}, {
 		"@id": "iris://data#service-67",
 		"@type": "iris:Service",

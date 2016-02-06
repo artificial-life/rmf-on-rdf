@@ -68,7 +68,6 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 				let select = query.select || '*';
 				let where = query.where || '';
 				let params = query.params || [];
-				console.log("CBDP QUERY", select, where, params);
 				return this._bucket.N1ql.query({
 					select,
 					query: where,

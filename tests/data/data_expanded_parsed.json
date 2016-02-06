@@ -286,7 +286,7 @@
 	"login": [
 		"rd"
 	],
-	"password": [
+	"password_hash": [
 		"1"
 	],
 	"state": [
@@ -304,7 +304,7 @@
 	"login": [
 		"megatron"
 	],
-	"password": [
+	"password_hash": [
 		"1"
 	],
 	"state": [
@@ -2793,7 +2793,7 @@
 	"middle_name": [
 		"Иванович"
 	],
-	"password": [
+	"password_hash": [
 		"123456"
 	],
 	"state": [
@@ -4279,6 +4279,7 @@
 	"bound_service_groups": [
 		"sg-0"
 	],
+	"prebook_state": ["booked"],
 	"default_agent": [
 		"megatron-1"
 	],
@@ -5693,7 +5694,7 @@
 	"middle_name": [
 		"Ивановна"
 	],
-	"password": [
+	"password_hash": [
 		"123456"
 	],
 	"provides": [
@@ -6436,7 +6437,7 @@
 	"login": [
 		"webwidget"
 	],
-	"password": [
+	"password_hash": [
 		"123456"
 	]
 }, {
