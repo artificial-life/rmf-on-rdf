@@ -2,10 +2,10 @@
 
 let base_dir = "../../../";
 
-let CommonApi = require("./CommonApi");
+let CommonApi = require("./CommonLDApi");
 let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 
-let default_fm_key = 'terminal_fields_model';
+let default_fm_key = 'iris://config#terminal_fields_model';
 
 class ServiceApi extends CommonApi {
 	constructor(
@@ -25,7 +25,6 @@ class ServiceApi extends CommonApi {
 			acc[key] = getModel.dataType(val.model_decription.type);
 			return acc;
 		}, {});
-		console.log("MODELS INITTED");
 		return this;
 	}
 
@@ -147,7 +146,7 @@ class ServiceApi extends CommonApi {
 					return Promise.props(_.mapValues(res, (val, key) => {
 						if(!val)
 							return Promise.resolve({});
-						let type = val.value['@type'];
+						let type = _.last(val.value['@type'][0].split("#"));
 						let Model = this.models[type];
 						let item = new Model();
 						item.build(val);
@@ -176,7 +175,7 @@ class ServiceApi extends CommonApi {
 						});
 						let ordered = _.mapValues(_.groupBy(nested, 'view_name'), (val) => {
 							return _.keyBy(val, (item) => {
-								return(item.view_order == "0" || _.size(val) == 1) ? 'root' : item.id;
+								return(item.order == "0" || _.size(val) == 1) ? 'root' : item.id;
 							});
 						});
 						// console.log("ORDERED", require('util').inspect(ordered, {

@@ -1,6 +1,6 @@
 'use strict'
 
-let RDFcb = require("cbird-rdf").RD;
+let RDFcb = require("cbird-rdf").LD;
 let db = false;
 
 class IrisApi {

@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class History extends Fieldset {
 	constructor() {
-		let fields = ["id", "event_name", "time", "reason", "subject", "object"];
+		let fields = ["event_name", "time", "reason", "subject", "object"];
 		super(fields);
 	}
 

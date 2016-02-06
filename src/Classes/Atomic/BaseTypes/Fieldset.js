@@ -2,7 +2,8 @@
 
 class Fieldset {
 	constructor(fields) {
-		this.content_map = _.reduce(fields, (acc, field) => {
+		let props = _.concat(["id", "type", 'label', "short_label", "description"], fields);
+		this.content_map = _.reduce(props, (acc, field) => {
 			acc[field] = undefined;
 			return acc;
 		}, {});
@@ -17,6 +18,7 @@ class Fieldset {
 			if(!_.isUndefined(data[property]))
 				this.content_map[property] = data[property];
 		});
+		// console.log("BUILT FIELDSET", this.content_map, "FROM", data);
 	}
 
 	serialize() {

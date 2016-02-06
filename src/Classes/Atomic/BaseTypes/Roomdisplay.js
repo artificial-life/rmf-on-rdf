@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class Roomdisplay extends Fieldset {
 	constructor() {
-		let fields = ["id", "default_agent", 'attached_to', "device_type", "device_label", "occupied_by"];
+		let fields = ["default_agent", 'attached_to', "device_type", "occupied_by"];
 		super(fields);
 	}
 	get references() {

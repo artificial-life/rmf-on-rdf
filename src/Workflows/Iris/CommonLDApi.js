@@ -7,7 +7,7 @@ let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 //Atomics
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 //DP
-let CouchbirdDataProvider = require(base_dir + '/build/externals/CouchbirdDataProvider');
+let CouchbirdLinkedDataProvider = require(base_dir + '/build/externals/CouchbirdLinkedDataProvider');
 //accessor
 let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor');
 //parent
@@ -20,23 +20,28 @@ class CommonApi extends IrisApi {
 	}
 
 	getEntryType(key) {
-		let id = _.isArray(key) ? key[0] : key;
+		let k = _.isArray(key) ? key[0] : key;
+		let id = "iris://data#" + _.last(k.split("#"));
 		return this.db.get(id)
 			.then((res) => {
 				let data = res.value;
-				return data['@type'] || false;
+				return data['@type'] ? _.last(data['@type'][0].split("#")) : false;
 			})
 			.catch((err) => {
 				return false;
 			});
 	}
 
-	initContent(ModelName) {
-		let dp = new CouchbirdDataProvider(this.db);
+	initContent(ModelName, translator_fn) {
+		let dp = new CouchbirdLinkedDataProvider(this.db);
+		let translator = _.isFunction(translator_fn) ? translator_fn : (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase(prop);
+		};
 		let storage_data_model = {
 			type: {
 				type: ModelName,
-				deco: 'RawEntity'
+				deco: 'LDEntity',
+				params: translator
 			},
 			deco: 'BaseCollection',
 			params: 'id'
@@ -47,8 +52,8 @@ class CommonApi extends IrisApi {
 		let storage_accessor = new LDAccessor(dp);
 
 		storage_accessor
-			.keymaker('set', keymakers('generic')(Model, snake_model).set)
-			.keymaker('get', keymakers('generic')(Model, snake_model).get);
+			.keymaker('set', keymakers('generic_ld')(Model, snake_model).set)
+			.keymaker('get', keymakers('generic_ld')(Model, snake_model).get);
 
 
 		let storage = AtomicFactory.create('BasicAsync', {

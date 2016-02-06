@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class Membership extends Fieldset {
 	constructor() {
-		let fields = ["id", "organization", "member", "role"];
+		let fields = ["organization", "member", "role"];
 		super(fields);
 	}
 }

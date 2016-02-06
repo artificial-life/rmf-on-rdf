@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-// describe('Workflow: IRIS Service', () => {
-describe.only('Workflow: IRIS Service', () => {
+describe('Workflow: IRIS Service', () => {
+	// describe.only('Workflow: IRIS Service', () => {
 	let vocab_basic = require(_base + "/tests/data/iris_basic.json");
 	let vocab_domain = require(_base + "/tests/data/iris_domain.json");
 	let test_data = require(_base + "/tests/data/data_expanded.json");
@@ -62,7 +62,7 @@ describe.only('Workflow: IRIS Service', () => {
 				.then(() => {
 					return iris.getServiceGroup({
 						query: {
-							service_group_view_namer: "base"
+							view_namer: "base"
 						},
 						options: {}
 					})
@@ -71,7 +71,7 @@ describe.only('Workflow: IRIS Service', () => {
 					console.log("BY name", require('util').inspect(res, {
 						depth: null
 					}));
-					let s_keys = _.sample(res).service_group_content;
+					let s_keys = _.sample(res).content;
 					return iris.getService({
 						keys: s_keys,
 						options: {}

@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class Terminal extends Fieldset {
 	constructor() {
-		let fields = ["id", "default_agent", 'attached_to', "device_type", "device_label", "bound_service_groups", "occupied_by"];
+		let fields = ["default_agent", 'attached_to', "device_type", "bound_service_groups", "occupied_by"];
 		super(fields);
 	}
 	get references() {
