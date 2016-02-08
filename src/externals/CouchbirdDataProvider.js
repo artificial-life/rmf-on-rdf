@@ -38,9 +38,11 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 			}
 		};
 
-		p = flatten(compound_key);
-
-		return p;
+		p = flatten(compound_key.keys || compound_key);
+		return compound_key.templates ? Promise.props({
+			keys: p,
+			templates: compound_key.templates
+		}) : p;
 	}
 
 	process_chain(keys, options) {
@@ -65,9 +67,14 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 				if(_.isArray(query)) {
 					return query;
 				}
+				let params = query.params || [];
+				if(query.direct)
+					return this._bucket.N1ql.direct({
+						query: query.direct,
+						params
+					});
 				let select = query.select || '*';
 				let where = query.where || '';
-				let params = query.params || [];
 				return this._bucket.N1ql.query({
 					select,
 					query: where,
@@ -79,7 +86,7 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 				.then((res) => {
 					//order and test it here
 					let fin_keys = _.isFunction(keys.final) ? keys.final(res) : res;
-					return this.getNodes(fin_keys, options);
+					return keys.forward ? fin_keys : this.getNodes(fin_keys, options);
 				});
 		}
 		//TODO: Interpreter stage

@@ -4,9 +4,9 @@
 let base_dir = "../../../";
 
 //parent
-let CommonApi = require("./CommonApi");
+let CommonLDApi = require("./CommonLDApi");
 
-class WorkstationApi extends CommonApi {
+class WorkstationLDApi extends CommonLDApi {
 	constructor() {
 		super();
 	}
@@ -22,7 +22,7 @@ class WorkstationApi extends CommonApi {
 		let type = query.keys ? false : 'Workstation';
 		return super.getEntry(type, query);
 	}
-	setWorkstationField(query, assignment, concat = true) {
+	setWorkstationField(query, assignment, concat = false) {
 		let type = query.keys ? false : 'Workstation';
 
 		return super.setEntryField(type, query, assignment, concat);
@@ -32,4 +32,4 @@ class WorkstationApi extends CommonApi {
 	}
 }
 
-module.exports = WorkstationApi;
+module.exports = WorkstationLDApi;

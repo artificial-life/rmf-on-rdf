@@ -37,8 +37,10 @@ class RawEntity {
 			});
 		} else {
 			content_map = data;
-			content_map.type = data.type || this.entity_type.name;
+			content_map.type = data.type || data['@type'] || this.entity_type.name;
+			content_map.id = data.id || data['@id'];
 		}
+		// console.log("RE CM", content_map, data);
 		this.content = entity.build(content_map) || entity;
 	}
 
@@ -71,7 +73,7 @@ class RawEntity {
 	dbSerialize() {
 		let db_data = this.transformKeys();
 		_.map(db_data, (val, key) => {
-			if(!_.startsWith(key, "@")) {
+			if(!_.startsWith(key, "@") && key !== 'cas') {
 				db_data[key] = _.isArray(db_data[key]) ? db_data[key] : [db_data[key]];
 			}
 		})

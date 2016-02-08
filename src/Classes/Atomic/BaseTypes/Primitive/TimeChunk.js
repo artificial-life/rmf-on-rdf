@@ -85,7 +85,6 @@ class TimeChunk extends PrimitiveVolume {
 			], this.state);
 			result.push(second);
 		}
-
 		return result;
 	}
 	union(chunk) {

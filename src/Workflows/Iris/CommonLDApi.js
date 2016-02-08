@@ -11,9 +11,9 @@ let CouchbirdLinkedDataProvider = require(base_dir + '/build/externals/Couchbird
 //accessor
 let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor');
 //parent
-let IrisApi = require("./IrisApi");
+let IrisLDApi = require("./IrisLDApi");
 
-class CommonApi extends IrisApi {
+class CommonLDApi extends IrisLDApi {
 	constructor() {
 		super();
 		this.content = {};
@@ -121,4 +121,4 @@ class CommonApi extends IrisApi {
 
 }
 
-module.exports = CommonApi;
+module.exports = CommonLDApi;

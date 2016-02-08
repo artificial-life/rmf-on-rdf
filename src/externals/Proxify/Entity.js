@@ -23,6 +23,8 @@ function ProxifyEntity(entity) {
 				// console.log("PROXY", propKey, target, args);
 				const origMethod = target[propKey];
 				if(!origMethod) throw new Error('No such method in entity proxy: "' + propKey + '"');
+				// if(!origMethod && _.isFunction(target.entityMethod))
+				// 	return target.entityMethod(propKey, args);
 				return origMethod.apply(this, args);
 			}
 		}

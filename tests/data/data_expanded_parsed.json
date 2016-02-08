@@ -208,6 +208,9 @@
 	"attached_to": [
 		"department-1"
 	],
+	"default_agent": [
+		"human-1"
+	],
 	"label": [
 		"Администратор"
 	],
@@ -267,6 +270,9 @@
 	],
 	"label": [
 		"Окно 1"
+	],
+	"default_agent": [
+		"human-2"
 	],
 	"short_label": [
 		"1"
@@ -5440,148 +5446,13 @@
 		"Tuesday",
 		"Monday"
 	],
-	"has_time_description": [
-		[{
-			"data": [
-				[0, 86400]
-			],
-			"state": "a"
-		}]
-	],
-	"schedule_of": [
-		"service-30",
-		"service-78",
-		"service-79",
-		"service-84",
-		"service-15",
-		"service-73",
-		"service-121",
-		"service-61",
-		"service-116",
-		"service-26",
-		"service-126",
-		"service-74",
-		"service-92",
-		"service-9",
-		"service-5",
-		"service-46",
-		"service-22",
-		"service-43",
-		"service-71",
-		"service-75",
-		"service-40",
-		"service-83",
-		"service-115",
-		"service-90",
-		"service-111",
-		"service-34",
-		"service-4",
-		"service-88",
-		"service-99",
-		"service-69",
-		"service-76",
-		"service-31",
-		"service-27",
-		"service-66",
-		"service-42",
-		"service-50",
-		"service-85",
-		"service-125",
-		"service-64",
-		"service-39",
-		"service-24",
-		"service-56",
-		"service-7",
-		"service-53",
-		"service-109",
-		"service-93",
-		"service-72",
-		"service-60",
-		"service-32",
-		"service-96",
-		"service-65",
-		"service-97",
-		"service-118",
-		"service-132",
-		"service-62",
-		"service-41",
-		"service-105",
-		"service-102",
-		"service-21",
-		"service-122",
-		"service-47",
-		"service-91",
-		"service-38",
-		"service-33",
-		"service-18",
-		"service-103",
-		"service-77",
-		"service-54",
-		"service-89",
-		"service-67",
-		"service-87",
-		"service-107",
-		"service-130",
-		"service-94",
-		"service-19",
-		"service-36",
-		"service-80",
-		"service-6",
-		"service-49",
-		"service-59",
-		"service-86",
-		"service-20",
-		"service-117",
-		"service-8",
-		"service-58",
-		"service-113",
-		"service-51",
-		"service-13",
-		"service-11",
-		"service-82",
-		"service-44",
-		"service-124",
-		"service-104",
-		"service-63",
-		"service-128",
-		"service-3",
-		"service-48",
-		"service-14",
-		"service-68",
-		"service-55",
-		"service-1",
-		"service-28",
-		"service-108",
-		"service-123",
-		"service-100",
-		"service-16",
-		"service-35",
-		"service-2",
-		"service-10",
-		"service-95",
-		"service-112",
-		"service-110",
-		"service-12",
-		"service-114",
-		"service-81",
-		"service-98",
-		"service-101",
-		"service-45",
-		"service-23",
-		"service-17",
-		"service-52",
-		"service-129",
-		"service-37",
-		"service-106",
-		"service-127",
-		"service-120",
-		"service-119",
-		"service-29",
-		"service-57",
-		"service-25",
-		"service-131",
-		"service-70"
-	]
+	"has_time_description": [{
+		"data": [
+			[0, 86400]
+		],
+		"state": "a"
+	}]
+
 }, {
 	"@id": "schedule-3",
 	"@type": "Schedule",
@@ -5593,15 +5464,13 @@
 		"Friday",
 		"Tuesday"
 	],
-	"has_time_description": [
-		[{
-			"data": [
-				[0, 86400]
-			],
-			"state": "a"
-		}]
-	],
-	"schedule_of": [
+	"has_time_description": [{
+		"data": [
+			[0, 86400]
+		],
+		"state": "a"
+	}],
+	"has_owner": [
 		"department-1"
 	]
 }, {
@@ -5615,17 +5484,17 @@
 		"Saturday",
 		"Friday"
 	],
-	"has_time_description": [
-		[
-			[{
-				"data": [
-					[0, 86400]
-				],
-				"state": "a"
-			}]
-		]
-	],
-	"schedule_of": [
+	"has_time_description":
+
+		[{
+		"data": [
+			[0, 86400]
+		],
+		"state": "a"
+	}]
+
+	,
+	"has_owner": [
 		"human-2"
 	]
 }, {
@@ -5639,17 +5508,17 @@
 		"Saturday",
 		"Wednesday"
 	],
-	"has_time_description": [
-		[
-			[{
-				"data": [
-					[0, 86400]
-				],
-				"state": "a"
-			}]
-		]
-	],
-	"schedule_of": [
+	"has_time_description":
+
+		[{
+		"data": [
+			[0, 86400]
+		],
+		"state": "a"
+	}]
+
+	,
+	"has_owner": [
 		"human-1"
 	]
 }, {

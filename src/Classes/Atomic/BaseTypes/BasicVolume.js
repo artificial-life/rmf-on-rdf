@@ -66,7 +66,6 @@ class BasicVolume extends AbstractVolume {
 	}
 	extend(source, sort = true) {
 		var ext = this.extractContent(source);
-
 		_.forEach(ext, (primitive) => {
 			this.extendPrimitive(primitive);
 		});

@@ -85,19 +85,19 @@ class CommonApi extends IrisApi {
 		}, {}));
 	}
 
-	setEntryField(type, query, assignment, concat = false) {
+	setEntryField(type, query, assignment, concat = true) {
 		let pre = (!type || !this.content[type]) && query.keys ? this.getEntryType(query.keys) : Promise.resolve(type);
 
 		return pre.then(tp => {
 			if(!tp || !this.content[tp])
 				return {};
-
+			let t = assignment;
 			return this.getEntry(tp, query)
 				.then(res => {
 					let set = _.map(res, entry => {
-						return _.mergeWith(entry, assignment, (objValue, srcValue) => {
+						return _.mergeWith(entry, t, (objValue, srcValue, key) => {
 							if(concat) {
-								let val = _.isArray(objValue) ? objValue : [objValue];
+								let val = objValue ? (_.isArray(objValue) ? objValue : [objValue]) : [];
 								return _.uniq(_.concat(val, srcValue));
 							}
 						});

@@ -10,9 +10,9 @@ let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 
 let TSFactoryDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
 let TSIngredientDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSIngredientDataProvider');
-let CouchbirdDataProvider = require(base_dir + '/build/externals/CouchbirdDataProvider');
+let CouchbirdLinkedDataProvider = require(base_dir + '/build/externals/CouchbirdLinkedDataProvider');
 
-let RDCacheAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/RDCacheAccessor');
+let LDCacheAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDCacheAccessor');
 let BasicAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/BasicAccessor');
 let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor.js');
 
@@ -22,18 +22,19 @@ let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsy
 let TypeModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/Ticket');
 let DecoModel = require(base_dir + '/build/Classes/Atomic/BaseTypes/LDEntity');
 
-class IrisBuilder {
+class IrisLDBuilder {
 	static init(db, cfg) {
 		this.default_slot_size = cfg.default_slot_size;
 		this.db = db;
 	}
 	static getResourceSource() {
-		let dp = new CouchbirdDataProvider(this.db);
+		let dp = new CouchbirdLinkedDataProvider(this.db);
 
-		let ops_plan_accessor = new RDCacheAccessor(dp);
-		let services_accessor = new LDAccessor(dp);
+		let ops_plan_accessor = new LDCacheAccessor(dp);
+		let services_accessor = new LDCacheAccessor(dp);
 
 		ops_plan_accessor.mapper(classmap);
+		services_accessor.mapper(classmap);
 
 		ops_plan_accessor
 			.keymaker('get', keymakers('op_plan').get)
@@ -42,14 +43,14 @@ class IrisBuilder {
 
 
 		let datamodel = {
-			type: 'FieldsetPlan',
+			type: 'LDPlan',
 			deco: 'BaseCollection',
 			params: 'operator_id'
 		};
 
 		let attributes_services_datamodel = {
 			type: {
-				type: 'FieldsetPlan',
+				type: 'LDPlan',
 				deco: 'BaseCollection',
 				params: 'service_id'
 			},
@@ -75,12 +76,16 @@ class IrisBuilder {
 	}
 
 	static getFactory(ingredients, order) {
-		let dp = new CouchbirdDataProvider(this.db);
+		let dp = new CouchbirdLinkedDataProvider(this.db);
+		let translator = (prop) => {
+			return "iris://vocabulary/domain#" + _.camelCase("has_" + prop);
+		};
 
 		let data_model = {
 			type: {
-				deco: 'RawEntity',
-				type: 'Ticket'
+				deco: 'LDEntity',
+				type: 'Ticket',
+				params: translator
 			},
 			deco: 'BaseCollection',
 			params: 'box_id'
@@ -136,7 +141,7 @@ class IrisBuilder {
 		let box_storage = t_api.initContent().getContent('Ticket');
 
 
-		let Model = DecoModel.bind(DecoModel, TypeModel);
+		let Model = DecoModel.bind(DecoModel, TypeModel, translator);
 
 		factory_provider
 			.addStorage(box_storage)
@@ -167,4 +172,4 @@ class IrisBuilder {
 
 }
 
-module.exports = IrisBuilder;
+module.exports = IrisLDBuilder;

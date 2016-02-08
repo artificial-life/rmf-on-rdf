@@ -40,7 +40,7 @@ class TSFactoryDataProvider {
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if(op_s[query.service]) {
 				acc[op_id] = op_s[query.service].parent.intersection(op_s[query.service]);
-				acc[op_id].plan_of = op_id;
+				acc[op_id].has_owner = op_id;
 			}
 			return acc;
 		}, {});
@@ -66,7 +66,7 @@ class TSFactoryDataProvider {
 			});
 			if(!first) return false;
 			//@TODO temporary. Try to make LDPlan like a Fieldset and get this fields directly
-			operator = src.plan_of;
+			operator = src.has_owner;
 			let interval = query.time_description * cnt;
 			time_description = [first.start, first.start + interval];
 			return(first.getLength() > interval);
@@ -117,7 +117,9 @@ class TSFactoryDataProvider {
 			return true;
 		});
 		return {
-			remains, placed, lost
+			remains,
+			placed,
+			lost
 		};
 	}
 
@@ -166,11 +168,13 @@ class TSFactoryDataProvider {
 		// }));
 		return this.placeExisting(params)
 			.then(({
-				remains, placed, lost
+				remains,
+				placed,
+				lost
 			}) => {
-				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
-				// 	depth: null
-				// }));
+				console.log("OLD TICKS PLACED", require('util').inspect(remains, {
+					depth: null
+				}));
 				if(_.size(lost) > 0) {
 					//cannot handle even existing tickets
 					//call the police!
@@ -195,9 +199,9 @@ class TSFactoryDataProvider {
 				let {
 					placed: placed_new
 				} = this.resolvePlacing(new_tickets, remains);
-				// console.log("NEW TICKS PLACED",  require('util').inspect(remains, {
-				// 	depth: null
-				// }));
+				console.log("NEW TICKS PLACED", require('util').inspect(remains, {
+					depth: null
+				}));
 				return placed_new;
 			})
 			.catch((err) => {
@@ -221,7 +225,7 @@ class TSFactoryDataProvider {
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
-				// console.log("TICK SV", tick);
+				console.log("TICK SV", tick, saved);
 				return this.storage_accessor.save(tick)
 					.catch((err) => {
 						console.log(err.stack);
@@ -266,14 +270,17 @@ class TSFactoryDataProvider {
 								(val ? placed : lost)[key] = val;
 							});
 							return {
-								placed, lost
+								placed,
+								lost
 							};
 						});
 				});
 		}
 		return this.placeExisting(params)
 			.then(({
-				remains, placed, lost
+				remains,
+				placed,
+				lost
 			}) => {
 				if(_.size(lost) > 0) {
 					return Promise.props({

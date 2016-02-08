@@ -3,15 +3,15 @@
 let base_dir = "../../../";
 
 //parent
-let CommonApi = require("./CommonApi");
+let CommonLDApi = require("./CommonLDApi");
 
-class TicketApi extends CommonApi {
+class TicketLDApi extends CommonLDApi {
 	constructor() {
 		super();
 	}
 
 	initContent() {
-		super.initContent('Ticket');
+		super.initContent('Ticket', (prop) => ("iris://vocabulary/domain#" + _.camelCase("has_" + prop)));
 		return this;
 	}
 
@@ -29,4 +29,4 @@ class TicketApi extends CommonApi {
 
 }
 
-module.exports = TicketApi;
+module.exports = TicketLDApi;

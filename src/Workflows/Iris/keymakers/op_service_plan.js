@@ -10,91 +10,34 @@ module.exports = {
 		if(!query)
 			return {};
 		let date = query.date;
-		let day = "iris://vocabulary/domain#" + query.day;
-		let service_ids = query.selection.service_id || '*';
+		let day = query.day;
+		let service_ids = (query.selection.service_id && query.selection.service_id !== "*") ? JSON.stringify(query.selection.service_id) : 'op.provides';
+		let direct = '';
 		let op_keys = undefined;
 		if(query.operator_id == '*') {
-			op_keys = {
-				select: "iris://vocabulary/domain#member",
-				where: {
-					"@type": "iris://vocabulary/domain#Membership",
-					"iris://vocabulary/domain#role": "iris://vocabulary/domain#Operator"
-				},
-				transform: u.flatten_ld
-			};
+			direct = "SELECT op.`@id` as operator, srv.`@id` as service, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf srv ON KEYS " + service_ids + " JOIN rdf sch ON KEYS srv.has_schedule WHERE mm.`@type`='Membership' AND 'Operator' IN mm.`role` and '" + day + "' IN sch.has_day";
 		} else {
-			op_keys = _.isArray(query.operator_id) ? query.operator_id : [query.operator_id];
+			op_keys = _.isArray(p.operator_id) ? p.operator_id : [p.operator_id];
+			direct = "SELECT op.`@id` as operator,  srv.`@id` as service, sch AS schedule FROM rdf op USE KEYS " + JSON.stringify(op_keys) + " JOIN rdf srv ON KEYS " + service_ids + " JOIN rdf sch ON KEYS srv.has_schedule WHERE '" + day + "' IN sch.has_day";
 		}
-
-		let service_keys = undefined;
-		service_keys = {
-			select: "*",
-			where: {
-				"@type": "iris://vocabulary/domain#Employee"
-			},
-			test: function(data, query) {
-				let res = data["@id"];
-				return !!~_.indexOf(query.op_keys, res);
-			},
-			transform: function(data) {
-				let keys = _.isArray(service_ids) ? service_ids : [service_ids];
-				let check = [];
-				let result = _.transform(data, (acc, item) => {
-					let res = u.flatten_ld(item["iris://vocabulary/domain#provides"]);
-					acc[item['@id']] = (service_ids == '*') ? res : _.intersection(res, keys);
-					check = _.concat(check, acc[item['@id']]);
-					return acc;
-				}, {});
-				// console.log("CHECK", check);
-				result.check_keys = _.uniq(check);
-				return result;
-			}
-		};
 
 		let req = {
 			type: 'view',
 			key_depth: 2,
+			forward: true,
 			query: {
-				op_keys: op_keys,
-				service_keys: service_keys,
 				schedules: {
-					select: "*",
-					where: {
-						"@type": "iris://vocabulary/domain#Schedule",
-						'iris://vocabulary/domain#hasDay': day
-					},
-					test: function(data, query) {
-						let res = u.flatten_ld(data["iris://vocabulary/domain#scheduleOf"]);
-						// console.log("AA!", res, query.service_keys.check_keys, _.isEmpty(_.intersection(query.service_keys.check_keys, res)))
-						return !_.isEmpty(_.intersection(query.service_keys.check_keys, res));
-					}
+					direct
 				}
 			},
-			order: ['op_keys', 'service_keys', 'schedules'],
 			final: function(query) {
-				// console.log("QUERY", query);
-				let grouped = {};
-				_.map(query.schedules, function(sch) {
-					let src = u.flatten_ld(sch["iris://vocabulary/domain#scheduleOf"]);
-					_.map(src, (key) => {
-						grouped[key] = grouped[key] || [];
-						grouped[key].push(sch);
-					})
-				});
-
-				delete query.service_keys.check_keys;
-				let reduced = _.transform(query.service_keys, (res, s_ids, op_id) => {
-					res[op_id] = _.reduce(s_ids, (acc, s_id) => {
-						acc[s_id] = _.map(grouped[s_id], (val) => {
-							// return u.key_typecast(val['@id'], {
-							// 	type: 'plan'
-							// });
-							return val['@id'];
-						});
-						return acc;
-					}, {});
-				});
-				// console.log("REDUCED SS", reduced);
+				// console.log("SPLAN QUERY", query);
+				let reduced = _.reduce(query.schedules, (acc, val) => {
+					acc[val.operator] = acc[val.operator] || {};
+					acc[val.operator][val.service] = val.schedule;
+					return acc;
+				}, {});
+				// console.log("REDUCED SPLANS", reduced);
 				return reduced;
 			}
 		};

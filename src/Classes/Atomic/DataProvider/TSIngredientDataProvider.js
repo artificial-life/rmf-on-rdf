@@ -37,7 +37,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			})
 			.then((resolved) => {
 				//had to choose between this outrageous notation and additional * queries to db
-				// console.log("TSI", selection, require('util').inspect(resolved.content_map, {
+				// console.log("TSI", require('util').inspect(resolved.content_map, {
 				// 	depth: null
 				// }));
 				let observed = {
@@ -100,7 +100,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			});
 	}
 	set(params, value) {
-		// console.log("I_SET", params, value);
+		console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
 		let ingredient_atom = this.ingredient.getAtom(plans_path);
 		let data = _.isArray(value) ? value : [value];
@@ -123,11 +123,18 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				source: resolved
 			}) => {
 				_.map(data, (tick) => {
+					console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
+						depth: null
+					}));
 					resolved.reserve({
 						operator_id: tick.operator,
 						selection: [tick.time_description]
 					});
-					saving_meta[tick.id] = resolved.content[tick.operator].db_data['@id'];
+					console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
+						depth: null
+					}));
+					saving_meta[tick.id] = resolved.content[tick.operator].id;
+					console.log("META", saving_meta);
 				});
 				return ingredient_atom.save(resolved);
 			})

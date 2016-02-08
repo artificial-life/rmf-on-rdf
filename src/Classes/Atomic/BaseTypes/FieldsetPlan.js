@@ -1,47 +1,52 @@
 'use strict'
 
-var _ = require('lodash');
+let Plan = require('./Plan.js');
+let Schedule = require('./Schedule.js');
+let RawEntity = require('./RawEntity.js');
+let TemplateModel = RawEntity.bind(RawEntity, Schedule);
 
-var TimeChunk = require('./Primitive/TimeChunk.js');
-var Plan = require('./Plan.js');
-var ZeroDimensional = require('./ZeroDimensionalVolume.js');
-
-class LDPlan extends Plan {
+class FieldsetPlan extends Plan {
 	constructor(parent) {
 		super(parent);
-		this.PrimitiveVolume = TimeChunk;
+		this.template = new TemplateModel();
 	}
+
+	get fields() {
+		return this.template.fields;
+	}
+
+	get references() {
+		return this.template.references;
+	}
+
 	build(data) {
+		console.log("BUILDING PLAN", data);
 		let build_data = data || [{
 			data: [
 				[0, 0]
 			]
 		}];
-		if(_.isArray(data) && data.length && (data[0].value || data[0]['@id'])) {
-			//resolver
-			//only first plan right now
-			//expecting that there is only one plan due to query
-			let item = data[0];
-			build_data = item['iris://vocabulary/domain#hasTimeDescription'];
-			if(item.cas) {
-				this.cas = item.cas;
-				item = item.value;
-				build_data = item['iris://vocabulary/domain#hasTimeDescription'][0]['@value'];
-				build_data = JSON.parse(build_data);
-			}
-			// this.has_owner = (item["iris://vocabulary/domain#planOf"] || item["iris://vocabulary/domain#scheduleOf"])[0]['@id'];
-			this.db_data = item;
+		let node = data;
+		if(data.cas) {
+			node = data.value;
+		}
+		if(node['@id']) {
+			node['@type'] = "Plan";
+			this.id = node["@id"];
+			this.owner = node.has_owner;
+			this.template.build(data);
+			build_data = node.has_time_description;
 		}
 		super.build(build_data);
+		return this;
 	}
 
 	serialize() {
 		let data = super.serialize();
-		if(this.db_data) {
-			data.db_data = this.db_data;
-			data.cas = this.cas;
-		}
-		return data;
+		let res = this.template.dbSerialize();
+		res.has_time_description = data;
+		console.log("SERIALIZED RES FSP", res);
+		return res;
 	}
 
 	free(params) {
@@ -102,4 +107,4 @@ class LDPlan extends Plan {
 	}
 }
 
-module.exports = LDPlan;
+module.exports = FieldsetPlan;

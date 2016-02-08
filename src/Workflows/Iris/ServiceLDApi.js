@@ -2,12 +2,12 @@
 
 let base_dir = "../../../";
 
-let CommonApi = require("./CommonLDApi");
+let CommonLDApi = require("./CommonLDApi");
 let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 
 let default_fm_key = 'iris://config#terminal_fields_model';
 
-class ServiceApi extends CommonApi {
+class ServiceLDApi extends CommonLDApi {
 	constructor(
 		fields_model_key
 	) {
@@ -210,4 +210,4 @@ class ServiceApi extends CommonApi {
 	}
 }
 
-module.exports = ServiceApi;
+module.exports = ServiceLDApi;
