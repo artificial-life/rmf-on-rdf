@@ -20,7 +20,7 @@ class FieldsetPlan extends Plan {
 	}
 
 	build(data) {
-		console.log("BUILDING PLAN", data);
+		// console.log("BUILDING PLAN", data);
 		let build_data = data || [{
 			data: [
 				[0, 0]
@@ -45,7 +45,7 @@ class FieldsetPlan extends Plan {
 		let data = super.serialize();
 		let res = this.template.dbSerialize();
 		res.has_time_description = data;
-		console.log("SERIALIZED RES FSP", res);
+		// console.log("SERIALIZED RES FSP", res);
 		return res;
 	}
 

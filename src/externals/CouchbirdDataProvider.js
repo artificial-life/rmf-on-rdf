@@ -38,7 +38,10 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 			}
 		};
 
-		p = flatten(compound_key.keys || compound_key);
+		let k = compound_key.templates ? compound_key.keys : compound_key;
+		p = flatten(k);
+
+		// console.log("CMP", compound_key, k);
 		return compound_key.templates ? Promise.props({
 			keys: p,
 			templates: compound_key.templates

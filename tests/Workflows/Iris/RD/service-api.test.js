@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 
 
-describe('Workflow: IRIS Service', () => {
-	// describe.only('Workflow: RD IRIS Service', () => {
+// describe('Workflow: IRIS Service', () => {
+describe.only('Workflow: RD IRIS Service', () => {
 	let test_data = require(_base + "/tests/data/data_expanded_parsed.json");
 	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {

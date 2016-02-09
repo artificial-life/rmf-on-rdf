@@ -30,6 +30,7 @@ module.exports = {
 		}), " AND ");
 		let query = {
 			type: 'view',
+			// forward: (select == '*'),
 			query: {
 				ids: {
 					select: select || '`@id`',

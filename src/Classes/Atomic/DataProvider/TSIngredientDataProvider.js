@@ -100,7 +100,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			});
 	}
 	set(params, value) {
-		console.log("I_SET", params, value);
+		// console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
 		let ingredient_atom = this.ingredient.getAtom(plans_path);
 		let data = _.isArray(value) ? value : [value];
@@ -123,18 +123,18 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				source: resolved
 			}) => {
 				_.map(data, (tick) => {
-					console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
-						depth: null
-					}));
+					// console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
+					// 	depth: null
+					// }));
 					resolved.reserve({
 						operator_id: tick.operator,
 						selection: [tick.time_description]
 					});
-					console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
-						depth: null
-					}));
+					// console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
+					// 	depth: null
+					// }));
 					saving_meta[tick.id] = resolved.content[tick.operator].id;
-					console.log("META", saving_meta);
+					// console.log("META", saving_meta);
 				});
 				return ingredient_atom.save(resolved);
 			})

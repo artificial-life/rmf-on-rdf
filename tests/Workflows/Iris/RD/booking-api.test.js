@@ -6,8 +6,8 @@ let IrisWorkflow = require(_base + '/build/Workflows/Iris');
 let gpc = require('generate-pincode');
 let uuid = require('node-uuid');
 
-// describe('Workflow: RD IRIS Booking', () => {
-describe.only('Workflow: RD IRIS Booking', () => {
+describe('Workflow: RD IRIS Booking', () => {
+	// describe.only('Workflow: RD IRIS Booking', () => {
 	let test_data = require(_base + "/tests/data/data_expanded_parsed.json");
 	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {

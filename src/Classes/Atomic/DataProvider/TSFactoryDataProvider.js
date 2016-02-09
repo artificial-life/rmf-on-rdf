@@ -172,9 +172,9 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
-				console.log("OLD TICKS PLACED", require('util').inspect(remains, {
-					depth: null
-				}));
+				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
+				// 	depth: null
+				// }));
 				if(_.size(lost) > 0) {
 					//cannot handle even existing tickets
 					//call the police!
@@ -199,9 +199,9 @@ class TSFactoryDataProvider {
 				let {
 					placed: placed_new
 				} = this.resolvePlacing(new_tickets, remains);
-				console.log("NEW TICKS PLACED", require('util').inspect(remains, {
-					depth: null
-				}));
+				// console.log("NEW TICKS PLACED", require('util').inspect(remains, {
+				// 	depth: null
+				// }));
 				return placed_new;
 			})
 			.catch((err) => {
@@ -225,7 +225,7 @@ class TSFactoryDataProvider {
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
-				console.log("TICK SV", tick, saved);
+				// console.log("TICK SV", tick, saved);
 				return this.storage_accessor.save(tick)
 					.catch((err) => {
 						console.log(err.stack);

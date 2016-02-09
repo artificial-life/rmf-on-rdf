@@ -4,7 +4,7 @@ let u = require("./keymaker_utils");
 
 module.exports = {
 	get: function({
-		query: query
+		query
 	}) {
 		// console.log("QQ", query);
 		if(!query)
@@ -17,7 +17,7 @@ module.exports = {
 		if(query.operator_id == '*') {
 			direct = "SELECT op.`@id` as operator, srv.`@id` as service, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf srv ON KEYS " + service_ids + " JOIN rdf sch ON KEYS srv.has_schedule WHERE mm.`@type`='Membership' AND 'Operator' IN mm.`role` and '" + day + "' IN sch.has_day";
 		} else {
-			op_keys = _.isArray(p.operator_id) ? p.operator_id : [p.operator_id];
+			op_keys = _.isArray(query.operator_id) ? query.operator_id : [query.operator_id];
 			direct = "SELECT op.`@id` as operator,  srv.`@id` as service, sch AS schedule FROM rdf op USE KEYS " + JSON.stringify(op_keys) + " JOIN rdf srv ON KEYS " + service_ids + " JOIN rdf sch ON KEYS srv.has_schedule WHERE '" + day + "' IN sch.has_day";
 		}
 

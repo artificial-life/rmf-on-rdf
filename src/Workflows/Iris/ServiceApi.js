@@ -25,7 +25,6 @@ class ServiceApi extends CommonApi {
 			acc[key] = getModel.dataType(val.model_decription.type);
 			return acc;
 		}, {});
-		console.log("MODELS INITTED");
 		return this;
 	}
 
