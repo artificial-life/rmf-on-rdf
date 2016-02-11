@@ -15,6 +15,7 @@ class WorkstationApi extends CommonApi {
 		super.initContent('Workstation');
 		super.initContent('Terminal');
 		super.initContent('Roomdisplay');
+		super.initContent('Qa');
 		return this;
 	}
 

@@ -876,6 +876,9 @@
 	"org_timezone": [
 		"Europe/Moscow"
 	],
+	"booking_methods": [
+		"live", "prebook"
+	],
 	"pin_code_prefix": [
 		"001"
 	]
@@ -4294,6 +4297,9 @@
 	],
 	"device_type": [
 		"terminal"
+	],
+	"booking_methods": [
+		"live", "prebook"
 	]
 }, {
 	"@id": "service-78",
@@ -5717,6 +5723,12 @@
 	],
 	"device_type": [
 		"roomdisplay"
+	],
+	"default_voice_duration": [
+		25
+	],
+	"pop_on_arrival": [
+		false
 	]
 }, {
 	"@id": "service-52",
