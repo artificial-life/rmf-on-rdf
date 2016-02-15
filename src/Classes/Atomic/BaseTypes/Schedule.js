@@ -11,6 +11,11 @@ class Schedule extends Fieldset {
 	get references() {
 		return ["has_day", "has_owner"];
 	}
+
+	build(data) {
+		super.build(data);
+		this.content_map.has_time_description = _.isArray(data.has_time_description) ? data.has_time_description : [data.has_time_description];
+	}
 }
 
 module.exports = Schedule;
