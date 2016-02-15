@@ -27,13 +27,13 @@ class FieldsetPlan extends Plan {
 			]
 		}];
 		let node = data;
-		if(data.cas) {
+		if (data.cas) {
 			node = data.value;
 		}
-		if(node['@id']) {
+		if (node['@id']) {
 			node['@type'] = "Plan";
 			this.id = node["@id"];
-			this.owner = node.has_owner;
+			this.owner = _.isArray(node.has_owner) && _.size(node.has_owner) == 1 ? node.has_owner[0] : node.has_owner;
 			this.template.build(data);
 			build_data = node.has_time_description;
 		}
@@ -53,23 +53,24 @@ class FieldsetPlan extends Plan {
 		//@NOTE: proxy to parent if it exists
 		let target = this.parent ? this.parent : this;
 
-		if(!params) {
+		if (!params) {
 			//@NOTE: free all
 			let status = true;
 			let content = this.getContent();
 			let result = [];
-			for(let i in content) {
+			for (let i in content) {
 				let placed = target.put({
-					data: content[i].serialize().data,
+					data: content[i].serialize()
+						.data,
 					state: 'a'
 				});
-				if(!placed) {
+				if (!placed) {
 					status = false;
 					break;
 				}
 				result.push(placed);
 			}
-			if(status)
+			if (status)
 				this.stored_changes = this.stored_changes.concat(result);
 
 			return status ? target : false;
@@ -80,7 +81,7 @@ class FieldsetPlan extends Plan {
 			state: 'a'
 		});
 
-		if(placed) {
+		if (placed) {
 			this.stored_changes.push(placed);
 		}
 
@@ -92,9 +93,11 @@ class FieldsetPlan extends Plan {
 		let cnt = [];
 		_.forEach(this.content, (chunk) => {
 			let prev = _.last(cnt);
-			if(prev && prev.getState().haveState('a') && chunk.getState().haveState('a')) {
+			if (prev && prev.getState()
+				.haveState('a') && chunk.getState()
+				.haveState('a')) {
 				let u = prev.union(chunk);
-				if(u) {
+				if (u) {
 					cnt = _.dropRight(cnt);
 					cnt.push(u);
 					return cnt;

@@ -96,43 +96,6 @@ class ServiceApi extends CommonApi {
 			});
 	}
 
-	getServiceProvider(query) {
-		let out;
-		let prov;
-		return this.getService(query)
-			.then((res) => {
-				// console.log("SERVICES", res);
-				out = _.groupBy(_.values(res), 'has_provider');
-				let keys = _.keys(out);
-				return this.getOrganizationTree({
-					keys
-				});
-			})
-			.then((res) => {
-				prov = res;
-				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
-					return prov.has_schedule;
-				}));
-
-				return super.getEntry("Schedule", {
-					keys
-				})
-			})
-			.then((res) => {
-				prov = _.mapValues(prov, (p, key) => {
-					let sch = _.isArray(p.has_schedule) ? p.has_schedule : [p.has_schedule];
-					p.has_schedule = _.map(sch, (schedule) => res[schedule]);
-					return p;
-				});
-
-				return _.map(prov, (p, k) => {
-					return {
-						services: out[k],
-						provider: p
-					}
-				})
-			});
-	}
 
 	getServiceTree(query) {
 		let groups = {};
@@ -144,14 +107,14 @@ class ServiceApi extends CommonApi {
 				})
 				.then((res) => {
 					return Promise.props(_.mapValues(res, (val, key) => {
-						if(!val)
+						if (!val)
 							return Promise.resolve({});
 						let type = val.value['@type'];
 						let Model = this.models[type];
 						let item = new Model();
 						item.build(val);
 						let data = item.serialize();
-						if(type === "ServiceGroup") {
+						if (type === "ServiceGroup") {
 							groups[key] = data;
 							return unroll(data.content);
 						}
@@ -175,7 +138,7 @@ class ServiceApi extends CommonApi {
 						});
 						let ordered = _.mapValues(_.groupBy(nested, 'view_name'), (val) => {
 							return _.keyBy(val, (item) => {
-								return(item.view_order == "0" || _.size(val) == 1) ? 'root' : item.id;
+								return (item.view_order == "0" || _.size(val) == 1) ? 'root' : item.id;
 							});
 						});
 						// console.log("ORDERED", require('util').inspect(ordered, {

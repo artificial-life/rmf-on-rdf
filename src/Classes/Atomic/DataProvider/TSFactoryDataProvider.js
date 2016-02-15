@@ -38,9 +38,8 @@ class TSFactoryDataProvider {
 		// console.log("PICKER", picker, query);
 		let cnt = query.service_count || 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
-			if(op_s[query.service]) {
+			if (op_s[query.service]) {
 				acc[op_id] = op_s[query.service].parent.intersection(op_s[query.service]);
-				acc[op_id].has_owner = op_id;
 			}
 			return acc;
 		}, {});
@@ -49,9 +48,11 @@ class TSFactoryDataProvider {
 		// 	depth: null
 		// }));
 		let ordered = _.sortBy(ops, (plan, op_id) => {
-			let ch = _.find(plan.sort().getContent(), (ch) => {
-				return(ch.getState().haveState('a'));
-			});
+			let ch = _.find(plan.sort()
+				.getContent(), (ch) => {
+					return (ch.getState()
+						.haveState('a'));
+				});
 			return ch ? ch.start : Infinity;
 		});
 
@@ -61,15 +62,17 @@ class TSFactoryDataProvider {
 		let operator = false;
 
 		let res = _.find(ordered, (src) => {
-			let first = _.find(src.sort().getContent(), (ch) => {
-				return(ch.getState().haveState('a'));
-			});
-			if(!first) return false;
+			let first = _.find(src.sort()
+				.getContent(), (ch) => {
+					return (ch.getState()
+						.haveState('a'));
+				});
+			if (!first) return false;
 			//@TODO temporary. Try to make LDPlan like a Fieldset and get this fields directly
-			operator = src.has_owner;
+			operator = src.parent.owner;
 			let interval = query.time_description * cnt;
 			time_description = [first.start, first.start + interval];
-			return(first.getLength() > interval);
+			return (first.getLength() > interval);
 		});
 		return {
 			source: res,
@@ -103,15 +106,15 @@ class TSFactoryDataProvider {
 				}
 			} = this.getNearestSource(sources, ticket);
 			// console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
-			if(!plan) {
+			if (!plan) {
 				return false;
 			}
-			if(set_data) {
+			if (set_data) {
 				ticket.time_description = time_description;
 				ticket.operator = operator;
 				ticket.service = service;
 				//@FIXIT
-				ticket.source = plan.parent.db_data['@id'];
+				ticket.source = plan.id || plan.parent.id;
 			}
 			plan.reserve([time_description]);
 			return true;
@@ -175,7 +178,7 @@ class TSFactoryDataProvider {
 				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null
 				// }));
-				if(_.size(lost) > 0) {
+				if (_.size(lost) > 0) {
 					//cannot handle even existing tickets
 					//call the police!
 					return [];
@@ -186,7 +189,7 @@ class TSFactoryDataProvider {
 					service: s_id,
 					time_description: time_description
 				}) => {
-					for(let i = 0; i < params.count; i++) {
+					for (let i = 0; i < params.count; i++) {
 						ticket_data.push({
 							time_description: time_description,
 							dedicated_date: params.selection.ldplan.dedicated_date,
@@ -198,7 +201,7 @@ class TSFactoryDataProvider {
 				let new_tickets = this.finalizer(ticket_data);
 				let {
 					placed: placed_new
-				} = this.resolvePlacing(new_tickets, remains);
+				} = this.resolvePlacing(new_tickets, remains, true);
 				// console.log("NEW TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null
 				// }));
@@ -213,7 +216,7 @@ class TSFactoryDataProvider {
 		let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
 			let pre_clean = (to_remove.id) ? this.ingredients[key].free(params, to_remove) : Promise.resolve(true);
 			result[key] = pre_clean.then((res) => {
-				if(!res)
+				if (!res)
 					return false;
 				return !_.isArray(to_place.time_description) ? Promise.resolve(true) : this.ingredients[key].set(params, to_place);
 			});
@@ -221,7 +224,7 @@ class TSFactoryDataProvider {
 		}, {});
 		return Promise.props(complete)
 			.then((saved) => {
-				if(!_.every(saved))
+				if (!_.every(saved))
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
@@ -239,7 +242,7 @@ class TSFactoryDataProvider {
 		// console.log("SETTING", params, require('util').inspect(new_tickets, {
 		// 	depth: null
 		// }));
-		if(params.reserve) {
+		if (params.reserve) {
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
 					keys
@@ -249,7 +252,7 @@ class TSFactoryDataProvider {
 					let next_set = _.keyBy(new_tickets, 'id');
 					let to_free = {};
 					let to_reserve = _.mergeWith(prev_set, next_set, (objValue, srcValue, key, obj, src) => {
-						if(key === "time_description" && _.isArray(objValue) && _.size(objValue) == 2 && obj.source) {
+						if (key === "time_description" && _.isArray(objValue) && _.size(objValue) == 2 && obj.source) {
 							to_free[src.id] = _.cloneDeep(obj);
 							return srcValue;
 						}
@@ -282,7 +285,7 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
-				if(_.size(lost) > 0) {
+				if (_.size(lost) > 0) {
 					return Promise.props({
 						placed: [],
 						lost: new_tickets

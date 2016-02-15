@@ -15,7 +15,7 @@ class Fieldset {
 
 	build(data) {
 		_.map(this.fields, (property) => {
-			if(!_.isUndefined(data[property]))
+			if (!_.isUndefined(data[property]))
 				this.content_map[property] = data[property];
 		});
 		// console.log("BUILT FIELDSET", this.content_map, "FROM", data);

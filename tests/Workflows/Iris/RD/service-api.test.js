@@ -1,5 +1,6 @@
 'use strict'
-let RDFcb = require("cbird-rdf").RD;
+let RDFcb = require("cbird-rdf")
+	.RD;
 let Couchbird = require("couchbird");
 
 let IrisWorkflow = require(_base + '/build/Workflows/Iris');
@@ -43,7 +44,7 @@ describe.only('Workflow: RD IRIS Service', () => {
 	});
 
 
-	describe('get services', function() {
+	describe('get services', function () {
 		this.timeout(10000);
 		it('get service group', (done) => {
 			return Promise.resolve(true)
@@ -56,27 +57,30 @@ describe.only('Workflow: RD IRIS Service', () => {
 					})
 				})
 				.then((res) => {
-					console.log("BY name", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("BY name", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					return iris.getService({
 						keys: "service-1",
 						options: {}
 					});
 				})
 				.then((res) => {
-					console.log("PICKED", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("PICKED", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					return iris.getServiceTree({
 						keys: ["sg-1", "sg-3"],
 						options: {}
 					})
 				})
 				.then((res) => {
-					console.log("SERVICE TREE", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("SERVICE TREE", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					done();
 				});
 		});
@@ -90,9 +94,10 @@ describe.only('Workflow: RD IRIS Service', () => {
 					})
 				})
 				.then((res) => {
-					console.log("BYKEY", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("BYKEY", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					let wp = _.sample(res);
 					return iris.setServiceField({
 						query: wp
@@ -101,9 +106,10 @@ describe.only('Workflow: RD IRIS Service', () => {
 					})
 				})
 				.then((res) => {
-					console.log("SVC SAVED", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("SVC SAVED", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					return iris.getService({
 						query: {
 							priority: 5
@@ -112,23 +118,25 @@ describe.only('Workflow: RD IRIS Service', () => {
 					});
 				})
 				.then((res) => {
-					console.log("CHANGEDD PRIORITY", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("CHANGEDD PRIORITY", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					done();
 				})
 		});
 	})
-	describe('get org', function() {
+	describe('get org', function () {
 		this.timeout(10000);
 		it('get orgtree', (done) => {
 			iris.getOrganizationTree({
 					keys: "department-1"
 				})
 				.then((res) => {
-					console.log("ORGTREE", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("ORGTREE", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					done();
 				})
 				.catch(err => {
@@ -140,9 +148,10 @@ describe.only('Workflow: RD IRIS Service', () => {
 					keys: "department-1"
 				})
 				.then((res) => {
-					console.log("ORGCHAIN", require('util').inspect(res, {
-						depth: null
-					}));
+					console.log("ORGCHAIN", require('util')
+						.inspect(res, {
+							depth: null
+						}));
 					done();
 				})
 				.catch(err => {
