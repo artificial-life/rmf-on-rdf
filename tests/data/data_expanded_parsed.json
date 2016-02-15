@@ -4300,6 +4300,9 @@
 	],
 	"booking_methods": [
 		"live", "prebook"
+	],
+	"reload_interval": [
+		10
 	]
 }, {
 	"@id": "service-78",
