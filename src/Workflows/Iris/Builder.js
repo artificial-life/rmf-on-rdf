@@ -1,7 +1,6 @@
 'use strict'
 let uuid = require('node-uuid');
 let keymakers = require("./keymakers");
-let classmap = require("./classmap");
 let base_dir = "../../../";
 
 let TicketApi = require("./TicketApi");
@@ -78,10 +77,8 @@ class IrisBuilder {
 		});
 		let resource_source = new ContentAsync();
 
-		let plans = new AtomicComputedAsync(plan_collection);
-		plans.addAtom(ops_collection);
-
-		resource_source.addAtom(plans, 'plan');
+		resource_source.addAtom(plan_collection, 'plan');
+		resource_source.addAtom(ops_collection, 'operators');
 		resource_source.addAtom(operator_services_collection, 'services', '<namespace>attribute');
 
 		return resource_source;

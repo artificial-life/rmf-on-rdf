@@ -19,6 +19,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let size = params.size || this.size;
 		let selection = params.selection[this.property];
 		let plans_path = ['<namespace>content', 'plan'];
+		let ops_path = ['<namespace>content', 'operators'];
 		let services_path = ['<namespace>attribute', 'services'];
 
 		let service_id = selection.service;
@@ -50,7 +51,12 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 								selection: time_description
 							}
 						}),
-					op_plans: resolved.getAtom(plans_path)
+					ops: resolved.getAtom(ops_path)
+						.observe({
+							operator_id: selection.operator,
+							selection: time_description
+						}),
+					plans: resolved.getAtom(plans_path)
 						.observe({
 							operator_id: selection.operator,
 							selection: time_description
@@ -58,10 +64,11 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				};
 
 				let services = observed.services.content;
-				let op_plans = observed.op_plans.content;
+				let ops = observed.ops.content;
+				let plans = observed.plans.content;
 
 				return _.reduce(services, (acc, s_plans, op_id) => {
-					let op_plan = op_plans[op_id];
+					let op_plan = plans[op_id].intersection(ops[op_id]);
 					let s_ids = (service_id == '*' || !service_id) ? _.keys(s_plans.content) : service_id;
 					s_ids = _.isArray(s_ids) ? s_ids : [s_ids];
 					acc[op_id] = _.reduce(s_ids, (op_services, s_id) => {
@@ -117,10 +124,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 						operator_id: selection.operator,
 						day: selection.day,
 						method: selection.method,
-						date: selection.dedicated_date,
-						selection: {
-							service_id: selection.service
-						}
+						date: selection.dedicated_date
 					}
 				})
 			})
