@@ -12,7 +12,7 @@ class Plan extends BasicVolume {
 		this.PrimitiveVolume = TimeChunk;
 	}
 	sort() {
-		this.content = _.sortBy(this.content, function(chunk) {
+		this.content = _.sortBy(this.content, function (chunk) {
 			return chunk.start;
 		});
 		return this;
@@ -20,21 +20,23 @@ class Plan extends BasicVolume {
 
 	/*=======================TEST===========================================*/
 	observe(params = {}) { //@NOTE: test only
-		if(_.isArray(params)) {
+		if (_.isArray(params)) {
 			let selection = this.buildPrimitiveVolume({
 				data: [params]
 			});
 
 			return this.intersection(selection);
-		} else if(_.isObject(params)) { //@TODO: rework this later
-			if(!_.keys(params).length) return this;
+		} else if (_.isObject(params)) { //@TODO: rework this later
+			if (!_.keys(params)
+				.length) return this;
 
 			//queried state or defult timechunk state
 			let state = params.state || 'a';
 			let plan = new this.constructor(this);
 
 			let result = _.reduce(this.getContent(), (for_build, chunk) => {
-				if(!chunk.getState().haveState(state)) return for_build;
+				if (!chunk.getState()
+					.haveState(state)) return for_build;
 
 				for_build.push(chunk.serialize());
 				return for_build;
@@ -50,23 +52,24 @@ class Plan extends BasicVolume {
 		//@NOTE: proxy to parent if it exist
 		let target = this.parent ? this.parent : this;
 
-		if(!params) {
+		if (!params) {
 			//@NOTE: reserve all
 			let status = true;
 			let content = this.getContent();
 			let result = [];
-			for(let i in content) {
+			for (let i in content) {
 				let placed = target.put({
-					data: content[i].serialize().data,
+					data: content[i].serialize()
+						.data,
 					state: 'r'
 				});
-				if(!placed) {
+				if (!placed) {
 					status = false;
 					break;
 				}
 				result.push(placed);
 			}
-			if(status)
+			if (status)
 				this.stored_changes = this.stored_changes.concat(result);
 
 			return status ? target : false;
@@ -76,7 +79,7 @@ class Plan extends BasicVolume {
 			data: params,
 			state: 'r'
 		});
-		if(placed) {
+		if (placed) {
 			this.stored_changes.push(placed);
 		}
 
@@ -88,7 +91,7 @@ class Plan extends BasicVolume {
 		_.forEach(this.getContent(), (chunk) => {
 			_.forEach(other_content, (second_chunk) => {
 				var local_intersection = chunk.intersection(second_chunk);
-				if(local_intersection) result.push(solid ? chunk : local_intersection);
+				if (local_intersection) result.push(solid ? chunk : local_intersection);
 			});
 		});
 		return result;
@@ -99,19 +102,21 @@ class Plan extends BasicVolume {
 	intersection(plan, solid = false) {
 		var other_content = []
 
-		if(plan instanceof ZeroDimensional) {
-			var state = plan.getContent().getState();
+		if (plan instanceof ZeroDimensional) {
+			var state = plan.getContent()
+				.getState();
 			var chunk = new TimeChunk([
 				[-Infinity, Infinity]
 			], state);
 			other_content = [chunk];
 		} else
-		if(plan instanceof Plan) {
+		if (plan instanceof Plan) {
 			other_content = plan.getContent();
 		} else
-		if(plan instanceof TimeChunk) {
+		if (plan instanceof TimeChunk) {
 			other_content = [plan];
 		}
+		console.log("P INTER", this, other_content);
 		var result = this.rawIntersection(other_content, solid);
 		var plan = new this.constructor(this);
 		plan.build(result);
@@ -119,35 +124,38 @@ class Plan extends BasicVolume {
 		return plan;
 	}
 	union(plan) {
-		if(this.content.length == 0) return plan.copy();
-		if(plan.content.length == 0) return this.copy();
+		if (this.content.length == 0) return plan.copy();
+		if (plan.content.length == 0) return this.copy();
 
 		var f_n = this.negative();
 		var s_n = plan.negative();
 
-		return f_n.intersection(s_n).negative();
+		return f_n.intersection(s_n)
+			.negative();
 	}
 	negative() {
 		var start = -Infinity,
 			end;
 		var result = [];
 
-		_(this.content).forEach((chunk, index) => {
-			end = chunk.start;
-			if(start != end) {
-				result.push({
-					data: [
+		_(this.content)
+			.forEach((chunk, index) => {
+				end = chunk.start;
+				if (start != end) {
+					result.push({
+						data: [
 						[start, end]
 					],
-					state: 'a'
-				});
-			}
-			start = chunk.end;
+						state: 'a'
+					});
+				}
+				start = chunk.end;
 
-		}).value();
+			})
+			.value();
 
 
-		if(start != Infinity) {
+		if (start != Infinity) {
 			result.push({
 				data: [
 					[start, Infinity]
@@ -174,16 +182,16 @@ class Plan extends BasicVolume {
 		_.forEach(this.content, (chunk) => {
 
 			_.forEach(chunk.split(size), (item) => {
-				if(!item) return true;
+				if (!item) return true;
 
 				let plan = new this.constructor(this);
 				plan.build([item]);
 
 				result.push(plan);
 				counter += 1;
-				if(counter == count) return false;
+				if (counter == count) return false;
 			});
-			if(counter == count) return false;
+			if (counter == count) return false;
 		});
 
 		return result;

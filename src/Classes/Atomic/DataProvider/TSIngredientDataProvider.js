@@ -29,6 +29,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 					operator_id: selection.operator,
 					day: selection.day,
 					date: selection.dedicated_date,
+					method: selection.method,
 					selection: {
 						service_id: selection.service,
 						selection: time_description
@@ -41,17 +42,19 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				// 	depth: null
 				// }));
 				let observed = {
-					services: resolved.getAtom(services_path).observe({
-						operator_id: selection.operator,
-						selection: {
-							service_id: selection.service,
+					services: resolved.getAtom(services_path)
+						.observe({
+							operator_id: selection.operator,
+							selection: {
+								service_id: selection.service,
+								selection: time_description
+							}
+						}),
+					op_plans: resolved.getAtom(plans_path)
+						.observe({
+							operator_id: selection.operator,
 							selection: time_description
-						}
-					}),
-					op_plans: resolved.getAtom(plans_path).observe({
-						operator_id: selection.operator,
-						selection: time_description
-					})
+						})
 				};
 
 				let services = observed.services.content;
@@ -81,6 +84,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				query: {
 					operator_id: value.operator,
 					day: selection.day,
+					method: selection.method,
 					date: value.dedicated_date
 				}
 			})
@@ -112,6 +116,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 					query: {
 						operator_id: selection.operator,
 						day: selection.day,
+						method: selection.method,
 						date: selection.dedicated_date,
 						selection: {
 							service_id: selection.service

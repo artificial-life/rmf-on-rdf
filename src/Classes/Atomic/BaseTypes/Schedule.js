@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class Schedule extends Fieldset {
 	constructor() {
-		let fields = ['has_time_description', "has_day", "has_owner"];
+		let fields = ['has_time_description', "has_day", "has_owner", "booking_methods"];
 		super(fields);
 	}
 

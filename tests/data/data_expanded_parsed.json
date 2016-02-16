@@ -81,18 +81,18 @@
         "role": ["Administrator"]
     }, {
         "@id": "pc-1",
-        "@type": "Workstation",
-        "attached_to": ["department-1"],
-        "default_agent": ["human-1"],
-        "label": ["Администратор"],
-        "device_type": ["control-panel"]
-    }, {
-        "@id": "pc-3",
         "@type": "Administrator",
         "attached_to": ["department-1"],
         "default_agent": ["human-1"],
         "label": ["Администратор"],
         "device_type": ["administrator"]
+    }, {
+        "@id": "pc-3",
+        "@type": "RoomAdministrator",
+        "attached_to": ["department-1"],
+        "default_agent": ["human-3"],
+        "label": ["Администратор зала"],
+        "device_type": ["admin-panel"]
     }, {
         "@id": "service-2",
         "@type": "Service",
@@ -1080,6 +1080,7 @@
         "first_name": ["Иван"],
         "has_membership": ["membership-1"],
         "has_schedule": ["schedule-1"],
+        "has_schedule_resource": ["schedule-1"],
         "last_name": ["Иванов"],
         "login": ["admin"],
         "middle_name": ["Иванович"],
@@ -2202,6 +2203,26 @@
         "label": ["Замена документов"],
         "view_name": ["base"]
     }, {
+        "@id": "schedule-5",
+        "@type": "Schedule",
+        "has_day": [
+            "Wednesday",
+            "Tuesday",
+            "Monday",
+            "Thursday",
+            "Saturday",
+            "Friday"
+        ],
+        "has_time_description": [
+            {
+                "data": [
+                    [0, 86400]
+                ],
+                "state": "a"
+            }
+        ],
+        "has_owner": ["human-2"]
+    }, {
         "@id": "schedule-4",
         "@type": "Schedule",
         "has_day": [
@@ -2252,10 +2273,32 @@
             "Saturday",
             "Friday"
         ],
+        "booking_methods": ["live"],
         "has_time_description": [
             {
                 "data": [
-                    [0, 86400]
+                    [10000, 86400]
+                ],
+                "state": "a"
+            }
+        ],
+        "has_owner": ["human-2"]
+    }, {
+        "@id": "schedule-6",
+        "@type": "Schedule",
+        "has_day": [
+            "Wednesday",
+            "Tuesday",
+            "Monday",
+            "Thursday",
+            "Saturday",
+            "Friday"
+        ],
+        "booking_methods": ["prebook"],
+        "has_time_description": [
+            {
+                "data": [
+                    [30000, 50000]
                 ],
                 "state": "a"
             }
@@ -2271,6 +2314,9 @@
             "Friday",
             "Saturday",
             "Wednesday"
+        ],
+        "booking_methods": [
+            "live", "prebook"
         ],
         "has_time_description": [
             {
@@ -2295,7 +2341,10 @@
         "available_workstation": ["pc-2"],
         "default_workstation": ["pc-2"],
         "has_membership": ["membership-2"],
-        "has_schedule": ["schedule-2"],
+        "has_schedule": [
+            "schedule-2", "schedule-6"
+        ],
+        "has_schedule_resource": ["schedule-5"],
         "last_name": ["Васильева"],
         "login": ["oper"],
         "middle_name": ["Ивановна"],

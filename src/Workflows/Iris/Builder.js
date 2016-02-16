@@ -7,14 +7,15 @@ let base_dir = "../../../";
 let TicketApi = require("./TicketApi");
 
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
+let AtomicComputedAsync = require(base_dir + '/build/Classes/Atomic/AtomicComputedAsync');
 
 let TSFactoryDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
 let TSIngredientDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSIngredientDataProvider');
 let CouchbirdDataProvider = require(base_dir + '/build/externals/CouchbirdDataProvider');
 
 let RDCacheAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/RDCacheAccessor');
+let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor');
 let BasicAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/BasicAccessor');
-let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor.js');
 
 let ContentAsync = require(base_dir + '/build/Classes/ContentAsync');
 let ResourceFactoryAsync = require(base_dir + '/build/Classes/ResourceFactoryAsync');
@@ -30,24 +31,28 @@ class IrisBuilder {
 	static getResourceSource() {
 		let dp = new CouchbirdDataProvider(this.db);
 
-		let ops_plan_accessor = new RDCacheAccessor(dp);
+		let ops_resource_accessor = new RDCacheAccessor(dp);
+		let ops_accessor = new LDAccessor(dp);
 		let services_accessor = new LDAccessor(dp);
 
-		ops_plan_accessor.mapper(classmap);
+		ops_resource_accessor
+			.keymaker('get', keymakers('op_resource')
+				.get)
+			.keymaker('set', keymakers('op_resource')
+				.set);
+		services_accessor.keymaker('get', keymakers('op_service_plan')
+			.get);
+		ops_accessor.keymaker('get', keymakers('op_plan')
+			.get);
 
-		ops_plan_accessor
-			.keymaker('get', keymakers('op_plan').get)
-			.keymaker('set', keymakers('op_plan').set);
-		services_accessor.keymaker('get', keymakers('op_service_plan').get);
 
-
-		let datamodel = {
+		let ops_datamodel = {
 			type: 'FieldsetPlan',
 			deco: 'BaseCollection',
 			params: 'operator_id'
 		};
 
-		let attributes_services_datamodel = {
+		let services_datamodel = {
 			type: {
 				type: 'FieldsetPlan',
 				deco: 'BaseCollection',
@@ -57,18 +62,26 @@ class IrisBuilder {
 			params: 'operator_id'
 		};
 
+		let ops_collection = AtomicFactory.create('BasicAsync', {
+			type: ops_datamodel,
+			accessor: ops_accessor
+		});
+
 		let plan_collection = AtomicFactory.create('BasicAsync', {
-			type: datamodel,
-			accessor: ops_plan_accessor
+			type: ops_datamodel,
+			accessor: ops_resource_accessor
 		});
 
 		let operator_services_collection = AtomicFactory.create('BasicAsync', {
-			type: attributes_services_datamodel,
+			type: services_datamodel,
 			accessor: services_accessor
 		});
 		let resource_source = new ContentAsync();
 
-		resource_source.addAtom(plan_collection, 'plan');
+		let plans = new AtomicComputedAsync(plan_collection);
+		plans.addAtom(ops_collection);
+
+		resource_source.addAtom(plans, 'plan');
 		resource_source.addAtom(operator_services_collection, 'services', '<namespace>attribute');
 
 		return resource_source;
@@ -106,7 +119,8 @@ class IrisBuilder {
 							service: '*',
 							day: query.day,
 							dedicated_date: query.dedicated_date,
-							time_description: query.time_description
+							time_description: query.time_description,
+							method: query.method || 'live'
 						}
 					},
 					box_id: '*',
@@ -123,7 +137,8 @@ class IrisBuilder {
 							day: query.day,
 							dedicated_date: query.dedicated_date,
 							time_description: query.time_description,
-							service_count: query.service_count
+							service_count: query.service_count,
+							method: query.method || 'live'
 						}
 					},
 					services: query.services,
@@ -133,7 +148,8 @@ class IrisBuilder {
 			});
 
 		let t_api = new TicketApi();
-		let box_storage = t_api.initContent().getContent('Ticket');
+		let box_storage = t_api.initContent()
+			.getContent('Ticket');
 
 
 		let Model = DecoModel.bind(DecoModel, TypeModel);

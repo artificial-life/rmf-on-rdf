@@ -7,14 +7,13 @@ let CacheAccessor = require('./CacheAccessor.js');
 class LDCacheAccessor extends CacheAccessor {
 	constructor(data_provider) {
 		super(data_provider);
-	}
-	mapper(map = {}) {
-		this.class_map = map;
-		this.template();
-		return this;
+		this.template(function (key, template) {
+			template['@id'] = key;
+			return template;
+		});
 	}
 	makeInitial(...context) {
-		if(!this.template_maker) throw new Error('template is not defined');
+		if (!this.template_maker) throw new Error('template is not defined');
 
 		return this.template_maker.apply(this, context);
 	}
@@ -22,7 +21,7 @@ class LDCacheAccessor extends CacheAccessor {
 		let access_obj = this.makeAccessObject('set', data);
 		let values = [];
 		let opts = {};
-		if(access_obj.options && access_obj.values) {
+		if (access_obj.options && access_obj.values) {
 			values = access_obj.values;
 			opts = access_obj.options;
 		} else {
@@ -38,7 +37,7 @@ class LDCacheAccessor extends CacheAccessor {
 		let deep = 0;
 		access_obj = _.assign(access_obj, this.makeAccessObject('get', context));
 
-		if(access_obj.query) {
+		if (access_obj.query) {
 			deep = access_obj.query.key_depth;
 		}
 		// let tm = Date.now();
@@ -46,7 +45,7 @@ class LDCacheAccessor extends CacheAccessor {
 		return Promise.resolve(this.data_provider.get(access_obj))
 			.then((result) => {
 				return _.mergeWith(result.templates, result.keys, (objValue, srcValue, key) => {
-					if(objValue['@id']) {
+					if (objValue['@id']) {
 						let [k, v] = _.toPairs(srcValue)[0];
 						return v || this.makeInitial(k, objValue);
 					}
@@ -54,17 +53,6 @@ class LDCacheAccessor extends CacheAccessor {
 			});
 	}
 
-	template(fn) {
-		if(fn) {
-			return super.template(fn);
-		}
-
-		this.template_maker = function(key, template) {
-			template['@id'] = key;
-			return template;
-		};
-		return this;
-	}
 }
 
 module.exports = LDCacheAccessor;

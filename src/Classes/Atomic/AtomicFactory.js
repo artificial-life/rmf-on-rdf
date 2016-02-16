@@ -1,7 +1,5 @@
 'use strict'
 
-var _ = require('lodash');
-
 var discover = require('./type-discover.js');
 
 class AtomicFactory {
