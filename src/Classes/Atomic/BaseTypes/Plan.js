@@ -116,7 +116,6 @@ class Plan extends BasicVolume {
 		if (plan instanceof TimeChunk) {
 			other_content = [plan];
 		}
-		console.log("P INTER", this, other_content);
 		var result = this.rawIntersection(other_content, solid);
 		var plan = new this.constructor(this);
 		plan.build(result);

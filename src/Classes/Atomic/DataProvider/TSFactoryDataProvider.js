@@ -44,9 +44,10 @@ class TSFactoryDataProvider {
 			return acc;
 		}, {});
 
-		// console.log("OPS", require('util').inspect(ops, {
-		// 	depth: null
-		// }));
+		// console.log("OPS", require('util')
+		// 	.inspect(ops, {
+		// 		depth: null
+		// 	}));
 		let ordered = _.sortBy(ops, (plan, op_id) => {
 			let ch = _.find(plan.sort()
 				.getContent(), (ch) => {
@@ -76,13 +77,12 @@ class TSFactoryDataProvider {
 		});
 		return {
 			source: res,
-			params: {
-				time_description: time_description,
-				operator: operator,
-				service: service
-			}
+			time_description,
+			operator,
+			service
 		};
 	}
+
 
 	resolvePlacing(tickets, sources, set_data = false) {
 		let remains = sources;
@@ -99,13 +99,12 @@ class TSFactoryDataProvider {
 			// console.log("OPS_BY_SERV", ops_by_service);
 			let {
 				source: plan,
-				params: {
-					time_description: time_description,
-					operator: operator,
-					service: service
-				}
+				time_description,
+				operator,
+				service
 			} = this.getNearestSource(sources, ticket);
-			// console.log("TICK", /*ticket,*/ operator, service, time_description /*, plan*/ );
+			// console.log("TICK", ticket, operator, service);
+			console.log("PLAN", time_description, plan);
 			if (!plan) {
 				return false;
 			}
@@ -117,6 +116,60 @@ class TSFactoryDataProvider {
 				ticket.source = plan.id || plan.parent.id;
 			}
 			plan.reserve([time_description]);
+			return true;
+		});
+		return {
+			remains,
+			placed,
+			lost
+		};
+	}
+
+	placePrebook(tickets, sources, set_data = false) {
+		let remains = sources;
+		let ordered = this.order(tickets);
+		let ops_by_service = _.reduce(remains, (acc, val, key) => {
+			_.map(_.keys(val), (s_id) => {
+				acc[s_id] = acc[s_id] || [];
+				acc[s_id].push(key);
+			});
+			return acc;
+		}, {});
+		let [placed, lost] = _.partition(ordered, (ticket) => {
+			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
+			// console.log("OPS_BY_SERV", ops_by_service);
+			let picker = _.isEmpty(ticket.operator) ? ticket.alt_operator : ticket.operator;
+			let cnt = ticket.service_count || 1;
+			let service = ticket.service;
+			let ops = _.reduce(_.pick(remains, picker), (acc, op_s, op_id) => {
+				if (op_s[service]) {
+					acc[op_id] = op_s[service].parent.intersection(op_s[service]);
+				}
+				return acc;
+			}, {});
+
+			// console.log("OPS", require('util')
+			// 	.inspect(ops, {
+			// 		depth: null
+			// 	}));
+
+			let time_description = ticket.time_description;
+			let operator = false;
+
+			let plan = _.find(ops, (src) => {
+				operator = src.parent.owner;
+				return !!src.reserve([time_description]);
+			});
+
+			// console.log("TICK", ticket, operator, service);
+			console.log("PLAN", time_description, plan);
+			if (!plan) {
+				return false;
+			}
+			if (set_data) {
+				ticket.operator = operator;
+				ticket.source = plan.id || plan.parent.id;
+			}
 			return true;
 		});
 		return {
@@ -161,7 +214,16 @@ class TSFactoryDataProvider {
 				// console.log("PLANS", require('util').inspect(plans, {
 				// 	depth: null
 				// }));
-				return this.resolvePlacing(_.values(tickets.serialize()), plans);
+				let [prebook, live] = _.partition(_.values(tickets.serialize()), (tick) => _.isArray(tick.time_description));
+				console.log("PREBOOK, LIVE", prebook, live);
+				return Promise.resolve(this.placePrebook(prebook, plans))
+					.then(({
+						remains,
+						placed,
+						lost
+					}) => {
+						return this.resolvePlacing(live, remains);
+					});
 			});
 	}
 
@@ -279,6 +341,7 @@ class TSFactoryDataProvider {
 						});
 				});
 		}
+		///tick confirm
 		return this.placeExisting(params)
 			.then(({
 				remains,

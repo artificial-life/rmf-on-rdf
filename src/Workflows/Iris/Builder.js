@@ -6,7 +6,6 @@ let base_dir = "../../../";
 let TicketApi = require("./TicketApi");
 
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
-let AtomicComputedAsync = require(base_dir + '/build/Classes/Atomic/AtomicComputedAsync');
 
 let TSFactoryDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
 let TSIngredientDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSIngredientDataProvider');
@@ -81,7 +80,12 @@ class IrisBuilder {
 		resource_source.addAtom(ops_collection, 'operators');
 		resource_source.addAtom(operator_services_collection, 'services', '<namespace>attribute');
 
-		return resource_source;
+		let i_provider = new TSIngredientDataProvider();
+		i_provider
+			.setIngredient('ldplan', resource_source)
+			.setSize(this.default_slot_size);
+
+		return i_provider;
 	}
 
 	static getFactory(ingredients, order) {
@@ -98,13 +102,9 @@ class IrisBuilder {
 
 		//setting resource volume
 		let factory_provider = new TSFactoryDataProvider();
-		_.map(ingredients, (resource_source, key) => {
-			let i_provider = new TSIngredientDataProvider();
-			i_provider
-				.setIngredient(key, resource_source)
-				.setSize(this.default_slot_size);
+		_.map(ingredients, (i_provider, key) => {
 			factory_provider
-				.addIngredient(key, i_provider);
+				.addIngredient(i_provider.property, i_provider);
 		});
 
 		let factory_accessor = new BasicAccessor(factory_provider);

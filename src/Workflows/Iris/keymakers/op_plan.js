@@ -1,27 +1,20 @@
 'use strict'
 
-let u = require("./keymaker_utils");
-
 module.exports = {
 	get: function ({
-		query: p
+		query
 	}) {
 		// console.log("QQO", p);
-		if (!p)
+		if (!query)
 			return {};
-		let date = p.date;
-		let day = p.day;
-		let method = p.method;
 		let direct = '';
-		let plan_day_id = date; // yyyy-mm-dd
-		let op_keys = undefined;
-		if (p.operator_id == '*') {
-			direct = "SELECT op.`@id` as operator, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf sch ON KEYS op.has_schedule WHERE  mm.`@type`='Membership' AND 'Operator' IN mm.`role` and '" + day + "' IN sch.has_day AND '" + method + "' IN sch.booking_methods";
+		if (query.operator_id == '*') {
+			direct = "SELECT op.`@id` as operator, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf sch ON KEYS op.has_schedule WHERE  mm.`@type`='Membership' AND 'Operator' IN mm.`role` and '" + query.day + "' IN sch.has_day AND '" + query.method + "' IN sch.booking_methods";
 		} else {
-			op_keys = _.isArray(p.operator_id) ? p.operator_id : [p.operator_id];
-			direct = "SELECT op.`@id` as operator, sch AS schedule FROM rdf op USE KEYS " + JSON.stringify(op_keys) + " JOIN rdf sch ON KEYS op.has_schedule WHERE '" + day + "' IN sch.has_day AND '" + method + "' IN sch.booking_methods";
+			let op_keys = _.isArray(query.operator_id) ? query.operator_id : [query.operator_id];
+			direct = "SELECT op.`@id` as operator, sch AS schedule FROM rdf op USE KEYS " + JSON.stringify(op_keys) + " JOIN rdf sch ON KEYS op.has_schedule WHERE '" + query.day + "' IN sch.has_day AND '" + query.method + "' IN sch.booking_methods";
 		}
-		let query = {
+		let req = {
 			type: 'view',
 			key_depth: 1,
 			forward: true,
@@ -40,7 +33,7 @@ module.exports = {
 			}
 		};
 		return {
-			query
+			query: req
 		};
 	}
 };

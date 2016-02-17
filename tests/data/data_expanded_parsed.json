@@ -2233,6 +2233,9 @@
             "Tuesday",
             "Monday"
         ],
+        "booking_methods": [
+            "live", "prebook"
+        ],
         "has_time_description": [
             {
                 "data": [
@@ -2241,7 +2244,6 @@
                 "state": "a"
             }
         ]
-
     }, {
         "@id": "schedule-3",
         "@type": "Schedule",
@@ -2277,7 +2279,7 @@
         "has_time_description": [
             {
                 "data": [
-                    [10000, 86400]
+                    [10000, 86000]
                 ],
                 "state": "a"
             }

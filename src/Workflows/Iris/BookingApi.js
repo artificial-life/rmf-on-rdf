@@ -14,9 +14,10 @@ class BookingApi extends IrisApi {
 			default_slot_size: 15 * 3600
 		});
 		let rs = IrisBuilder.getResourceSource();
-		this.factory = IrisBuilder.getFactory({
+		this.ingredients = {
 			'ldplan': rs
-		}, this.sort);
+		};
+		this.factory = IrisBuilder.getFactory(this.ingredients, this.sort);
 	}
 
 	getContent() {
@@ -24,9 +25,12 @@ class BookingApi extends IrisApi {
 	}
 
 	build(query, factory_params = {}) {
-		this.factory.selector().reset()
+		this.factory.selector()
+			.reset()
 			.add()
-			.id('<namespace>builder').id('box').query(query);
+			.id('<namespace>builder')
+			.id('box')
+			.query(query);
 		return this.factory.build(factory_params);
 	}
 
@@ -38,25 +42,45 @@ class BookingApi extends IrisApi {
 				});
 			})
 			.then((res) => {
-				return res.getAtom(['<namespace>builder', 'box']).serialize();
+				return res.getAtom(['<namespace>builder', 'box'])
+					.serialize();
 			});
 	}
 
 	reserve(data) {
 		data.reserve = true;
-		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
+		return this.factory.getAtom(['<namespace>builder', 'box'])
+			.save(data);
 	}
 
 	confirm(data) {
 		data.reserve = false;
-		return this.factory.getAtom(['<namespace>builder', 'box']).save(data);
+		return this.factory.getAtom(['<namespace>builder', 'box'])
+			.save(data);
 	}
 
 	sort(tickets) {
 		return _.orderBy(tickets, ['priority', (tick) => {
-			return(new Date(tick.booking_date)).getTime();
+			return (new Date(tick.booking_date))
+				.getTime();
 		}], ['desc', 'asc']);
 	}
 
+	getAllPlans(params) {
+		return this.ingredients.ldplan.get({
+			selection: {
+				ldplan: params
+			}
+		});
+	}
+
+	getAllPlansLength(params) {
+		return this.getAllPlans(params)
+			.then((res) => {
+				return _.reduce(_.flatMap(res, _.values), (acc, plan) => {
+					return (acc + plan.getLength());
+				}, 0);
+			})
+	}
 }
 module.exports = BookingApi;

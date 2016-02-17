@@ -108,6 +108,12 @@ class FieldsetPlan extends Plan {
 		this.content = cnt;
 		return this;
 	}
+
+	getLength() {
+		return _.reduce(this.content, (acc, chunk) => {
+			return (acc + chunk.getLength());
+		}, 0);
+	}
 }
 
 module.exports = FieldsetPlan;

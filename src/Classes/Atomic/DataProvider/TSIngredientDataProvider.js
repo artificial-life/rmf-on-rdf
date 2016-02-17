@@ -91,7 +91,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				query: {
 					operator_id: value.operator,
 					day: selection.day,
-					method: selection.method,
 					date: value.dedicated_date
 				}
 			})
@@ -123,7 +122,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 					query: {
 						operator_id: selection.operator,
 						day: selection.day,
-						method: selection.method,
 						date: selection.dedicated_date
 					}
 				})
