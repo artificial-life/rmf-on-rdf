@@ -61,8 +61,8 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 
 		return Promise.props(promises)
 			.then((res) => {
-				let fin_keys = _.isFunction(keys.final) ? keys.final(res) : res;
-				return keys.forward ? fin_keys : this.getNodes(fin_keys, options);
+				let fin_keys = _.isFunction(q.final) ? q.final(res) : res;
+				return q.forward ? fin_keys : this.getNodes(fin_keys, options);
 			});
 	}
 
