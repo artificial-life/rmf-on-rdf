@@ -5,19 +5,19 @@ module.exports = {
 		select,
 		keys
 	}) => {
-		if (keys && !p)
+		if(keys && !p)
 			return {
 				keys
 			};
-		if (!p && !select)
+		if(!p && !select)
 			return {};
-		if (!select) {
+		if(!select) {
 			delete p["@id"];
 		}
 		let where = "WHERE " + _.join(_.map(p, (val, key) => {
-			if (_.startsWith(key, "@"))
+			if(_.startsWith(key, "@"))
 				return `\`${key}\`="${val}"`;
-			if (_.isArray(val)) {
+			if(_.isArray(val)) {
 				let complex_val = _.join(_.map(val, (v) => {
 					let pass = !_.isString(v) ? v : `"${v}"`;
 					return `${pass} IN ${key}`;
