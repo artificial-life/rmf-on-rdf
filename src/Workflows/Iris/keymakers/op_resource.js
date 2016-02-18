@@ -1,18 +1,18 @@
 'use strict'
 
 module.exports = {
-	get: function ({
+	get: function({
 		query
 	}) {
 		// console.log("QQO", p);
-		if (!query)
+		if(!query)
 			return {};
 		let direct = '';
 		let plan_id = query.date;
-		if (query.operator_id == '*') {
+		if(query.operator_id == '*') {
 			direct = "SELECT op.`@id` as operator, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf sch ON KEYS op.has_schedule_resource WHERE  mm.`@type`='Membership' AND 'Operator' IN mm.`role` and '" + query.day + "' IN sch.has_day";
 		} else {
-			let op_keys = _.isArray(query.operator_id) ? query.operator_id : [query.operator_id];
+			let op_keys = _.castArray(query.operator_id);
 			direct = "SELECT op.`@id` as operator, sch AS schedule FROM rdf op USE KEYS " + JSON.stringify(op_keys) + " JOIN rdf sch ON KEYS op.has_schedule_resource WHERE '" + query.day + "' IN sch.has_day";
 		}
 		let req = {
@@ -23,7 +23,7 @@ module.exports = {
 					direct
 				}
 			},
-			final: function (query) {
+			final: function(query) {
 				let templates = {};
 				let reduced = _.reduce(query.schedules, (acc, val) => {
 					acc[val.operator] = `${val.operator}-plan--${plan_id}`;
@@ -41,7 +41,7 @@ module.exports = {
 			query: req
 		};
 	},
-	set: function (data) {
+	set: function(data) {
 		let access = [];
 		let opts = {};
 		_.map(_.values(data), (val) => {
@@ -50,7 +50,7 @@ module.exports = {
 			delete val.key;
 			delete val.cas;
 			access.push(node);
-			if (cas) {
+			if(cas) {
 				opts[node['@id']] = {
 					cas
 				};

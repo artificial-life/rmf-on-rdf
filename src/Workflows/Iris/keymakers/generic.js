@@ -6,7 +6,7 @@ function generic(Model, finalizer = 'basic') {
 	return {
 		get: (data) => {
 			let result = data;
-			if (data.query) {
+			if(data.query) {
 				let item = new Model();
 				item.build(data.query);
 				result.keys = [];
@@ -14,9 +14,9 @@ function generic(Model, finalizer = 'basic') {
 				result.select = data.select;
 				// console.log("GKM ASQUERY", result);
 			}
-			if (data.keys) {
+			if(data.keys) {
 				let item = new Model();
-				let keys = _.isArray(data.keys) ? data.keys : [data.keys];
+				let keys = _.castArray(data.keys);
 				result.keys = _.map(keys, key => {
 					item.build({
 						id: key
@@ -28,7 +28,7 @@ function generic(Model, finalizer = 'basic') {
 			return fin_keymaker.get(result);
 		},
 		set: (data) => {
-			let items = _.isArray(data) ? data : [data];
+			let items = _.castArray(data);
 			let result = _.map(items, (t_data) => {
 				let item = new Model();
 				item.build(t_data);

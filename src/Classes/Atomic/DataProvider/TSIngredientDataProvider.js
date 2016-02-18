@@ -70,7 +70,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				return _.reduce(services, (acc, s_plans, op_id) => {
 					let op_plan = plans[op_id].intersection(ops[op_id]);
 					let s_ids = (service_id == '*' || !service_id) ? _.keys(s_plans.content) : service_id;
-					s_ids = _.isArray(s_ids) ? s_ids : [s_ids];
+					s_ids = _.castArray(s_ids);
 					acc[op_id] = _.reduce(s_ids, (op_services, s_id) => {
 						let plan = op_plan.intersection(s_plans.content[s_id]);
 						op_services[s_id] = params.split ? plan.split(size, count) : plan;
@@ -113,7 +113,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		// console.log("I_SET", params, value);
 		let plans_path = ['<namespace>content', 'plan'];
 		let ingredient_atom = this.ingredient.getAtom(plans_path);
-		let data = _.isArray(value) ? value : [value];
+		let data = _.castArray(value);
 		let selection = params.selection[this.property];
 		let saving_meta = {};
 

@@ -43,7 +43,7 @@ class LDEntity {
 			_.map(entity.fields, (property) => {
 				let key = this.keyTransform(property);
 				if(!_.isUndefined(db_data[key])) {
-					let db_val = _.isArray(db_data[key]) ? db_data[key] : [db_data[key]];
+					let db_val = _.castArray(db_data[key]);
 					let val = _.map(db_val, (piece) => {
 						if(!_.isObject(piece)) return piece;
 						return piece['@id'] || piece['@value'];
@@ -96,7 +96,7 @@ class LDEntity {
 		let refs = this.content.references;
 		_.map(refs, (ref) => {
 			let key = this.keyTransform(ref);
-			let ref_val = _.isArray(db_data[key]) ? db_data[key] : [db_data[key]];
+			let ref_val = _.castArray(db_data[key]);
 			let value = _.map(ref_val, (val) => {
 				return _.isUndefined(val) ? false : {
 					'@id': val

@@ -97,10 +97,10 @@ class CommonApi extends IrisApi {
 					let set = _.map(res, entry => {
 						return _.mergeWith(entry, t, (objValue, srcValue, key) => {
 							if(concat && _.isArray(objValue)) {
-								let val = objValue ? (_.isArray(objValue) ? objValue : [objValue]) : [];
+								let val = objValue ? _.castArray(objValue) : [];
 								return _.uniq(_.concat(val, srcValue));
 							} else if(!concat && _.isArray(objValue)) {
-								return _.isArray(srcValue) ? srcValue : [srcValue];
+								return _.castArray(srcValue);
 							}
 						});
 					});

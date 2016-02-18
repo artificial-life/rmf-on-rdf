@@ -14,7 +14,7 @@ class Schedule extends Fieldset {
 
 	build(data) {
 		super.build(data);
-		this.content_map.has_time_description = _.isArray(data.has_time_description) ? data.has_time_description : [data.has_time_description];
+		this.content_map.has_time_description = _.castArray(data.has_time_description);
 	}
 }
 

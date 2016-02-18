@@ -74,7 +74,7 @@ class RawEntity {
 		let db_data = this.transformKeys();
 		_.map(db_data, (val, key) => {
 			if(!_.startsWith(key, "@") && key !== 'cas') {
-				db_data[key] = _.isArray(db_data[key]) ? db_data[key] : [db_data[key]];
+				db_data[key] = _.castArray(db_data[key]);
 			}
 		})
 		return _.isFunction(this.content.dbSerialize) ? this.content.dbSerialize(db_data) : db_data;

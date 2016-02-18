@@ -28,7 +28,7 @@ class Box extends Hashmap {
 
 	collectionMethod(method_name, passed) {
 		let ids = passed[this.collection_id];
-		ids = _.isArray(ids) ? ids : [ids];
+		ids = _.castArray(ids);
 		let Me = this.constructor;
 		let result = new Me(this.collection_type, this.collection_id);
 		let data = {};
