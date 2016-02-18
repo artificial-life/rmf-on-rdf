@@ -79,6 +79,7 @@ class Plan extends BasicVolume {
 			data: params,
 			state: 'r'
 		});
+
 		if (placed) {
 			this.stored_changes.push(placed);
 		}

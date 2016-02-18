@@ -29,18 +29,18 @@ class BasicVolume extends AbstractVolume {
 		//@NOTE: this will be reworked too after PlacingStrategy rework
 		_.forEach(this.getContent(), (chunk) => {
 
-			if(!chunk.intersectsWith(volume)) {
+			if (!chunk.intersectsWith(volume)) {
 				result.push(chunk);
 				return true;
 			}
 
 			let processed = this.applyStrategy(volume, chunk);
 
-			if(processed.length || processed instanceof this.PrimitiveVolume) { //@TODO: check performance here
+			if (processed.length || processed instanceof this.PrimitiveVolume) { //@TODO: check performance here
 				result = result.concat(processed);
 			}
-
-			return !(processed instanceof Error);
+			status = status & !(processed instanceof Error);
+			return status;
 		});
 
 		result.push(volume);
@@ -50,7 +50,8 @@ class BasicVolume extends AbstractVolume {
 		// return final;
 
 		//@NOTE: trying to not create additional objects
-		this.content = result;
+		if (status)
+			this.content = result;
 
 		return status ? volume : false;
 	}
@@ -70,7 +71,7 @@ class BasicVolume extends AbstractVolume {
 			this.extendPrimitive(primitive);
 		});
 
-		if(sort) this.sort();
+		if (sort) this.sort();
 
 		return this;
 	}
@@ -87,12 +88,13 @@ class BasicVolume extends AbstractVolume {
 		var is_primitive = item instanceof this.PrimitiveVolume;
 		var is_zero_dim = item instanceof ZeroDimensional;
 
-		if(!(is_same_type || is_primitive || is_zero_dim)) throw new Error('Can not extract');
+		if (!(is_same_type || is_primitive || is_zero_dim)) throw new Error('Can not extract');
 
 		var content = [];
 
-		if(is_zero_dim) {
-			var state = item.getContent().getState();
+		if (is_zero_dim) {
+			var state = item.getContent()
+				.getState();
 			var default_primitive = new this.PrimitiveVolume([], state);
 			return [default_primitive];
 		} else content = is_same_type ? item.getContent() : [item]
@@ -104,12 +106,12 @@ class BasicVolume extends AbstractVolume {
 
 		//@TODO:build from state
 		//@TODO: find some builder pattern for this case
-		if(data instanceof this.PrimitiveVolume) {
+		if (data instanceof this.PrimitiveVolume) {
 			this.extend(data, false);
 			return this;
 		}
 
-		if(_.isArray(data)) {
+		if (_.isArray(data)) {
 			_.forEach(data, (raw_data) => {
 
 				var primitive_volume = this.buildPrimitiveVolume(raw_data);

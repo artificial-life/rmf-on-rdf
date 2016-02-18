@@ -104,7 +104,7 @@ class TSFactoryDataProvider {
 				service
 			} = this.getNearestSource(sources, ticket);
 			// console.log("TICK", ticket, operator, service);
-			console.log("PLAN", time_description, plan);
+			// console.log("PLAN", time_description, plan);
 			if (!plan) {
 				return false;
 			}
@@ -162,7 +162,7 @@ class TSFactoryDataProvider {
 			});
 
 			// console.log("TICK", ticket, operator, service);
-			console.log("PLAN", time_description, plan);
+			// console.log("PLAN", time_description, plan);
 			if (!plan) {
 				return false;
 			}
@@ -215,7 +215,7 @@ class TSFactoryDataProvider {
 				// 	depth: null
 				// }));
 				let [prebook, live] = _.partition(_.values(tickets.serialize()), (tick) => _.isArray(tick.time_description));
-				console.log("PREBOOK, LIVE", prebook, live);
+				// console.log("PREBOOK, LIVE", prebook, live);
 				return Promise.resolve(this.placePrebook(prebook, plans))
 					.then(({
 						remains,
@@ -318,9 +318,6 @@ class TSFactoryDataProvider {
 							to_free[src.id] = _.cloneDeep(obj);
 							return srcValue;
 						}
-						// if(key === "time_description" && _.isArray(srcValue) && _.size(srcValue) == 1) {
-						// 	return [srcValue[0], ];
-						// }
 					});
 					let placing = _.reduce(to_reserve, (acc, tick, key) => {
 						acc[key] = this.saveTicket(params, tick, to_free[key] || {});
