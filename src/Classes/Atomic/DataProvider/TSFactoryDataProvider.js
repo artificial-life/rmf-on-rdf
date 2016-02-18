@@ -33,7 +33,7 @@ class TSFactoryDataProvider {
 		return this;
 	}
 
-	getNearestSource(sources, query) {
+	getSource(sources, query) {
 		let picker = _.isEmpty(query.operator) ? query.alt_operator : query.operator;
 		// console.log("PICKER", picker, query);
 		let cnt = query.service_count || 1;
@@ -48,38 +48,45 @@ class TSFactoryDataProvider {
 		// 	.inspect(ops, {
 		// 		depth: null
 		// 	}));
-		let ordered = _.sortBy(ops, (plan, op_id) => {
-			let ch = _.find(plan.sort()
-				.getContent(), (ch) => {
-					return (ch.getState()
-						.haveState('a'));
-				});
-			return ch ? ch.start : Infinity;
-		});
-
-		//to resolve this crap
-		let time_description = false;
-		let service = query.service;
 		let operator = false;
+		let time_description = _.isArray(ticket.time_description) ? ticket.time_description : false;
+		let source;
 
-		let res = _.find(ordered, (src) => {
-			let first = _.find(src.sort()
-				.getContent(), (ch) => {
-					return (ch.getState()
-						.haveState('a'));
-				});
-			if (!first) return false;
-			//@TODO temporary. Try to make LDPlan like a Fieldset and get this fields directly
-			operator = src.parent.owner;
-			let interval = query.time_description * cnt;
-			time_description = [first.start, first.start + interval];
-			return (first.getLength() > interval);
-		});
+		if (time_description) {
+			source = _.find(ops, (src) => {
+				operator = src.owner || src.parent.owner;
+				return !!src.reserve([time_description]);
+			});
+		} else {
+			let ordered = _.sortBy(ops, (plan, op_id) => {
+				let ch = _.find(plan.sort()
+					.getContent(), (ch) => {
+						return (ch.getState()
+							.haveState('a'));
+					});
+				return ch ? ch.start : Infinity;
+			});
+
+
+			source = _.find(ordered, (src) => {
+				let first = _.find(src.sort()
+					.getContent(), (ch) => {
+						return (ch.getState()
+							.haveState('a'));
+					});
+				if (!first) return false;
+				let interval = query.time_description * cnt;
+				time_description = [first.start, first.start + interval];
+				operator = src.owner || src.parent.owner;
+				if (first.getLength() > interval)
+					return !!src.reserve([time_description]);
+				return false;
+			});
+		}
 		return {
-			source: res,
+			source,
 			time_description,
-			operator,
-			service
+			operator
 		};
 	}
 
@@ -98,77 +105,20 @@ class TSFactoryDataProvider {
 			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
 			// console.log("OPS_BY_SERV", ops_by_service);
 			let {
-				source: plan,
+				source,
 				time_description,
-				operator,
-				service
-			} = this.getNearestSource(sources, ticket);
+				operator
+			} = this.getSource(sources, ticket);
 			// console.log("TICK", ticket, operator, service);
 			// console.log("PLAN", time_description, plan);
-			if (!plan) {
+			if (!source) {
 				return false;
 			}
 			if (set_data) {
 				ticket.time_description = time_description;
 				ticket.operator = operator;
-				ticket.service = service;
 				//@FIXIT
-				ticket.source = plan.id || plan.parent.id;
-			}
-			plan.reserve([time_description]);
-			return true;
-		});
-		return {
-			remains,
-			placed,
-			lost
-		};
-	}
-
-	placePrebook(tickets, sources, set_data = false) {
-		let remains = sources;
-		let ordered = this.order(tickets);
-		let ops_by_service = _.reduce(remains, (acc, val, key) => {
-			_.map(_.keys(val), (s_id) => {
-				acc[s_id] = acc[s_id] || [];
-				acc[s_id].push(key);
-			});
-			return acc;
-		}, {});
-		let [placed, lost] = _.partition(ordered, (ticket) => {
-			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
-			// console.log("OPS_BY_SERV", ops_by_service);
-			let picker = _.isEmpty(ticket.operator) ? ticket.alt_operator : ticket.operator;
-			let cnt = ticket.service_count || 1;
-			let service = ticket.service;
-			let ops = _.reduce(_.pick(remains, picker), (acc, op_s, op_id) => {
-				if (op_s[service]) {
-					acc[op_id] = op_s[service].parent.intersection(op_s[service]);
-				}
-				return acc;
-			}, {});
-
-			// console.log("OPS", require('util')
-			// 	.inspect(ops, {
-			// 		depth: null
-			// 	}));
-
-			let time_description = ticket.time_description;
-			let operator = false;
-
-			let plan = _.find(ops, (src) => {
-				operator = src.parent.owner;
-				return !!src.reserve([time_description]);
-			});
-
-			// console.log("TICK", ticket, operator, service);
-			// console.log("PLAN", time_description, plan);
-			if (!plan) {
-				return false;
-			}
-			if (set_data) {
-				ticket.operator = operator;
-				ticket.source = plan.id || plan.parent.id;
+				ticket.source = source.id || source.parent.id;
 			}
 			return true;
 		});
@@ -178,6 +128,7 @@ class TSFactoryDataProvider {
 			lost
 		};
 	}
+
 
 	getAllSpace(params) {
 		let ingredients = _.reduce(this.ingredients, (result, ingredient, property) => {
@@ -209,28 +160,13 @@ class TSFactoryDataProvider {
 				space: {
 					ldplan: plans
 				},
-				tickets: tickets
+				tickets
 			}) => {
-				// console.log("PLANS", require('util').inspect(plans, {
-				// 	depth: null
-				// }));
-				let [prebook, live] = _.partition(_.values(tickets.serialize()), (tick) => _.isArray(tick.time_description));
-				// console.log("PREBOOK, LIVE", prebook, live);
-				return Promise.resolve(this.placePrebook(prebook, plans))
-					.then(({
-						remains,
-						placed,
-						lost
-					}) => {
-						return this.resolvePlacing(live, remains);
-					});
+				return this.resolvePlacing(_.values(tickets.serialize()), plans);
 			});
 	}
 
 	get(params) {
-		// console.log("PARAMS", require('util').inspect(params, {
-		// 	depth: null
-		// }));
 		return this.placeExisting(params)
 			.then(({
 				remains,
@@ -241,8 +177,6 @@ class TSFactoryDataProvider {
 				// 	depth: null
 				// }));
 				if (_.size(lost) > 0) {
-					//cannot handle even existing tickets
-					//call the police!
 					return [];
 				}
 				let ticket_data = [];

@@ -1692,7 +1692,7 @@
         "booking_methods": [
             "live", "prebook"
         ],
-        "reload_interval": [10]
+        "reload_interval": [5]
     }, {
         "@id": "service-78",
         "@type": "Service",
