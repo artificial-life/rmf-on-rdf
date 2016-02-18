@@ -49,7 +49,7 @@ class TSFactoryDataProvider {
 		// 		depth: null
 		// 	}));
 		let operator = false;
-		let time_description = _.isArray(ticket.time_description) ? ticket.time_description : false;
+		let time_description = _.isArray(query.time_description) ? query.time_description : false;
 		let source;
 
 		if (time_description) {
