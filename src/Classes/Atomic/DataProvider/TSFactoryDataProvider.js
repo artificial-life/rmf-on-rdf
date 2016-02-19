@@ -292,9 +292,10 @@ class TSFactoryDataProvider {
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
-				// console.log("NEW", require('util').inspect(new_tickets, {
-				// 	depth: null
-				// }));
+				// console.log("NEW", require('util')
+				// 	.inspect(value, {
+				// 		depth: null
+				// 	}));
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					lost: lost_new

@@ -16,7 +16,7 @@ class HistoryApi extends CommonApi {
 		return super.getEntry('History', query);
 	}
 	setEntry(data) {
-		return super.stEntry('History', data);
+		return super.setEntry('History', data);
 	}
 }
 
