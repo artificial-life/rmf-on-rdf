@@ -196,7 +196,9 @@ class TSFactoryDataProvider {
 				});
 				let new_tickets = this.finalizer(ticket_data);
 				let {
-					placed: placed_new
+					placed: placed_new,
+					lost: lost_new,
+					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains, true);
 				// console.log("NEW TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null

@@ -80,7 +80,9 @@ class BookingApi extends IrisApi {
 				return _.reduce(_.flatMap(res, _.values), (acc, plan) => {
 					return (acc + plan.getLength());
 				}, 0);
-			})
+			});
 	}
+
+
 }
 module.exports = BookingApi;

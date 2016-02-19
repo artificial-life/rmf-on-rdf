@@ -16,7 +16,7 @@ class ContentAsync extends Content {
 		let resolved = new Resolved_Model(this);
 
 		let resolved_atoms = [];
-		for(let atom_data of this.path) {
+		for (let atom_data of this.path) {
 			var {
 				atom_path: atom_path,
 				atom: atom
@@ -37,7 +37,8 @@ class ContentAsync extends Content {
 		return Promise.all(resolved_atoms)
 			.then((res) => {
 				_.map(res, ({
-					atom_path, atom
+					atom_path,
+					atom
 				}) => {
 					resolved.addAtom(atom_path, atom);
 				});
@@ -46,14 +47,13 @@ class ContentAsync extends Content {
 	}
 	save(data) {
 		return Promise.all(_.map(data, (item, index) => {
-			//@TODO: need some cheks here
-			if(_.isEmpty(item)) return true;
+			if (_.isEmpty(item)) return true;
 
 			var {
 				content: content,
 				path: path
 			} = item;
-			if(!path || !content) return false;
+			if (!path || !content) return false;
 
 			var atom = this.getAtom(path);
 			console.log(atom.Model);
