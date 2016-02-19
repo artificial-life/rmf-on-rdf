@@ -2,29 +2,24 @@
 
 var ProxifyEntity = require('../../../externals/Proxify/Entity.js');
 
-class RawEntity {
-	constructor(entity_type) {
+class AdHocEntity {
+	constructor(discover) {
 		//@TODO implement translator
-		this.entity_type = entity_type;
+		this.discover = discover;
 		this.content = {};
-		if(this.constructor.name == 'RawEntity') return ProxifyEntity(this);
+		if(this.constructor.name == 'AdHocEntity') return ProxifyEntity(this);
 	}
 
 	build(data) {
-		let Model = this.entity_type;
-		let entity = new Model();
 		let content_map = {};
+		let pass = {};
 		if(data.value) {
-			//construct from db
-			entity.cas = data.cas;
-			//meh
+			pass.cas = data.cas;
 			let db_data = data.value;
 			content_map.id = db_data['@id'];
-			//@TODO use it wisely
 			content_map.type = db_data['@type'];
 
-			_.map(entity.fields, (key) => {
-				if(_.isUndefined(db_data[key])) return;
+			_.map(db_data, (val, key) => {
 				content_map[key] = _.size(db_data[key]) == 1 ? db_data[key][0] : db_data[key];
 			});
 		} else {
@@ -32,7 +27,10 @@ class RawEntity {
 			content_map.type = data.type || data['@type'] || this.entity_type.name;
 			content_map.id = data.id || data['@id'];
 		}
-		// console.log("RE CM", content_map, data);
+		// console.log("AHE BUILD", content_map, data);
+		let Model = this.discover(content_map.type);
+		let entity = new Model();
+		_.assign(entity, pass);
 		this.content = entity.build(content_map) || entity;
 	}
 
@@ -88,4 +86,4 @@ class RawEntity {
 
 }
 
-module.exports = RawEntity;
+module.exports = AdHocEntity;
