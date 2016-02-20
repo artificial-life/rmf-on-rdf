@@ -2,22 +2,22 @@
 module.exports = {
 	get: ({
 		query: p,
-		select,
+		select = '*',
 		keys
 	}) => {
-		if(keys && !p)
+		if (keys && !p)
 			return {
 				keys
 			};
-		if(!p && !select)
+		if (!p && !select)
 			return {};
-		if(!select) {
+		if (!select) {
 			delete p["@id"];
 		}
 		let where = "WHERE " + _.join(_.map(p, (val, key) => {
-			if(_.startsWith(key, "@"))
+			if (_.startsWith(key, "@"))
 				return `\`${key}\`="${val}"`;
-			if(_.isArray(val)) {
+			if (_.isArray(val)) {
 				let complex_val = _.join(_.map(val, (v) => {
 					let pass = !_.isString(v) ? v : `"${v}"`;
 					return `${pass} IN ${key}`;
@@ -28,18 +28,19 @@ module.exports = {
 				return `${pass} IN ${key}`;
 			}
 		}), " AND ");
+		select = _.startsWith(select, "@") ? `\`${select}\`` : select;
 		let query = {
 			type: 'view',
-			// forward: (select == '*'),
+			forward: true,
 			query: {
 				ids: {
-					select: select || '`@id`',
+					select,
 					where
 				}
 			},
 			final: (query) => {
-				// console.log("FINKEYS", _.map(query.ids, "@id"), query.ids);
-				return _.map(query.ids, "@id");
+				// console.log("FINKEYS", _.map(query.ids, select), query.ids);
+				return (select == '*') ? query.ids : _.map(query.ids, select);
 				// return query.ids;
 			}
 		};
