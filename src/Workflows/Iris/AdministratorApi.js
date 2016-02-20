@@ -35,8 +35,10 @@ class AdministratorApi extends IrisApi {
 		let storage_accessor = new LDAccessor(dp);
 
 		storage_accessor
-			.keymaker('set', keymakers('generic')().set)
-			.keymaker('get', keymakers('generic')(Model, snake_model).get);
+			.keymaker('set', keymakers('generic')()
+				.set)
+			.keymaker('get', keymakers('generic')()
+				.get);
 
 
 		let storage = AtomicFactory.create('BasicAsync', {
@@ -51,7 +53,7 @@ class AdministratorApi extends IrisApi {
 
 	getEntry(query) {
 		return pre.then((tp) => {
-			if(!tp || !this.content[tp])
+			if (!tp || !this.content[tp])
 				return {};
 			return this.content[tp].resolve(query)
 				.then((res) => {
