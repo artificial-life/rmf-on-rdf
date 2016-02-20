@@ -60,26 +60,6 @@ class BookingApi extends IrisApi {
 	}
 
 	sort(tickets) {
-		//injection
-		// _.forEach(tickets, (b_tick) => {
-		// 	let tickets = [];
-		// 	let time = now;
-		// 	let r_time = b_tick.time_description[0];
-		// 	let placed = false;
-		// 	_.forEach(ticks, (tick) => {
-		// 		let td = tick.time_description;
-		// 		time += (_.isArray(td) ? (td[1] - td[0]) : td);
-		// 		if (time >= r_time && !placed) {
-		// 			placed = true;
-		// 			tickets.push(b_tick);
-		// 		}
-		// 		tickets.push(tick);
-		// 	});
-		// 	if (!placed)
-		// 		tickets.push(b_tick);
-		// 	ticks = tickets;
-		// });
-
 		return _.orderBy(tickets, ['priority', (tick) => {
 			return (new Date(tick.booking_date))
 				.getTime();

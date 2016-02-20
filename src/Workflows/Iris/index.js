@@ -6,5 +6,5 @@ module.exports = {
 	ServiceApi: require("./ServiceApi"),
 	WorkstationApi: require("./WorkstationApi"),
 	HistoryApi: require("./HistoryApi"),
-	AdminApi: require("./AdminApi")
+	AdministratorApi: require("./AdministratorApi")
 };
