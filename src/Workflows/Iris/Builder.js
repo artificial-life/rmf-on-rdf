@@ -115,11 +115,12 @@ class IrisBuilder {
 							operator: query.operator || '*',
 							service: '*',
 							day: query.day,
-							dedicated_date: query.dedicated_date,
+							local_date: query.local_date,
 							time_description: query.time_description,
 							method: query.method || 'live'
 						}
 					},
+					dedicated_date: query.dedicated_date,
 					box_id: '*',
 					reserve: query.reserve || false,
 					count: query.count
@@ -132,12 +133,13 @@ class IrisBuilder {
 							operator: query.operator || '*',
 							service: '*',
 							day: query.day,
-							dedicated_date: query.dedicated_date,
+							local_date: query.local_date,
 							time_description: query.time_description,
 							service_count: query.service_count,
 							method: query.method || 'live'
 						}
 					},
+					dedicated_date: query.dedicated_date,
 					services: query.services,
 					box_id: '*',
 					count: query.count

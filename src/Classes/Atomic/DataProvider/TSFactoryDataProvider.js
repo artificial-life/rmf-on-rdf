@@ -38,7 +38,7 @@ class TSFactoryDataProvider {
 		// console.log("PICKER", picker, query);
 		let cnt = query.service_count || 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
-			if (op_s[query.service]) {
+			if(op_s[query.service]) {
 				acc[op_id] = op_s[query.service].parent.intersection(op_s[query.service]);
 			}
 			return acc;
@@ -52,7 +52,7 @@ class TSFactoryDataProvider {
 		let time_description = _.isArray(query.time_description) ? query.time_description : false;
 		let source;
 
-		if (time_description) {
+		if(time_description) {
 			source = _.find(ops, (src) => {
 				operator = src.owner || src.parent.owner;
 				return !!src.reserve([time_description]);
@@ -61,7 +61,7 @@ class TSFactoryDataProvider {
 			let ordered = _.sortBy(ops, (plan, op_id) => {
 				let ch = _.find(plan.sort()
 					.getContent(), (ch) => {
-						return (ch.getState()
+						return(ch.getState()
 							.haveState('a'));
 					});
 				return ch ? ch.start : Infinity;
@@ -71,14 +71,14 @@ class TSFactoryDataProvider {
 			source = _.find(ordered, (src) => {
 				let first = _.find(src.sort()
 					.getContent(), (ch) => {
-						return (ch.getState()
+						return(ch.getState()
 							.haveState('a'));
 					});
-				if (!first) return false;
+				if(!first) return false;
 				let interval = query.time_description * cnt;
 				time_description = [first.start, first.start + interval];
 				operator = src.owner || src.parent.owner;
-				if (first.getLength() > interval)
+				if(first.getLength() > interval)
 					return !!src.reserve([time_description]);
 				return false;
 			});
@@ -111,10 +111,10 @@ class TSFactoryDataProvider {
 			} = this.getSource(sources, ticket);
 			// console.log("TICK", ticket, operator, service);
 			// console.log("PLAN", time_description, plan);
-			if (!source) {
+			if(!source) {
 				return false;
 			}
-			if (set_data) {
+			if(set_data) {
 				ticket.time_description = time_description;
 				ticket.operator = operator;
 				//@FIXIT
@@ -153,7 +153,7 @@ class TSFactoryDataProvider {
 		return Promise.props({
 				space: this.getAllSpace(params),
 				tickets: this.getAllTickets({
-					dedicated_date: params.selection.ldplan.dedicated_date
+					dedicated_date: params.dedicated_date
 				})
 			})
 			.then(({
@@ -176,7 +176,7 @@ class TSFactoryDataProvider {
 				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null
 				// }));
-				if (_.size(lost) > 0) {
+				if(_.size(lost) > 0) {
 					return [];
 				}
 				let ticket_data = [];
@@ -185,10 +185,10 @@ class TSFactoryDataProvider {
 					service: s_id,
 					time_description: time_description
 				}) => {
-					for (let i = 0; i < params.count; i++) {
+					for(let i = 0; i < params.count; i++) {
 						ticket_data.push({
 							time_description: time_description,
-							dedicated_date: params.selection.ldplan.dedicated_date,
+							dedicated_date: params.dedicated_date,
 							service: s_id,
 							service_count: _.parseInt(params.selection.ldplan.service_count)
 						});
@@ -214,7 +214,7 @@ class TSFactoryDataProvider {
 		let complete = _.reduce(this.ingredients, (result, ingredient, key) => {
 			let pre_clean = (to_remove.id) ? this.ingredients[key].free(params, to_remove) : Promise.resolve(true);
 			result[key] = pre_clean.then((res) => {
-				if (!res)
+				if(!res)
 					return false;
 				return !_.isArray(to_place.time_description) ? Promise.resolve(true) : this.ingredients[key].set(params, to_place);
 			});
@@ -222,7 +222,7 @@ class TSFactoryDataProvider {
 		}, {});
 		return Promise.props(complete)
 			.then((saved) => {
-				if (!_.every(saved))
+				if(!_.every(saved))
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
@@ -240,7 +240,7 @@ class TSFactoryDataProvider {
 		// console.log("SETTING", params, require('util').inspect(new_tickets, {
 		// 	depth: null
 		// }));
-		if (params.reserve) {
+		if(params.reserve) {
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
 					keys
@@ -250,7 +250,7 @@ class TSFactoryDataProvider {
 					let next_set = _.keyBy(new_tickets, 'id');
 					let to_free = {};
 					let to_reserve = _.mergeWith(prev_set, next_set, (objValue, srcValue, key, obj, src) => {
-						if (key === "time_description" && _.isArray(objValue) && _.size(objValue) == 2 && obj.source) {
+						if(key === "time_description" && _.isArray(objValue) && _.size(objValue) == 2 && obj.source) {
 							to_free[src.id] = _.cloneDeep(obj);
 							return srcValue;
 						}
@@ -281,7 +281,7 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
-				if (_.size(lost) > 0) {
+				if(_.size(lost) > 0) {
 					return Promise.props({
 						placed: [],
 						lost: new_tickets

@@ -29,7 +29,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				query: {
 					operator_id: selection.operator,
 					day: selection.day,
-					date: selection.dedicated_date,
+					date: selection.local_date,
 					method: selection.method,
 					selection: {
 						service_id: selection.service,
@@ -91,7 +91,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				query: {
 					operator_id: value.operator,
 					day: selection.day,
-					date: value.dedicated_date
+					date: value.local_date
 				}
 			})
 			.then((resolved) => {
@@ -122,7 +122,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 					query: {
 						operator_id: selection.operator,
 						day: selection.day,
-						date: selection.dedicated_date
+						date: selection.local_date
 					}
 				})
 			})
