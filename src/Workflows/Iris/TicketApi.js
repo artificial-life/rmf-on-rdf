@@ -19,8 +19,8 @@ class TicketApi extends CommonApi {
 		return super.getEntry('Ticket', query)
 	}
 
-	setTicketField(query, assignment) {
-		return super.setEntryField('Ticket', query, assignment);
+	setTicketField(query, assignment, concat = false) {
+		return super.setEntryField('Ticket', query, assignment, concat);
 	}
 
 	setTicket(data) {
