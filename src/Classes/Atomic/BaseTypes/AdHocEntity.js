@@ -3,9 +3,10 @@
 var ProxifyEntity = require('../../../externals/Proxify/Entity.js');
 
 class AdHocEntity {
-	constructor(discover) {
+	constructor(type, discover) {
 		//@TODO implement translator
 		this.discover = discover;
+		this.entity_type = type;
 		this.content = {};
 		if(this.constructor.name == 'AdHocEntity') return ProxifyEntity(this);
 	}
@@ -28,7 +29,7 @@ class AdHocEntity {
 			content_map.id = data.id || data['@id'];
 		}
 		// console.log("AHE BUILD", content_map, data);
-		let Model = this.discover(content_map.type);
+		let Model = this.discover(content_map.type) || this.entity_type;
 		let entity = new Model();
 		_.assign(entity, pass);
 		this.content = entity.build(content_map) || entity;
