@@ -2210,7 +2210,7 @@
             "Tuesday",
             "Monday",
             "Thursday",
-            "Saturday",
+            "Sunday",
             "Friday"
         ],
         "has_time_description": [
@@ -2229,7 +2229,7 @@
             "Wednesday",
             "Friday",
             "Thursday",
-            "Saturday",
+            "Sunday",
             "Tuesday",
             "Monday"
         ],
@@ -2249,7 +2249,7 @@
         "@type": "Schedule",
         "has_day": [
             "Thursday",
-            "Saturday",
+            "Sunday",
             "Monday",
             "Wednesday",
             "Friday",
@@ -2272,7 +2272,7 @@
             "Tuesday",
             "Monday",
             "Thursday",
-            "Saturday",
+            "Sunday",
             "Friday"
         ],
         "booking_methods": ["live"],
@@ -2293,7 +2293,7 @@
             "Tuesday",
             "Monday",
             "Thursday",
-            "Saturday",
+            "Sunday",
             "Friday"
         ],
         "booking_methods": ["prebook"],
@@ -2314,7 +2314,7 @@
             "Monday",
             "Tuesday",
             "Friday",
-            "Saturday",
+            "Sunday",
             "Wednesday"
         ],
         "booking_methods": [
