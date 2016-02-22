@@ -23,10 +23,11 @@ class AdministratorApi extends IrisApi {
 		let dp = new CouchbirdDataProvider(this.db);
 		let discover = (type) => {
 			try {
-				getModel({
+				let Model = getModel({
 					type
-				})
-			} catch {
+				});
+				return Model;
+			} catch(err) {
 				return false;
 			}
 		};
