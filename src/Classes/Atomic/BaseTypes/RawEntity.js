@@ -4,7 +4,6 @@ var ProxifyEntity = require('../../../externals/Proxify/Entity.js');
 
 class RawEntity {
 	constructor(entity_type) {
-		//@TODO implement translator
 		this.entity_type = entity_type;
 		this.content = {};
 		if(this.constructor.name == 'RawEntity') return ProxifyEntity(this);
@@ -14,24 +13,24 @@ class RawEntity {
 		let Model = this.entity_type;
 		let entity = new Model();
 		let content_map = {};
+		let build_data = data;
 		if(data.value) {
 			//construct from db
 			entity.cas = data.cas;
 			//meh
-			let db_data = data.value;
-			content_map.id = db_data['@id'];
+			build_data = data.value;
+			content_map.id = build_data['@id'];
 			//@TODO use it wisely
-			content_map.type = db_data['@type'];
-
-			_.map(entity.fields, (key) => {
-				if(_.isUndefined(db_data[key])) return;
-				content_map[key] = _.size(db_data[key]) == 1 ? db_data[key][0] : db_data[key];
-			});
+			content_map.type = build_data['@type'];
 		} else {
-			content_map = data;
 			content_map.type = data.type || data['@type'] || this.entity_type.name;
 			content_map.id = data.id || data['@id'];
 		}
+		_.map(entity.fields, (key) => {
+			if(_.isUndefined(build_data[key])) return;
+			content_map[key] = _.size(build_data[key]) == 1 ? build_data[key][0] : build_data[key];
+		});
+
 		// console.log("RE CM", content_map, data);
 		this.content = entity.build(content_map) || entity;
 	}
