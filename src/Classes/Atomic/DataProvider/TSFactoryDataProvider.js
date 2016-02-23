@@ -69,18 +69,17 @@ class TSFactoryDataProvider {
 
 
 			source = _.find(ordered, (src) => {
+				let interval = query.time_description * cnt;
 				let first = _.find(src.sort()
 					.getContent(), (ch) => {
 						return (ch.getState()
-							.haveState('a'));
+							.haveState('a')) && (ch.getLength() > interval);
 					});
 				if (!first) return false;
-				let interval = query.time_description * cnt;
 				time_description = [first.start, first.start + interval];
 				operator = src.owner || src.parent.owner;
-				if (first.getLength() > interval)
-					return !!src.reserve([time_description]);
-				return false;
+
+				return !!src.reserve([time_description]);
 			});
 		}
 		return {
@@ -110,7 +109,7 @@ class TSFactoryDataProvider {
 				operator
 			} = this.getSource(sources, ticket);
 			// console.log("TICK", ticket, operator, service);
-			console.log("PLAN", time_description, source);
+			// console.log("PLAN", time_description, source);
 			if (!source) {
 				return false;
 			}

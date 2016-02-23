@@ -45,18 +45,18 @@ module.exports = {
 		let access = [];
 		let opts = {};
 		_.map(_.values(data), (val) => {
-			let node = val;
-			let cas = val.cas;
-			delete val.key;
-			delete val.cas;
-			access.push(node);
-			if (cas) {
-				opts[node['@id']] = {
-					cas
-				};
-			}
-		})
-		console.log("SETTING OTPLAN", access, data);
+				let node = val;
+				let cas = val.cas;
+				delete val.key;
+				delete val.cas;
+				access.push(node);
+				if (cas) {
+					opts[node['@id']] = {
+						cas
+					};
+				}
+			})
+			// console.log("SETTING OTPLAN", access, data);
 		return {
 			values: access,
 			options: opts
