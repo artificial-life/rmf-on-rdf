@@ -34,13 +34,13 @@
     "bluebird": ">=3.3.1",
     "cbird-rdf": "git+https://github.com/YuuKohaku/cbird-rdf.git",
     "harmony-reflect": ">=1.4.2",
-    "lodash": ">=4.3.0",
+    "lodash": ">=4.5.1",
     "gulp-babel": "^6.1.2",
     "node-uuid": ">=1.4.7"
   },
   "devDependencies": {
     "babel-preset-es2015-node5": "^1.1.2",
-    "babel-preset-node5": "^10.5.0",
+    "babel-preset-node5": "^10.6.0",
     "chai": "^3.5.0",
     "generate-pincode": "^3.0.1",
     "gulp": "^3.9.1",
