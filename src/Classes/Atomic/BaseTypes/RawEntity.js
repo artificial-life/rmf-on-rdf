@@ -6,7 +6,7 @@ class RawEntity {
 	constructor(entity_type) {
 		this.entity_type = entity_type;
 		this.content = {};
-		if(this.constructor.name == 'RawEntity') return ProxifyEntity(this);
+		if (this.constructor.name == 'RawEntity') return ProxifyEntity(this);
 	}
 
 	build(data) {
@@ -14,7 +14,7 @@ class RawEntity {
 		let entity = new Model();
 		let content_map = {};
 		let build_data = data;
-		if(data.value) {
+		if (data.value) {
 			//construct from db
 			entity.cas = data.cas;
 			//meh
@@ -27,7 +27,7 @@ class RawEntity {
 			content_map.id = data.id || data['@id'];
 		}
 		_.map(entity.fields, (key) => {
-			if(_.isUndefined(build_data[key])) return;
+			if (_.isUndefined(build_data[key])) return;
 			content_map[key] = _.size(build_data[key]) == 1 ? build_data[key][0] : build_data[key];
 		});
 
@@ -45,26 +45,26 @@ class RawEntity {
 	transformKeys() {
 		let data = this.serialize();
 		let db_data = _.reduce(data, (acc, val, key) => {
-			if(key == 'id') {
+			if (key == 'id') {
 				acc['@id'] = val;
-			} else if(key == 'type') {
+			} else if (key == 'type') {
 				acc['@type'] = val || data.class;
-			} else if(key == 'cas') {
+			} else if (key == 'cas') {
 				acc.cas = val;
-			} else if(!_.includes(['class'], key)) {
+			} else if (!_.includes(['class'], key)) {
 				acc[key] = val;
 			}
 			return acc;
 		}, {});
 		// console.log("KT", db_data);
-		return db_data;
+		return _.isFunction(this.content.transformKeys) ? this.content.transformKeys(db_data) : db_data;
 	}
 
 
 	dbSerialize() {
 		let db_data = this.transformKeys();
 		_.map(db_data, (val, key) => {
-			if(!_.startsWith(key, "@") && key !== 'cas') {
+			if (!_.startsWith(key, "@") && key !== 'cas') {
 				db_data[key] = _.castArray(db_data[key]);
 			}
 		})
@@ -75,7 +75,7 @@ class RawEntity {
 	getAsQuery() {
 		let data = this.transformKeys();
 		let db_data = _.reduce(data, (acc, val, key) => {
-			if(!_.isUndefined(val)) acc[key] = val;
+			if (!_.isUndefined(val)) acc[key] = val;
 			return acc;
 		}, {});
 		return _.isFunction(this.content.getAsQuery) ? this.content.getAsQuery(db_data) : db_data;
