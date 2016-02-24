@@ -175,7 +175,11 @@ class TSFactoryDataProvider {
 				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null
 				// }));
-				if (_.size(lost) > 0) {
+				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
+					console.log("!! GET", params, tick)
+					return (tick.time_description[1] <= params.selection.ldplan.time_description[0] || tick.time_description[0] >= params.selection.ldplan.time_description[1]);
+				});
+				if (_.size(lost_old) > 0) {
 					return [];
 				}
 				let ticket_data = [];
@@ -280,9 +284,14 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
-				if (_.size(lost) > 0) {
+				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
+					console.log("!! SET", params, tick)
+					return (tick.time_description[1] <= params.selection.ldplan.time_description[0] || tick.time_description[0] >= params.selection.ldplan.time_description[1]);
+				});
+				if (_.size(lost_old) > 0) {
 					return Promise.props({
 						placed: [],
+						out_of_range,
 						lost: new_tickets
 					});
 				}
@@ -297,6 +306,7 @@ class TSFactoryDataProvider {
 				// 	}));
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
+					out_of_range,
 					lost: lost_new
 				});
 			});
