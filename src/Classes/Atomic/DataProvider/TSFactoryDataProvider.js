@@ -176,7 +176,6 @@ class TSFactoryDataProvider {
 				// 	depth: null
 				// }));
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
-					console.log("!! GET", params, tick)
 					return (tick.time_description[1] <= params.selection.ldplan.time_description[0] || tick.time_description[0] >= params.selection.ldplan.time_description[1]);
 				});
 				if (_.size(lost_old) > 0) {
@@ -285,7 +284,6 @@ class TSFactoryDataProvider {
 				lost
 			}) => {
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
-					console.log("!! SET", params, tick)
 					return (tick.time_description[1] <= params.selection.ldplan.time_description[0] || tick.time_description[0] >= params.selection.ldplan.time_description[1]);
 				});
 				if (_.size(lost_old) > 0) {
