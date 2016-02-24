@@ -20,15 +20,15 @@ module.exports = {
 			if (_.isArray(val)) {
 				let complex_val = _.join(_.map(val, (v) => {
 					let pass = !_.isString(v) ? v : `"${v}"`;
-					return `${pass} IN \`${key}\``;
+					return `(${pass} IN \`${key}\` OR  \`${key}\`=${pass})`;
 				}), " OR ");
 				return `(${complex_val})`;
 			} else {
 				let pass = !_.isString(val) ? val : `"${val}"`;
-				return `${pass} IN \`${key}\``;
+				return `(${pass} IN \`${key}\` OR  \`${key}\`=${pass})`;
 			}
 		}), " AND ");
-		console.log(where);
+		// console.log(where);
 		select = _.startsWith(select, "@") ? `\`${select}\`` : select;
 		let query = {
 			type: 'view',
