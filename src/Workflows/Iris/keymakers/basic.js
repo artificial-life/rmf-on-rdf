@@ -28,6 +28,7 @@ module.exports = {
 				return `${pass} IN \`${key}\``;
 			}
 		}), " AND ");
+		console.log(where);
 		select = _.startsWith(select, "@") ? `\`${select}\`` : select;
 		let query = {
 			type: 'view',

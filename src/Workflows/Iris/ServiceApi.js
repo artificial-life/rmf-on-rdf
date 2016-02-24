@@ -81,7 +81,7 @@ class ServiceApi extends CommonApi {
 			.then((res) => {
 				prov = res;
 				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
-					return prov.has_schedule;
+					return _.uniq(_.values(prov.has_schedule));
 				}));
 				return super.getEntry("Schedule", {
 					keys
@@ -89,8 +89,7 @@ class ServiceApi extends CommonApi {
 			})
 			.then((res) => {
 				return _.mapValues(prov, (p, key) => {
-					let sch = _.castArray(p.has_schedule);
-					p.has_schedule = _.map(sch, (schedule) => res[schedule]);
+					p.has_schedule = _.mapValues(p.has_schedule, (schedules) => _.pick(res, schedules));
 					return p;
 				});
 			});
@@ -107,14 +106,14 @@ class ServiceApi extends CommonApi {
 				})
 				.then((res) => {
 					return Promise.props(_.mapValues(res, (val, key) => {
-						if(!val)
+						if (!val)
 							return Promise.resolve({});
 						let type = val.value['@type'];
 						let Model = this.models[type];
 						let item = new Model();
 						item.build(val);
 						let data = item.serialize();
-						if(type === "ServiceGroup") {
+						if (type === "ServiceGroup") {
 							groups[key] = data;
 							return unroll(data.content);
 						}
@@ -138,7 +137,7 @@ class ServiceApi extends CommonApi {
 						});
 						let ordered = _.mapValues(_.groupBy(nested, 'view_name'), (val) => {
 							return _.keyBy(val, (item) => {
-								return(item.view_order == "0" || _.size(val) == 1) ? 'root' : item.id;
+								return (item.view_order == "0" || _.size(val) == 1) ? 'root' : item.id;
 							});
 						});
 						// console.log("ORDERED", require('util').inspect(ordered, {

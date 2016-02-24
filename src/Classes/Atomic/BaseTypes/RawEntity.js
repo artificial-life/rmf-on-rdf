@@ -28,7 +28,7 @@ class RawEntity {
 		}
 		_.map(entity.fields, (key) => {
 			if (_.isUndefined(build_data[key])) return;
-			content_map[key] = _.size(build_data[key]) == 1 ? build_data[key][0] : build_data[key];
+			content_map[key] = build_data[key];
 		});
 
 		// console.log("RE CM", content_map, data);
@@ -63,11 +63,6 @@ class RawEntity {
 
 	dbSerialize() {
 		let db_data = this.transformKeys();
-		_.map(db_data, (val, key) => {
-			if (!_.startsWith(key, "@") && key !== 'cas') {
-				db_data[key] = _.castArray(db_data[key]);
-			}
-		})
 		return _.isFunction(this.content.dbSerialize) ? this.content.dbSerialize(db_data) : db_data;
 	}
 

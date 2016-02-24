@@ -40,6 +40,7 @@ class TSFactoryDataProvider {
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if (op_s[query.service]) {
 				acc[op_id] = op_s[query.service].parent.intersection(op_s[query.service]);
+				acc[op_id].owner = op_id;
 			}
 			return acc;
 		}, {});

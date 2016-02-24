@@ -33,7 +33,6 @@ class FieldsetPlan extends Plan {
 		if (node['@id']) {
 			node['@type'] = "Plan";
 			this.id = node["@id"];
-			this.owner = _.isArray(node.has_owner) && _.size(node.has_owner) == 1 ? node.has_owner[0] : node.has_owner;
 			this.template.build(data);
 			build_data = node.has_time_description;
 		}
