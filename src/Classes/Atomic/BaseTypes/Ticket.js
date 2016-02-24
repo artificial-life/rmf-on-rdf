@@ -10,7 +10,7 @@ class Ticket extends Fieldset {
 
 	build(data) {
 		super.build(data);
-		if ((data.value) || _.isString(this.content_map.service_count))
+		if (_.isString(this.content_map.service_count))
 			this.content_map.service_count = _.parseInt(this.content_map.service_count);
 	}
 

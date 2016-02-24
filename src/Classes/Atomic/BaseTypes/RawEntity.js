@@ -28,7 +28,7 @@ class RawEntity {
 		}
 		_.map(entity.fields, (key) => {
 			if (_.isUndefined(build_data[key])) return;
-			content_map[key] = build_data[key];
+			content_map[key] = _.isArray(build_data[key]) && _.size(build_data[key]) == 1 ? build_data[key][0] : build_data[key];
 		});
 
 		// console.log("RE CM", content_map, data);
