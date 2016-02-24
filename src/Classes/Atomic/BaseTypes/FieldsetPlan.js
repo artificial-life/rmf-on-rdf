@@ -34,7 +34,7 @@ class FieldsetPlan extends Plan {
 			node['@type'] = "Plan";
 			this.id = node["@id"];
 			this.template.build(data);
-			build_data = node.has_time_description;
+			build_data = _.castArray(node.has_time_description);
 		}
 		super.build(build_data);
 		return this;

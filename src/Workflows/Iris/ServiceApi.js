@@ -89,7 +89,7 @@ class ServiceApi extends CommonApi {
 			})
 			.then((res) => {
 				return _.mapValues(prov, (p, key) => {
-					p.has_schedule = _.mapValues(p.has_schedule, (schedules) => _.pick(res, schedules));
+					p.has_schedule = _.mapValues(p.has_schedule, (schedules) => _.values(_.pick(res, schedules)));
 					return p;
 				});
 			});
