@@ -176,8 +176,9 @@ class TSFactoryDataProvider {
 				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
 				// 	depth: null
 				// }));
+				let td = params.selection.ldplan.time_description;
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
-					return (tick.time_description[1] <= params.selection.ldplan.time_description[0] || tick.time_description[0] >= params.selection.ldplan.time_description[1]);
+					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
 				});
 				if (_.size(lost_old) > 0) {
 					return [];
@@ -284,8 +285,9 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
+				let td = params.selection.ldplan.time_description;
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
-					return (tick.time_description[1] <= params.selection.ldplan.time_description[0] || tick.time_description[0] >= params.selection.ldplan.time_description[1]);
+					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
 				});
 				if (_.size(lost_old) > 0) {
 					return Promise.props({
