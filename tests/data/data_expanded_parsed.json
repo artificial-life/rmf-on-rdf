@@ -406,7 +406,8 @@
         ],
         "pin_code_prefix": "001",
         "prebook_expiration_interval": 1200,
-        "prebook_label_prefix": "П"
+        "prebook_label_prefix": "П",
+        "prebook_observe_offset": 900
     }, {
         "@id": "service-129",
         "@type": "Service",
@@ -3061,7 +3062,7 @@
         "prebook_interval": 30,
         "prebook_operation_time": 1500,
         "prebook_percentage": 100,
-        "prebook_today_percentage": 0,
+        "prebook_today_percentage": 100,
         "priority": 0,
         "service_code_epgu": "0",
         "label": "ДОСТУП К ПОРТАЛУ ГОСУСЛУГИ.РФ"
