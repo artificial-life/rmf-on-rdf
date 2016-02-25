@@ -58,7 +58,9 @@
         },
         "queue": {
             "path": "iris-service-queue",
-            "params": {}
+            "params": {
+                "queue_head_size": 5
+            }
         },
         "terminal": {
             "path": "iris-service-terminal",

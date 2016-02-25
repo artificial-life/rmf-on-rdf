@@ -407,7 +407,8 @@
         "pin_code_prefix": "001",
         "prebook_expiration_interval": 1200,
         "prebook_label_prefix": "П",
-        "prebook_observe_offset": 900
+        "prebook_observe_offset": 900,
+        "prebook_show_interval": 3600
     }, {
         "@id": "service-129",
         "@type": "Service",
