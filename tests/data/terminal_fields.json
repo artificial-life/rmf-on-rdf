@@ -1,0 +1,47 @@
+{
+    "service_count_prebook": {
+        "order": 0,
+        "key": "service_count",
+        "type": "input",
+        "layout": "numeric",
+        "description": "Введите количество дел",
+        "required": true,
+        "method": "prebook"
+    },
+    "service_count": {
+        "order": 0,
+        "type": "input",
+        "layout": "numeric",
+        "description": "Введите количество дел",
+        "required": true,
+        "method": "live",
+        "validate": "checkAvailability"
+    },
+    "dedicated_date": {
+        "order": 1,
+        "type": "date-picker",
+        "description": "Выберите дату и время обслуживания",
+        "method": "prebook",
+        "required": true
+    },
+    "phone": {
+        "order": 2,
+        "type": "input",
+        "layout": "numeric",
+        "description": "Телефон",
+        "required": true,
+        "mask": "+7-(***)-(***)-(**)-(**)"
+    },
+    "fio": {
+        "order": 3,
+        "type": "input",
+        "description": "Введите вашу фамилию, имя и отчество",
+        "required": true
+    },
+    "address": {
+        "order": 4,
+        "type": "input",
+        "description": "Введите ваш адрес",
+        "required": false
+    }
+}

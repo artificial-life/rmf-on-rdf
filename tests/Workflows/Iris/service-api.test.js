@@ -10,6 +10,8 @@ let gpc = require('generate-pincode');
 // describe('Workflow: IRIS Service', () => {
 describe.only('Workflow: RD IRIS Service', () => {
 	let test_data = require(_base + "/tests/data/data_expanded_parsed.json");
+	let test_cfg = require(_base + "/tests/data/config.json");
+	let test_fields = require(_base + "/tests/data/terminal_fields.json");
 	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {
 		"couchbird": {
@@ -33,6 +35,8 @@ describe.only('Workflow: RD IRIS Service', () => {
 		bucket = db.bucket(cfg.buckets.main);
 		bucket.N1QL(Couchbird.N1qlQuery.fromString("CREATE PRIMARY INDEX ON " + cfg.buckets.main + ";"))
 		bucket.upsertNodes(test_data);
+		bucket.upsert('terminal_fields_model', test_fields);
+		bucket.upsert('iris_config_service_groups', test_cfg);
 
 		IrisWorkflow.initializer(cfg.buckets.main);
 		let ServiceApi = IrisWorkflow.ServiceApi;
