@@ -10,6 +10,16 @@
                 "inspectors": []
             }
         },
+        "taskrunner": {
+            "path": "./BaseServices/Taskrunner",
+            "params": {
+                "key": "task",
+                "interval": 6000,
+                "ahead_delta": 1000,
+                "immediate_delta": 1000,
+                "remove_on_completion": true
+            }
+        },
         "message-hub": {
             "path": "iris-service-messagehub",
             "params": {

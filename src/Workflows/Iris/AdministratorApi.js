@@ -19,21 +19,22 @@ class AdministratorApi extends IrisApi {
 		this.content = {};
 	}
 
-	initContent(ModelName) {
+	initContent() {
 		let dp = new CouchbirdDataProvider(this.db);
+		let ModelName = 'UnboundFieldset';
 		let discover = (type) => {
 			try {
 				let Model = getModel({
 					type
 				});
 				return Model;
-			} catch(err) {
+			} catch (err) {
 				return false;
 			}
 		};
 		let storage_data_model = {
 			type: {
-				type: 'UnboundFieldset',
+				type: ModelName,
 				deco: 'AdHocEntity',
 				params: discover
 			},
@@ -46,8 +47,10 @@ class AdministratorApi extends IrisApi {
 		let storage_accessor = new LDAccessor(dp);
 
 		storage_accessor
-			.keymaker('set', keymakers('generic')(Model, snake_model).set)
-			.keymaker('get', keymakers('generic')(Model, snake_model).get);
+			.keymaker('set', keymakers('generic')(Model, snake_model)
+				.set)
+			.keymaker('get', keymakers('generic')(Model, snake_model)
+				.get);
 
 		let storage = AtomicFactory.create('BasicAsync', {
 			type: storage_data_model,
@@ -72,10 +75,10 @@ class AdministratorApi extends IrisApi {
 			.then(res => {
 				let set = _.map(res, entry => {
 					return _.mergeWith(entry, t, (objValue, srcValue, key) => {
-						if(concat && _.isArray(objValue)) {
+						if (concat && _.isArray(objValue)) {
 							let val = objValue ? _.castArray(objValue) : [];
 							return _.uniq(_.concat(val, srcValue));
-						} else if(!concat && _.isArray(objValue)) {
+						} else if (!concat && _.isArray(objValue)) {
 							return _.castArray(srcValue);
 						}
 					});

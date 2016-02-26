@@ -40,7 +40,7 @@ module.exports = {
 				}
 			},
 			final: (query) => {
-				// console.log("FINKEYS", _.map(query.ids, select), query.ids);
+				// console.log("FINKEYS", _.keyBy(query.ids, "@id"));
 				return (select == '*') ? _.keyBy(query.ids, "@id") : _.map(query.ids, select);
 			}
 		};

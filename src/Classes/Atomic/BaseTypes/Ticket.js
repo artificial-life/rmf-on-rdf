@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class Ticket extends Fieldset {
 	constructor() {
-		let fields = ['source', 'time_description', 'operator', 'alt_operator', 'service', "code", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count", "expires"];
+		let fields = ['source', 'time_description', 'operator', 'alt_operator', 'service', "code", "destination", "booking_date", "dedicated_date", "priority", "state", "user_info", "service_count", "called"];
 		super(fields);
 	}
 
