@@ -102,7 +102,7 @@ class TSFactoryDataProvider {
 			return acc;
 		}, {});
 		let [placed, lost] = _.partition(ordered, (ticket) => {
-			ticket.alt_operator = (ticket.alt_operator) || ops_by_service[ticket.service];
+			ticket.alt_operator = _.union(_.castArray(ticket.alt_operator), ops_by_service[ticket.service]);
 			// console.log("OPS_BY_SERV", ops_by_service);
 			let {
 				source,

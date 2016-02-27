@@ -1962,7 +1962,7 @@
         "@type": "Terminal",
         "attached_to": "department-1",
         "bound_service_groups": "sg-0",
-        "prebook_state": "booked",
+        "prebook_autoregister": false,
         "default_agent": "megatron-1",
         "label": "Терминал 1",
         "device_type": "terminal",
@@ -2548,7 +2548,7 @@
             "Monday",
             "Thursday",
             "Sunday",
-            "Friday"
+            "Saturday"
         ],
         "has_time_description": {
             "data": [
@@ -2561,7 +2561,7 @@
         "@type": "Schedule",
         "has_day": [
             "Wednesday",
-            "Friday",
+            "Saturday",
             "Thursday",
             "Sunday",
             "Tuesday",
@@ -2581,7 +2581,7 @@
             "Sunday",
             "Monday",
             "Wednesday",
-            "Friday",
+            "Saturday",
             "Tuesday"
         ],
         "has_time_description": {
@@ -2599,7 +2599,7 @@
             "Monday",
             "Thursday",
             "Sunday",
-            "Friday"
+            "Saturday"
         ],
         "has_time_description": {
             "data": [
@@ -2616,7 +2616,7 @@
             "Monday",
             "Thursday",
             "Sunday",
-            "Friday"
+            "Saturday"
         ],
         "has_time_description": {
             "data": [
@@ -2631,7 +2631,7 @@
             "Thursday",
             "Monday",
             "Tuesday",
-            "Friday",
+            "Saturday",
             "Sunday",
             "Wednesday"
         ],
