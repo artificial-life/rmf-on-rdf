@@ -15,8 +15,8 @@ describe.only('Workflow: RD IRIS Service', () => {
 	let keymakers = require(_base + "/build/Workflows/Iris/keymakers");
 	let cfg = {
 		"couchbird": {
-			"server_ip": "194.226.171.100",
-			"n1ql": "194.226.171.100:8093"
+			"server_ip": "192.168.1.42",
+			"n1ql": "192.168.1.42:8093"
 		},
 		"buckets": {
 			"main": "rdf",
