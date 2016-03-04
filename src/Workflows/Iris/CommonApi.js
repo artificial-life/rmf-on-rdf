@@ -92,6 +92,7 @@ class CommonApi extends IrisApi {
 	}
 
 	getEntry(type, query) {
+		// console.log("GET", type, query, this.models);
 		return ((!type || !this.content[type]) && query.keys) ?
 			this.getEntryTypeless(query.keys) :
 			this.content[type].resolve(query)
@@ -126,10 +127,11 @@ class CommonApi extends IrisApi {
 	}
 
 	setEntry(type, data) {
-		let tp = _.uniq(_.map(data, "type"));
-		return (tp.length > 1 || !type || !this.content[type] || !this.content[tp[0]]) ?
-			this.setEntryTypeless(data) :
-			this.content[tp].save(data);
+		let content = _.castArray(data);
+		let tp = _.compact(_.uniq(_.map(content, "type")));
+		return (tp.length > 1 && !type && !this.content[type] && !this.content[tp[0]]) ?
+			this.setEntryTypeless(content) :
+			this.content[type || tp[0]].save(content);
 	}
 
 }

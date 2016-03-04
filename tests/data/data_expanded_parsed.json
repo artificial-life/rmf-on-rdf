@@ -3344,7 +3344,7 @@
             "service-186",
             "service-187"
         ],
-        "state": "inactive"
+        "state": "active"
     }, {
         "@id": "human-2",
         "@type": "Employee",
@@ -4134,7 +4134,7 @@
         "@id": "schedule-1",
         "@type": "Schedule",
         "has_day": [
-            "Thursday",
+            "Friday",
             "Monday",
             "Tuesday",
             "Saturday",
@@ -4154,7 +4154,7 @@
             "Wednesday",
             "Tuesday",
             "Monday",
-            "Thursday",
+            "Friday",
             "Sunday",
             "Saturday"
         ],

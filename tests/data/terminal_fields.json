@@ -30,7 +30,7 @@
         "layout": "numeric",
         "description": "Телефон",
         "required": true,
-        "mask": "+7-(***)-(***)-(**)-(**)"
+        "mask": "+7-***-***-**-**"
     },
     "fio": {
         "order": 3,
