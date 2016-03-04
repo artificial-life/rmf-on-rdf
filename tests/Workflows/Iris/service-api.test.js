@@ -35,7 +35,7 @@ describe.only('Workflow: RD IRIS Service', () => {
 		bucket = db.bucket(cfg.buckets.main);
 		bucket.N1QL(Couchbird.N1qlQuery.fromString("CREATE PRIMARY INDEX ON " + cfg.buckets.main + ";"))
 		bucket.upsertNodes(test_data);
-		bucket.upsert('terminal_fields_model', test_fields);
+		bucket.upsert('user_info_fields', test_fields);
 		bucket.upsert('iris_config_service_groups', test_cfg);
 
 		IrisWorkflow.initializer(cfg.buckets.main);
@@ -148,9 +148,7 @@ describe.only('Workflow: RD IRIS Service', () => {
 				})
 		})
 		it('get orgchain', (done) => {
-			iris.getOrganizationChain({
-					keys: "department-1"
-				})
+			iris.getWorkstationOrganizationChain("pc-1")
 				.then((res) => {
 					console.log("ORGCHAIN", require('util')
 						.inspect(res, {

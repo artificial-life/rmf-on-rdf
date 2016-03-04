@@ -13,7 +13,7 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 		query,
 		options
 	}) {
-		if(query) {
+		if (query) {
 			return this.process_query(query, options);
 		}
 		return this._bucket.getNodes(keys, options);
@@ -22,7 +22,7 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 	getNodes(compound_key, options) {
 		let p = {};
 		let flatten = (obj) => {
-			if(_.isArray(obj) || _.isString(obj)) {
+			if (_.isArray(obj) || _.isString(obj)) {
 				return this._bucket.getNodes(obj, options);
 			} else {
 				return Promise.props(_.reduce(obj, (acc, val, k) => {
@@ -42,10 +42,14 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 		}) : p;
 	}
 
+	process_chain(q, options) {
+
+	}
+
 	process_query(q, options) {
 		let promises = _.mapValues(q.query, (query, qkey) => {
 			let params = query.params || [];
-			if(query.direct)
+			if (query.direct)
 				return this._bucket.N1ql.direct({
 					query: query.direct,
 					params

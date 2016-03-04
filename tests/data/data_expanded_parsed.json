@@ -3037,6 +3037,110 @@
         "password_hash": "1",
         "state": "inactive"
     }, {
+        "@id": "membership-1",
+        "@type": "Membership",
+        "member": "human-1",
+        "organization": "department-1",
+        "role": "Operator"
+    }, {
+        "@id": "membership-2",
+        "@type": "Membership",
+        "member": "human-2",
+        "organization": "department-1",
+        "role": "Operator"
+    }, {
+        "@id": "membership-3",
+        "@type": "Membership",
+        "member": "human-3",
+        "organization": "department-1",
+        "role": "Operator"
+    }, {
+        "@id": "membership-4",
+        "@type": "Membership",
+        "member": "human-4",
+        "organization": "department-1",
+        "role": "Operator"
+    }, {
+        "@id": "membership-5",
+        "@type": "Membership",
+        "member": "human-5",
+        "organization": "department-1",
+        "role": "Operator"
+    }, {
+        "@id": "membership-6",
+        "@type": "Membership",
+        "member": "human-6",
+        "organization": "department-1",
+        "role": "Operator"
+    }, {
+        "@id": "global_org_structure",
+        "@type": "Organization",
+        "has_unit": [
+            {
+                "@id": "office-1",
+                "@type": "Office",
+                "has_unit": [
+                    {
+                        "@id": "department-1",
+                        "@type": "Department",
+                        "has_schedule": {
+                            "live": "schedule-1",
+                            "prebook": "schedule-1"
+                        },
+                        "label": "Отдел 1",
+                        "pin_code_prefix": "001",
+                        "attached_ws": [
+                            "rd-1",
+                            "term-1",
+                            "pc-1",
+                            "pc-2",
+                            "pc-3",
+                            "pc-4",
+                            "pc-5",
+                            "pc-6"
+                        ]
+                    }
+                ],
+                "label": "Офис 1",
+                "org_timezone": "Asia/Yekaterinburg",
+                "booking_methods": [
+                    "live", "prebook"
+                ],
+                "pin_code_prefix": "001",
+                "prebook_expiration_interval": 600,
+                "prebook_label_prefix": "П",
+                "prebook_slot_uniq_interval": 300,
+                "prebook_observe_offset": 300,
+                "prebook_observe_max_slots": 100,
+                "prebook_show_interval": 300,
+                "live_autorestore": 300,
+                "live_autopostpone": 120,
+                "live_autopostpone_count": 1
+            }
+        ]
+    }, {
+        "@id": "rd-1",
+        "@type": "Roomdisplay",
+        "attached_to": "department-1",
+        "default_agent": "megatron-2",
+        "label": "Табло 1",
+        "device_type": "roomdisplay",
+        "default_voice_duration": 15000,
+        "pop_on_arrival": false
+    }, {
+        "@id": "term-1",
+        "@type": "Terminal",
+        "attached_to": "department-1",
+        "bound_service_groups": "sg-0",
+        "prebook_autoregister": false,
+        "default_agent": "megatron-1",
+        "label": "Терминал 1",
+        "device_type": "terminal",
+        "booking_methods": [
+            "live", "prebook"
+        ],
+        "reload_interval": 5
+    }, {
         "@id": "pc-1",
         "@type": "Workstation",
         "attached_to": "department-1",
@@ -3085,93 +3189,6 @@
         "short_label": "6",
         "device_type": "control-panel"
     }, {
-        "@id": "membership-1",
-        "@type": "Membership",
-        "member": "human-1",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-2",
-        "@type": "Membership",
-        "member": "human-2",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-3",
-        "@type": "Membership",
-        "member": "human-3",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-4",
-        "@type": "Membership",
-        "member": "human-4",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-5",
-        "@type": "Membership",
-        "member": "human-5",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-6",
-        "@type": "Membership",
-        "member": "human-6",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "rd-1",
-        "@type": "Roomdisplay",
-        "attached_to": "department-1",
-        "default_agent": "megatron-2",
-        "label": "Табло 1",
-        "device_type": "roomdisplay",
-        "default_voice_duration": 15000,
-        "pop_on_arrival": false
-    }, {
-        "@id": "term-1",
-        "@type": "Terminal",
-        "attached_to": "department-1",
-        "bound_service_groups": "sg-0",
-        "prebook_autoregister": false,
-        "default_agent": "megatron-1",
-        "label": "Терминал 1",
-        "device_type": "terminal",
-        "booking_methods": [
-            "live", "prebook"
-        ],
-        "reload_interval": 5
-    }, {
-        "@id": "office-1",
-        "@type": "Office",
-        "has_unit": "department-1",
-        "label": "Офис 1",
-        "org_timezone": "Asia/Yekaterinburg",
-        "booking_methods": [
-            "live", "prebook"
-        ],
-        "pin_code_prefix": "001",
-        "prebook_expiration_interval": 600,
-        "prebook_label_prefix": "П",
-        "prebook_slot_uniq_interval": 300,
-        "prebook_observe_offset": 300,
-        "prebook_observe_max_slots": 100,
-        "prebook_show_interval": 300,
-        "live_autorestore": 300,
-        "live_autopostpone": 120,
-        "live_autopostpone_count": 1
-    }, {
-        "@id": "department-1",
-        "@type": "Department",
-        "has_schedule": {
-            "live": "schedule-1",
-            "prebook": "schedule-1"
-        },
-        "label": "Отдел 1",
-        "pin_code_prefix": "001",
-        "unit_of": "office-1"
-    }, {
         "@id": "human-1",
         "@type": "Employee",
         "first_name": "Лариса",
@@ -3179,7 +3196,7 @@
         "default_workstation": "pc-1",
         "has_membership": "membership-1",
         "has_schedule": {
-            "live": "schedule-2",
+            "live": "schedule-1",
             "resource": "schedule-1",
             "prebook": "schedule-2"
         },

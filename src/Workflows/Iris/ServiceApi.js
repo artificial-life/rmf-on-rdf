@@ -3,96 +3,29 @@
 let base_dir = "../../../";
 
 let CommonApi = require("./CommonApi");
-let getModel = require(base_dir + '/build/Classes/Atomic/type-discover.js');
 
-let default_fm_key = 'terminal_fields_model';
+let default_user_info_fields = 'user_info_fields';
 
 class ServiceApi extends CommonApi {
-	constructor(
-		fields_model_key
-	) {
+	constructor(cfg = {}) {
 		super();
-		this.fields_model_key = fields_model_key || default_fm_key;
+		let config = _.merge({
+			user_info_fields: default_user_info_fields
+		}, cfg);
+		this.user_info_fields = config.user_info_fields;
 	}
 
 
 	initContent() {
 		super.initContent('Service');
 		super.initContent('ServiceGroup');
-		super.initContent('Organization');
-		super.initContent('Schedule');
-		this.models = _.reduce(this.content, (acc, val, key) => {
-			acc[key] = getModel.dataType(val.model_decription.type);
-			return acc;
-		}, {});
 		return this;
 	}
 
-	getFieldsModel() {
-		return this.db.get(this.fields_model_key)
-			.then((res) => (res.value || false))
-			.catch((err) => false);
-	}
-
-	getOrganizationTree(query) {
-		let recurse = (query) => {
-			let org;
-			return super.getEntry("Organization", query)
-				.then((res) => {
-					// console.log("RES I", res);
-					org = res;
-					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
-					return _.isEmpty(keys) ? {} : recurse({
-						keys
-					});
-				})
-				.then((res) => {
-					// console.log("RES II", res);
-					return _.mapValues(org, (val) => {
-						val.unit_of = res[val.unit_of];
-						return _.defaults(val, val.unit_of);
-					})
-				})
-		}
-		return recurse(query);
-	}
-
-	getOrganizationChain(query) {
-		let recurse = (query, level) => {
-			let org = {};
-			return super.getEntry("Organization", query)
-				.then((res) => {
-					org[level] = _.sample(res);
-					let keys = _.compact(_.uniq(_.map(res, 'unit_of')));
-					return _.isEmpty(keys) ? {} : recurse({
-						keys
-					}, level + 1);
-				})
-				.then((res) => {
-					return _.merge(org, res);
-				});
-		}
-		return recurse(query, 0);
-	}
-
-	getOrganizationSchedulesChain(query) {
-		let prov;
-		return this.getOrganizationChain(query)
-			.then((res) => {
-				prov = res;
-				let keys = _.uniq(_.flatMap(_.values(res), (prov, key) => {
-					return _.uniq(_.values(prov.has_schedule));
-				}));
-				return super.getEntry("Schedule", {
-					keys
-				});
-			})
-			.then((res) => {
-				return _.mapValues(prov, (p, key) => {
-					p.has_schedule = _.mapValues(p.has_schedule, (schedules) => _.values(_.pick(res, schedules)));
-					return p;
-				});
-			});
+	getUserInfoFields() {
+		return this.db.get(this.user_info_fields)
+			.then((res) => (res.value || {}))
+			.catch((err) => {});
 	}
 
 

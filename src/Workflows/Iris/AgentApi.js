@@ -3,6 +3,8 @@
 //parent
 let CommonApi = require("./CommonApi");
 
+let default_agents = "cached_agents";
+
 class AgentApi extends CommonApi {
 	constructor() {
 		super();
@@ -15,6 +17,18 @@ class AgentApi extends CommonApi {
 		super.initContent('SystemEntity');
 		return this;
 	}
+
+	// updateAgentsCache() {
+	// 	return this.getAllEntries({})
+	// 		.then((res) => {
+	// 			let agents = ["SystemEntity", "Employee"];
+	// 			let to_set = _.flatMap(agents, (val) => {
+	// 				let ag = res[val];
+	// 				return _.map(ag, "@id");
+	// 			});
+	// 			return this.db.upsert(default_agents, to_set);
+	// 		})
+	// }
 
 	getEmployee(query) {
 		return super.getEntry('Employee', query);
