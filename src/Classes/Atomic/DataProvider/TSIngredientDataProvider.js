@@ -26,16 +26,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let time_description = selection.time_description;
 
 		return this.ingredient.resolve({
-				query: {
-					operator_id: selection.operator,
-					day: selection.day,
-					date: selection.local_date,
-					method: selection.method,
-					selection: {
-						service_id: selection.service,
-						selection: time_description
-					}
-				}
+				query: selection
 			})
 			.then((resolved) => {
 				//had to choose between this outrageous notation and additional * queries to db

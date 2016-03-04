@@ -3,32 +3,23 @@
 //parent
 let CommonApi = require("./CommonApi");
 
-let default_agents = "cached_agents";
+let default_membership_description = 'global_membership_description';
 
 class AgentApi extends CommonApi {
-	constructor() {
+	constructor(cfg = {}) {
 		super();
+		let config = _.merge({
+			membership_description: default_membership_description
+		}, cfg);
+		this.membership_description = config.membership_description;
 	}
 
 
 	initContent() {
 		super.initContent('Employee');
-		super.initContent('Membership');
 		super.initContent('SystemEntity');
 		return this;
 	}
-
-	// updateAgentsCache() {
-	// 	return this.getAllEntries({})
-	// 		.then((res) => {
-	// 			let agents = ["SystemEntity", "Employee"];
-	// 			let to_set = _.flatMap(agents, (val) => {
-	// 				let ag = res[val];
-	// 				return _.map(ag, "@id");
-	// 			});
-	// 			return this.db.upsert(default_agents, to_set);
-	// 		})
-	// }
 
 	getEmployee(query) {
 		return super.getEntry('Employee', query);
@@ -40,14 +31,6 @@ class AgentApi extends CommonApi {
 
 	setEmployee(data) {
 		return super.setEntry('Employee', data);
-	}
-
-	getEmployeeRoles(id) {
-		return super.getEntry("Membership", {
-			query: {
-				member: id
-			}
-		});
 	}
 
 	getActiveEmployees() {

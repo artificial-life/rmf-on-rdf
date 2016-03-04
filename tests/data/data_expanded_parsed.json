@@ -3037,41 +3037,47 @@
         "password_hash": "1",
         "state": "inactive"
     }, {
-        "@id": "membership-1",
-        "@type": "Membership",
-        "member": "human-1",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-2",
-        "@type": "Membership",
-        "member": "human-2",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-3",
-        "@type": "Membership",
-        "member": "human-3",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-4",
-        "@type": "Membership",
-        "member": "human-4",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-5",
-        "@type": "Membership",
-        "member": "human-5",
-        "organization": "department-1",
-        "role": "Operator"
-    }, {
-        "@id": "membership-6",
-        "@type": "Membership",
-        "member": "human-6",
-        "organization": "department-1",
-        "role": "Operator"
+        "@id": "global_membership_description",
+        "@type": "MembershipDescription",
+        "has_description": [
+            {
+                "@id": "membership-1",
+                "@type": "Membership",
+                "member": "human-1",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-2",
+                "@type": "Membership",
+                "member": "human-2",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-3",
+                "@type": "Membership",
+                "member": "human-3",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-4",
+                "@type": "Membership",
+                "member": "human-4",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-5",
+                "@type": "Membership",
+                "member": "human-5",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-6",
+                "@type": "Membership",
+                "member": "human-6",
+                "organization": "department-1",
+                "role": "Operator"
+            }
+        ]
     }, {
         "@id": "global_org_structure",
         "@type": "Organization",

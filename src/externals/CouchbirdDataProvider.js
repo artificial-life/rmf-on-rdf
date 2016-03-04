@@ -14,7 +14,17 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 		options
 	}) {
 		if (query) {
-			return this.process_query(query, options);
+			switch (query.type) {
+			case 'n1ql':
+				return this.process_query(query, options);
+				break;
+			case 'chain':
+				return this.process_chain(query, options);
+				break;
+			default:
+				return {};
+				break;
+			}
 		}
 		return this._bucket.getNodes(keys, options);
 	}
@@ -43,7 +53,22 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 	}
 
 	process_chain(q, options) {
-
+		return Promise.reduce(q.query, (acc, query, index) => {
+				let keys = query.in_keys || query.out_keys(acc[index - 1].nodes);
+				return this._bucket.getNodes(keys, options)
+					.then((nodes) => {
+						// console.log("NODES", index, nodes);
+						acc[index] = {
+							name: query.name,
+							nodes
+						};
+						return acc;
+					});
+			}, [])
+			.then((res) => {
+				let out = _.mapValues(_.keyBy(res, 'name'), (t) => _.values(t.nodes));
+				return _.isFunction(q.final) ? q.final(out) : res;
+			});
 	}
 
 	process_query(q, options) {

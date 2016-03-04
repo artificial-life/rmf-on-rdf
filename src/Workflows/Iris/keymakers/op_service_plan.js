@@ -7,32 +7,73 @@ module.exports = {
 		// console.log("QQ", query);
 		if (!query)
 			return {};
-		let service_ids = (query.selection.service_id && query.selection.service_id !== "*") ? JSON.stringify(query.selection.service_id) : 'op.provides';
-		let direct = '';
-		if (query.operator_id == '*') {
-			direct = `SELECT op.\`@id\` as operator, srv.\`@id\` as service, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf srv ON KEYS ${service_ids} JOIN rdf sch ON KEYS srv.has_schedule.${query.method} WHERE mm.\`@type\`='Membership' AND ('Operator' IN mm.\`role\` OR mm.\`role\`='Operator') and '${query.day}' IN sch.has_day`;
-		} else {
+		if (query.operator_id == '*') {} else {
 			let op_keys = _.castArray(query.operator_id);
-			direct = `SELECT op.\`@id\` as operator,  srv.\`@id\` as service, sch AS schedule FROM rdf op USE KEYS ${JSON.stringify(op_keys)} JOIN rdf srv ON KEYS  ${service_ids}  JOIN rdf sch ON KEYS srv.has_schedule.${query.method} WHERE '${query.day}' IN sch.has_day`;
 		}
-
+		let chain = [];
+		let s_in_keys;
+		let o_in_keys;
+		let s_out_keys;
+		let o_out_keys;
+		let m_key = "global_membership_description";
+		if (query.operator == '*') {
+			chain.push({
+				name: "mm",
+				in_keys: [m_key]
+			});
+			o_out_keys = (md) => {
+				let ops = _.map(_.filter(md[m_key].value.has_description, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
+				return _.flattenDeep(ops);
+			};
+		} else {
+			o_in_keys = _.castArray(query.operator);
+		}
+		chain.push({
+			name: "ops",
+			in_keys: o_in_keys,
+			out_keys: o_out_keys
+		});
+		if (query.service == '*') {
+			s_out_keys = (ops) => {
+				return _.uniq(_.flatMap(ops, "value.provides"));
+			};
+		} else {
+			s_in_keys = _.castArray(query.service);
+		}
+		chain.push({
+			name: "services",
+			in_keys: s_in_keys,
+			out_keys: s_out_keys
+		});
+		chain.push({
+			name: "schedules",
+			out_keys: (servs) => {
+				let schedules = _.map(servs, `value.has_schedule.${query.method}`);
+				return _.uniq(_.flattenDeep(schedules));
+			}
+		});
 		let req = {
-			type: 'view',
+			type: 'chain',
 			key_depth: 2,
-			forward: true,
-			query: {
-				schedules: {
-					direct
-				}
-			},
-			final: function (query) {
-				// console.log("SPLAN QUERY", query);
-				let reduced = _.reduce(query.schedules, (acc, val) => {
-					acc[val.operator] = acc[val.operator] || {};
-					acc[val.operator][val.service] = val.schedule;
+			query: chain,
+			final: function (res) {
+				console.log("SPLAN QUERY", res);
+				let srvs = _.keyBy(_.map(res.services, "value"), "@id");
+				let reduced = _.reduce(res.ops, (acc, val) => {
+					let key = val.value["@id"];
+					acc[key] = _.reduce(val.value.provides, (s_acc, s_id) => {
+						let sch = _.find(res.schedules, (sch) => {
+							let sch_id = sch.value["@id"];
+							console.log("SCH", sch_id);
+							return !!~_.indexOf(_.castArray(srvs[s_id].has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.value.has_day, query.day);
+						}) || {};
+						if (sch)
+							s_acc[s_id] = sch.value;
+						return s_acc;
+					}, {});
 					return acc;
 				}, {});
-				// console.log("REDUCED SPLANS", reduced);
+				console.log("REDUCED SPLANS", reduced);
 				return reduced;
 			}
 		};

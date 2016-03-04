@@ -7,30 +7,59 @@ module.exports = {
 		// console.log("QQO", query);
 		if (!query)
 			return {};
-		let direct = '';
 		let plan_id = query.date;
-		if (query.operator_id == '*') {
-			direct = `SELECT op.\`@id\` as operator, sch AS schedule FROM rdf mm  JOIN rdf op ON KEYS mm.member JOIN rdf sch ON KEYS op.has_schedule.resource WHERE  mm.\`@type\`='Membership' AND ('Operator' IN mm.\`role\` OR mm.\`role\`='Operator') and '${query.day}' IN sch.has_day`;
+		let chain = [];
+		let in_keys;
+		let out_keys;
+		let m_key = "global_membership_description";
+		if (query.operator == '*') {
+			chain.push({
+				name: "mm",
+				in_keys: [m_key]
+			});
+			out_keys = (md) => {
+				let ops = _.map(_.filter(md[m_key].value.has_description, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
+				return _.uniq(_.flattenDeep(ops));
+			};
 		} else {
-			let op_keys = _.castArray(query.operator_id);
-			direct = `SELECT op.\`@id\` as operator, sch AS schedule FROM rdf op USE KEYS  ${JSON.stringify(op_keys)} JOIN rdf sch ON KEYS op.has_schedule.resource WHERE '${query.day}' IN sch.has_day`;
+			in_keys = _.castArray(query.operator);
 		}
+		chain.push({
+			name: "ops",
+			in_keys,
+			out_keys
+		});
+		chain.push({
+			name: "schedules",
+			out_keys: (ops) => {
+				console.log("OPS", ops);
+				let schedules = _.map(ops, `value.has_schedule.${query.method}`);
+				return _.uniq(_.flattenDeep(schedules));
+			}
+		});
 		let req = {
-			type: 'view',
+			type: 'chain',
 			key_depth: 1,
-			query: {
-				schedules: {
-					direct
-				}
-			},
-			final: function (query) {
+			query: chain,
+			final: function (res) {
 				let templates = {};
-				let reduced = _.reduce(query.schedules, (acc, val) => {
-					acc[val.operator] = `${val.operator}-plan--${plan_id}`;
-					templates[val.operator] = val.schedule;
+				console.log("RES FIN Q", require("util")
+					.inspect(res, {
+						depth: null
+					}));
+				let reduced = _.reduce(res.ops, (acc, val, key) => {
+					let key = val.value["@id"];
+					let sch = = _.find(res.schedules, (sch) => {
+						let sch_id = sch.value["@id"];
+						return !!~_.indexOf(_.castArray(val.value.has_schedule.resource), sch_id) && !!~_.indexOf(sch.value.has_day, query.day);
+					});
+					if (sch) {
+						acc[key] = `${key}-plan--${plan_id}`;
+						templates[key] = sch.value;
+					}
 					return acc;
 				}, {});
-				// console.log("FIN TEMPLATES", reduced, templates);
+				console.log("RES FIN ", reduced);
 				return {
 					keys: reduced,
 					templates

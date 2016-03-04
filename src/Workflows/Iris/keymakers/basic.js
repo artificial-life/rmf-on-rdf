@@ -31,7 +31,7 @@ module.exports = {
 		// console.log(where);
 		select = _.startsWith(select, "@") ? `\`${select}\`` : select;
 		let query = {
-			type: 'view',
+			type: 'n1ql',
 			forward: true,
 			query: {
 				ids: {
