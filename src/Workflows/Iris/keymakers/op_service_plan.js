@@ -35,7 +35,8 @@ module.exports = {
 		});
 		if (query.service == '*') {
 			s_out_keys = (ops) => {
-				let mask = _.find(ops, (val) => (val.value["@id"] == query.service_keys));
+				let mask = ops[query.service_keys] || [];
+				_.unset(ops, query.service_keys);
 				return _.intersection(_.flatMap(ops, "value.provides"), mask.value.content);
 			};
 		} else {

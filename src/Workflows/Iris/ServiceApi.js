@@ -3,26 +3,32 @@ let base_dir = "../../../";
 let CommonApi = require("./CommonApi");
 let default_user_info_fields = 'user_info_fields';
 let default_cache_service_ids = 'cache_service_ids';
+let default_service_quota = 'cache_service_quota';
 class ServiceApi extends CommonApi {
 	constructor(cfg = {}) {
 		super();
 		let config = _.merge({
 			user_info_fields: default_user_info_fields,
+			cache_service_quota: default_service_quota,
 			cache_service_ids: default_cache_service_ids
 		}, cfg);
 		this.user_info_fields = config.user_info_fields;
 		this.cache_service_ids = config.cache_service_ids;
+		this.cache_service_quota = config.cache_service_quota;
 	}
+
 	initContent() {
 		super.initContent('Service');
 		super.initContent('ServiceGroup');
 		return this;
 	}
+
 	getUserInfoFields() {
 		return this.db.get(this.user_info_fields)
 			.then((res) => (_.pickBy(res.value, (val, key) => !_.startsWith(key, "@")) || {}))
 			.catch((err) => {});
 	}
+
 	cacheServiceIds() {
 		return this.db.N1ql.direct({
 				query: `SELECT  \`@id\` as id FROM ${this.db.bucket_name} WHERE  \`@type\`='Service' ORDER BY id ASC`
@@ -35,6 +41,21 @@ class ServiceApi extends CommonApi {
 				});
 			});
 	}
+
+	cacheServiceQuota(data) {
+		return this.db.upsert(this.cache_service_quota, {
+			"@id": this.cache_service_quota,
+			"@type": "Cache",
+			"content": data
+		});
+	}
+
+	getServiceQuota() {
+		return this.db.get(this.cache_service_quota)
+			.then((res) => res.value.content)
+			.catch((err) => {});
+	}
+
 	getServiceTree(query) {
 		let groups = {};
 		let services = {};

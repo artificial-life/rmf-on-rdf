@@ -4,7 +4,7 @@ module.exports = {
 	get: function ({
 		query
 	}) {
-		// console.log("QQO", query);
+		// console.log("QQR", query);
 		if (!query)
 			return {};
 		let plan_id = query.local_date;
