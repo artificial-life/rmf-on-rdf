@@ -1,49 +1,40 @@
 'use strict'
-
 let base_dir = "../../../";
-
 let CommonApi = require("./CommonApi");
-
 let default_user_info_fields = 'user_info_fields';
-let default_service_ids_cache = 'service_ids_cache';
-
+let default_cache_service_ids = 'cache_service_ids';
 class ServiceApi extends CommonApi {
 	constructor(cfg = {}) {
 		super();
 		let config = _.merge({
 			user_info_fields: default_user_info_fields,
-			service_ids_cache: default_service_ids_cache
+			cache_service_ids: default_cache_service_ids
 		}, cfg);
 		this.user_info_fields = config.user_info_fields;
-		this.service_ids_cache = config.service_ids_cache;
+		this.cache_service_ids = config.cache_service_ids;
 	}
-
-
 	initContent() {
 		super.initContent('Service');
 		super.initContent('ServiceGroup');
 		return this;
 	}
-
 	getUserInfoFields() {
 		return this.db.get(this.user_info_fields)
 			.then((res) => (_.pickBy(res.value, (val, key) => !_.startsWith(key, "@")) || {}))
 			.catch((err) => {});
 	}
-
 	cacheServiceIds() {
 		return this.db.N1ql.direct({
 				query: `SELECT  \`@id\` as id FROM ${this.db.bucket_name} WHERE  \`@type\`='Service' ORDER BY id ASC`
 			})
 			.then((res) => {
-				return this.db.upsert(this.service_ids_cache, {
-					"@id": this.service_ids_cache,
+				return this.db.upsert(this.cache_service_ids, {
+					"@id": this.cache_service_ids,
 					"@type": "Cache",
 					"content": _.map(res, 'id')
 				});
 			});
 	}
-
 	getServiceTree(query) {
 		let groups = {};
 		let services = {};
@@ -95,29 +86,23 @@ class ServiceApi extends CommonApi {
 					});
 			});
 	}
-
 	getService(query) {
 		return super.getEntry('Service', query);
 	}
-
 	setServiceField(query, assignment) {
 		return super.setEntryField('Service', query, assignment);
 	}
-
 	setService(data) {
 		return super.setEntry('Service', data);
 	}
-
 	getServiceGroup(query) {
 		return super.getEntry('ServiceGroup', query);
 	}
 	setServiceGroupField(query, assignment) {
 		return super.setEntryField('ServiceGroup', query, assignment);
 	}
-
 	setServiceGroup(data) {
 		return super.setEntry('ServiceGroup', data);
 	}
 }
-
 module.exports = ServiceApi;
