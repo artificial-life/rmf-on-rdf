@@ -4,7 +4,7 @@ let _ = require('lodash');
 let Promise = require('bluebird');
 let CacheAccessor = require('./CacheAccessor.js');
 
-class LDCacheAccessor extends CacheAccessor {
+class RDCacheAccessor extends CacheAccessor {
 	constructor(data_provider) {
 		super(data_provider);
 		this.template(function (key, template) {
@@ -44,7 +44,10 @@ class LDCacheAccessor extends CacheAccessor {
 
 		return Promise.resolve(this.data_provider.get(access_obj))
 			.then((result) => {
+				// console.log("RDA RES O", result);
+
 				return _.mergeWith(result.templates, result.keys, (objValue, srcValue, key) => {
+					// console.log("RDA RES", objValue, srcValue, _.toPairs(srcValue)[0]);
 					if (objValue['@id']) {
 						let [k, v] = _.toPairs(srcValue)[0];
 						return v || this.makeInitial(k, objValue);
@@ -55,4 +58,4 @@ class LDCacheAccessor extends CacheAccessor {
 
 }
 
-module.exports = LDCacheAccessor;
+module.exports = RDCacheAccessor;

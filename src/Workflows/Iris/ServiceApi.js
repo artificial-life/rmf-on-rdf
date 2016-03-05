@@ -33,13 +33,13 @@ class ServiceApi extends CommonApi {
 
 	cacheServiceIds() {
 		return this.db.N1ql.direct({
-				query: `SELECT  \`@id\` FROM ${this.db.bucket_name} WHERE  \`@type\`='Service'`
+				query: `SELECT  \`@id\` as id FROM ${this.db.bucket_name} WHERE  \`@type\`='Service' ORDER BY id ASC`
 			})
 			.then((res) => {
 				return this.db.upsert(this.service_ids_cache, {
-					"@id": "ServiceCache",
+					"@id": this.service_ids_cache,
 					"@type": "Cache",
-					"content": _.map(res, '@id')
+					"content": _.map(res, 'id')
 				});
 			});
 	}

@@ -29,9 +29,9 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				query: selection
 			})
 			.then((resolved) => {
-				//had to choose between this outrageous notation and additional * queries to db
+				// had to choose between this outrageous notation and additional * queries to db
 				// console.log("TSI", require('util')
-				// 	.inspect(resolved.content_map, {
+				// 	.inspect(resolved.content_map['<namespace>content'], {
 				// 		depth: null
 				// 	}));
 				let observed = {
@@ -58,8 +58,13 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				let services = observed.services.content;
 				let ops = observed.ops.content;
 				let plans = observed.plans.content;
-
+				// console.log("TSI II", require('util')
+				// 	.inspect(ops, {
+				// 		depth: null
+				// 	}));
 				return _.reduce(services, (acc, s_plans, op_id) => {
+					if (!(plans[op_id] && ops[op_id]))
+						return acc;
 					let op_plan = plans[op_id].intersection(ops[op_id]);
 					let s_ids = (service_id == '*' || !service_id) ? _.keys(s_plans.content) : service_id;
 					s_ids = _.castArray(s_ids);

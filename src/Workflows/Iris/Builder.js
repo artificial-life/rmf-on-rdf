@@ -113,6 +113,8 @@ class IrisBuilder {
 					selection: {
 						ldplan: {
 							operator: query.operator || '*',
+							service_keys: query.service_keys,
+							organization: query.organization,
 							service: '*',
 							day: query.day,
 							local_date: query.local_date,
@@ -120,8 +122,6 @@ class IrisBuilder {
 							method: query.method || 'live'
 						}
 					},
-					service_keys: query.service_keys,
-					organization: query.organization,
 					dedicated_date: query.dedicated_date,
 					box_id: '*',
 					reserve: query.reserve || false,
@@ -133,7 +133,9 @@ class IrisBuilder {
 					selection: {
 						ldplan: {
 							operator: query.operator || '*',
+							organization: query.organization,
 							service: '*',
+							service_keys: query.service_keys,
 							day: query.day,
 							local_date: query.local_date,
 							time_description: query.time_description,
@@ -141,8 +143,6 @@ class IrisBuilder {
 							method: query.method || 'live'
 						}
 					},
-					service_keys: query.service_keys,
-					organization: query.organization,
 					dedicated_date: query.dedicated_date,
 					services: query.services,
 					box_id: '*',

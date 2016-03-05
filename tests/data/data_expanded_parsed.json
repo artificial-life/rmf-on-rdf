@@ -3305,7 +3305,7 @@
             "service-92",
             "service-93",
             "service-94",
-            "service-95",
+
             "service-145",
             "service-146",
             "service-147",
@@ -3462,7 +3462,7 @@
             "service-92",
             "service-93",
             "service-94",
-            "service-95",
+
             "service-145",
             "service-146",
             "service-147",
@@ -3619,7 +3619,7 @@
             "service-92",
             "service-93",
             "service-94",
-            "service-95",
+
             "service-145",
             "service-146",
             "service-147",
@@ -3776,7 +3776,7 @@
             "service-92",
             "service-93",
             "service-94",
-            "service-95",
+
             "service-145",
             "service-146",
             "service-147",
@@ -3933,7 +3933,7 @@
             "service-92",
             "service-93",
             "service-94",
-            "service-95",
+
             "service-145",
             "service-146",
             "service-147",
@@ -4090,7 +4090,7 @@
             "service-92",
             "service-93",
             "service-94",
-            "service-95",
+
             "service-145",
             "service-146",
             "service-147",
@@ -4166,7 +4166,7 @@
         ],
         "has_time_description": {
             "data": [
-                [30000, 70000]
+                [0, 86400]
             ],
             "state": "a"
         }

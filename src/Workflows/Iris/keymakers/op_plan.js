@@ -4,7 +4,7 @@ module.exports = {
 	get: function ({
 		query
 	}) {
-		console.log("QQO", query);
+		// console.log("QQO", query);
 		if (!query)
 			return {};
 		let chain = [];
@@ -31,7 +31,6 @@ module.exports = {
 		chain.push({
 			name: "schedules",
 			out_keys: (ops) => {
-				console.log("OPS", ops);
 				let schedules = _.map(ops, `value.has_schedule.${query.method}`);
 				return _.uniq(_.flattenDeep(schedules));
 			}
@@ -41,22 +40,16 @@ module.exports = {
 			key_depth: 1,
 			query: chain,
 			final: function (res) {
-				console.log("RES FIN Q", require("util")
-					.inspect(res, {
-						depth: null
-					}));
-				let reduced = _.reduce(res.ops, (acc, val) => {
-					let key = val.value["@id"];
-					let sch = = _.find(res.schedules, (sch) => {
-						let sch_id = sch.value["@id"];
-						return !!~_.indexOf(_.castArray(val.value.has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.value.has_day, query.day);
+				let ops = _.keyBy(_.map(res.ops, "value"), "@id");
+				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
+				let reduced = _.reduce(ops, (acc, val, key) => {
+					let sch = _.find(schedules, (sch, sch_id) => {
+						return !!~_.indexOf(_.castArray(val.has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.has_day, query.day);
 					});
 					if (sch)
-						acc[key] = sch.value;
+						acc[key] = sch;
 					return acc;
 				}, {});
-				console.log("RES FIN ", reduced);
-
 				return reduced;
 			}
 		};

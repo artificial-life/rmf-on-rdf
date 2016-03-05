@@ -17,6 +17,8 @@ module.exports = {
 		let where = "WHERE " + _.join(_.map(p, (val, key) => {
 			if (_.startsWith(key, "@"))
 				return `\`${key}\`="${val}"`;
+			if (_.isPlainObject(val))
+				return "TRUE";
 			if (_.isArray(val)) {
 				let complex_val = _.join(_.map(val, (v) => {
 					let pass = !_.isString(v) ? v : `"${v}"`;

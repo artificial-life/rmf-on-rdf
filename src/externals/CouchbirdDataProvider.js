@@ -67,7 +67,7 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 			}, [])
 			.then((res) => {
 				let out = _.mapValues(_.keyBy(res, 'name'), (t) => _.values(t.nodes));
-				return _.isFunction(q.final) ? q.final(out) : res;
+				return _.isFunction(q.final) ? q.final(out) : out;
 			});
 	}
 

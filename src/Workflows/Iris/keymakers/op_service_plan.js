@@ -23,10 +23,10 @@ module.exports = {
 			});
 			o_out_keys = (md) => {
 				let ops = _.map(_.filter(md[m_key].value.has_description, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
-				return _.flattenDeep(ops);
+				return _.concat(_.uniq(_.flattenDeep(ops)), query.service_keys);
 			};
 		} else {
-			o_in_keys = _.castArray(query.operator);
+			o_in_keys = _.concat(_.uniq(_.castArray(query.operator)), query.service_keys);
 		}
 		chain.push({
 			name: "ops",
@@ -35,7 +35,8 @@ module.exports = {
 		});
 		if (query.service == '*') {
 			s_out_keys = (ops) => {
-				return _.uniq(_.flatMap(ops, "value.provides"));
+				let mask = _.find(ops, (val) => (val.value["@id"] == query.service_keys));
+				return _.intersection(_.flatMap(ops, "value.provides"), mask.value.content);
 			};
 		} else {
 			s_in_keys = _.castArray(query.service);
@@ -57,23 +58,22 @@ module.exports = {
 			key_depth: 2,
 			query: chain,
 			final: function (res) {
-				console.log("SPLAN QUERY", res);
-				let srvs = _.keyBy(_.map(res.services, "value"), "@id");
-				let reduced = _.reduce(res.ops, (acc, val) => {
-					let key = val.value["@id"];
-					acc[key] = _.reduce(val.value.provides, (s_acc, s_id) => {
-						let sch = _.find(res.schedules, (sch) => {
-							let sch_id = sch.value["@id"];
-							console.log("SCH", sch_id);
-							return !!~_.indexOf(_.castArray(srvs[s_id].has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.value.has_day, query.day);
-						}) || {};
+				let services = _.keyBy(_.map(res.services, "value"), "@id");
+				let ops = _.keyBy(_.map(res.ops, "value"), "@id");
+				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
+				let reduced = _.reduce(ops, (acc, val, key) => {
+					acc[key] = _.reduce(val.provides, (s_acc, s_id) => {
+						let sch = _.find(schedules, (sch, sch_id) => {
+							// console.log("SCH", sch_id, services[s_id], s_id, key);
+							return services[s_id] && !!~_.indexOf(_.castArray(services[s_id].has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.has_day, query.day);
+						});
 						if (sch)
-							s_acc[s_id] = sch.value;
+							s_acc[s_id] = sch;
 						return s_acc;
 					}, {});
 					return acc;
 				}, {});
-				console.log("REDUCED SPLANS", reduced);
+				// console.log("REDUCED SPLANS", reduced);
 				return reduced;
 			}
 		};

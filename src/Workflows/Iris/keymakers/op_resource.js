@@ -7,7 +7,7 @@ module.exports = {
 		// console.log("QQO", query);
 		if (!query)
 			return {};
-		let plan_id = query.date;
+		let plan_id = query.local_date;
 		let chain = [];
 		let in_keys;
 		let out_keys;
@@ -32,8 +32,10 @@ module.exports = {
 		chain.push({
 			name: "schedules",
 			out_keys: (ops) => {
-				console.log("OPS", ops);
-				let schedules = _.map(ops, `value.has_schedule.${query.method}`);
+				let schedules = _.map(ops, (op) => {
+					let keys = _.castArray(op.value.has_schedule.resource);
+					return _.concat(keys, `${op.value["@id"]}-plan--${plan_id}`);
+				});
 				return _.uniq(_.flattenDeep(schedules));
 			}
 		});
@@ -43,23 +45,20 @@ module.exports = {
 			query: chain,
 			final: function (res) {
 				let templates = {};
-				console.log("RES FIN Q", require("util")
-					.inspect(res, {
-						depth: null
-					}));
-				let reduced = _.reduce(res.ops, (acc, val, key) => {
-					let key = val.value["@id"];
-					let sch = = _.find(res.schedules, (sch) => {
-						let sch_id = sch.value["@id"];
-						return !!~_.indexOf(_.castArray(val.value.has_schedule.resource), sch_id) && !!~_.indexOf(sch.value.has_day, query.day);
+				let ops = _.keyBy(_.map(res.ops, "value"), "@id");
+				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
+				let reduced = _.reduce(ops, (acc, val, key) => {
+					let sch = _.find(schedules, (sch, sch_id) => {
+						return !!~_.indexOf(_.castArray(val.has_schedule.resource), sch_id) && !!~_.indexOf(sch.has_day, query.day);
 					});
 					if (sch) {
-						acc[key] = `${key}-plan--${plan_id}`;
-						templates[key] = sch.value;
+						acc[key] = {};
+						acc[key][`${key}-plan--${plan_id}`] = schedules[`${key}-plan--${plan_id}`]
+						templates[key] = sch;
 					}
 					return acc;
 				}, {});
-				console.log("RES FIN ", reduced);
+				// console.log("RES FIN RESOURCE", reduced, templates);
 				return {
 					keys: reduced,
 					templates
