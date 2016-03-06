@@ -33,6 +33,7 @@ module.exports = {
 			name: "schedules",
 			out_keys: (ops) => {
 				let schedules = _.map(ops, (op) => {
+					if (!op) return [];
 					let keys = _.castArray(op.value.has_schedule.resource);
 					return _.concat(keys, `${op.value["@id"]}-plan--${plan_id}`);
 				});
@@ -45,7 +46,7 @@ module.exports = {
 			query: chain,
 			final: function (res) {
 				let templates = {};
-				let ops = _.keyBy(_.map(res.ops, "value"), "@id");
+				let ops = _.keyBy(_.map(_.compact(res.ops), "value"), "@id");
 				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
 				let reduced = _.reduce(ops, (acc, val, key) => {
 					let sch = _.find(schedules, (sch, sch_id) => {
@@ -75,8 +76,8 @@ module.exports = {
 		_.map(_.values(data), (val) => {
 				let node = val;
 				let cas = val.cas;
-				delete val.key;
-				delete val.cas;
+				_.unset(val, 'key');
+				_.unset(val, 'cas');
 				access.push(node);
 				if (cas) {
 					opts[node['@id']] = {
@@ -86,7 +87,9 @@ module.exports = {
 			})
 			// console.log("SETTING OTPLAN", access, data);
 		return {
-			values: access,
+			values: {
+				data: access
+			},
 			options: opts
 		};
 	}

@@ -50,6 +50,7 @@ module.exports = {
 						acc[key] = sch;
 					return acc;
 				}, {});
+				// console.log("REDUCED OPLANS", reduced);
 				return reduced;
 			}
 		};

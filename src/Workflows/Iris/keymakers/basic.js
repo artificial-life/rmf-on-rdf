@@ -12,7 +12,7 @@ module.exports = {
 		if (!p && !select)
 			return {};
 		if (!select) {
-			delete p["@id"];
+			_.unset(p, "@id");
 		}
 		let where = "WHERE " + _.join(_.map(p, (val, key) => {
 			if (_.startsWith(key, "@"))
@@ -56,10 +56,12 @@ module.exports = {
 	set: (data) => {
 		let access = _.map(data, (item) => {
 			let entity = item;
-			delete entity.cas;
+			_.unset(entity, 'cas');
 			return entity;
 		});
 
-		return access;
+		return {
+			data: access
+		};
 	}
 };

@@ -86,9 +86,9 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 
 		return ingredient_atom.resolve({
 				query: {
-					operator_id: value.operator,
+					operator: value.operator,
 					day: selection.day,
-					date: value.local_date
+					date: selection.local_date
 				}
 			})
 			.then((resolved) => {
@@ -114,29 +114,23 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		let selection = params.selection[this.property];
 		let saving_meta = {};
 
-		return Promise.props({
-				source: ingredient_atom.resolve({
-					query: {
-						operator_id: selection.operator,
-						day: selection.day,
-						date: selection.local_date
-					}
-				})
+		return ingredient_atom.resolve({
+				query: selection
 			})
-			.then(({
-				source: resolved
-			}) => {
+			.then((resolved) => {
 				_.map(data, (tick) => {
-					// console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
-					// 	depth: null
-					// }));
+					// console.log("RESOLVED", tick.time_description, require('util')
+					// 	.inspect(resolved.content, {
+					// 		depth: null
+					// 	}));
 					resolved.reserve({
 						operator_id: tick.operator,
 						selection: [tick.time_description]
 					});
-					// console.log("RESOLVED", tick.time_description, require('util').inspect(resolved, {
-					// 	depth: null
-					// }));
+					// console.log("RESOLVED II", tick, require('util')
+					// 	.inspect(resolved.content[tick.operator], {
+					// 		depth: null
+					// 	}));
 					saving_meta[tick.id] = resolved.content[tick.operator].id;
 					// console.log("META", saving_meta);
 				});

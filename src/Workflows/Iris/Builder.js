@@ -162,7 +162,6 @@ class IrisBuilder {
 			.addFinalizer((data) => {
 				let tickets = _.filter(data, _.isPlainObject);
 				let res = _.map(tickets, (t_data) => {
-					t_data.id = t_data.id || "ticket-" + uuid.v1();
 					let ticket = new Model();
 					ticket.build(t_data);
 					return ticket.serialize();

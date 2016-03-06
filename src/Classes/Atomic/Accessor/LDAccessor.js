@@ -10,7 +10,7 @@ class LDAccessor extends BasicAccessorAsync {
 		let access_obj = this.makeAccessObject('set', data);
 		let values = [];
 		let opts = {};
-		if(access_obj.options && access_obj.values) {
+		if (access_obj.options && access_obj.values) {
 			values = access_obj.values;
 			opts = access_obj.options;
 		} else {
@@ -18,7 +18,7 @@ class LDAccessor extends BasicAccessorAsync {
 			opts = {};
 		}
 
-		return this.data_provider.upsert(values, opts);
+		return this.data_provider.set(values, opts);
 	}
 	get(context) {
 		let access_obj = {

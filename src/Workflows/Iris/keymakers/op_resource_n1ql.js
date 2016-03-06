@@ -47,8 +47,8 @@ module.exports = {
 		_.map(_.values(data), (val) => {
 				let node = val;
 				let cas = val.cas;
-				delete val.key;
-				delete val.cas;
+				_.unset(val, 'key');
+				_.unset(val, 'cas');
 				access.push(node);
 				if (cas) {
 					opts[node['@id']] = {

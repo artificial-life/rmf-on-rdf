@@ -96,11 +96,40 @@ class CouchbirdDataProvider extends AbstractDataProvider {
 	}
 
 	set(values, options) {
-		return this._bucket.replaceNodes(values, options);
+		switch (values.type) {
+		case 'insert':
+			return this.insert(values, options);
+			break;
+		case 'replace':
+			return this.replace(values, options);
+			break;
+		case 'counter':
+			return this.counterInsert(values, options);
+			break;
+		case 'upsert':
+		default:
+			return this.upsert(values, options);
+			break;
+		}
+	}
+
+	counterInsert(values, options) {
+		return Promise.each(values.data, (node) => {
+			let node_key = node["@id"];
+			return this._bucket.counterInsert(`counter-${node_key}`, values.counter_options || {}, node, options[node_key] || {}, values.delimiter);
+		});
+	}
+
+	replace(values, options) {
+		return this._bucket.replaceNodes(values.data, options);
 	}
 
 	upsert(values, options) {
-		return this._bucket.upsertNodes(values, options);
+		return this._bucket.upsertNodes(values.data, options);
+	}
+
+	insert(values, options) {
+		return this._bucket.insertNodes(values.data, options);
 	}
 
 	//DESTROY

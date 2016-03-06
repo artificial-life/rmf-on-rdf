@@ -37,6 +37,7 @@ module.exports = {
 			s_out_keys = (ops) => {
 				let mask = ops[query.service_keys] || [];
 				_.unset(ops, query.service_keys);
+				// console.log("SERVICES", _.intersection(_.flatMap(ops, "value.provides"), _.get(mask, "value.content", [])));
 				return _.intersection(_.flatMap(ops, "value.provides"), _.get(mask, "value.content", []));
 			};
 		} else {

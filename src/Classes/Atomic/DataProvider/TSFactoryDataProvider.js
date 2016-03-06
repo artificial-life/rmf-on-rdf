@@ -162,6 +162,7 @@ class TSFactoryDataProvider {
 				},
 				tickets
 			}) => {
+				// console.log("TICKS", _.values(tickets.serialize()));
 				return this.resolvePlacing(_.values(tickets.serialize()), plans);
 			});
 	}

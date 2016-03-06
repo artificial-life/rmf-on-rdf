@@ -44,6 +44,7 @@ class CommonApi extends IrisApi {
 					item.build(val);
 					return item.dbSerialize();
 				});
+
 				return this.db.upsertNodes(data_serialized);
 			})
 			.catch((err) => {
@@ -129,6 +130,7 @@ class CommonApi extends IrisApi {
 	setEntry(type, data) {
 		let content = _.castArray(data);
 		let tp = _.compact(_.uniq(_.map(content, "type")));
+
 		return (tp.length > 1 && !type && !this.content[type] && !this.content[tp[0]]) ?
 			this.setEntryTypeless(content) :
 			this.content[type || tp[0]].save(content);

@@ -8,8 +8,9 @@ class RDCacheAccessor extends CacheAccessor {
 	constructor(data_provider) {
 		super(data_provider);
 		this.template(function (key, template) {
-			template['@id'] = key;
-			return template;
+			let t = _.cloneDeep(template);
+			t['@id'] = key;
+			return t;
 		});
 	}
 	makeInitial(...context) {
@@ -21,6 +22,7 @@ class RDCacheAccessor extends CacheAccessor {
 		let access_obj = this.makeAccessObject('set', data);
 		let values = [];
 		let opts = {};
+		// console.log("RDCA OA", access_obj, data);
 		if (access_obj.options && access_obj.values) {
 			values = access_obj.values;
 			opts = access_obj.options;
@@ -28,7 +30,7 @@ class RDCacheAccessor extends CacheAccessor {
 			values = access_obj;
 			opts = {};
 		}
-		return this.data_provider.upsert(values, opts);
+		return this.data_provider.set(values, opts);
 	}
 	get(context) {
 		let access_obj = {
