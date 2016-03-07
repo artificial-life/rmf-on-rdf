@@ -91,7 +91,7 @@ class TSFactoryDataProvider {
 	}
 
 
-	resolvePlacing(tickets, sources, set_data = false) {
+	resolvePlacing(tickets, sources, set_data = false, ignore_lost = false) {
 		let remains = sources;
 		let ordered = this.order(tickets);
 		let ops_by_service = _.reduce(remains, (acc, val, key) => {
@@ -101,7 +101,9 @@ class TSFactoryDataProvider {
 			});
 			return acc;
 		}, {});
-		let [placed, lost] = _.partition(ordered, (ticket) => {
+		let placed = [];
+		let lost = [];
+		_.forEach(ordered, (ticket) => {
 			ticket.alt_operator = ticket.alt_operator && !_.isEmpty(ticket.alt_operator) ? _.castArray(ticket.alt_operator) : ops_by_service[ticket.service];
 			// console.log("OPS_BY_SERV", ops_by_service);
 			let {
@@ -109,9 +111,13 @@ class TSFactoryDataProvider {
 				time_description,
 				operator
 			} = this.getSource(sources, ticket);
-			// console.log("TICK", ticket, operator, service);
+			// console.log("TICK", ticket, operator);
 			// console.log("PLAN", time_description, source);
 			if (!source) {
+				if (!ignore_lost) {
+					lost.push(ticket);
+					return true;
+				}
 				return false;
 			}
 			if (set_data) {
@@ -120,6 +126,7 @@ class TSFactoryDataProvider {
 				//@FIXIT
 				ticket.source = source.id || source.parent.id;
 			}
+			placed.push(ticket);
 			return true;
 		});
 		return {
@@ -204,10 +211,11 @@ class TSFactoryDataProvider {
 					placed: placed_new,
 					lost: lost_new,
 					remains: remains_new
-				} = this.resolvePlacing(new_tickets, remains, true);
-				// console.log("NEW TICKS PLACED", require('util').inspect(remains, {
-				// 	depth: null
-				// }));
+				} = this.resolvePlacing(new_tickets, remains, true, true);
+				// console.log("NEW TICKS PLACED", require('util')
+				// 	.inspect(remains, {
+				// 		depth: null
+				// 	}));
 				return placed_new;
 			})
 			.catch((err) => {
