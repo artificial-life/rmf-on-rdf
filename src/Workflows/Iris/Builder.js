@@ -116,16 +116,15 @@ class IrisBuilder {
 							service_keys: query.service_keys,
 							organization: query.organization,
 							service: '*',
-							day: query.day,
-							local_date: query.local_date,
 							time_description: query.time_description,
-							method: query.method || 'live'
+							method: query.method || 'live',
+							dedicated_date: query.dedicated_date
 						}
 					},
-					dedicated_date: query.dedicated_date,
 					box_id: '*',
 					reserve: query.reserve || false,
-					count: query.count
+					count: query.count,
+					quota_status: query.quota_status
 				};
 			})
 			.keymaker('get', (query) => {
@@ -136,14 +135,12 @@ class IrisBuilder {
 							organization: query.organization,
 							service: '*',
 							service_keys: query.service_keys,
-							day: query.day,
-							local_date: query.local_date,
 							time_description: query.time_description,
 							service_count: query.service_count,
-							method: query.method || 'live'
+							method: query.method || 'live',
+							dedicated_date: query.dedicated_date
 						}
 					},
-					dedicated_date: query.dedicated_date,
 					services: query.services,
 					box_id: '*',
 					count: query.count

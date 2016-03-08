@@ -4,6 +4,7 @@ let CommonApi = require("./CommonApi");
 let default_user_info_fields = 'user_info_fields';
 let default_cache_service_ids = 'cache_service_ids';
 let default_service_quota = 'cache_service_quota';
+
 class ServiceApi extends CommonApi {
 	constructor(cfg = {}) {
 		super();

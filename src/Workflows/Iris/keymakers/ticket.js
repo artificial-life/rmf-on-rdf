@@ -2,7 +2,10 @@
 
 let delimiter = '--';
 let basic = require("./index")('basic');
-let makeKey = (dd) => `ticket-${dd}`;
+let makeKey = (org, dedicated_date) => {
+	let dd = _.isString(dedicated_date) ? dedicated_date : dedicated_date.format("YYYY-MM-DD");
+	return `ticket-${org}-${dd}`;
+};
 
 module.exports = {
 	get: function ({
@@ -22,8 +25,9 @@ module.exports = {
 		//limbo starts here
 		if (query.dedicated_date) {
 			let chain = [];
-			let key = makeKey(query.dedicated_date);
+			let key = makeKey(query.org_destination, query.dedicated_date);
 			let c_key = `counter-${key}`;
+			// console.log("CKEY", c_key);
 			chain.push({
 				name: "counter",
 				in_keys: [c_key]
@@ -32,6 +36,7 @@ module.exports = {
 				name: "tickets",
 				out_keys: (max) => {
 					let nums = _.get(max, `${c_key}.value`, 0) + 1;
+					// console.log("TICKS", _.map(_.range(nums), (num) => `${key}${delimiter}${num}`));
 					return _.map(_.range(nums), (num) => `${key}${delimiter}${num}`);
 				}
 			});
@@ -40,6 +45,7 @@ module.exports = {
 				query: chain,
 				final: function (res) {
 					// console.log(":FOUND TICKS", res);
+					_.unset(query, 'dedicated_date');
 					let filtered = _.filter(_.map(_.compact(res.tickets), "value"), (tick) => {
 						return _.reduce(query, (acc, val, key) => {
 							let res = true;
@@ -71,10 +77,12 @@ module.exports = {
 			return basic.set(data);
 		let access = _.map(data, (entity) => {
 			_.unset(entity, 'cas');
-			entity["@id"] = makeKey(entity.dedicated_date);
+			let dedicated_date = _.isString(entity.dedicated_date) ? entity.dedicated_date : entity.dedicated_date.format("YYYY-MM-DD");
+			entity.dedicated_date = dedicated_date;
+			entity["@id"] = makeKey(entity.org_destination, dedicated_date);
 			return entity;
 		});
-
+		// console.log("SETTING TICK", access);
 		return {
 			type: 'counter',
 			delimiter,

@@ -137,30 +137,19 @@ class TSFactoryDataProvider {
 	}
 
 
-	getAllSpace(params) {
-		let ingredients = _.reduce(this.ingredients, (result, ingredient, property) => {
-			result[property] = ingredient.get(params);
-			return result;
-		}, {});
-		return Promise.props(ingredients);
-	}
-
-	getAllTickets(params) {
-		let query = {
-			query: {
-				dedicated_date: params.dedicated_date,
-				state: ['registered', 'booked']
-			},
-			options: {}
-		};
-		return this.storage_accessor.resolve(query);
-	}
-
 	placeExisting(params) {
 		return Promise.props({
-				space: this.getAllSpace(params),
-				tickets: this.getAllTickets({
-					dedicated_date: params.dedicated_date
+				space: Promise.props(_.reduce(this.ingredients, (result, ingredient, property) => {
+					result[property] = ingredient.get(params);
+					return result;
+				}, {})),
+				tickets: this.storage_accessor.resolve({
+					query: {
+						dedicated_date: params.selection.ldplan.dedicated_date,
+						org_destination: params.selection.ldplan.organization,
+						state: ['registered', 'booked']
+					},
+					options: {}
 				})
 			})
 			.then(({
@@ -200,7 +189,7 @@ class TSFactoryDataProvider {
 					for (let i = 0; i < params.count; i++) {
 						ticket_data.push({
 							time_description,
-							dedicated_date: params.dedicated_date,
+							dedicated_date: params.selection.ldplan.dedicated_date,
 							service: s_id,
 							service_count: _.parseInt(params.selection.ldplan.service_count)
 						});
@@ -213,7 +202,7 @@ class TSFactoryDataProvider {
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains, true, true);
 				// console.log("NEW TICKS PLACED", require('util')
-				// 	.inspect(remains, {
+				// 	.inspect(remains_new, {
 				// 		depth: null
 				// 	}));
 				return placed_new;
@@ -296,9 +285,13 @@ class TSFactoryDataProvider {
 				lost
 			}) => {
 				let td = params.selection.ldplan.time_description;
+				let date = params.selection.ldplan.dedicated_date;
+				let org = params.selection.ldplan.organization;
+				date = _.isString(date) ? date : date.format("YYYY-MM-DD");
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
 					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
 				});
+				// console.log("NEWTICKS", new_tickets, lost_old);
 				if (_.size(lost_old) > 0) {
 					return Promise.props({
 						placed: [],
@@ -311,14 +304,49 @@ class TSFactoryDataProvider {
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
-				// console.log("NEW", require('util')
-				// 	.inspect(value, {
-				// 		depth: null
-				// 	}));
+
+				//feeling ashamed
+				//@FIXIT
+				let stats;
+				if (params.quota_status) {
+					let all_placed = _.concat(placed, placed_new);
+					let services = _.uniq(_.flatMap(remains_new, _.keys));
+					// console.log("SERV", services);
+					stats = _.reduce(services, (acc, service) => {
+						let plans = _.map(remains_new, (op_plans, op_id) => {
+							let p = _.get(op_plans, `${service}`, false);
+							return p ? p.parent.intersection(p) : p;
+						});
+						// console.log("PLAN", require('util')
+						// 	.inspect(plans, {
+						// 		depth: null
+						// 	}));
+						let plan_stats = {
+							available: _.reduce(plans, (acc, plan) => {
+								return plan ? (acc + plan.getLength()) : acc;
+							}, 0),
+							reserved: _.reduce(all_placed, (acc, tick) => {
+								if (_.isArray(tick.time_description))
+									acc += (tick.time_description[1] - tick.time_description[0]);
+								return acc;
+							}, 0),
+							max_solid: _.max(_.map(plans, (plan) => plan.getMaxChunk())) || 0
+						};
+						_.set(acc, `${org}.${service}.${date}`, plan_stats);
+						return acc;
+					}, {});
+					// console.log("NEW", require('util')
+					// 	.inspect(stats, {
+					// 		depth: null
+					// 	}));
+				}
+
+
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					out_of_range,
-					lost: lost_new
+					lost: lost_new,
+					stats
 				});
 			});
 	}

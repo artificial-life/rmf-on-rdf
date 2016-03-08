@@ -60,6 +60,7 @@ module.exports = {
 			key_depth: 2,
 			query: chain,
 			final: function (res) {
+				let day = query.dedicated_date.format('dddd');
 				let services = _.keyBy(_.map(res.services, "value"), "@id");
 				let ops = _.keyBy(_.map(res.ops, "value"), "@id");
 				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
@@ -67,7 +68,7 @@ module.exports = {
 					acc[key] = _.reduce(val.provides, (s_acc, s_id) => {
 						let sch = _.find(schedules, (sch, sch_id) => {
 							// console.log("SCH", sch_id, services[s_id], s_id, key);
-							return services[s_id] && !!~_.indexOf(_.castArray(services[s_id].has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.has_day, query.day);
+							return services[s_id] && !!~_.indexOf(_.castArray(services[s_id].has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.has_day, day);
 						});
 						if (sch)
 							s_acc[s_id] = sch;

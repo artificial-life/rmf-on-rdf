@@ -7,7 +7,7 @@ module.exports = {
 		// console.log("QQR", query);
 		if (!query)
 			return {};
-		let plan_id = query.local_date;
+		let plan_id = query.dedicated_date.format("YYYY-MM-DD");
 		let chain = [];
 		let in_keys;
 		let out_keys;
@@ -35,7 +35,7 @@ module.exports = {
 				let schedules = _.map(ops, (op) => {
 					if (!op) return [];
 					let keys = _.castArray(op.value.has_schedule.resource);
-					return _.concat(keys, `${op.value["@id"]}-plan--${plan_id}`);
+					return _.concat(keys, `${op.value["@id"]}-${query.organization}-plan--${plan_id}`);
 				});
 				return _.uniq(_.flattenDeep(schedules));
 			}
@@ -46,15 +46,17 @@ module.exports = {
 			query: chain,
 			final: function (res) {
 				let templates = {};
+				let day = query.dedicated_date.format('dddd');
 				let ops = _.keyBy(_.map(_.compact(res.ops), "value"), "@id");
 				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
 				let reduced = _.reduce(ops, (acc, val, key) => {
 					let sch = _.find(schedules, (sch, sch_id) => {
-						return !!~_.indexOf(_.castArray(val.has_schedule.resource), sch_id) && !!~_.indexOf(sch.has_day, query.day);
+						return !!~_.indexOf(_.castArray(val.has_schedule.resource), sch_id) && !!~_.indexOf(sch.has_day, day);
 					});
 					if (sch) {
 						acc[key] = {};
-						acc[key][`${key}-plan--${plan_id}`] = schedules[`${key}-plan--${plan_id}`]
+						let k = `${key}-${query.organization}-plan--${plan_id}`;
+						acc[key][k] = schedules[k];
 						templates[key] = sch;
 					}
 					return acc;

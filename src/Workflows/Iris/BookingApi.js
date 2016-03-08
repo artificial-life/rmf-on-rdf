@@ -77,9 +77,13 @@ class BookingApi extends IrisApi {
 	getAllPlansLength(params) {
 		return this.getAllPlans(params)
 			.then((res) => {
-				return _.reduce(_.flatMap(res, _.values), (acc, plan) => {
-					return (acc + plan.getLength());
-				}, 0);
+				let plans = _.flatMap(res, _.values);
+				return {
+					max_solid: _.max(_.map(plans, (plan) => plan.getMaxChunk())) || 0,
+					full: _.reduce(plans, (acc, plan) => {
+						return (acc + plan.getLength());
+					}, 0)
+				};
 			});
 	}
 

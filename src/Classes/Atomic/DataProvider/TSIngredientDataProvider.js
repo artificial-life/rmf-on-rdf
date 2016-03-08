@@ -15,6 +15,10 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 
 
 	get(params) {
+		// console.log("I_GET", require('util')
+		// 	.inspect(params, {
+		// 		depth: null
+		// 	}));
 		let count = params.count;
 		let size = params.size || this.size;
 		let selection = params.selection[this.property];
@@ -87,8 +91,8 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 		return ingredient_atom.resolve({
 				query: {
 					operator: value.operator,
-					day: selection.day,
-					date: selection.local_date
+					dedicated_date: selection.dedicated_date,
+					organization: value.org_destination
 				}
 			})
 			.then((resolved) => {

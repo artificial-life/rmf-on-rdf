@@ -108,10 +108,16 @@ class FieldsetPlan extends Plan {
 		return this;
 	}
 
-	getLength() {
+	getLength(state) {
 		return _.reduce(this.content, (acc, chunk) => {
-			return (acc + chunk.getLength());
+			return chunk.getState()
+				.haveState(state || 'a') ? (acc + chunk.getLength()) : acc;
 		}, 0);
+	}
+
+	getMaxChunk(state) {
+		return _.max(_.map(this.content, (chunk) => chunk.getState()
+			.haveState(state || 'a') ? chunk.getLength() : 0));
 	}
 }
 
