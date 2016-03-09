@@ -1,5 +1,203 @@
 [
     {
+        "@id": "global_agent_permissions",
+        "@type": "Description",
+        "content": {
+            "ticket-by-id": {
+                "label": "",
+                "description": "",
+                "params": {
+                    "registered": true,
+                    "postponed": true
+                }
+            }
+        }
+    }, {
+        "@id": "user_info_fields",
+        "@type": "Config",
+        "service_count_prebook": {
+            "order": 0,
+            "key": "service_count",
+            "type": "input",
+            "layout": "numeric",
+            "description": "Введите количество дел",
+            "required": true,
+            "method": "prebook"
+        },
+        "service_count": {
+            "order": 0,
+            "type": "input",
+            "layout": "numeric",
+            "description": "Введите количество дел",
+            "required": true,
+            "method": "live",
+            "validate": "checkAvailability"
+        },
+        "dedicated_date": {
+            "order": 1,
+            "type": "date-picker",
+            "description": "Выберите дату и время обслуживания",
+            "method": "prebook",
+            "required": true
+        },
+        "phone": {
+            "order": 2,
+            "type": "input",
+            "layout": "numeric",
+            "description": "Телефон",
+            "required": true,
+            "mask": "+7-***-***-**-**"
+        },
+        "fio": {
+            "order": 3,
+            "type": "input",
+            "description": "Введите вашу фамилию, имя и отчество",
+            "required": true
+        },
+        "address": {
+            "order": 4,
+            "type": "input",
+            "description": "Введите ваш адрес",
+            "required": false
+        }
+    }, {
+        "@id": "iris_config_service_groups",
+        "@type": "Config",
+        "main_group": {
+            "auth": {
+                "path": "./BaseServices/Auth"
+            },
+            "doctor": {
+                "path": "./BaseServices/Physician",
+                "params": {
+                    "desription": "temp config for network physician",
+                    "inspectors": []
+                }
+            },
+            "taskrunner": {
+                "path": "./BaseServices/Taskrunner",
+                "params": {
+                    "key": "task",
+                    "interval": 6000,
+                    "ahead_delta": 1000,
+                    "immediate_delta": 1000,
+                    "remove_on_completion": true
+                }
+            },
+            "message-hub": {
+                "path": "iris-service-messagehub",
+                "params": {
+                    "default_options": {
+                        "websocket": {
+                            "port": 3001
+                        },
+                        "http": {
+                            "port": 8081
+                        },
+                        "https": {
+                            "port": 443
+                        }
+                    },
+                    "connectors": {
+                        "http": {
+                            "9000": {
+                                "SocketAPI": {
+                                    "model": "websocket",
+                                    "options": {}
+                                },
+                                "RESTAPI": {
+                                    "model": "http-rest",
+                                    "options": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "agent": {
+                "path": "iris-service-agent",
+                "params": {}
+            },
+            "workstation": {
+                "path": "iris-service-workstation",
+                "params": {}
+            },
+            "ticket": {
+                "path": "iris-service-ticket",
+                "params": {}
+            },
+            "history": {
+                "path": "iris-service-history",
+                "params": {}
+            },
+            "queue": {
+                "path": "iris-service-queue",
+                "params": {
+                    "queue_head_size": 5
+                }
+            },
+            "terminal": {
+                "path": "iris-service-terminal",
+                "params": {}
+            },
+            "control-panel": {
+                "path": "iris-service-control-panel",
+                "params": {}
+            },
+            "prebook": {
+                "path": "iris-service-prebook",
+                "params": {
+                    "prebook_check_interval": 10
+                }
+            },
+            "roomdisplay": {
+                "path": "iris-service-roomdisplay",
+                "params": {
+                    "theme_params": {
+                        "extension": ".mp3"
+                    },
+                    "sound_theme": "smotrova"
+                }
+            },
+            "administrator": {
+                "path": "iris-service-administrator",
+                "params": {}
+            },
+            "code-registry": {
+                "path": "iris-service-code-registry",
+                "params": {}
+            },
+            "shared-entities": {
+                "path": "iris-service-shared-entities",
+                "params": {}
+            },
+            "sound-conjunct": {
+                "path": "iris-service-sound-conjunct",
+                "params": {
+                    "sound_params": {},
+                    "output_directory": "/var/www/html/production/room/sound"
+                }
+            },
+            "sample-service": {
+                "path": "./BaseServices/SampleService",
+                "params": {
+                    "param1": 1,
+                    "param2": 2
+                }
+            },
+            "facehugger": {
+                "path": "./BaseServices/Facehugger",
+                "params": {
+                    "bucket_name": "rdf"
+                }
+            },
+            "replicator": {
+                "path": "iris-service-replicator",
+                "params": {}
+            }
+        },
+        "spawn_limit": 10
+    }, {
         "@id": "service-1",
         "@type": "Service",
         "code_frgu": "5640100010000004418",
@@ -3038,7 +3236,7 @@
         "state": "inactive"
     }, {
         "@id": "global_membership_description",
-        "@type": "MembershipDescription",
+        "@type": "Description",
         "has_description": [
             {
                 "@id": "membership-1",
@@ -3119,8 +3317,8 @@
                 "prebook_observe_offset": 300,
                 "prebook_observe_max_slots": 100,
                 "prebook_show_interval": 300,
-                "live_autorestore": 300,
-                "live_autopostpone": 120,
+                "live_autorestore": 60,
+                "live_autopostpone": 60,
                 "live_autopostpone_count": 1
             }
         ]
@@ -3205,6 +3403,12 @@
             "live": "schedule-1",
             "resource": "schedule-1",
             "prebook": "schedule-2"
+        },
+        "permissions": {
+            "ticket-by-id": {
+                "registered": true,
+                "postponed": true
+            }
         },
         "last_name": "Васильева",
         "login": "oper",
@@ -3363,6 +3567,12 @@
             "resource": "schedule-1",
             "prebook": "schedule-2"
         },
+        "permissions": {
+            "ticket-by-id": {
+                "registered": false,
+                "postponed": true
+            }
+        },
         "last_name": "Иванов",
         "login": "oper2",
         "middle_name": "Иванович",
@@ -3515,6 +3725,12 @@
         "available_workstation": "pc-3",
         "default_workstation": "pc-3",
         "has_membership": "membership-3",
+        "permissions": {
+            "ticket-by-id": {
+                "registered": false,
+                "postponed": true
+            }
+        },
         "has_schedule": {
             "live": "schedule-2",
             "resource": "schedule-1",
@@ -3677,6 +3893,12 @@
             "resource": "schedule-1",
             "prebook": "schedule-2"
         },
+        "permissions": {
+            "ticket-by-id": {
+                "registered": false,
+                "postponed": true
+            }
+        },
         "last_name": "Сергеев",
         "login": "oper4",
         "middle_name": "Сергеевич",
@@ -3834,6 +4056,12 @@
             "resource": "schedule-1",
             "prebook": "schedule-2"
         },
+        "permissions": {
+            "ticket-by-id": {
+                "registered": false,
+                "postponed": true
+            }
+        },
         "last_name": "Васильев",
         "login": "oper5",
         "middle_name": "Васильевич",
@@ -3990,6 +4218,12 @@
             "live": "schedule-2",
             "resource": "schedule-1",
             "prebook": "schedule-2"
+        },
+        "permissions": {
+            "ticket-by-id": {
+                "registered": false,
+                "postponed": true
+            }
         },
         "last_name": "Анатольев",
         "login": "oper6",

@@ -14,9 +14,12 @@ let LDAccessor = require(base_dir + '/build/Classes/Atomic/Accessor/LDAccessor')
 let IrisApi = require("./IrisApi");
 
 class CommonApi extends IrisApi {
-	constructor() {
+	constructor({
+		startpoint
+	} = {}) {
 		super();
 		this.content = {};
+		this.startpoint = startpoint;
 	}
 
 	getEntryTypeless(keys) {

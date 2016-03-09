@@ -35,8 +35,8 @@ describe.only('Workflow: RD IRIS Service', () => {
 		bucket = db.bucket(cfg.buckets.main);
 		bucket.N1QL(Couchbird.N1qlQuery.fromString("CREATE PRIMARY INDEX ON " + cfg.buckets.main + ";"))
 		bucket.upsertNodes(test_data);
-		bucket.upsert('user_info_fields', test_fields);
-		bucket.upsert('iris_config_service_groups', test_cfg);
+		// bucket.upsert('user_info_fields', test_fields);
+		// bucket.upsert('iris_config_service_groups', test_cfg);
 
 		IrisWorkflow.initializer(cfg.buckets.main);
 		let ServiceApi = IrisWorkflow.ServiceApi;

@@ -12,9 +12,17 @@ class HistoryApi extends CommonApi {
 		return this;
 	}
 
+	makeEntry(data) {
+		let Model = this.models['History'];
+		let entry = new Model();
+		entry.build(data);
+		return entry.serialize();
+	}
+
 	getEntry(query) {
 		return super.getEntry('History', query);
 	}
+
 	setEntry(data) {
 		return super.setEntry('History', data);
 	}

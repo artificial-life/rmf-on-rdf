@@ -7,15 +7,14 @@ let default_service_quota = 'cache_service_quota';
 
 class ServiceApi extends CommonApi {
 	constructor(cfg = {}) {
-		super();
 		let config = _.merge({
 			user_info_fields: default_user_info_fields,
 			cache_service_quota: default_service_quota,
 			cache_service_ids: default_cache_service_ids
 		}, cfg);
-		this.user_info_fields = config.user_info_fields;
-		this.cache_service_ids = config.cache_service_ids;
-		this.cache_service_quota = config.cache_service_quota;
+		super({
+			startpoint: config
+		});
 	}
 
 	initContent() {
@@ -25,7 +24,7 @@ class ServiceApi extends CommonApi {
 	}
 
 	getUserInfoFields() {
-		return this.db.get(this.user_info_fields)
+		return this.db.get(this.startpoint.user_info_fields)
 			.then((res) => (_.pickBy(res.value, (val, key) => !_.startsWith(key, "@")) || {}))
 			.catch((err) => {});
 	}
@@ -35,8 +34,8 @@ class ServiceApi extends CommonApi {
 				query: `SELECT  \`@id\` as id FROM ${this.db.bucket_name} WHERE  \`@type\`='Service' ORDER BY id ASC`
 			})
 			.then((res) => {
-				return this.db.upsert(this.cache_service_ids, {
-					"@id": this.cache_service_ids,
+				return this.db.upsert(this.startpoint.cache_service_ids, {
+					"@id": this.startpoint.cache_service_ids,
 					"@type": "Cache",
 					"content": _.map(res, 'id')
 				});
@@ -44,15 +43,15 @@ class ServiceApi extends CommonApi {
 	}
 
 	cacheServiceQuota(data) {
-		return this.db.upsert(this.cache_service_quota, {
-			"@id": this.cache_service_quota,
+		return this.db.upsert(this.startpoint.cache_service_quota, {
+			"@id": this.startpoint.cache_service_quota,
 			"@type": "Cache",
 			"content": data
 		});
 	}
 
 	getServiceQuota() {
-		return this.db.get(this.cache_service_quota)
+		return this.db.get(this.startpoint.cache_service_quota)
 			.then((res) => res.value.content)
 			.catch((err) => {});
 	}

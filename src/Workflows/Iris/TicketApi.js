@@ -9,11 +9,12 @@ let default_ticket_priority = 'global_ticket_priority';
 
 class TicketApi extends CommonApi {
 	constructor(cfg = {}) {
-		super();
 		let config = _.merge({
 			ticket_priority_registry: default_ticket_priority
 		}, cfg);
-		this.ticket_priority_registry = config.ticket_priority_registry;
+		super({
+			startpoint: config
+		});
 	}
 
 	getTicketPriorities() {

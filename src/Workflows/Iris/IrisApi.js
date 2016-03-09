@@ -1,6 +1,7 @@
 'use strict'
 
-let RDFcb = require("cbird-rdf").RD;
+let RDFcb = require("cbird-rdf")
+	.RD;
 let db = false;
 
 class IrisApi {
@@ -8,7 +9,7 @@ class IrisApi {
 		this.db = db;
 	}
 	static init(bname) {
-		if(bname) {
+		if (bname) {
 			let cbird = new RDFcb();
 			db = cbird.bucket(bname);
 		}

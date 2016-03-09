@@ -315,7 +315,7 @@ class TSFactoryDataProvider {
 					stats = _.reduce(services, (acc, service) => {
 						let plans = _.map(remains_new, (op_plans, op_id) => {
 							let p = _.get(op_plans, `${service}`, false);
-							return p ? p.parent.intersection(p) : p;
+							return p ? p.intersection(p.parent) : p;
 						});
 						// console.log("PLAN", require('util')
 						// 	.inspect(plans, {
