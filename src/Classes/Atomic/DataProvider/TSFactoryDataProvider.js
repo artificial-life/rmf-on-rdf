@@ -36,7 +36,7 @@ class TSFactoryDataProvider {
 	getSource(sources, query) {
 		let picker = _.castArray(query.operator || query.alt_operator);
 		// console.log("PICKER", picker, query);
-		let cnt = query.service_count || 1;
+		let cnt = query.service_count > 0 ? query.service_count : 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if (op_s[query.service]) {
 				acc[op_id] = op_s[query.service].parent.intersection(op_s[query.service]);

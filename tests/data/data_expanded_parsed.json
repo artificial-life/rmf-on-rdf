@@ -922,7 +922,14 @@
         "service_code_epgu": 0,
         "label": "Единая система идентификации и аутентификации",
         "custom_fields": {
-            "fio": false
+            "fio": false,
+            "fck": {
+                "order": 7,
+                "type": "input",
+                "layout": "numeric",
+                "description": "FCK",
+                "required": true
+            }
         }
     }, {
         "@id": "service-38",
@@ -3339,7 +3346,7 @@
                 "prebook_observe_offset": 300,
                 "prebook_observe_max_slots": 100,
                 "prebook_show_interval": 300,
-                "prebook_register_interval": 3600,
+                "prebook_register_interval": 1,
                 "live_autorestore": 60,
                 "live_autopostpone": 60,
                 "live_autopostpone_count": 1
