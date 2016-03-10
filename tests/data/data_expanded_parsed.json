@@ -73,7 +73,8 @@
             "order": 3,
             "type": "input",
             "description": "Введите вашу фамилию, имя и отчество",
-            "required": true
+            "required": true,
+            "include": false
         },
         "address": {
             "order": 4,
@@ -901,7 +902,10 @@
         "prebook_today_percentage": 0,
         "priority": 0,
         "service_code_epgu": 0,
-        "label": "Выдача готовых документов"
+        "label": "Выдача готовых документов",
+        "custom_fields": {
+            "fio": true
+        }
     }, {
         "@id": "service-37",
         "@type": "Service",
