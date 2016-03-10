@@ -3,8 +3,6 @@ let uuid = require('node-uuid');
 let keymakers = require("./keymakers");
 let base_dir = "../../../";
 
-let TicketApi = require("./TicketApi");
-
 let AtomicFactory = require(base_dir + '/build/Classes/Atomic/AtomicFactory');
 
 let TSFactoryDataProvider = require(base_dir + '/build/Classes/Atomic/DataProvider/TSFactoryDataProvider');
@@ -88,7 +86,7 @@ class IrisBuilder {
 		return i_provider;
 	}
 
-	static getFactory(ingredients, order) {
+	static getFactory(ingredients, box_storage, order) {
 		let dp = new CouchbirdDataProvider(this.db);
 
 		let data_model = {
@@ -146,10 +144,6 @@ class IrisBuilder {
 					count: query.count
 				};
 			});
-
-		let t_api = new TicketApi();
-		let box_storage = t_api.initContent()
-			.getContent('Ticket');
 
 
 		let Model = DecoModel.bind(DecoModel, TypeModel);

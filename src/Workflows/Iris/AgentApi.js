@@ -34,9 +34,14 @@ class AgentApi extends CommonApi {
 
 	getActiveAgents() {
 		return this.db.get(this.startpoint.cache_active_agents)
-			.then((res) => res.value);
+			.then((res) => res.value)
+			.catch(err => {});
 	}
-
+	getAgentPermissions() {
+		return this.db.get(this.startpoint.agent_permissions)
+			.then((res) => res.value.content)
+			.catch(err => {});
+	}
 	initContent() {
 		super.initContent('Employee');
 		super.initContent('SystemEntity');

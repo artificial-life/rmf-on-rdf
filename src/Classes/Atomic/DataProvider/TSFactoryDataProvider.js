@@ -91,7 +91,7 @@ class TSFactoryDataProvider {
 	}
 
 
-	resolvePlacing(tickets, sources, set_data = false, ignore_lost = false) {
+	resolvePlacing(tickets, sources, set_data = false) {
 		let remains = sources;
 		let ordered = this.order(tickets);
 		let ops_by_service = _.reduce(remains, (acc, val, key) => {
@@ -114,10 +114,6 @@ class TSFactoryDataProvider {
 			// console.log("TICK", ticket, operator);
 			// console.log("PLAN", time_description, source);
 			if (!source) {
-				if (!ignore_lost) {
-					lost.push(ticket);
-					return true;
-				}
 				return false;
 			}
 			if (set_data) {
@@ -200,7 +196,7 @@ class TSFactoryDataProvider {
 					placed: placed_new,
 					lost: lost_new,
 					remains: remains_new
-				} = this.resolvePlacing(new_tickets, remains, true, true);
+				} = this.resolvePlacing(new_tickets, remains, true);
 				// console.log("NEW TICKS PLACED", require('util')
 				// 	.inspect(remains_new, {
 				// 		depth: null

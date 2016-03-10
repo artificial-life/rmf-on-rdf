@@ -2,6 +2,7 @@
 
 let IrisBuilder = require("./Builder");
 let IrisApi = require("./IrisApi");
+let TicketApi = require("./TicketApi");
 
 //temporary here
 //@TODO make all this bullshit in a righteous way
@@ -14,10 +15,15 @@ class BookingApi extends IrisApi {
 			default_slot_size: 15 * 3600
 		});
 		let rs = IrisBuilder.getResourceSource();
-		this.ingredients = {
+		let ingredients = {
 			'ldplan': rs
 		};
-		this.factory = IrisBuilder.getFactory(this.ingredients, this.sort);
+		this.ticket_api = new TicketApi();
+		let box_storage = this.ticket_api.initContent()
+			.getContent('Ticket');
+
+
+		this.factory = IrisBuilder.getFactory(ingredients, box_storage, this.ticket_api.sort);
 	}
 
 	getContent() {
@@ -60,33 +66,8 @@ class BookingApi extends IrisApi {
 	}
 
 	sort(tickets) {
-		return _.orderBy(tickets, ['priority', (tick) => {
-			return (new Date(tick.booking_date))
-				.getTime();
-		}], ['desc', 'asc']);
+		return this.ticket_api.sort(tickets);
 	}
-
-	getAllPlans(params) {
-		return this.ingredients.ldplan.get({
-			selection: {
-				ldplan: params
-			}
-		});
-	}
-
-	getAllPlansLength(params) {
-		return this.getAllPlans(params)
-			.then((res) => {
-				let plans = _.flatMap(res, _.values);
-				return {
-					max_solid: _.max(_.map(plans, (plan) => plan.getMaxChunk())) || 0,
-					full: _.reduce(plans, (acc, plan) => {
-						return (acc + plan.getLength());
-					}, 0)
-				};
-			});
-	}
-
 
 }
 module.exports = BookingApi;
