@@ -23,6 +23,15 @@ class TicketApi extends CommonApi {
 			.catch(err => {});
 	}
 
+	getExpiredTickets(now) {
+		return this.db.N1ql.direct({
+				query: `SELECT  \`@id\` as id FROM ${this.db.bucket_name} WHERE  \`@type\`='Ticket' and \`state\`="booked" and \`expiry\`< ${now} ORDER BY id ASC`
+			})
+			.then((res) => _.map(res, 'id'))
+			.catch(err => []);
+	}
+
+
 	initContent() {
 		super.initContent('Ticket');
 		return this;
