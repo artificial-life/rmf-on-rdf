@@ -74,7 +74,7 @@ class TSFactoryDataProvider {
 				let first = _.find(src.sort()
 					.getContent(), (ch) => {
 						return (ch.getState()
-							.haveState('a')) && (ch.getLength() > interval);
+							.haveState('a')) && (ch.getLength() >= interval);
 					});
 				if (!first) return false;
 				time_description = [first.start, first.start + interval];

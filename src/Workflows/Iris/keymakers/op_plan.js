@@ -37,7 +37,6 @@ module.exports = {
 		});
 		let req = {
 			type: 'chain',
-			key_depth: 1,
 			query: chain,
 			final: function (res) {
 				let day = query.dedicated_date.format('dddd');
