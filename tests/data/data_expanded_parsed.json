@@ -3309,6 +3309,42 @@
                 "member": "human-6",
                 "organization": "department-1",
                 "role": "Operator"
+            }, {
+                "@id": "membership-7",
+                "@type": "Membership",
+                "member": "human-7",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-8",
+                "@type": "Membership",
+                "member": "human-8",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-9",
+                "@type": "Membership",
+                "member": "human-9",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-10",
+                "@type": "Membership",
+                "member": "human-10",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-11",
+                "@type": "Membership",
+                "member": "human-11",
+                "organization": "department-1",
+                "role": "Operator"
+            }, {
+                "@id": "membership-12",
+                "@type": "Membership",
+                "member": "human-12",
+                "organization": "department-1",
+                "role": "Operator"
             }
         ]
     }, {
@@ -3353,7 +3389,8 @@
                 "prebook_register_interval": 1,
                 "live_autorestore": 60,
                 "live_autopostpone": 60,
-                "live_autopostpone_count": 1
+                "live_autopostpone_count": 1,
+                "error_dialog_duration": 10
             }
         ]
     }, {
@@ -3430,7 +3467,14 @@
         "@id": "human-1",
         "@type": "Employee",
         "first_name": "Лариса",
-        "available_workstation": "pc-1",
+        "available_workstation": [
+            "pc-1",
+            "pc-2",
+            "pc-3",
+            "pc-4",
+            "pc-5",
+            "pc-6"
+        ],
         "default_workstation": "pc-1",
         "has_membership": "membership-1",
         "has_schedule": {

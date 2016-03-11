@@ -25,6 +25,7 @@ class CommonApi extends IrisApi {
 	getEntryTypeless(keys) {
 		return this.db.getNodes(_.castArray(keys))
 			.then((res) => {
+				// console.log("TYPELESS RES", res);
 				return _.mapValues(res, (val, key) => {
 					let Model = this.models[val.value["@type"]];
 					let item = new Model();
@@ -33,7 +34,7 @@ class CommonApi extends IrisApi {
 				})
 			})
 			.catch((err) => {
-				console.log("TYPELESS GET ERR", err.stack);
+				console.log("TYPELESS GET ERR", keys, err.stack);
 				return false;
 			});
 	}
