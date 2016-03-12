@@ -160,6 +160,7 @@ class TSFactoryDataProvider {
 	}
 
 	get(params) {
+		// console.log("PARMAS", params);
 		return this.placeExisting(params)
 			.then(({
 				remains,
