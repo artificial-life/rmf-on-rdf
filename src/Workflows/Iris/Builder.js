@@ -49,22 +49,14 @@ class IrisBuilder {
 		};
 
 		let ops_datamodel = {
-			type: {
-				type: 'FieldsetPlan',
-				deco: 'BaseCollection',
-				params: 'method'
-			},
+			type: 'FieldsetPlan',
 			deco: 'BaseCollection',
 			params: 'operator_id'
 		};
 
 		let services_datamodel = {
 			type: {
-				type: {
-					type: 'FieldsetPlan',
-					deco: 'BaseCollection',
-					params: 'method'
-				},
+				type: 'FieldsetPlan',
 				deco: 'BaseCollection',
 				params: 'service_id'
 			},

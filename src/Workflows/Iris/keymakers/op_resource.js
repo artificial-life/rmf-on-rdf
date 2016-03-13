@@ -4,7 +4,7 @@ module.exports = {
 	get: function ({
 		query
 	}) {
-		console.log("QQR", query);
+		// console.log("QQR", query);
 		if (!query)
 			return {};
 		let plan_id = _.isString(query.dedicated_date) ? dedicated_date : query.dedicated_date.format("YYYY-MM-DD");
@@ -65,7 +65,7 @@ module.exports = {
 					}
 					return acc;
 				}, {});
-				console.log("RES FIN RESOURCE", reduced, templates);
+				// console.log("RES FIN RESOURCE", reduced, templates);
 				return {
 					keys: reduced,
 					templates

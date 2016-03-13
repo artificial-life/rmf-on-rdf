@@ -35,7 +35,7 @@ class TSFactoryDataProvider {
 
 	getSource(sources, query) {
 		let picker = _.castArray(query.operator || query.alt_operator);
-		console.log("PICKER", picker, query);
+		// console.log("PICKER", picker, query);
 		let cnt = query.service_count > 0 ? query.service_count : 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if (op_s[query.service]) {
@@ -45,10 +45,10 @@ class TSFactoryDataProvider {
 			return acc;
 		}, {});
 
-		console.log("OPS", require('util')
-			.inspect(ops, {
-				depth: null
-			}));
+		// console.log("OPS", require('util')
+		// 	.inspect(ops, {
+		// 		depth: null
+		// 	}));
 		let operator = false;
 		let time_description = _.isArray(query.time_description) ? query.time_description : false;
 		let source;
@@ -111,8 +111,8 @@ class TSFactoryDataProvider {
 				time_description,
 				operator
 			} = this.getSource(sources, ticket);
-			console.log("TICK", ticket, operator);
-			console.log("PLAN", time_description, source);
+			// console.log("TICK", ticket, operator);
+			// console.log("PLAN", time_description, source);
 			if (!source) {
 				return false;
 			}
@@ -287,6 +287,7 @@ class TSFactoryDataProvider {
 				lost
 			}) => {
 				let td = params.selection.ldplan.time_description;
+				let method = params.selection.ldplan.method;
 				let date = params.selection.ldplan.dedicated_date;
 				let org = params.selection.ldplan.organization;
 				date = _.isString(date) ? date : date.format("YYYY-MM-DD");
@@ -323,16 +324,21 @@ class TSFactoryDataProvider {
 						// 	.inspect(plans, {
 						// 		depth: null
 						// 	}));
+						let available = {};
+						available[method] = _.reduce(plans, (acc, plan) => {
+							return plan ? (acc + plan.getLength()) : acc;
+						}, 0);
+						let reserved = _.reduce(all_placed, (acc, tick) => {
+							if (_.isArray(tick.time_description))
+								acc += (tick.time_description[1] - tick.time_description[0]);
+							return acc;
+						}, 0);
+						let max_solid = {};
+						max_solid[method] = _.max(_.map(plans, (plan) => plan.getMaxChunk())) || 0;
 						let plan_stats = {
-							available: _.reduce(plans, (acc, plan) => {
-								return plan ? (acc + plan.getLength()) : acc;
-							}, 0),
-							reserved: _.reduce(all_placed, (acc, tick) => {
-								if (_.isArray(tick.time_description))
-									acc += (tick.time_description[1] - tick.time_description[0]);
-								return acc;
-							}, 0),
-							max_solid: _.max(_.map(plans, (plan) => plan.getMaxChunk())) || 0
+							available,
+							reserved,
+							max_solid
 						};
 						_.set(acc, `${org}.${service}.${date}`, plan_stats);
 						return acc;

@@ -4,7 +4,7 @@ module.exports = {
 	get: function ({
 		query
 	}) {
-		console.log("QQO", query);
+		// console.log("QQO", query);
 		if (!query)
 			return {};
 		let chain = [];
@@ -49,14 +49,14 @@ module.exports = {
 				let schedules = _.keyBy(_.map(res.schedules, "value"), "@id");
 				let reduced = _.reduce(ops, (acc, val, key) => {
 					let sch = _.find(schedules, (sch, sch_id) => {
-						console.log("SCH", sch_id, key, day, !!~_.indexOf(_.castArray(val.has_schedule[query.method]), sch_id, _.castArray(val.has_schedule[query.method])));
+						// console.log("SCH", sch_id, key, day, !!~_.indexOf(_.castArray(val.has_schedule[query.method]), sch_id, _.castArray(val.has_schedule[query.method])));
 						return !!~_.indexOf(_.castArray(val.has_schedule[query.method]), sch_id) && !!~_.indexOf(sch.has_day, day);
 					});
 					if (sch)
 						acc[key] = sch;
 					return acc;
 				}, {});
-				console.log("REDUCED OPLANS", reduced);
+				// console.log("REDUCED OPLANS", reduced);
 				return reduced;
 			}
 		};

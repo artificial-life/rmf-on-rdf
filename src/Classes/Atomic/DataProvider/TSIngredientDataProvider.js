@@ -34,29 +34,23 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			})
 			.then((resolved) => {
 				// had to choose between this outrageous notation and additional * queries to db
-				console.log("TSI", require('util')
-					.inspect(resolved.content_map['<namespace>content'], {
-						depth: null
-					}));
+				// console.log("TSI", require('util')
+				// 	.inspect(resolved.content_map['<namespace>content'], {
+				// 		depth: null
+				// 	}));
 				let observed = {
 					services: resolved.getAtom(services_path)
 						.observe({
 							operator_id: selection.operator,
 							selection: {
 								service_id: selection.service,
-								selection: {
-									method: selection.method,
-									selection: time_description
-								}
+								selection: time_description
 							}
 						}),
 					ops: resolved.getAtom(ops_path)
 						.observe({
 							operator_id: selection.operator,
-							selection: {
-								method: selection.method,
-								selection: time_description
-							}
+							selection: time_description
 						}),
 					plans: resolved.getAtom(plans_path)
 						.observe({
@@ -75,7 +69,6 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				return _.reduce(services, (acc, s_plans, op_id) => {
 					if (!(plans[op_id] && ops[op_id]))
 						return acc;
-					acc[op_id] = {};
 					let op_plan = plans[op_id].intersection(ops[op_id]);
 					let s_ids = (service_id == '*' || !service_id) ? _.keys(s_plans.content) : service_id;
 					s_ids = _.castArray(s_ids);
