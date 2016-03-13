@@ -42,15 +42,29 @@ class IrisBuilder {
 			.get);
 
 
-		let ops_datamodel = {
+		let plans_datamodel = {
 			type: 'FieldsetPlan',
+			deco: 'BaseCollection',
+			params: 'operator_id'
+		};
+
+		let ops_datamodel = {
+			type: {
+				type: 'FieldsetPlan',
+				deco: 'BaseCollection',
+				params: 'method'
+			},
 			deco: 'BaseCollection',
 			params: 'operator_id'
 		};
 
 		let services_datamodel = {
 			type: {
-				type: 'FieldsetPlan',
+				type: {
+					type: 'FieldsetPlan',
+					deco: 'BaseCollection',
+					params: 'method'
+				},
 				deco: 'BaseCollection',
 				params: 'service_id'
 			},
@@ -64,7 +78,7 @@ class IrisBuilder {
 		});
 
 		let plan_collection = AtomicFactory.create('BasicAsync', {
-			type: ops_datamodel,
+			type: plans_datamodel,
 			accessor: ops_resource_accessor
 		});
 

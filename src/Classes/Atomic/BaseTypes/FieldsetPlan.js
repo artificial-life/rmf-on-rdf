@@ -30,6 +30,10 @@ class FieldsetPlan extends Plan {
 		if (data.cas) {
 			node = data.value;
 		}
+		//@FIXIT
+		if (data.spec) {
+			_.assign(this, data.spec);
+		}
 		if (node['@id']) {
 			node['@type'] = "Plan";
 			this.id = node["@id"];

@@ -4,10 +4,10 @@ module.exports = {
 	get: function ({
 		query
 	}) {
-		// console.log("QQR", query);
+		console.log("QQR", query);
 		if (!query)
 			return {};
-		let plan_id = query.dedicated_date.format("YYYY-MM-DD");
+		let plan_id = _.isString(query.dedicated_date) ? dedicated_date : query.dedicated_date.format("YYYY-MM-DD");
 		let chain = [];
 		let in_keys;
 		let out_keys;
@@ -45,6 +45,10 @@ module.exports = {
 			key_depth: 1,
 			query: chain,
 			final: function (res) {
+				// console.log("OPRESOURCFE", require('util')
+				// 	.inspect(res, {
+				// 		depth: null
+				// 	}));
 				let templates = {};
 				let day = query.dedicated_date.format('dddd');
 				let ops = _.keyBy(_.map(_.compact(res.ops), "value"), "@id");
@@ -61,7 +65,7 @@ module.exports = {
 					}
 					return acc;
 				}, {});
-				// console.log("RES FIN RESOURCE", reduced, templates);
+				console.log("RES FIN RESOURCE", reduced, templates);
 				return {
 					keys: reduced,
 					templates

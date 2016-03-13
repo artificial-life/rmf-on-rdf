@@ -35,7 +35,7 @@ class TSFactoryDataProvider {
 
 	getSource(sources, query) {
 		let picker = _.castArray(query.operator || query.alt_operator);
-		// console.log("PICKER", picker, query);
+		console.log("PICKER", picker, query);
 		let cnt = query.service_count > 0 ? query.service_count : 1;
 		let ops = _.reduce(_.pick(sources, picker), (acc, op_s, op_id) => {
 			if (op_s[query.service]) {
@@ -45,10 +45,10 @@ class TSFactoryDataProvider {
 			return acc;
 		}, {});
 
-		// console.log("OPS", require('util')
-		// 	.inspect(ops, {
-		// 		depth: null
-		// 	}));
+		console.log("OPS", require('util')
+			.inspect(ops, {
+				depth: null
+			}));
 		let operator = false;
 		let time_description = _.isArray(query.time_description) ? query.time_description : false;
 		let source;
@@ -111,8 +111,8 @@ class TSFactoryDataProvider {
 				time_description,
 				operator
 			} = this.getSource(sources, ticket);
-			// console.log("TICK", ticket, operator);
-			// console.log("PLAN", time_description, source);
+			console.log("TICK", ticket, operator);
+			console.log("PLAN", time_description, source);
 			if (!source) {
 				return false;
 			}
@@ -167,9 +167,10 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
-				// console.log("OLD TICKS PLACED", require('util').inspect(remains, {
-				// 	depth: null
-				// }));
+				// console.log("OLD TICKS PLACED", require('util')
+				// 	.inspect(remains, {
+				// 		depth: null
+				// 	}));
 				let td = params.selection.ldplan.time_description;
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
 					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
@@ -225,7 +226,10 @@ class TSFactoryDataProvider {
 					return false;
 				let tick = to_place;
 				tick.source = saved.ldplan[tick.id];
-				if (!_.isArray(to_place.time_description)) _.unset(tick, 'operator');
+				if (!_.isArray(to_place.time_description)) {
+					_.unset(tick, 'operator');
+					_.unset(tick, 'destination');
+				}
 				// console.log("TICK SV", tick, saved);
 				return this.storage_accessor.save(tick)
 					.catch((err) => {
@@ -237,9 +241,10 @@ class TSFactoryDataProvider {
 
 	set(params, value) {
 		let new_tickets = this.finalizer(value);
-		// console.log("SETTING", params, require('util').inspect(new_tickets, {
-		// 	depth: null
-		// }));
+		// console.log("SETTING", params, require('util')
+		// 	.inspect(new_tickets, {
+		// 		depth: null
+		// 	}));
 		if (params.reserve) {
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
@@ -308,7 +313,7 @@ class TSFactoryDataProvider {
 				if (params.quota_status) {
 					let all_placed = _.concat(placed, placed_new);
 					let services = _.uniq(_.flatMap(remains_new, _.keys));
-					// console.log("SERV", services);
+					// console.log("SERV", services, params.selection.ldplan.dedicated_date.format("YYYY-MM-DD"));
 					stats = _.reduce(services, (acc, service) => {
 						let plans = _.map(remains_new, (op_plans, op_id) => {
 							let p = _.get(op_plans, `${service}`, false);
