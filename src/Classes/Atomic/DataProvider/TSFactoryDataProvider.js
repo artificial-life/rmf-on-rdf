@@ -111,8 +111,8 @@ class TSFactoryDataProvider {
 				time_description,
 				operator
 			} = this.getSource(sources, ticket);
-			// console.log("TICK", ticket, operator);
-			// console.log("PLAN", time_description, source);
+			console.log("TICK", ticket, operator);
+			console.log("PLAN", time_description, source);
 			if (!source) {
 				return false;
 			}
@@ -160,7 +160,7 @@ class TSFactoryDataProvider {
 	}
 
 	get(params) {
-		// console.log("PARMAS", params);
+		console.log("PARMAS", params);
 		return this.placeExisting(params)
 			.then(({
 				remains,
@@ -241,10 +241,10 @@ class TSFactoryDataProvider {
 
 	set(params, value) {
 		let new_tickets = this.finalizer(value);
-		// console.log("SETTING", params, require('util')
-		// 	.inspect(new_tickets, {
-		// 		depth: null
-		// 	}));
+		console.log("SETTING", params, require('util')
+			.inspect(new_tickets, {
+				depth: null
+			}));
 		if (params.reserve) {
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
