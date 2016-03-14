@@ -18,7 +18,7 @@ class AtomicComputedAsync extends AtomicBasicAsync {
 	}
 
 	resolve(params) {
-		return Promise.map(this.content, (atom) => atom.resolve(params))
+		return Promise.mapSeries(this.content, (atom) => atom.resolve(params))
 			.then((res) => {
 				let re = _.reduce(res, (result, resolved) => {
 					return !result ? resolved : result.intersection(resolved);

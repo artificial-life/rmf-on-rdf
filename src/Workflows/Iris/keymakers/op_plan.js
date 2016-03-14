@@ -17,6 +17,7 @@ module.exports = {
 				in_keys: [m_key]
 			});
 			out_keys = (md) => {
+				// console.log(md);
 				let ops = _.map(_.filter(md[m_key].value.has_description, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
 				return _.uniq(_.flattenDeep(ops));
 			};

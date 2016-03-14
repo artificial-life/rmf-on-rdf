@@ -56,6 +56,26 @@ class ServiceApi extends CommonApi {
 			.catch((err) => {});
 	}
 
+	lockQuota() {
+		return this.db.get(this.startpoint.cache_service_quota + '-flag')
+			.then(cnt => {
+				if (cnt && (cnt.value > 0))
+					return Promise.reject(new Error("Locked"));
+				return this.db.counter(this.startpoint.cache_service_quota + '-flag', 1, {
+					initial: 1
+				});
+			});
+	}
+	unlockQuota() {
+		return this.db.get(this.startpoint.cache_service_quota + '-flag')
+			.then(cnt => {
+				if (cnt && (cnt.value < 1))
+					return true;
+				return this.db.counter(this.startpoint.cache_service_quota + '-flag', -1, {
+					initial: 0
+				});
+			});
+	}
 	getServiceTree(query) {
 		let groups = {};
 		let services = {};
