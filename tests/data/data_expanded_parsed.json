@@ -3364,6 +3364,7 @@
                         },
                         "label": "Отдел 1",
                         "pin_code_prefix": "001",
+                        "formatted_address": "Kokytos",
                         "priority_description": {
                             "veteran": {
                                 "value": 1
