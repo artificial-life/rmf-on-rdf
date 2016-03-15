@@ -62,7 +62,8 @@ class ServiceApi extends CommonApi {
 				if (cnt && (cnt.value > 0))
 					return Promise.reject(new Error("Locked"));
 				return this.db.counter(this.startpoint.cache_service_quota + '-flag', 1, {
-					initial: 1
+					initial: 1,
+					expiry: 60
 				});
 			});
 	}

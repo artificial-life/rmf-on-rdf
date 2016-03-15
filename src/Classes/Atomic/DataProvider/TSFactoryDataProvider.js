@@ -337,7 +337,7 @@ class TSFactoryDataProvider {
 							return acc;
 						}, 0);
 						let max_solid = {};
-						max_solid[method] = _.max(_.map(plans, (plan) => plan.getMaxChunk())) || 0;
+						max_solid[method] = _.max(_.map(plans, (plan) => plan ? plan.getMaxChunk() : 0)) || 0;
 						let plan_stats = {
 							available,
 							reserved,
