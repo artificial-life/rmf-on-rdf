@@ -70,9 +70,11 @@ class TSFactoryDataProvider {
 
 
 			source = _.find(ordered, (src) => {
+				// console.log("SEARCHING SRC", src.parent.id || src.id);
 				let interval = query.time_description * cnt;
 				let first = _.find(src.sort()
 					.getContent(), (ch) => {
+						// console.log("SEARCHING FOR START CHUNK", ch.getStateString(), ch.start, ch.end, ch.getLength(), interval);
 						return (ch.getState()
 							.haveState('a')) && (ch.getLength() >= interval);
 					});
@@ -103,7 +105,7 @@ class TSFactoryDataProvider {
 		}, {});
 		let placed = [];
 		let lost = [];
-		_.forEach(ordered, (ticket) => {
+		_.map(ordered, (ticket) => {
 			ticket.alt_operator = ticket.alt_operator && !_.isEmpty(ticket.alt_operator) ? _.castArray(ticket.alt_operator) : ops_by_service[ticket.service];
 			// console.log("OPS_BY_SERV", ops_by_service);
 			let {
@@ -111,10 +113,11 @@ class TSFactoryDataProvider {
 				time_description,
 				operator
 			} = this.getSource(sources, ticket);
-			console.log("TICK", ticket, operator);
-			console.log("PLAN", time_description, source);
+			// console.log("TICK", ticket, operator);
+			// console.log("PLAN", time_description, source);
 			if (!source) {
-				return false;
+				lost.push(ticket);
+				return true;
 			}
 			if (set_data) {
 				ticket.time_description = time_description;
@@ -154,19 +157,26 @@ class TSFactoryDataProvider {
 				},
 				tickets
 			}) => {
-				// console.log("TICKS", _.values(tickets.serialize()));
+				// console.log("EXISTING TICKS", _.values(tickets.serialize()));
 				return this.resolvePlacing(_.values(tickets.serialize()), plans);
 			});
 	}
 
 	get(params) {
-		console.log("PARMAS", params);
+		// console.log("PARMAS", require('util')
+		// 	.inspect(params, {
+		// 		depth: null
+		// 	}));
 		return this.placeExisting(params)
 			.then(({
 				remains,
 				placed,
 				lost
 			}) => {
+				// console.log("LOST", require('util')
+				// 	.inspect(lost, {
+				// 		depth: null
+				// 	}));
 				// console.log("OLD TICKS PLACED", require('util')
 				// 	.inspect(remains, {
 				// 		depth: null
@@ -175,9 +185,6 @@ class TSFactoryDataProvider {
 				let [out_of_range, lost_old] = _.partition(lost, (tick) => {
 					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
 				});
-				if (_.size(lost_old) > 0) {
-					return [];
-				}
 				let ticket_data = [];
 
 				_.map(params.services, ({
@@ -241,10 +248,10 @@ class TSFactoryDataProvider {
 
 	set(params, value) {
 		let new_tickets = this.finalizer(value);
-		console.log("SETTING", params, require('util')
-			.inspect(new_tickets, {
-				depth: null
-			}));
+		// console.log("SETTING", params, require('util')
+		// 	.inspect(new_tickets, {
+		// 		depth: null
+		// 	}));
 		if (params.reserve) {
 			let keys = _.map(new_tickets, 'id');
 			return this.storage_accessor.resolve({
@@ -295,24 +302,20 @@ class TSFactoryDataProvider {
 					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
 				});
 				// console.log("NEWTICKS", new_tickets, lost_old);
-				if (_.size(lost_old) > 0) {
-					return Promise.props({
-						placed: [],
-						out_of_range,
-						lost: new_tickets
-					});
-				}
+				let old_placed = _.isEmpty(lost_old);
+
 				let {
 					placed: placed_new,
 					lost: lost_new,
 					remains: remains_new
 				} = this.resolvePlacing(new_tickets, remains);
+				let all_placed = _.concat(placed, placed_new);
+				let all_lost = lost_new;
 
 				//feeling ashamed
 				//@FIXIT
 				let stats;
 				if (params.quota_status) {
-					let all_placed = _.concat(placed, placed_new);
 					let services = _.uniq(_.flatMap(remains_new, _.keys));
 					// console.log("SERV", services, params.selection.ldplan.dedicated_date.format("YYYY-MM-DD"));
 					stats = _.reduce(services, (acc, service) => {
@@ -353,7 +356,7 @@ class TSFactoryDataProvider {
 				return Promise.props({
 					placed: this.storage_accessor.save(placed_new),
 					out_of_range,
-					lost: lost_new,
+					lost: all_lost,
 					stats
 				});
 			});
