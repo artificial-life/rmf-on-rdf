@@ -25,7 +25,7 @@ class ServiceApi extends CommonApi {
 
 	getUserInfoFields() {
 		return this.db.get(this.startpoint.user_info_fields)
-			.then((res) => (_.pickBy(res.value, (val, key) => !_.startsWith(key, "@")) || {}))
+			.then((res) => (res.value.content))
 			.catch((err) => {});
 	}
 
