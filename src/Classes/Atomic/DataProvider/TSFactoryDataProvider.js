@@ -186,6 +186,11 @@ class TSFactoryDataProvider {
 					return _.isArray(tick.time_description) && (tick.time_description[0] < td[0] || tick.time_description[1] > td[1]);
 				});
 				let ticket_data = [];
+				if (!_.isEmpty(lost)) {
+					console.log("-------------------------------------------------------------------------------------------------------");
+					console.log("LOST", lost);
+					console.log("-------------------------------------------------------------------------------------------------------");
+				}
 
 				_.map(params.services, ({
 					service: s_id,
@@ -303,7 +308,11 @@ class TSFactoryDataProvider {
 				});
 				// console.log("NEWTICKS", new_tickets, lost_old);
 				let old_placed = _.isEmpty(lost_old);
-
+				if (!_.isEmpty(lost)) {
+					console.log("-------------------------------------------------------------------------------------------------------");
+					console.log("LOST", lost);
+					console.log("-------------------------------------------------------------------------------------------------------");
+				}
 				let {
 					placed: placed_new,
 					lost: lost_new,
@@ -315,13 +324,15 @@ class TSFactoryDataProvider {
 				//feeling ashamed
 				//@FIXIT
 				let stats;
+				// console.log("STATS____________________________________________________________________________________________________________");
 				if (params.quota_status) {
 					let services = _.uniq(_.flatMap(remains_new, _.keys));
 					// console.log("SERV", services, params.selection.ldplan.dedicated_date.format("YYYY-MM-DD"));
 					stats = _.reduce(services, (acc, service) => {
 						let plans = _.map(remains_new, (op_plans, op_id) => {
 							let p = _.get(op_plans, `${service}`, false);
-							return p ? p.intersection(p.parent) : p;
+							return p ? p.parent.intersection(p)
+								.defragment() : p;
 						});
 						// console.log("PLAN", require('util')
 						// 	.inspect(plans, {
