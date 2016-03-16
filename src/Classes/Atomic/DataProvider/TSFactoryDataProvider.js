@@ -342,6 +342,10 @@ class TSFactoryDataProvider {
 						available[method] = _.reduce(plans, (acc, plan) => {
 							return plan ? (acc + plan.getLength()) : acc;
 						}, 0);
+						let max_available = {};
+						max_available[method] = _.reduce(plans, (acc, plan) => {
+							return plan ? (acc + plan.parent.getLength()) : acc;
+						}, 0);
 						let reserved = _.reduce(all_placed, (acc, tick) => {
 							if (_.isArray(tick.time_description))
 								acc += (tick.time_description[1] - tick.time_description[0]);
@@ -350,6 +354,7 @@ class TSFactoryDataProvider {
 						let max_solid = {};
 						max_solid[method] = _.max(_.map(plans, (plan) => plan ? plan.getMaxChunk() : 0)) || 0;
 						let plan_stats = {
+							max_available,
 							available,
 							reserved,
 							max_solid
