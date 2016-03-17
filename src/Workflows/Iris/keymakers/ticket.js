@@ -49,6 +49,7 @@ module.exports = {
 					let filtered = _.filter(_.map(_.compact(res.tickets), "value"), (tick) => {
 						return _.reduce(query, (acc, val, key) => {
 							let res = true;
+							// console.log("COMPARING", key, val, tick[key]);
 							if (!_.isPlainObject(val)) {
 								//OR
 								res = !_.isEmpty(_.intersection(_.castArray(val), _.castArray(tick[key])));

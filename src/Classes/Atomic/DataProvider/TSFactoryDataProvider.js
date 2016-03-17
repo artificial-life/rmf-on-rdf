@@ -158,7 +158,7 @@ class TSFactoryDataProvider {
 				tickets
 			}) => {
 				// console.log("EXISTING TICKS", _.values(tickets.serialize()));
-				return this.resolvePlacing(_.values(tickets.serialize()), plans);
+				return this.resolvePlacing(_.values(tickets.serialize()), plans, true);
 			});
 	}
 
@@ -173,8 +173,8 @@ class TSFactoryDataProvider {
 				placed,
 				lost
 			}) => {
-				// console.log("LOST", require('util')
-				// 	.inspect(lost, {
+				// console.log("PLACED", require('util')
+				// 	.inspect(placed, {
 				// 		depth: null
 				// 	}));
 				// console.log("OLD TICKS PLACED", require('util')
@@ -191,6 +191,8 @@ class TSFactoryDataProvider {
 					console.log("LOST", lost);
 					console.log("-------------------------------------------------------------------------------------------------------");
 				}
+				if (params.existing_only)
+					return placed;
 
 				_.map(params.services, ({
 					service: s_id,
@@ -343,8 +345,9 @@ class TSFactoryDataProvider {
 							return plan ? (acc + plan.getLength()) : acc;
 						}, 0);
 						let max_available = {};
-						max_available[method] = _.reduce(plans, (acc, plan) => {
-							return plan ? (acc + plan.parent.getLength()) : acc;
+						max_available[method] = _.reduce(remains_new, (acc, op_plans, op_id) => {
+							let plan = _.get(op_plans, `${ service }`, false);
+							return plan ? acc + plan.getLength() : acc;
 						}, 0);
 						let reserved = _.reduce(all_placed, (acc, tick) => {
 							if (_.isArray(tick.time_description))

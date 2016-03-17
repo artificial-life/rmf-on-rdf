@@ -147,7 +147,8 @@ class IrisBuilder {
 					},
 					services: query.services,
 					box_id: '*',
-					count: query.count
+					count: query.count,
+					existing_only: !!query.existing_only
 				};
 			});
 
