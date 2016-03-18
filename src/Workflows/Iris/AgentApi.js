@@ -21,7 +21,7 @@ class AgentApi extends CommonApi {
 
 	cacheActiveAgents() {
 		return this.db.N1ql.direct({
-				query: `SELECT  \`@id\` as id, \`@type\` as type, \`state\` FROM ${this.db.bucket_name} WHERE ( \`state\`='active' OR \`state\`='paused') ORDER BY type, id ASC`
+				query: `SELECT  \`@id\` as id, \`@type\` as type, \`state\` FROM \`${this.db.bucket_name}\` WHERE ( \`state\`='active' OR \`state\`='paused') ORDER BY type, id ASC`
 			})
 			.then((res) => {
 				return this.db.upsert(this.startpoint.cache_active_agents, {

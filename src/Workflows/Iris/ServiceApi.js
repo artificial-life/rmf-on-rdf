@@ -4,13 +4,15 @@ let CommonApi = require("./CommonApi");
 let default_user_info_fields = 'user_info_fields';
 let default_cache_service_ids = 'cache_service_ids';
 let default_service_quota = 'cache_service_quota';
+let default_qa_questions = 'qa_questions';
 
 class ServiceApi extends CommonApi {
 	constructor(cfg = {}) {
 		let config = _.merge({
 			user_info_fields: default_user_info_fields,
 			cache_service_quota: default_service_quota,
-			cache_service_ids: default_cache_service_ids
+			cache_service_ids: default_cache_service_ids,
+			qa_questions: default_qa_questions
 		}, cfg);
 		super({
 			startpoint: config
@@ -29,9 +31,15 @@ class ServiceApi extends CommonApi {
 			.catch((err) => {});
 	}
 
+	getQaQuestions() {
+		return this.db.get(this.startpoint.qa_questions)
+			.then((res) => (res.value.content))
+			.catch((err) => []);
+	}
+
 	cacheServiceIds() {
 		return this.db.N1ql.direct({
-				query: `SELECT  \`@id\` as id FROM ${this.db.bucket_name} WHERE  \`@type\`='Service' ORDER BY id ASC`
+				query: `SELECT  \`@id\` as id FROM \`${this.db.bucket_name}\` WHERE  \`@type\`='Service' ORDER BY id ASC`
 			})
 			.then((res) => {
 				return this.db.upsert(this.startpoint.cache_service_ids, {
