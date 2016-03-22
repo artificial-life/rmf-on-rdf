@@ -22,6 +22,44 @@ class CommonApi extends IrisApi {
 		this.startpoint = startpoint;
 	}
 
+	getCache(name, params = []) {
+		let cname = this.getSystemName('cache', name, params);
+		return this.db.get(cname)
+			.then((res) => res.value.content)
+			.catch((err) => {});
+	}
+
+	getSystemName(type, name, params = []) {
+		return _.join(_.concat([type, _.snakeCase(name)], params), '_');
+	}
+
+	setCache(name, params = [], data) {
+		let cname = this.getSystemName('cache', name, params);
+		return this.db.upsert(cname, {
+			"@id": cname,
+			"@category": _.camelCase(name),
+			"@type": "Cache",
+			"content": data
+		});
+	}
+
+	getGlobal(name, params = []) {
+		let cname = this.getSystemName('global', name, params);
+		return this.db.get(cname)
+			.then((res) => res.value.content)
+			.catch((err) => {});
+	}
+
+	setGlobal(name, params = [], data) {
+		let cname = this.getSystemName('global', name, params);
+		return this.db.upsert(cname, {
+			"@id": cname,
+			"@category": _.camelCase(name),
+			"@type": "Description",
+			"content": data
+		});
+	}
+
 	getEntryTypeless(keys) {
 		return this.db.getNodes(_.castArray(keys))
 			.then((res) => {

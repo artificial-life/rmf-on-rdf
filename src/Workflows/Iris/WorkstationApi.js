@@ -6,16 +6,9 @@ let base_dir = "../../../";
 //parent
 let CommonApi = require("./CommonApi");
 
-let default_org_structure = 'global_org_structure';
-
 class WorkstationApi extends CommonApi {
 	constructor(cfg = {}) {
-		let config = _.merge({
-			org_structure: default_org_structure
-		}, cfg);
-		super({
-			startpoint: config
-		});
+		super(cfg);
 	}
 
 	initContent() {
@@ -32,9 +25,7 @@ class WorkstationApi extends CommonApi {
 	}
 
 	getOrganizationTree() {
-		return this.db.get(this.startpoint.org_structure)
-			.then((res) => (res.value || {}))
-			.catch((err) => {});
+		return super.getGlobal('org_structure');
 	}
 
 	getWorkstationOrganizationChain(org_key) {
@@ -64,7 +55,9 @@ class WorkstationApi extends CommonApi {
 						}
 					});
 				};
-				recurse(orgtree);
+				recurse({
+					has_unit: orgtree
+				});
 				return _.reduce(org_keys, (acc, key) => {
 					let org = _.find(_.values(paths), ({
 						path,
@@ -92,14 +85,13 @@ class WorkstationApi extends CommonApi {
 	getWorkstationOrganizationSchedulesChain(org_key) {
 		let prov;
 		let time = process.hrtime();
-
 		return this.getWorkstationOrganizationChain(org_key)
 			.then((res) => {
 				prov = res;
-				let keys = _.flatMap(_.values(prov), (p, key) => {
-					return _.flatMap(_.values(p), (org) => _.values(org.has_schedule));
+				let keys = _.map(_.values(prov), (p, key) => {
+					return _.map(_.values(p), (org) => _.values(org.has_schedule));
 				});
-				keys = _.uniq(keys);
+				keys = _.uniq(_.flattenDeep(keys));
 				return super.getEntry("Schedule", {
 					keys
 				});
@@ -107,7 +99,7 @@ class WorkstationApi extends CommonApi {
 			.then((res) => {
 				return _.mapValues(prov, (p, key) => {
 					return _.mapValues(p, (org) => {
-						org.has_schedule = _.mapValues(org.has_schedule, (schedules) => _.values(_.pick(res, schedules)));
+						org.has_schedule = _.mapValues(org.has_schedule, (schedules, type) => _.values(_.pick(res, schedules)));
 						return org;
 					})
 				});

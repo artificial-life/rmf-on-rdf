@@ -3,20 +3,9 @@
 //parent
 let CommonApi = require("./CommonApi");
 
-let default_membership_description = 'global_membership_description';
-let default_agent_permissions = 'global_agent_permissions';
-let default_active_agents = 'cache_active_agents';
-
 class AgentApi extends CommonApi {
 	constructor(cfg = {}) {
-		let config = _.merge({
-			membership_description: default_membership_description,
-			cache_active_agents: default_active_agents,
-			agent_permissions: default_agent_permissions
-		}, cfg);
-		super({
-			startpoint: config
-		});
+		super(cfg);
 	}
 
 	cacheActiveAgents() {
@@ -24,23 +13,15 @@ class AgentApi extends CommonApi {
 				query: `SELECT  \`@id\` as id, \`@type\` as type, \`state\` FROM \`${this.db.bucket_name}\` WHERE ( \`state\`='active' OR \`state\`='paused') ORDER BY type, id ASC`
 			})
 			.then((res) => {
-				return this.db.upsert(this.startpoint.cache_active_agents, {
-					"@id": this.startpoint.cache_active_agents,
-					"@type": "Cache",
-					"content": _.mapValues(_.groupBy(res, 'type'), (vals, type) => _.mapValues(_.groupBy(vals, 'state'), (v, state) => _.map(v, 'id')))
-				});
+				return super.setCache('active_agents', [], _.mapValues(_.groupBy(res, 'type'), (vals, type) => _.mapValues(_.groupBy(vals, 'state'), (v, state) => _.map(v, 'id'))));
 			});
 	}
 
 	getActiveAgents() {
-		return this.db.get(this.startpoint.cache_active_agents)
-			.then((res) => res.value.content)
-			.catch(err => {});
+		return super.getCache('active_agents');
 	}
 	getAgentPermissions() {
-		return this.db.get(this.startpoint.agent_permissions)
-			.then((res) => res.value.content)
-			.catch(err => {});
+		return super.getGlobal('agent_permissions');
 	}
 	initContent() {
 		super.initContent('Employee');

@@ -32,7 +32,7 @@ module.exports = {
 		chain.push({
 			name: "schedules",
 			out_keys: (ops) => {
-				let schedules = _.map(ops, `value.has_schedule.${query.method}`);
+				let schedules = _.map(ops, (op) => _.get(op, `value.has_schedule.${query.method}`, []));
 				return _.uniq(_.flattenDeep(schedules));
 			}
 		});

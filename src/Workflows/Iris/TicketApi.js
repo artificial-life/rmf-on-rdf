@@ -5,24 +5,13 @@ let base_dir = "../../../";
 //parent
 let CommonApi = require("./CommonApi");
 
-let default_priority_description = 'global_priority_description';
-let default_cache_service_slots = 'cache_service_slots';
-
 class TicketApi extends CommonApi {
 	constructor(cfg = {}) {
-		let config = _.merge({
-			priority_description_registry: default_priority_description,
-			cache_service_slots: default_cache_service_slots
-		}, cfg);
-		super({
-			startpoint: config
-		});
+		super(cfg);
 	}
 
 	getBasicPriorities() {
-		return this.db.get(this.startpoint.priority_description_registry)
-			.then(res => res.value.content)
-			.catch(err => {});
+		return super.getGlobal('priority_description');
 	}
 
 	getExpiredTickets(now) {
@@ -34,17 +23,11 @@ class TicketApi extends CommonApi {
 	}
 
 	cacheServiceSlots(data) {
-		return this.db.upsert(this.startpoint.cache_service_slots, {
-			"@id": this.startpoint.cache_service_slots,
-			"@type": "Cache",
-			"content": data
-		});
+		return super.setCache('service_slots', [], data);
 	}
 
 	getServiceSlotsCache() {
-		return this.db.get(this.startpoint.cache_service_slots)
-			.then((res) => res.value.content)
-			.catch((err) => {});
+		return super.getCache('service_slots');
 	}
 
 

@@ -1,18 +1,12 @@
 'use strict'
 let base_dir = "../../../";
 let CommonApi = require("./CommonApi");
-let default_user_info_fields = 'user_info_fields';
-let default_cache_service_ids = 'cache_service_ids';
-let default_service_quota = 'cache_service_quota';
-let default_qa_questions = 'qa_questions';
 
 class ServiceApi extends CommonApi {
 	constructor(cfg = {}) {
 		let config = _.merge({
-			user_info_fields: default_user_info_fields,
-			cache_service_quota: default_service_quota,
-			cache_service_ids: default_cache_service_ids,
-			qa_questions: default_qa_questions
+			user_info_fields: 'user_info_fields',
+			qa_questions: 'qa_questions'
 		}, cfg);
 		super({
 			startpoint: config
@@ -42,45 +36,37 @@ class ServiceApi extends CommonApi {
 				query: `SELECT  \`@id\` as id FROM \`${this.db.bucket_name}\` WHERE  \`@type\`='Service' ORDER BY id ASC`
 			})
 			.then((res) => {
-				return this.db.upsert(this.startpoint.cache_service_ids, {
-					"@id": this.startpoint.cache_service_ids,
-					"@type": "Cache",
-					"content": _.map(res, 'id')
-				});
+				return super.setCache('service_ids', [], _.map(res, 'id'));
 			});
 	}
 
 	cacheServiceQuota(data) {
-		return this.db.upsert(this.startpoint.cache_service_quota, {
-			"@id": this.startpoint.cache_service_quota,
-			"@type": "Cache",
-			"content": data
-		});
+		return super.setCache('service_quota', [], data);
 	}
 
 	getServiceQuota() {
-		return this.db.get(this.startpoint.cache_service_quota)
-			.then((res) => res.value.content)
-			.catch((err) => {});
+		return super.getCache('service_quota');
 	}
 
 	lockQuota() {
-		return this.db.get(this.startpoint.cache_service_quota + '-flag')
+		let name = super.getSystemName('cache', 'service_quota', ['flag']);
+		return this.db.get(name)
 			.then(cnt => {
 				if (cnt && (cnt.value > 0))
 					return Promise.reject(new Error("Locked"));
-				return this.db.counter(this.startpoint.cache_service_quota + '-flag', 1, {
+				return this.db.counter(name, 1, {
 					initial: 1,
 					expiry: 60
 				});
 			});
 	}
 	unlockQuota() {
-		return this.db.get(this.startpoint.cache_service_quota + '-flag')
+		let name = super.getSystemName('cache', 'service_quota', ['flag']);
+		return this.db.get(name)
 			.then(cnt => {
 				if (cnt && (cnt.value < 1))
 					return true;
-				return this.db.counter(this.startpoint.cache_service_quota + '-flag', -1, {
+				return this.db.counter(name, -1, {
 					initial: 0
 				});
 			});

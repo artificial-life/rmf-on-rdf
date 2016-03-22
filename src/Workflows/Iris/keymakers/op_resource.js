@@ -34,7 +34,7 @@ module.exports = {
 			out_keys: (ops) => {
 				let schedules = _.map(ops, (op) => {
 					if (!op) return [];
-					let keys = _.castArray(op.value.has_schedule.resource);
+					let keys = op.value && op.value.has_schedule ? _.castArray(op.value.has_schedule.resource) : [];
 					return _.concat(keys, `${op.value["@id"]}-${query.organization}-plan--${plan_id}`);
 				});
 				return _.uniq(_.flattenDeep(schedules));
