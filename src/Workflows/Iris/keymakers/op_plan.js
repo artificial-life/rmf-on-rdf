@@ -8,26 +8,19 @@ module.exports = {
 		if (!query)
 			return {};
 		let chain = [];
-		let in_keys;
-		let out_keys;
-		let m_key = "global_membership_description";
-		if (query.operator == '*') {
-			chain.push({
-				name: "mm",
-				in_keys: [m_key]
-			});
-			out_keys = (md) => {
-				// console.log(md);
-				let ops = _.map(_.filter(md[m_key].value.has_description, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
-				return _.uniq(_.flattenDeep(ops));
-			};
-		} else {
-			in_keys = _.castArray(query.operator);
-		}
+		let m_key = query.operator_keys;
+		chain.push({
+			name: "mm",
+			in_keys: [m_key]
+		});
 		chain.push({
 			name: "ops",
-			in_keys,
-			out_keys
+			out_keys: (md) => {
+				// console.log(md);
+				let ops = _.map(_.filter(md[m_key].value.content, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
+				let op_keys = _.uniq(_.flattenDeep(ops));
+				return (query.operator == '*') ? op_keys : _.intersection(op_keys, _.castArray(query.operator));
+			}
 		});
 		chain.push({
 			name: "schedules",

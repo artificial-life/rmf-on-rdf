@@ -118,6 +118,7 @@ class IrisBuilder {
 						ldplan: {
 							operator: query.operator || '*',
 							service_keys: query.service_keys,
+							operator_keys: query.operator_keys,
 							organization: query.organization,
 							service: '*',
 							time_description: query.time_description,
@@ -139,6 +140,7 @@ class IrisBuilder {
 							organization: query.organization,
 							service: '*',
 							service_keys: query.service_keys,
+							operator_keys: query.operator_keys,
 							time_description: query.time_description,
 							service_count: query.service_count,
 							method: query.method || 'live',
