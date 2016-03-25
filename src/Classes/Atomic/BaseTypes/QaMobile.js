@@ -2,7 +2,7 @@
 
 let Fieldset = require("./Fieldset");
 
-class Qa extends Fieldset {
+class QaMobile extends Fieldset {
 	constructor() {
 		let fields = ["default_agent", 'attached_to', "device_type", "occupied_by", "questions", "answers"];
 		super(fields);
@@ -12,4 +12,4 @@ class Qa extends Fieldset {
 	}
 }
 
-module.exports = Qa;
+module.exports = QaMobile;
