@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class QaMobile extends Fieldset {
 	constructor() {
-		let fields = ["default_agent", 'attached_to', "device_type", "occupied_by", "questions", "answers"];
+		let fields = ["default_agent", 'attached_to', "device_type", "hold_screen_design"];
 		super(fields);
 	}
 	get references() {

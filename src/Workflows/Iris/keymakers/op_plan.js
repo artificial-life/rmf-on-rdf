@@ -16,7 +16,7 @@ module.exports = {
 		chain.push({
 			name: "ops",
 			out_keys: (md) => {
-				// console.log(md);
+				// console.log("MD", md);
 				let ops = _.map(_.filter(md[m_key].value.content, (mm) => (mm.role == "Operator" && mm.organization == query.organization)), "member");
 				let op_keys = _.uniq(_.flattenDeep(ops));
 				return (query.operator == '*') ? op_keys : _.intersection(op_keys, _.castArray(query.operator));
@@ -25,6 +25,7 @@ module.exports = {
 		chain.push({
 			name: "schedules",
 			out_keys: (ops) => {
+				console.log("OPS", ops);
 				let schedules = _.map(ops, (op) => _.get(op, `value.has_schedule.${query.method}`, []));
 				return _.uniq(_.flattenDeep(schedules));
 			}

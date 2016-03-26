@@ -35,7 +35,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 			.then((resolved) => {
 				// had to choose between this outrageous notation and additional * queries to db
 				// console.log("TSI", require('util')
-				// 	.inspect(resolved.content_map['<namespace>content'], {
+				// 	.inspect(resolved.content_map, {
 				// 		depth: null
 				// 	}));
 				let observed = {
@@ -92,6 +92,7 @@ class TSIngredientDataProvider extends IngredientDataProvider {
 				query: {
 					operator: value.operator,
 					dedicated_date: selection.dedicated_date,
+					operator_keys: selection.operator_keys,
 					organization: value.org_destination
 				}
 			})
