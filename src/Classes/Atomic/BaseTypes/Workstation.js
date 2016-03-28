@@ -4,7 +4,7 @@ let Fieldset = require("./Fieldset");
 
 class Workstation extends Fieldset {
 	constructor() {
-		let fields = ["occupied_by", "default_agent", "attached_to", "device_sound", "device_design", "device_type"];
+		let fields = ["occupied_by", "default_agent", "attached_to", "device_sound", "device_design", "device_type", "digital_display_address"];
 		super(fields);
 	}
 	get references() {
