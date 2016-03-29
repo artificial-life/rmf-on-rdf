@@ -61,7 +61,7 @@ class CommonApi extends IrisApi {
 	}
 
 	getEntryTypeless(keys) {
-		return this.db.getNodes(_.castArray(keys))
+		return this.db.getNodes(_.compact(_.castArray(keys)))
 			.then((res) => {
 				// console.log("TYPELESS RES", res);
 				return _.mapValues(res, (val, key) => {

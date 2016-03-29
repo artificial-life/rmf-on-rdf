@@ -15,6 +15,7 @@ class WorkstationApi extends CommonApi {
 		super.initContent('Workstation');
 		super.initContent('Terminal');
 		super.initContent('Roomdisplay');
+		super.initContent('DigitalDisplay');
 		super.initContent('Qa');
 		super.initContent('Administrator');
 
@@ -22,6 +23,17 @@ class WorkstationApi extends CommonApi {
 		super.initContent('Schedule');
 
 		return this;
+	}
+
+	cacheWorkstations() {
+		return this.db.N1ql.direct({
+				query: `SELECT  \`@id\` as id, \`@type\` as type, \`attached_to\` as organization, device_type FROM \`${this.db.bucket_name}\` WHERE attached_to IS NOT MISSING AND \`@type\` in ${JSON.stringify(_.keys(this.models))} ORDER BY type, id ASC`
+			})
+			.then((res) => {
+				console.log("CACHE RES", res);
+				let data = {};
+				return super.setCache('workstations', [], data);
+			});
 	}
 
 	getOrganizationTree() {
