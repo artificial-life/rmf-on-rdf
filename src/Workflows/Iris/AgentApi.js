@@ -13,7 +13,14 @@ class AgentApi extends CommonApi {
 				query: `SELECT  \`@id\` as id, \`@type\` as type, \`state\` FROM \`${this.db.bucket_name}\` WHERE ( \`state\`='active' OR \`state\`='paused') ORDER BY type, id ASC`
 			})
 			.then((res) => {
-				return super.setCache('active_agents', [], _.mapValues(_.groupBy(res, 'type'), (vals, type) => _.mapValues(_.groupBy(vals, 'state'), (v, state) => _.map(v, 'id'))));
+
+				return super.setCache('active_agents', [],
+					_(res)
+					.groupBy('type')
+					.mapValues((vals, type) => _(vals)
+						.groupBy('state')
+						.mapValues((v, state) => _.map(v, 'id')))
+					.value());
 			});
 	}
 
