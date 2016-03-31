@@ -1,0 +1,53 @@
+'use strict'
+
+//parent
+let CommonApi = require("./CommonApi");
+
+class AgentApi extends CommonApi {
+	constructor(cfg = {}) {
+		super(cfg);
+	}
+
+	cacheActiveAgents() {
+		return this.db.N1ql.direct({
+				query: `SELECT  \`@id\` as id, \`@type\` as type, \`state\` FROM \`${this.db.bucket_name}\` WHERE ( \`state\`='active' OR \`state\`='paused') ORDER BY type, id ASC`
+			})
+			.then((res) => {
+
+				return super.setCache('active_agents', [],
+					_(res)
+					.groupBy('type')
+					.mapValues((vals, type) => _(vals)
+						.groupBy('state')
+						.mapValues((v, state) => _.map(v, 'id')))
+					.value());
+			});
+	}
+
+	getActiveAgents() {
+		return super.getCache('active_agents');
+	}
+	getAgentPermissions() {
+		return super.getGlobal('agent_permissions');
+	}
+	initContent() {
+		super.initContent('Employee');
+		super.initContent('Spirit');
+		super.initContent('SystemEntity');
+		return this;
+	}
+
+	getEmployee(query) {
+		return super.getEntry('Employee', query);
+	}
+
+	setEmployeeField(query, assignment) {
+		return super.setEntryField('Employee', query, assignment);
+	}
+
+	setEmployee(data) {
+		return super.setEntry('Employee', data);
+	}
+}
+
+module.exports = AgentApi;

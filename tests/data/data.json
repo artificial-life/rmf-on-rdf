@@ -1,0 +1,4857 @@
+{
+	"@context": {
+		"iris": "iris://vocabulary/domain#",
+		"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+		"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+		"xsd": "http://www.w3.org/2001/XMLSchema#"
+	},
+	"@graph": [{
+		"@id": "iris://data#service-127",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СМЕНА НОМЕРА СЧЕТА В КРЕДИТНОЙ ОРГАНИЗАЦИИ"
+		}
+	}, {
+		"@id": "iris://data#service-126",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАЯВЛЕНИЕ О ДОСТАВКЕ ПЕНСИИ"
+		}
+	}, {
+		"@id": "iris://data#service-125",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ФЕДЕРАЛЬНАЯ СОЦИАЛЬНАЯ ДОПЛАТА К ПЕНСИИ"
+		}
+	}, {
+		"@id": "iris://data#service-5",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПЛАТЫ НА ПИТАНИЕ РЕБЕНКА"
+		}
+	}, {
+		"@id": "iris://data#membership-2",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "iris://data#human-2"
+		},
+		"iris:organization": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Operator"
+		}
+	}, {
+		"@id": "iris://data#membership-1",
+		"@type": "iris:Membership",
+		"iris:member": {
+			"@id": "iris://data#human-1"
+		},
+		"iris:organization": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:role": {
+			"@id": "iris:Administrator"
+		}
+	}, {
+		"@id": "iris://data#pc-1",
+		"@type": "iris:Workstation",
+		"iris:attachedTo": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:deviceLabel": {
+			"@language": "ru",
+			"@value": "Администратор"
+		},
+		"iris:deviceType": "control-panel"
+	}, {
+		"@id": "iris://data#service-2",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000001258",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ ПО НЕТРУДОСПОСОБНОСТИ ПРИ РОЖДЕНИИ РЕБЕНКА"
+		}
+	}, {
+		"@id": "iris://data#pc-2",
+		"@type": "iris:Workstation",
+		"iris:attachedTo": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:deviceLabel": {
+			"@language": "ru",
+			"@value": "Окно 1"
+		},
+		"iris:shortLabel": {
+			"@language": "ru",
+			"@value": "1"
+		},
+		"iris:deviceType": "control-panel"
+	}, {
+		"@id": "iris://data#megatron-2",
+		"@type": "iris:SystemEntity",
+		"iris:defaultWorkstation": {
+			"@id": "iris://data#rd-1"
+		},
+		"iris:availableWorkstation": {
+			"@id": "iris://data#rd-1"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "rd"
+		},
+		"iris:password_hash": "1",
+		"iris:state": "inactive"
+	}, {
+		"@id": "iris://data#megatron-1",
+		"@type": "iris:SystemEntity",
+		"iris:defaultWorkstation": {
+			"@id": "iris://data#term-1"
+		},
+		"iris:availableWorkstation": {
+			"@id": "iris://data#term-1"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "megatron"
+		},
+		"iris:password_hash": "1",
+		"iris:state": "inactive"
+	}, {
+		"@id": "iris://data#service-122",
+		"@type": "iris:Service",
+		"iris:codeFrgu": [
+			"10000002755",
+			"0"
+		],
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": [{
+			"@language": "ru",
+			"@value": "КОМПЕНСАЦИЯ ПЕНСИОНЕРАМ ПРОЕЗДА К МЕСТУ ОТДЫХА"
+		}, {
+			"@language": "ru",
+			"@value": "ПОЛУЧЕНИЕ СНИЛС"
+		}]
+	}, {
+		"@id": "iris://data#service-34",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА КОПИЙ, ВЫПИСОК, ДОКУМЕНТОВ"
+		}
+	}, {
+		"@id": "iris://data#service-35",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА ВЫПИСОК ИЗ ПОХОЗЯЙСТВЕННЫХ КНИГ"
+		}
+	}, {
+		"@id": "iris://data#service-36",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА ЗАВЕРЕННЫХ КОПИЙ ДОКУМЕНТОВ"
+		}
+	}, {
+		"@id": "iris://data#service-37",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПИСКА ИЗ РЕЕСТРА МУН.ИМУЩЕСТВА МУН.РАЙОНА ГОРОДСКОГО ОКРУГА ЧР"
+		}
+	}, {
+		"@id": "iris://data#service-30",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000005712",
+		"iris:deptCodeFrgu": "2100000010000002847",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "АПОСТИЛЬ НА ДОКУМЕНТЫ ГРАЖДАНСКОГО СОСТОЯНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-31",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА УДОСТОВЕРЕНИЯ ПОСТРАДАВШИХ ОТ РАДИАКТ. КАТАСТРОФ ГРАЖДАНАМ И ИХ СЕМЬЯМ"
+		}
+	}, {
+		"@id": "iris://data#service-32",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000003490",
+		"iris:deptCodeFrgu": "2100000010000002776",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ОХОТНИЧИЙ БИЛЕТ"
+		}
+	}, {
+		"@id": "iris://data#service-33",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА СПРАВОК"
+		}
+	}, {
+		"@id": "iris://data#orgroot-1",
+		"@type": "iris:FormalOrganization",
+		"iris:hasUnit": {
+			"@id": "iris://data#office-1"
+		}
+	}, {
+		"@id": "iris://data#service-120",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАЯВЛЕНИЕ О НАБОРЕ СОЦИАЛЬНЫХ УСЛУГ"
+		}
+	}, {
+		"@id": "iris://data#service-38",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000294",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА ИЗУЧЕНИЕ НЕДР ЛЕСНОГО ФОНДА"
+		}
+	}, {
+		"@id": "iris://data#service-39",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000294",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА ВЫБРОС ВРЕДНЫХ ВЕЩЕСТВ В АТМОСФЕРУ"
+		}
+	}, {
+		"@id": "iris://data#office-1",
+		"@type": "iris:Office",
+		"iris:hasUnit": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:orgLabel": {
+			"@language": "ru",
+			"@value": "Офис 1"
+		},
+		"iris:orgTimezone": "Europe/Moscow",
+		"iris:pinCodePrefix": "001"
+	}, {
+		"@id": "iris://data#service-129",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАЯВЛЕНИЕ О ПЛАТЕЖАХ ИЗ ПЕНСИИ"
+		}
+	}, {
+		"@id": "iris://data#service-9",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ НА РЕБЕНКА ВОЕННОГО"
+		}
+	}, {
+		"@id": "iris://data#service-41",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10002262092",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "УПЛАТА СТРАХОВЫХ ВЗНОСОВ В ФСС"
+		}
+	}, {
+		"@id": "iris://data#service-40",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000294",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ГРАНТ НА РАЗВИТИЕ СЕЛЬСК.ХОЗЯЙСТВА НАЧИНАЮЩИМ ФЕРМЕРАМ"
+		}
+	}, {
+		"@id": "iris://data#service-43",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МС"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА БРАК В 16 ЛЕТ"
+		}
+	}, {
+		"@id": "iris://data#service-42",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002847",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МС"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАКЛЮЧЕНИЕ БРАКА"
+		}
+	}, {
+		"@id": "iris://data#service-45",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МС"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ДОПОЛНИТЕЛЬНОГО ОБРАЗОВАНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-44",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МС"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "БЕСПЛАТНОЕ ОБЩЕЕ ОБРАЗОВАНИЕ"
+		}
+	}, {
+		"@id": "iris://data#service-47",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МС"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРИЕМ ЗАЯВЛЕНИЯ О ЗАКЛЮЧЕНИИ БРАКА"
+		}
+	}, {
+		"@id": "iris://data#service-46",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "МС"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИНФОРМАЦИЯ О ПОЛУЧЕНИИ ОБЩЕГО ОБРАЗОВАНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-49",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000013628",
+		"iris:deptCodeFrgu": "10001739421",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СВЕДЕНИЯ ИЗ ГКН"
+		}
+	}, {
+		"@id": "iris://data#service-48",
+		"@type": "iris:Service",
+		"iris:codeFrgu": [
+			"10000012269",
+			"10000013633"
+		],
+		"iris:deptCodeFrgu": [
+			"10001739421",
+			"10001739409"
+		],
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": [{
+			"@language": "ru",
+			"@value": "СВЕДЕНИЯ ИЗ ЕГРП"
+		}, {
+			"@language": "ru",
+			"@value": "КАДАСТРОВЫЙ УЧЕТ НЕДВИЖИМОСТИ"
+		}]
+	}, {
+		"@id": "iris://data#service-109",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000010",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВОЗМЕЩЕНИЕ БИЗНЕСУ ЗАТРАТ НА УЧАСТИЕ В ВЫСТАВКАХ"
+		}
+	}, {
+		"@id": "iris://data#service-108",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000002079",
+		"iris:deptCodeFrgu": "2100000010000000010",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВОЗМЕЩЕНИЕ БИЗНЕСУ ПРОЦЕНТОВ ПО КРЕДИТАМ"
+		}
+	}, {
+		"@id": "iris://data#service-105",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000000949",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЛИЦЕНЗИРОВАНИЕ ДЕЯТ. ПО ОБОРОТУ НАРКОТИЧ. СРЕДСТВ"
+		}
+	}, {
+		"@id": "iris://data#service-104",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000001292",
+		"iris:deptCodeFrgu": "2100000010000001289",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "АККРЕДИТАЦИЯ ОБРАЗОВАТЕЛЬНЫХ ОРГАНИЗАЦИЙ"
+		}
+	}, {
+		"@id": "iris://data#service-107",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "100000010000002251",
+		"iris:deptCodeFrgu": "2100000010000000010",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЛИЦЕНЗИРОВАНИЕ ДЕЯТЕЛЬНОСТИ С МЕТАЛЛОЛОМОМ"
+		}
+	}, {
+		"@id": "iris://data#service-106",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000000018",
+		"iris:deptCodeFrgu": "2100000010000000010",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЛИЦЕНЗИЯ НА ПРОДАЖУ АЛКОГОЛЯ"
+		}
+	}, {
+		"@id": "iris://data#service-101",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "0",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРИЕМ УВЕДОМЛЕНИЯ ОТ ЮР.ЛИЦ О ПРОИЗВОДСТВЕ С.И.З."
+		}
+	}, {
+		"@id": "iris://data#service-100",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИНФОРМИРОВАНИЕ ПЛАТЕЛЬЩИКОВ О СТРАХОВЫХ ВЗНОСАХ"
+		}
+	}, {
+		"@id": "iris://data#service-103",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "100000010000001326",
+		"iris:deptCodeFrgu": "2100000010000001289",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЛИЦЕНЗИРОВАНИЕ ОБРАЗОВАТЕЛЬНЫХ ОРГАНИЗАЦИЙ"
+		}
+	}, {
+		"@id": "iris://data#service-102",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000007757",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА ПЕРЕВОЗКУ ПАССАЖИРОВ (ТАКСИ)"
+		}
+	}, {
+		"@id": "iris://data#service-85",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000020393",
+		"iris:deptCodeFrgu": "10001300319",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "М"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ И СНЯТИЕ С УЧЕТА ПО МЕСТУ ЖИТЕЛЬСТВА ПО МЕСТУ ПРЕБЫВАНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-84",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000027991",
+		"iris:deptCodeFrgu": "10001300319",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "М"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "УЧЕТ ИНОСТРАНЦЕВ ПО МЕСТУ ПРЕБЫВАНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-87",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000001235",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "У"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПЛАТЫ СЕМЬЯМ ПОГИБШИХ ВОЕННЫХ НА ОПЛАТУ ЖИЛЬЯ"
+		}
+	}, {
+		"@id": "iris://data#service-86",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000007714",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "У"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ НА ПОГРЕБЕНИЕ УМЕРШИХ"
+		}
+	}, {
+		"@id": "iris://data#service-81",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "АДАПТАЦИЯ БЕЗРАБОТНЫХ ГРАЖДАН НА РЫНКЕ ТРУДА"
+		}
+	}, {
+		"@id": "iris://data#service-80",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ТРУДОУСТРОЙСТВО НЕСОВЕРШЕННОЛЕТНИХ, БЕЗРАБОТНЫХ"
+		}
+	}, {
+		"@id": "iris://data#service-83",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ТРУДОУСТРОЙСТВО ПРИ ПЕРЕСЕЛЕНИИ"
+		}
+	}, {
+		"@id": "iris://data#service-82",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СОДЕЙСТВИЕ В САМО ЗАНЯТОСТИ ГРАЖДАН"
+		}
+	}, {
+		"@id": "iris://data#service-89",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "У"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ НА ПОГРЕБЕНИЕ ПОГИБШИХ В РЕЗУЛЬТАТЕ КАТАСТРОФЫ НА ЧЕРНОБЫЛЬСКОЙ АЭС"
+		}
+	}, {
+		"@id": "iris://data#service-88",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "У"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ ДЕТЯМ ПОГИБШИХ СОТРУДНИКОВ ОИВ И ОТД. КАТЕГ. ВОЕННЫХ"
+		}
+	}, {
+		"@id": "iris://data#service-18",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАКЛЮЧЕНИЕ ДОГОВОРОВ СОЦИАЛЬНОГО НАЙМА ЖИЛЫХ ПОМЕЩЕНИЙ"
+		}
+	}, {
+		"@id": "iris://data#service-19",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "УЧЕТ ГРАЖДАН, НУЖДАЮЩИХСЯ В ЖИЛЫХ ПОМЕЩЕНИЯХ И ИМЕЮЩИХ ПРАВО НА ГОС.ПОДДЕРЖКУ НА СТРОИТЕЛЬСТВО ПРИОБРЕТЕНИЕ ЖИЛЫХ ПОМЕЩЕНИЙ"
+		}
+	}, {
+		"@id": "iris://data#service-16",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ГРАЖДАНАМ ЖИЛЫХ ПОМЕЩЕНИЙ МУН. СПЕЦИАЛ. ЖИЛ. ФОНДА МАНЕВРЕННОГО, СЛУЖЕБНОГО"
+		}
+	}, {
+		"@id": "iris://data#service-17",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЖИЛЫЕ ПОМЕЩЕНИЯ МАЛОИМУЩИМ ГРАЖДАНАМ ПО ДОГОВОРАМ СОЦИАЛЬНОГО НАЙМА"
+		}
+	}, {
+		"@id": "iris://data#service-14",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА ГОСУДАРСТВЕННЫХ ЖИЛИЩНЫХ СЕРТИФИКАТОВ"
+		}
+	}, {
+		"@id": "iris://data#service-15",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕШЕНИЕ О СОГЛАСОВАНИИ ПЕРЕУСТРОЙСТВА И ИЛИ ПЕРЕПЛАНИРОВКИ ЖИЛОГО ПОМЕЩЕНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-12",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРИВАТИЗАЦИИ ЖИЛЬЯ, НАХОДЯЩЕГОСЯ В МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ"
+		}
+	}, {
+		"@id": "iris://data#service-13",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОЛУЧЕНИЕ СОЦИАЛЬНОЙ ВЫПЛАТЫ НА ПРИОБРЕТЕНИЕ,СТРОИТЕЛЬСТВО ЖИЛЬЯ МОЛОДЫМ СЕМЬЯМ"
+		}
+	}, {
+		"@id": "iris://data#service-10",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАПИСЬ В ДЕТСКИЕ САДЫ"
+		}
+	}, {
+		"@id": "iris://data#service-11",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000011206",
+		"iris:deptCodeFrgu": "10001739409",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ ПРАВА НА НЕДВИЖИМОСТЬ"
+		}
+	}, {
+		"@id": "iris://data#human-1",
+		"@type": "iris:Employee",
+		"iris:availableWorkstation": {
+			"@id": "iris://data#pc-1"
+		},
+		"iris:defaultWorkstation": {
+			"@id": "iris://data#pc-1"
+		},
+		"iris:firstName": {
+			"@language": "ru",
+			"@value": "Иван"
+		},
+		"iris:hasMembership": {
+			"@id": "iris://data#membership-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-1"
+		},
+		"iris:lastName": {
+			"@language": "ru",
+			"@value": "Иванов"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "admin"
+		},
+		"iris:middleName": {
+			"@language": "ru",
+			"@value": "Иванович"
+		},
+		"iris:password_hash": "123456",
+		"iris:state": "inactive"
+	}, {
+		"@id": "iris://data#service-96",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000001306",
+		"iris:deptCodeFrgu": "10003714789",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПИСКА ИЗ ЕГРН"
+		}
+	}, {
+		"@id": "iris://data#service-97",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000001306",
+		"iris:deptCodeFrgu": "10003714789",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПИСКА ИЗ ЕГРЮЛ"
+		}
+	}, {
+		"@id": "iris://data#service-94",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000015911",
+		"iris:deptCodeFrgu": "10003714789",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ ЮР.ЛИЦ, ИП,ФЕРМЕРСКИХ ХОЗЯЙСТВ"
+		}
+	}, {
+		"@id": "iris://data#service-95",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10001760860",
+		"iris:deptCodeFrgu": "10003714789",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИНФОРМИРОВАНИЕ О ДЕЙСТВУЮЩИХ НАЛОГАХ И СБОРАХ"
+		}
+	}, {
+		"@id": "iris://data#service-92",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10001294277",
+		"iris:deptCodeFrgu": "10002262092",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ (СНЯТИЕ С УЧЕТА) СТРАХОВАТЕЛЕЙ"
+		}
+	}, {
+		"@id": "iris://data#service-93",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10001294251",
+		"iris:deptCodeFrgu": "10002262092",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ОТЧЕТ ПО ФОРМЕ 4А ФСС РФ"
+		}
+	}, {
+		"@id": "iris://data#service-90",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002847",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "У"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ СМЕРТИ"
+		}
+	}, {
+		"@id": "iris://data#service-91",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10001294271",
+		"iris:deptCodeFrgu": "10002262092",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ (СНЯТИЕ С УЧЕТА) РАБОТНИКОВ"
+		}
+	}, {
+		"@id": "iris://data#service-98",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10002443284",
+		"iris:deptCodeFrgu": "10003714789",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПИСКА ИЗ РЕЕСТРА ДИСКВАЛИФИЦИРОВАННЫХ ЛИЦ"
+		}
+	}, {
+		"@id": "iris://data#service-99",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10003714789",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СПРАВКА ОБ УПЛАЧЕНЫХ НАЛОГАХ И СБОРАХ"
+		}
+	}, {
+		"@id": "iris://data#service-23",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАСПОРЯЖЕНИЕ МАТЕРИНСКИМ КАПИТАЛОМ"
+		}
+	}, {
+		"@id": "iris://data#service-22",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОЛУЧЕНИЕ СЕРТИФИКАТА НА МАТЕРИНСКИЙ КАПИТАЛ"
+		}
+	}, {
+		"@id": "iris://data#service-21",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000000611",
+		"iris:deptCodeFrgu": "10001300319",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "З"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАМЕНА ПАСПОРТА РФ"
+		}
+	}, {
+		"@id": "iris://data#service-20",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Ж"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПЕРЕВОД ЖИЛОГО ПОМЕЩЕНИЯ В НЕЖИЛОЕ ПОМЕЩЕНИЕ И НЕЖИЛОГО В ЖИЛОЕ"
+		}
+	}, {
+		"@id": "iris://data#service-27",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10001959166",
+		"iris:deptCodeFrgu": "10001300319",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАГРАНИЧНЫЙ ПАСПОРТ"
+		}
+	}, {
+		"@id": "iris://data#service-26",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "УЧЕТ МНОГОДЕТНЫХ СЕМЕЙ, ИМЕЮЩИХ ПРАВО НА ПОЛУЧЕНИЕ ЗЕМ. УЧ. БЕСПЛАТНО"
+		}
+	}, {
+		"@id": "iris://data#service-25",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ НА ТРЕТЬЕГО РЕБЕНКА"
+		}
+	}, {
+		"@id": "iris://data#service-24",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "МАТЕРИНСКИЙ КАПИТАЛ (РЕСПУБЛИКАНСКИЙ)"
+		}
+	}, {
+		"@id": "iris://data#service-29",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000002847",
+		"iris:deptCodeFrgu": "2100000010000002847",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОВТОРНОЕ СВИДЕТЕЛЬСТВО О РЕГ. ГРАЖДАНСКОГО СОСТОЯНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-28",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002847",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Д"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАСТОРЖЕНИЕ БРАКА"
+		}
+	}, {
+		"@id": "iris://data#sg-10",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-85"
+		}, {
+			"@id": "iris://data#service-84"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Смена места жительства"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-11",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-87"
+		}, {
+			"@id": "iris://data#service-86"
+		}, {
+			"@id": "iris://data#service-88"
+		}, {
+			"@id": "iris://data#service-89"
+		}, {
+			"@id": "iris://data#service-90"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Утрата близкого человека"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-12",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-94"
+		}, {
+			"@id": "iris://data#service-98"
+		}, {
+			"@id": "iris://data#service-99"
+		}, {
+			"@id": "iris://data#service-107"
+		}, {
+			"@id": "iris://data#service-110"
+		}, {
+			"@id": "iris://data#service-103"
+		}, {
+			"@id": "iris://data#service-112"
+		}, {
+			"@id": "iris://data#service-91"
+		}, {
+			"@id": "iris://data#service-117"
+		}, {
+			"@id": "iris://data#service-100"
+		}, {
+			"@id": "iris://data#service-101"
+		}, {
+			"@id": "iris://data#service-97"
+		}, {
+			"@id": "iris://data#service-106"
+		}, {
+			"@id": "iris://data#service-102"
+		}, {
+			"@id": "iris://data#service-92"
+		}, {
+			"@id": "iris://data#service-114"
+		}, {
+			"@id": "iris://data#service-109"
+		}, {
+			"@id": "iris://data#service-118"
+		}, {
+			"@id": "iris://data#service-96"
+		}, {
+			"@id": "iris://data#service-119"
+		}, {
+			"@id": "iris://data#service-116"
+		}, {
+			"@id": "iris://data#service-105"
+		}, {
+			"@id": "iris://data#service-93"
+		}, {
+			"@id": "iris://data#service-111"
+		}, {
+			"@id": "iris://data#service-108"
+		}, {
+			"@id": "iris://data#service-115"
+		}, {
+			"@id": "iris://data#service-113"
+		}, {
+			"@id": "iris://data#service-104"
+		}, {
+			"@id": "iris://data#service-95"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Открытие своего дела"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-13",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-124"
+		}, {
+			"@id": "iris://data#service-129"
+		}, {
+			"@id": "iris://data#service-122"
+		}, {
+			"@id": "iris://data#service-128"
+		}, {
+			"@id": "iris://data#service-123"
+		}, {
+			"@id": "iris://data#service-121"
+		}, {
+			"@id": "iris://data#service-125"
+		}, {
+			"@id": "iris://data#service-126"
+		}, {
+			"@id": "iris://data#service-120"
+		}, {
+			"@id": "iris://data#service-130"
+		}, {
+			"@id": "iris://data#service-131"
+		}, {
+			"@id": "iris://data#service-127"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Выход на пенсию"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-14",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": {
+			"@id": "iris://data#service-132"
+		},
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Прочее"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#service-6",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПЛАТЫ УВОЛЕННЫМ ЖЕНЩИНАМ С ДЕТЬМИ"
+		}
+	}, {
+		"@id": "iris://data#service-7",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ ПО НЕТРУДОСПОСОБНОСТИ ПО УХОДУ ЗА РЕБЕНКОМ"
+		}
+	}, {
+		"@id": "iris://data#service-4",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000007718",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ ПО БЕРЕМЕННОСТИ И РОДАМ"
+		}
+	}, {
+		"@id": "iris://data#service-124",
+		"@type": "iris:Service",
+		"iris:codeFrgu": [
+			"0",
+			"10000002758"
+		],
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": [{
+			"@language": "ru",
+			"@value": "СОЦ. ОБЕСПЕЧЕНИЕ ЛЕТЧИКАМ, И ШАХТЕРАМ"
+		}, {
+			"@language": "ru",
+			"@value": "ЗАЯВЛЕНИЕ ОБ УСТАНОВЛЕНИИ ПЕНСИИ"
+		}]
+	}, {
+		"@id": "iris://data#service-123",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000002758",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИНФОРМАЦИЯ О СОСТОЯНИИ ЛИЦЕВЫХ СЧЕТОВ"
+		}
+	}, {
+		"@id": "iris://data#service-3",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000001881",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ НА РЕБЕНКА"
+		}
+	}, {
+		"@id": "iris://data#service-121",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000002749",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАЯВЛЕНИЕ О ВЫБОРЕ ПЕНСИОННОГО ФОНДА"
+		}
+	}, {
+		"@id": "iris://data#service-1",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000002847",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ РОЖДЕНИЯ"
+		}
+	}, {
+		"@id": "iris://data#service-8",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000007723",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "Р"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОСОБИЕ БЕРЕМЕННОЙ ЖЕНЕ ВОЕННОГО"
+		}
+	}, {
+		"@id": "iris://data#service-128",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАПРОС ПЕНСИОННОГО ДЕЛА"
+		}
+	}, {
+		"@id": "iris://data#term-1",
+		"@type": "iris:Terminal",
+		"iris:attachedTo": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:boundServiceGroups": {
+			"@id": "iris://data#sg-0"
+		},
+		"iris:defaultAgent": {
+			"@id": "iris://data#megatron-1"
+		},
+		"iris:deviceLabel": {
+			"@language": "ru",
+			"@value": "Терминал 1"
+		},
+		"iris:deviceType": "terminal"
+	}, {
+		"@id": "iris://data#service-78",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРОФ ОБУЧЕНИЕ БЕЗРАБОТНЫХ"
+		}
+	}, {
+		"@id": "iris://data#service-79",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ОРГАНИЗАЦИЯ ОБЩЕСТВЕННЫХ РАБОТ"
+		}
+	}, {
+		"@id": "iris://data#service-70",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРИСВОЕНИЕ АДРЕСОВ"
+		}
+	}, {
+		"@id": "iris://data#service-71",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000003882",
+		"iris:deptCodeFrgu": "10001093705",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СПРАВКА ОБ ОТСУТСТВИИ (НАЛИЧИИ) СУДИМОСТИ"
+		}
+	}, {
+		"@id": "iris://data#service-72",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10001294268",
+		"iris:deptCodeFrgu": "10002262092",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РЕГИСТРАЦИЯ ОМС ПО НЕТРУДОСПОСОБНОСТИ"
+		}
+	}, {
+		"@id": "iris://data#service-73",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "0",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "КОНСУЛЬТАЦИЯ ПО ТРУДОВОМУ ПРАВУ"
+		}
+	}, {
+		"@id": "iris://data#service-74",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000001482",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИНФОРМАЦИЯ О ПОЛОЖЕНИИ НА РЫНКЕ ТРУДА"
+		}
+	}, {
+		"@id": "iris://data#service-75",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОИСК РАБОТЫ ИЛИ РАБОТНИКОВ"
+		}
+	}, {
+		"@id": "iris://data#service-76",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРОФ.ОРИЕНТАЦИЯ ГРАЖДАН"
+		}
+	}, {
+		"@id": "iris://data#service-77",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000001449",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ПР"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПСИХОЛОГИЧЕСКАЯ ПОДДЕРЖКА БЕЗРАБОТНЫХ"
+		}
+	}, {
+		"@id": "iris://data#service-118",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЯ, СОГЛАСОВАНИЯ НА ПЕРЕВОЗКУ КРУПНОГАБАРИТНОГО И ТЯЖЕЛОВЕСНОГО ГРУЗА"
+		}
+	}, {
+		"@id": "iris://data#service-119",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРАВО НА ОКАЗАНИЕ УСЛУГ ПО ПЕРЕВОЗКЕ ПАССАЖИРОВ АВТОМОБИЛЬНЫМ ТРАНСПОРТОМ"
+		}
+	}, {
+		"@id": "iris://data#service-112",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ЗЕМЕЛЬ ДЛЯ ФЕРМЕРСКОГО ХОЗ-ВА"
+		}
+	}, {
+		"@id": "iris://data#service-113",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПЕРЕДАЧА ИМУЩЕСТВА ЧР, БЕЗВОЗМЕЗДНО"
+		}
+	}, {
+		"@id": "iris://data#service-110",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000002116",
+		"iris:deptCodeFrgu": "2100000010000000010",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СУБСИДИЯ БИЗНЕСУ НА ПЕРВЫЙ ВЗНОС ПО ДОГОВОРУ ЛИЗИНГА"
+		}
+	}, {
+		"@id": "iris://data#service-111",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "2100000010000002650",
+		"iris:deptCodeFrgu": "2100000010000000010",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СУБСИДИЯ БИЗНЕСУ НА РАЗВИТИЕ НАРОДНЫХ РЕМЕСЕЛ И ПРОИЗВОДСТВО СУВЕНИРОВ"
+		}
+	}, {
+		"@id": "iris://data#service-116",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПЕРЕДАЧА ИМУЩЕСТВА ЧР В АРЕНДУ"
+		}
+	}, {
+		"@id": "iris://data#service-117",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СПЕЦ. РАЗРЕШЕНИЕ НА ДВИЖЕНИЕ ПО АВТОДОРОГАМ Т/C, ПЕРЕВОЗЯЩИХ ОПАСНЫЕ ГРУЗЫ"
+		}
+	}, {
+		"@id": "iris://data#service-114",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПЕРЕДАЧА ЗЕМЕЛЬ ЧР, В АРЕНДУ"
+		}
+	}, {
+		"@id": "iris://data#service-115",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "О"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПЕРЕДАЧА ИМУЩЕСТВА ЧР В ДОВЕРИТЕЛЬНОЕ УПРАВЛЕНИЕ"
+		}
+	}, {
+		"@id": "iris://data#sg-8",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-64"
+		}, {
+			"@id": "iris://data#service-62"
+		}, {
+			"@id": "iris://data#service-49"
+		}, {
+			"@id": "iris://data#service-51"
+		}, {
+			"@id": "iris://data#service-55"
+		}, {
+			"@id": "iris://data#service-68"
+		}, {
+			"@id": "iris://data#service-65"
+		}, {
+			"@id": "iris://data#service-54"
+		}, {
+			"@id": "iris://data#service-58"
+		}, {
+			"@id": "iris://data#service-60"
+		}, {
+			"@id": "iris://data#service-52"
+		}, {
+			"@id": "iris://data#service-57"
+		}, {
+			"@id": "iris://data#service-67"
+		}, {
+			"@id": "iris://data#service-56"
+		}, {
+			"@id": "iris://data#service-69"
+		}, {
+			"@id": "iris://data#service-61"
+		}, {
+			"@id": "iris://data#service-48"
+		}, {
+			"@id": "iris://data#service-53"
+		}, {
+			"@id": "iris://data#service-70"
+		}, {
+			"@id": "iris://data#service-50"
+		}, {
+			"@id": "iris://data#service-63"
+		}, {
+			"@id": "iris://data#service-59"
+		}, {
+			"@id": "iris://data#service-66"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Индивидуальное жилищное строительство"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-9",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-76"
+		}, {
+			"@id": "iris://data#service-81"
+		}, {
+			"@id": "iris://data#service-83"
+		}, {
+			"@id": "iris://data#service-79"
+		}, {
+			"@id": "iris://data#service-80"
+		}, {
+			"@id": "iris://data#service-77"
+		}, {
+			"@id": "iris://data#service-75"
+		}, {
+			"@id": "iris://data#service-72"
+		}, {
+			"@id": "iris://data#service-71"
+		}, {
+			"@id": "iris://data#service-82"
+		}, {
+			"@id": "iris://data#service-73"
+		}, {
+			"@id": "iris://data#service-78"
+		}, {
+			"@id": "iris://data#service-74"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Потеря или поиск работы"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-4",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-26"
+		}, {
+			"@id": "iris://data#service-25"
+		}, {
+			"@id": "iris://data#service-23"
+		}, {
+			"@id": "iris://data#service-24"
+		}, {
+			"@id": "iris://data#service-22"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Рождение второго, третьего ребенка"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-5",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-27"
+		}, {
+			"@id": "iris://data#service-30"
+		}, {
+			"@id": "iris://data#service-34"
+		}, {
+			"@id": "iris://data#service-35"
+		}, {
+			"@id": "iris://data#service-31"
+		}, {
+			"@id": "iris://data#service-32"
+		}, {
+			"@id": "iris://data#service-28"
+		}, {
+			"@id": "iris://data#service-36"
+		}, {
+			"@id": "iris://data#service-29"
+		}, {
+			"@id": "iris://data#service-33"
+		}, {
+			"@id": "iris://data#service-37"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Получение документов"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-6",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-41"
+		}, {
+			"@id": "iris://data#service-39"
+		}, {
+			"@id": "iris://data#service-40"
+		}, {
+			"@id": "iris://data#service-38"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Малое предпринимательство"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-7",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-44"
+		}, {
+			"@id": "iris://data#service-43"
+		}, {
+			"@id": "iris://data#service-42"
+		}, {
+			"@id": "iris://data#service-47"
+		}, {
+			"@id": "iris://data#service-45"
+		}, {
+			"@id": "iris://data#service-46"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Молодая семья"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-0",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "9",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#sg-4"
+		}, {
+			"@id": "iris://data#sg-8"
+		}, {
+			"@id": "iris://data#sg-3"
+		}, {
+			"@id": "iris://data#sg-2"
+		}, {
+			"@id": "iris://data#sg-14"
+		}, {
+			"@id": "iris://data#sg-6"
+		}, {
+			"@id": "iris://data#sg-7"
+		}, {
+			"@id": "iris://data#sg-10"
+		}, {
+			"@id": "iris://data#sg-5"
+		}, {
+			"@id": "iris://data#sg-13"
+		}, {
+			"@id": "iris://data#sg-1"
+		}, {
+			"@id": "iris://data#sg-9"
+		}, {
+			"@id": "iris://data#sg-11"
+		}, {
+			"@id": "iris://data#sg-12"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Рождение ребенка"
+		},
+		"iris:serviceGroupOrder": "0",
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-1",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-3"
+		}, {
+			"@id": "iris://data#service-1"
+		}, {
+			"@id": "iris://data#service-9"
+		}, {
+			"@id": "iris://data#service-5"
+		}, {
+			"@id": "iris://data#service-4"
+		}, {
+			"@id": "iris://data#service-6"
+		}, {
+			"@id": "iris://data#service-8"
+		}, {
+			"@id": "iris://data#service-10"
+		}, {
+			"@id": "iris://data#service-7"
+		}, {
+			"@id": "iris://data#service-2"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Рождение ребенка"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-2",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": [{
+			"@id": "iris://data#service-19"
+		}, {
+			"@id": "iris://data#service-11"
+		}, {
+			"@id": "iris://data#service-20"
+		}, {
+			"@id": "iris://data#service-18"
+		}, {
+			"@id": "iris://data#service-12"
+		}, {
+			"@id": "iris://data#service-16"
+		}, {
+			"@id": "iris://data#service-17"
+		}, {
+			"@id": "iris://data#service-13"
+		}, {
+			"@id": "iris://data#service-15"
+		}, {
+			"@id": "iris://data#service-14"
+		}],
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Приобретение жилого помещения"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#sg-3",
+		"@type": "iris:ServiceGroup",
+		"iris:itemsPerPage": "10",
+		"iris:serviceGroupContent": {
+			"@id": "iris://data#service-21"
+		},
+		"iris:serviceGroupLabel": {
+			"@language": "ru",
+			"@value": "Замена документов"
+		},
+		"iris:serviceGroupViewName": "base"
+	}, {
+		"@id": "iris://data#schedule-4",
+		"@type": "iris:Schedule",
+		"iris:hasDay": [{
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Monday"
+		}],
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 50000]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": [{
+			"@id": "iris://data#service-30"
+		}, {
+			"@id": "iris://data#service-78"
+		}, {
+			"@id": "iris://data#service-79"
+		}, {
+			"@id": "iris://data#service-84"
+		}, {
+			"@id": "iris://data#service-15"
+		}, {
+			"@id": "iris://data#service-73"
+		}, {
+			"@id": "iris://data#service-121"
+		}, {
+			"@id": "iris://data#service-61"
+		}, {
+			"@id": "iris://data#service-116"
+		}, {
+			"@id": "iris://data#service-26"
+		}, {
+			"@id": "iris://data#service-126"
+		}, {
+			"@id": "iris://data#service-74"
+		}, {
+			"@id": "iris://data#service-92"
+		}, {
+			"@id": "iris://data#service-9"
+		}, {
+			"@id": "iris://data#service-5"
+		}, {
+			"@id": "iris://data#service-46"
+		}, {
+			"@id": "iris://data#service-22"
+		}, {
+			"@id": "iris://data#service-43"
+		}, {
+			"@id": "iris://data#service-71"
+		}, {
+			"@id": "iris://data#service-75"
+		}, {
+			"@id": "iris://data#service-40"
+		}, {
+			"@id": "iris://data#service-83"
+		}, {
+			"@id": "iris://data#service-115"
+		}, {
+			"@id": "iris://data#service-90"
+		}, {
+			"@id": "iris://data#service-111"
+		}, {
+			"@id": "iris://data#service-34"
+		}, {
+			"@id": "iris://data#service-4"
+		}, {
+			"@id": "iris://data#service-88"
+		}, {
+			"@id": "iris://data#service-99"
+		}, {
+			"@id": "iris://data#service-69"
+		}, {
+			"@id": "iris://data#service-76"
+		}, {
+			"@id": "iris://data#service-31"
+		}, {
+			"@id": "iris://data#service-27"
+		}, {
+			"@id": "iris://data#service-66"
+		}, {
+			"@id": "iris://data#service-42"
+		}, {
+			"@id": "iris://data#service-50"
+		}, {
+			"@id": "iris://data#service-85"
+		}, {
+			"@id": "iris://data#service-125"
+		}, {
+			"@id": "iris://data#service-64"
+		}, {
+			"@id": "iris://data#service-39"
+		}, {
+			"@id": "iris://data#service-24"
+		}, {
+			"@id": "iris://data#service-56"
+		}, {
+			"@id": "iris://data#service-7"
+		}, {
+			"@id": "iris://data#service-53"
+		}, {
+			"@id": "iris://data#service-109"
+		}, {
+			"@id": "iris://data#service-93"
+		}, {
+			"@id": "iris://data#service-72"
+		}, {
+			"@id": "iris://data#service-60"
+		}, {
+			"@id": "iris://data#service-32"
+		}, {
+			"@id": "iris://data#service-96"
+		}, {
+			"@id": "iris://data#service-65"
+		}, {
+			"@id": "iris://data#service-97"
+		}, {
+			"@id": "iris://data#service-118"
+		}, {
+			"@id": "iris://data#service-132"
+		}, {
+			"@id": "iris://data#service-62"
+		}, {
+			"@id": "iris://data#service-41"
+		}, {
+			"@id": "iris://data#service-105"
+		}, {
+			"@id": "iris://data#service-102"
+		}, {
+			"@id": "iris://data#service-21"
+		}, {
+			"@id": "iris://data#service-122"
+		}, {
+			"@id": "iris://data#service-47"
+		}, {
+			"@id": "iris://data#service-91"
+		}, {
+			"@id": "iris://data#service-38"
+		}, {
+			"@id": "iris://data#service-33"
+		}, {
+			"@id": "iris://data#service-18"
+		}, {
+			"@id": "iris://data#service-103"
+		}, {
+			"@id": "iris://data#service-77"
+		}, {
+			"@id": "iris://data#service-54"
+		}, {
+			"@id": "iris://data#service-89"
+		}, {
+			"@id": "iris://data#service-67"
+		}, {
+			"@id": "iris://data#service-87"
+		}, {
+			"@id": "iris://data#service-107"
+		}, {
+			"@id": "iris://data#service-130"
+		}, {
+			"@id": "iris://data#service-94"
+		}, {
+			"@id": "iris://data#service-19"
+		}, {
+			"@id": "iris://data#service-36"
+		}, {
+			"@id": "iris://data#service-80"
+		}, {
+			"@id": "iris://data#service-6"
+		}, {
+			"@id": "iris://data#service-49"
+		}, {
+			"@id": "iris://data#service-59"
+		}, {
+			"@id": "iris://data#service-86"
+		}, {
+			"@id": "iris://data#service-20"
+		}, {
+			"@id": "iris://data#service-117"
+		}, {
+			"@id": "iris://data#service-8"
+		}, {
+			"@id": "iris://data#service-58"
+		}, {
+			"@id": "iris://data#service-113"
+		}, {
+			"@id": "iris://data#service-51"
+		}, {
+			"@id": "iris://data#service-13"
+		}, {
+			"@id": "iris://data#service-11"
+		}, {
+			"@id": "iris://data#service-82"
+		}, {
+			"@id": "iris://data#service-44"
+		}, {
+			"@id": "iris://data#service-124"
+		}, {
+			"@id": "iris://data#service-104"
+		}, {
+			"@id": "iris://data#service-63"
+		}, {
+			"@id": "iris://data#service-128"
+		}, {
+			"@id": "iris://data#service-3"
+		}, {
+			"@id": "iris://data#service-48"
+		}, {
+			"@id": "iris://data#service-14"
+		}, {
+			"@id": "iris://data#service-68"
+		}, {
+			"@id": "iris://data#service-55"
+		}, {
+			"@id": "iris://data#service-1"
+		}, {
+			"@id": "iris://data#service-28"
+		}, {
+			"@id": "iris://data#service-108"
+		}, {
+			"@id": "iris://data#service-123"
+		}, {
+			"@id": "iris://data#service-100"
+		}, {
+			"@id": "iris://data#service-16"
+		}, {
+			"@id": "iris://data#service-35"
+		}, {
+			"@id": "iris://data#service-2"
+		}, {
+			"@id": "iris://data#service-10"
+		}, {
+			"@id": "iris://data#service-95"
+		}, {
+			"@id": "iris://data#service-112"
+		}, {
+			"@id": "iris://data#service-110"
+		}, {
+			"@id": "iris://data#service-12"
+		}, {
+			"@id": "iris://data#service-114"
+		}, {
+			"@id": "iris://data#service-81"
+		}, {
+			"@id": "iris://data#service-98"
+		}, {
+			"@id": "iris://data#service-101"
+		}, {
+			"@id": "iris://data#service-45"
+		}, {
+			"@id": "iris://data#service-23"
+		}, {
+			"@id": "iris://data#service-17"
+		}, {
+			"@id": "iris://data#service-52"
+		}, {
+			"@id": "iris://data#service-129"
+		}, {
+			"@id": "iris://data#service-37"
+		}, {
+			"@id": "iris://data#service-106"
+		}, {
+			"@id": "iris://data#service-127"
+		}, {
+			"@id": "iris://data#service-120"
+		}, {
+			"@id": "iris://data#service-119"
+		}, {
+			"@id": "iris://data#service-29"
+		}, {
+			"@id": "iris://data#service-57"
+		}, {
+			"@id": "iris://data#service-25"
+		}, {
+			"@id": "iris://data#service-131"
+		}, {
+			"@id": "iris://data#service-70"
+		}]
+	}, {
+		"@id": "iris://data#schedule-3",
+		"@type": "iris:Schedule",
+		"iris:hasDay": [{
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Monday"
+		}, {
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Tuesday"
+		}],
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "iris://data#department-1"
+		}
+	}, {
+		"@id": "iris://data#schedule-2",
+		"@type": "iris:Schedule",
+		"iris:hasDay": [{
+			"@id": "iris:Wednesday"
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Monday"
+		}, {
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Friday"
+		}],
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "iris://data#human-2"
+		}
+	}, {
+		"@id": "iris://data#schedule-1",
+		"@type": "iris:Schedule",
+		"iris:hasDay": [{
+			"@id": "iris:Thursday"
+		}, {
+			"@id": "iris:Monday"
+		}, {
+			"@id": "iris:Tuesday"
+		}, {
+			"@id": "iris:Friday"
+		}, {
+			"@id": "iris:Saturday"
+		}, {
+			"@id": "iris:Wednesday"
+		}],
+		"iris:hasTimeDescription": "[{\"data\":[[32400, 46800]], \"state\": \"a\"}, {\"data\":[[50400, 64800]], \"state\": \"a\"}]",
+		"iris:scheduleOf": {
+			"@id": "iris://data#human-1"
+		}
+	}, {
+		"@id": "iris://data#department-1",
+		"@type": "iris:Department",
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-3"
+		},
+		"iris:orgLabel": {
+			"@language": "ru",
+			"@value": "Отдел 1"
+		},
+		"iris:pinCodePrefix": "001",
+		"iris:unitOf": {
+			"@id": "iris://data#office-1"
+		}
+	}, {
+		"@id": "iris://data#human-2",
+		"@type": "iris:Employee",
+		"iris:firstName": {
+			"@language": "ru",
+			"@value": "Лариса"
+		},
+		"iris:hasMembership": {
+			"@id": "iris://data#membership-2"
+		},
+		"iris:availableWorkstation": {
+			"@id": "iris://data#pc-2"
+		},
+		"iris:defaultWorkstation": {
+			"@id": "iris://data#pc-2"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-2"
+		},
+		"iris:lastName": {
+			"@language": "ru",
+			"@value": "Васильева"
+		},
+		"iris:login": {
+			"@language": "en",
+			"@value": "oper"
+		},
+		"iris:middleName": {
+			"@language": "ru",
+			"@value": "Ивановна"
+		},
+		"iris:password_hash": "123456",
+		"iris:provides": [{
+			"@id": "iris://data#service-111"
+		}, {
+			"@id": "iris://data#service-90"
+		}, {
+			"@id": "iris://data#service-112"
+		}, {
+			"@id": "iris://data#service-115"
+		}, {
+			"@id": "iris://data#service-125"
+		}, {
+			"@id": "iris://data#service-55"
+		}, {
+			"@id": "iris://data#service-68"
+		}, {
+			"@id": "iris://data#service-14"
+		}, {
+			"@id": "iris://data#service-65"
+		}, {
+			"@id": "iris://data#service-128"
+		}, {
+			"@id": "iris://data#service-31"
+		}, {
+			"@id": "iris://data#service-22"
+		}, {
+			"@id": "iris://data#service-46"
+		}, {
+			"@id": "iris://data#service-6"
+		}, {
+			"@id": "iris://data#service-44"
+		}, {
+			"@id": "iris://data#service-80"
+		}, {
+			"@id": "iris://data#service-4"
+		}, {
+			"@id": "iris://data#service-19"
+		}, {
+			"@id": "iris://data#service-83"
+		}, {
+			"@id": "iris://data#service-129"
+		}, {
+			"@id": "iris://data#service-15"
+		}, {
+			"@id": "iris://data#service-10"
+		}, {
+			"@id": "iris://data#service-8"
+		}, {
+			"@id": "iris://data#service-89"
+		}, {
+			"@id": "iris://data#service-2"
+		}, {
+			"@id": "iris://data#service-43"
+		}, {
+			"@id": "iris://data#service-59"
+		}, {
+			"@id": "iris://data#service-33"
+		}, {
+			"@id": "iris://data#service-5"
+		}, {
+			"@id": "iris://data#service-98"
+		}, {
+			"@id": "iris://data#service-9"
+		}, {
+			"@id": "iris://data#service-57"
+		}, {
+			"@id": "iris://data#service-67"
+		}, {
+			"@id": "iris://data#service-126"
+		}, {
+			"@id": "iris://data#service-120"
+		}, {
+			"@id": "iris://data#service-61"
+		}, {
+			"@id": "iris://data#service-105"
+		}, {
+			"@id": "iris://data#service-87"
+		}, {
+			"@id": "iris://data#service-41"
+		}, {
+			"@id": "iris://data#service-74"
+		}, {
+			"@id": "iris://data#service-23"
+		}, {
+			"@id": "iris://data#service-45"
+		}, {
+			"@id": "iris://data#service-78"
+		}, {
+			"@id": "iris://data#service-30"
+		}, {
+			"@id": "iris://data#service-32"
+		}, {
+			"@id": "iris://data#service-12"
+		}, {
+			"@id": "iris://data#service-47"
+		}, {
+			"@id": "iris://data#service-38"
+		}, {
+			"@id": "iris://data#service-53"
+		}, {
+			"@id": "iris://data#service-106"
+		}, {
+			"@id": "iris://data#service-102"
+		}, {
+			"@id": "iris://data#service-35"
+		}, {
+			"@id": "iris://data#service-131"
+		}, {
+			"@id": "iris://data#service-52"
+		}, {
+			"@id": "iris://data#service-123"
+		}, {
+			"@id": "iris://data#service-96"
+		}, {
+			"@id": "iris://data#service-114"
+		}, {
+			"@id": "iris://data#service-50"
+		}, {
+			"@id": "iris://data#service-109"
+		}, {
+			"@id": "iris://data#service-42"
+		}, {
+			"@id": "iris://data#service-70"
+		}, {
+			"@id": "iris://data#service-24"
+		}, {
+			"@id": "iris://data#service-124"
+		}, {
+			"@id": "iris://data#service-39"
+		}, {
+			"@id": "iris://data#service-75"
+		}, {
+			"@id": "iris://data#service-99"
+		}, {
+			"@id": "iris://data#service-34"
+		}, {
+			"@id": "iris://data#service-108"
+		}, {
+			"@id": "iris://data#service-64"
+		}, {
+			"@id": "iris://data#service-51"
+		}, {
+			"@id": "iris://data#service-84"
+		}, {
+			"@id": "iris://data#service-1"
+		}, {
+			"@id": "iris://data#service-48"
+		}, {
+			"@id": "iris://data#service-117"
+		}, {
+			"@id": "iris://data#service-66"
+		}, {
+			"@id": "iris://data#service-63"
+		}, {
+			"@id": "iris://data#service-27"
+		}, {
+			"@id": "iris://data#service-49"
+		}, {
+			"@id": "iris://data#service-92"
+		}, {
+			"@id": "iris://data#service-11"
+		}, {
+			"@id": "iris://data#service-26"
+		}, {
+			"@id": "iris://data#service-13"
+		}, {
+			"@id": "iris://data#service-103"
+		}, {
+			"@id": "iris://data#service-91"
+		}, {
+			"@id": "iris://data#service-40"
+		}, {
+			"@id": "iris://data#service-54"
+		}, {
+			"@id": "iris://data#service-71"
+		}, {
+			"@id": "iris://data#service-86"
+		}, {
+			"@id": "iris://data#service-25"
+		}, {
+			"@id": "iris://data#service-36"
+		}, {
+			"@id": "iris://data#service-29"
+		}, {
+			"@id": "iris://data#service-119"
+		}, {
+			"@id": "iris://data#service-122"
+		}, {
+			"@id": "iris://data#service-116"
+		}, {
+			"@id": "iris://data#service-94"
+		}, {
+			"@id": "iris://data#service-130"
+		}, {
+			"@id": "iris://data#service-107"
+		}, {
+			"@id": "iris://data#service-21"
+		}, {
+			"@id": "iris://data#service-121"
+		}, {
+			"@id": "iris://data#service-79"
+		}, {
+			"@id": "iris://data#service-77"
+		}, {
+			"@id": "iris://data#service-18"
+		}, {
+			"@id": "iris://data#service-81"
+		}, {
+			"@id": "iris://data#service-113"
+		}, {
+			"@id": "iris://data#service-110"
+		}, {
+			"@id": "iris://data#service-7"
+		}, {
+			"@id": "iris://data#service-127"
+		}, {
+			"@id": "iris://data#service-69"
+		}, {
+			"@id": "iris://data#service-73"
+		}, {
+			"@id": "iris://data#service-37"
+		}, {
+			"@id": "iris://data#service-58"
+		}, {
+			"@id": "iris://data#service-17"
+		}, {
+			"@id": "iris://data#service-16"
+		}, {
+			"@id": "iris://data#service-100"
+		}, {
+			"@id": "iris://data#service-101"
+		}, {
+			"@id": "iris://data#service-132"
+		}, {
+			"@id": "iris://data#service-118"
+		}, {
+			"@id": "iris://data#service-97"
+		}, {
+			"@id": "iris://data#service-28"
+		}, {
+			"@id": "iris://data#service-60"
+		}, {
+			"@id": "iris://data#service-72"
+		}, {
+			"@id": "iris://data#service-85"
+		}, {
+			"@id": "iris://data#service-93"
+		}, {
+			"@id": "iris://data#service-3"
+		}, {
+			"@id": "iris://data#service-56"
+		}, {
+			"@id": "iris://data#service-104"
+		}, {
+			"@id": "iris://data#service-95"
+		}, {
+			"@id": "iris://data#service-76"
+		}, {
+			"@id": "iris://data#service-20"
+		}, {
+			"@id": "iris://data#service-82"
+		}, {
+			"@id": "iris://data#service-88"
+		}, {
+			"@id": "iris://data#service-62"
+		}],
+		"iris:state": "active"
+	}, {
+		"@id": "iris://data#rd-1",
+		"@type": "iris:Roomdisplay",
+		"iris:attachedTo": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:defaultAgent": {
+			"@id": "iris://data#megatron-2"
+		},
+		"iris:deviceLabel": {
+			"@language": "ru",
+			"@value": "Диплей 1"
+		},
+		"iris:deviceType": "roomdisplay"
+	}, {
+		"@id": "iris://data#service-52",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000068913",
+		"iris:deptCodeFrgu": "10000373692",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ФЕДЕРАЛЬНОГО ЗЕМ.УЧ, НА ТОРГАХ"
+		}
+	}, {
+		"@id": "iris://data#service-53",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000069147",
+		"iris:deptCodeFrgu": "10000373692",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫПИСКА ИЗ РЕЕСТРА ФЕДЕРАЛЬНОГО ИМУЩЕСТВА"
+		}
+	}, {
+		"@id": "iris://data#service-50",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000068975",
+		"iris:deptCodeFrgu": "10000373692",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СОГЛАСОВАНИЕ ПРЕДОСТАВЛЕНИЯ ФЕДЕРАЛЬНОГО ЗЕМ.УЧ"
+		}
+	}, {
+		"@id": "iris://data#service-51",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "10000373692",
+		"iris:deptCodeFrgu": "10000373692",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ФЕДЕРАЛЬНОГО ЗЕМ.УЧ, БЕЗ ТОРГОВ"
+		}
+	}, {
+		"@id": "iris://data#service-56",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000385",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА ВВОД ОБЪЕКТА В ЭКСПЛУАТАЦИЮ НА ТЕРРИТОРИИ ДВУХ И БОЛЕЕ МУН.РАЙОНОВ"
+		}
+	}, {
+		"@id": "iris://data#service-57",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000385",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА СТРОИТЕЛЬСТВО ОБЪЕКТА НА ТЕРРИТОРИИ ДВУХ И БОЛЕЕ МУН.РАЙОНОВ"
+		}
+	}, {
+		"@id": "iris://data#service-54",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИНФОРМАЦИЯ ИЗ РЕЕСТРА ГОС ИМУЩЕСТВА ЧР"
+		}
+	}, {
+		"@id": "iris://data#service-55",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000594",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СОГЛАСОВАНИЕ РАСПОЛОЖЕНИЯ ЗЕМЕЛЬ НА КАДАСТРОВОМ ПЛАНЕ"
+		}
+	}, {
+		"@id": "iris://data#service-58",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА ВВОД ОБЪЕКТА В ЭКСПЛУАТАЦИЮ"
+		}
+	}, {
+		"@id": "iris://data#service-59",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "РАЗРЕШЕНИЕ НА СТРОИТЕЛЬСТВО, РЕКОНСТРУКЦИЮ ОБЪЕКТОВ КАП. СТРОИТЕЛЬСТВА И ИНДИВИДУАЛЬНОЕ СТРОИТЕЛЬСТВО"
+		}
+	}, {
+		"@id": "iris://data#service-130",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "10000681774",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СПРАВКА О РАЗМЕРЕ ПЕНСИИ"
+		}
+	}, {
+		"@id": "iris://data#service-131",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000000934",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "ВП"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАПИСЬ В ОЧЕРЕДЬ В ПАНСИОНАТЫ"
+		}
+	}, {
+		"@id": "iris://data#service-132",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "0",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ДОСТУП К ПОРТАЛУ ГОСУСЛУГИ.РФ"
+		}
+	}, {
+		"@id": "iris://data#webwidget-1",
+		"@type": "iris:SystemEntity",
+		"iris:login": {
+			"@language": "en",
+			"@value": "webwidget"
+		},
+		"iris:password_hash": "123456"
+	}, {
+		"@id": "iris://data#service-67",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОДГОТОВКА И ВЫДАЧА СХЕМЫ РАСПОЛОЖЕНИЯ ЗЕМ.УЧ. НА КАДАСТРОВОМ КВАРТАЛЕ"
+		}
+	}, {
+		"@id": "iris://data#service-66",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ЗЕМ.УЧ. ДЛЯ ЦЕЛЕЙ, НЕ СВЯЗАННЫХ СО СТРОИТЕЛЬСТВОМ"
+		}
+	}, {
+		"@id": "iris://data#service-65",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ЗЕМЕЛЬНОГО УЧАСТКА, НАХОДЯЩЕГОСЯ В МУН. СОБСТВЕННОСТИ, НА ТОРГАХ"
+		}
+	}, {
+		"@id": "iris://data#service-64",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПРЕДОСТАВЛЕНИЕ ЗЕМЕЛЬНОГО УЧАСТКА, НАХОДЯЩЕГОСЯ В МУН. СОБСТВЕННОСТИ, БЕЗ ТОРГОВ"
+		}
+	}, {
+		"@id": "iris://data#service-63",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "СОГЛАСОВАНИЕ ПРЕДОСТАВЛЕНИЯ ЗЕМЕЛЬНОГО УЧАСТКА"
+		}
+	}, {
+		"@id": "iris://data#service-62",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ИЗМЕНЕНИЕ ЦЕЛЕВОГО НАЗНАЧЕНИЯ ЗЕМЕЛЬНОГО УЧАСТКА"
+		}
+	}, {
+		"@id": "iris://data#service-61",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАКЛЮЧЕНИЕ ДОГОВОРОВ КУПЛИ-ПРОДАЖИ ЗЕМЕЛЬНЫХ УЧАСТКОВ"
+		}
+	}, {
+		"@id": "iris://data#service-60",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ЗАКЛЮЧЕНИЕ ДОГОВОРОВ АРЕНДЫ ЗЕМЕЛЬНЫХ УЧАСТКОВ"
+		}
+	}, {
+		"@id": "iris://data#service-69",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ВЫДАЧА ОРДЕРА-РАЗРЕШЕНИЯ НА ПРОИЗВОДСТВО ЗЕМ. РАБОТ"
+		}
+	}, {
+		"@id": "iris://data#service-68",
+		"@type": "iris:Service",
+		"iris:codeFrgu": "0",
+		"iris:deptCodeFrgu": "2100000010000002916",
+		"iris:hasProvider": {
+			"@id": "iris://data#department-1"
+		},
+		"iris:hasSchedule": {
+			"@id": "iris://data#schedule-4"
+		},
+		"iris:liveOperationTime": 1200,
+		"iris:order": 1,
+		"iris:prebookInterval": 30,
+		"iris:prebookOperationTime": 1500,
+		"iris:prebookPercentage": 100,
+		"iris:prebookTodayPercentage": 0,
+		"iris:prefix": {
+			"@language": "ru",
+			"@value": "С"
+		},
+		"iris:priority": 0,
+		"iris:serviceCodeEpgu": "0",
+		"iris:serviceLabel": {
+			"@language": "ru",
+			"@value": "ПОДГОТОВКА И ВЫДАЧА ГРАДОСТРОИТЕЛЬНЫХ ПЛАНОВ ЗЕМ. УЧ."
+		}
+	}]
+}

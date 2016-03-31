@@ -1,0 +1,136 @@
+{
+	"main_group": {
+		"auth": {
+			"path": "./BaseServices/Auth"
+		},
+		"doctor": {
+			"path": "./BaseServices/Physician",
+			"params": {
+				"desription": "temp config for network physician",
+				"inspectors": []
+			}
+		},
+		"taskrunner": {
+			"path": "./BaseServices/Taskrunner",
+			"params": {
+				"key": "task",
+				"interval": 6000,
+				"ahead_delta": 1000,
+				"immediate_delta": 1000,
+				"remove_on_completion": true
+			}
+		},
+		"message-hub": {
+			"path": "iris-service-messagehub",
+			"params": {
+				"default_options": {
+					"websocket": {
+						"port": 3001
+					},
+					"http": {
+						"port": 8081
+					},
+					"https": {
+						"port": 443
+					}
+				},
+				"connectors": {
+					"http": {
+						"9000": {
+							"SocketAPI": {
+								"model": "websocket",
+								"options": {}
+							},
+							"RESTAPI": {
+								"model": "http-rest",
+								"options": {}
+							}
+						}
+					}
+				}
+			}
+		},
+		"agent": {
+			"path": "iris-service-agent",
+			"params": {}
+		},
+		"workstation": {
+			"path": "iris-service-workstation",
+			"params": {}
+		},
+		"ticket": {
+			"path": "iris-service-ticket",
+			"params": {}
+		},
+		"history": {
+			"path": "iris-service-history",
+			"params": {}
+		},
+		"queue": {
+			"path": "iris-service-queue",
+			"params": {
+				"queue_head_size": 5
+			}
+		},
+		"terminal": {
+			"path": "iris-service-terminal",
+			"params": {}
+		},
+		"control-panel": {
+			"path": "iris-service-control-panel",
+			"params": {}
+		},
+		"prebook": {
+			"path": "iris-service-prebook",
+			"params": {
+				"prebook_check_interval": 10
+			}
+		},
+		"roomdisplay": {
+			"path": "iris-service-roomdisplay",
+			"params": {
+				"theme_params": {
+					"extension": ".mp3"
+				},
+				"sound_theme": "smotrova"
+			}
+		},
+		"administrator": {
+			"path": "iris-service-administrator",
+			"params": {}
+		},
+		"code-registry": {
+			"path": "iris-service-code-registry",
+			"params": {}
+		},
+		"shared-entities": {
+			"path": "iris-service-shared-entities",
+			"params": {}
+		},
+		"sound-conjunct": {
+			"path": "iris-service-sound-conjunct",
+			"params": {
+				"sound_params": {},
+				"output_directory": "/var/www/html/production/room/sound"
+			}
+		},
+		"sample-service": {
+			"path": "./BaseServices/SampleService",
+			"params": {
+				"param1": 1,
+				"param2": 2
+			}
+		},
+		"facehugger": {
+			"path": "./BaseServices/Facehugger",
+			"params": {
+				"bucket_name": "rdf"
+			}
+		},
+		"replicator": {
+			"path": "iris-service-replicator",
+			"params": {}
+		}
+	},
+	"spawn_limit": 10
+}

@@ -7,113 +7,123 @@ var ZeroDimensional = require('./ZeroDimensionalVolume.js');
 var CommonStrategy = require('./PlacingStrategy/Common.js');
 
 class BasicVolume extends AbstractVolume {
-    constructor(parent) {
-        super(parent);
-        this.content = [];
-    }
-    get strategy() {
-        return CommonStrategy;
-    }
-    clone(parent = false) {
-        throw new Error('BasicVolume abstract method "clone"');
-    }
-    getDescription() {
-        return this.getParams().getDescription();
-    }
-    buildPrimitiveVolume(item) {
-        return item instanceof this.PrimitiveVolume ? item : new this.PrimitiveVolume(item.data, item.state);
-    }
-    put(item) {
-        var volume = this.buildPrimitiveVolume(item);
+	constructor(parent) {
+		super(parent);
+		this.content = [];
+		this.stored_changes = [];
+	}
+	get strategy() {
+		return CommonStrategy;
+	}
+	clone(parent = false) {
+		throw new Error('BasicVolume abstract method "clone"');
+	}
+	buildPrimitiveVolume(item) {
+		return item instanceof this.PrimitiveVolume ? item : new this.PrimitiveVolume(item.data, item.state);
+	}
+	put(item) {
+		let volume = this.buildPrimitiveVolume(item);
 
-        var result = [];
+		let result = [];
+		let status = true;
+		//@NOTE: this will be reworked too after PlacingStrategy rework
+		_.forEach(this.getContent(), (chunk) => {
 
-        _.forEach(this.getContent(), (chunk) => {
-            if (chunk.intersectsWith(volume)) {
-                var processed = this.applyStrategy(volume, chunk);
+			if (!chunk.intersectsWith(volume)) {
+				result.push(chunk);
+				return true;
+			}
 
-                if (processed.length) {
-                    //@TODO: check performance here
-                    result = result.concat(processed);
-                }
-            } else {
-                result.push(chunk);
-            }
-        });
+			let processed = this.applyStrategy(volume, chunk);
 
-        result.push(volume);
+			if (processed.length || processed instanceof this.PrimitiveVolume) { //@TODO: check performance here
+				result = result.concat(processed);
+			}
+			status = status & !(processed instanceof Error);
+			return status;
+		});
 
-        var final = new this.constructor(this);
-        final.build(result);
-        return final;
-    }
-    applyStrategy(newbee, target) {
+		result.push(volume);
+		//@NOTE: just temporary
+		// var final = new this.constructor(this);
+		// final.build(result);
+		// return final;
 
-        var action = this.strategy.getStrategy(newbee.getState(), target.getState());
-        var result = action(newbee, target);
+		//@NOTE: trying to not create additional objects
+		if (status)
+			this.content = result;
 
-        return result;
-    }
-    serialize() {
-        return _.map(this.getContent(), (chunk) => chunk.toJSON());
-    }
-    extend(source, sort = true) {
-        var ext = this.extractContent(source);
+		return status ? volume : false;
+	}
+	applyStrategy(newbee, target) {
 
-        _.forEach(ext, (primitive) => {
-            this.extendPrimitive(primitive);
-        });
+		var action = this.strategy.getStrategy(newbee.getState(), target.getState());
+		var result = action(newbee, target);
 
-        if (sort) this.sort();
+		return result;
+	}
+	serialize() {
+		return _.map(this.getContent(), (chunk) => chunk.serialize());
+	}
+	extend(source, sort = true) {
+		var ext = this.extractContent(source);
+		_.forEach(ext, (primitive) => {
+			this.extendPrimitive(primitive);
+		});
 
-        return this;
-    }
-    extendPrimitive(primitive) {
-        this.content.push(primitive);
-        return this;
-    }
-    getContent() {
-        return this.content;
-    }
-    extractContent(item) {
-        var is_same_type = item.constructor.name === this.constructor.name;
+		if (sort) this.sort();
 
-        var is_primitive = item instanceof this.PrimitiveVolume;
-        var is_zero_dim = item instanceof ZeroDimensional;
+		return this;
+	}
+	extendPrimitive(primitive) {
+		this.content.push(primitive);
+		return this;
+	}
+	getContent() {
+		return this.content;
+	}
+	extractContent(item) {
+		var is_same_type = item.constructor.name === this.constructor.name;
 
-        if (!(is_same_type || is_primitive || is_zero_dim)) throw new Error('Can not extract');
+		var is_primitive = item instanceof this.PrimitiveVolume;
+		var is_zero_dim = item instanceof ZeroDimensional;
 
-        var content = [];
+		if (!(is_same_type || is_primitive || is_zero_dim)) throw new Error('Can not extract');
 
-        if (is_zero_dim) {
-            var state = item.getContent().getState();
-            var default_primitive = new this.PrimitiveVolume([], state);
-            return [default_primitive];
-        } else content = is_same_type ? item.getContent() : [item]
+		var content = [];
+
+		if (is_zero_dim) {
+			var state = item.getContent()
+				.getState();
+			var default_primitive = new this.PrimitiveVolume([], state);
+			return [default_primitive];
+		} else content = is_same_type ? item.getContent() : [item]
 
 
-        return content;
-    }
-    build(data) {
-        //@TODO:build from state 
-        //@TODO: find some builder pattern for this case
-        if (data instanceof this.PrimitiveVolume) {
-            this.extend(data, false);
-            return this;
-        }
+		return content;
+	}
+	build(data) {
 
-        if (_.isArray(data)) {
-            _.forEach(data, (raw_data) => {
-                var primitive_volume = this.buildPrimitiveVolume(raw_data);
-                this.extend(primitive_volume, false);
-            });
-        }
+		//@TODO:build from state
+		//@TODO: find some builder pattern for this case
+		if (data instanceof this.PrimitiveVolume) {
+			this.extend(data, false);
+			return this;
+		}
 
-        return this;
-    }
-    sort() {
-        throw new Error('Volume specific function');
-    }
+		if (_.isArray(data)) {
+			_.forEach(data, (raw_data) => {
+
+				var primitive_volume = this.buildPrimitiveVolume(raw_data);
+				this.extend(primitive_volume, false);
+			});
+		}
+
+		return this;
+	}
+	sort() {
+		throw new Error('Volume specific function');
+	}
 }
 
 module.exports = BasicVolume;

@@ -1,45 +1,49 @@
 'use strict'
 
 var _ = require('lodash');
+var uuid = require('node-uuid');
 
 class FactoryDataProvider {
-  constructor(setter) {
-    this.setter = setter;
-    this.ingredients = [];
-    this.algorithm = () => {
-      throw new Error('u should specify algorithm');
-    };
+  constructor() {
+    this.ingredients = {};
+    this.storage_accessor = null;
+  }
+  addStorage(accessor) {
+    this.storage_accessor = accessor;
+    return this;
   }
   addIngredient(ingredient) {
-    this.ingredients.push(ingredient);
-  }
-  addAlgorithm(algorithm) {
-    this.algorithm = algorithm;
+    this.ingredients[ingredient.property] = ingredient;
+    return this;
   }
   get(params) {
-    var results = _.map(this.ingredients, (ingredient) => ingredient.observe(params));
-    return this.algorithm(...results);
+    let complete = _.reduce(this.ingredients, (result, ingredient, property) => {
+      let source = ingredient.get(params);
+
+      return _.reduce(source, (vv, part, index) => {
+        vv[index] = vv[index] || {};
+        vv[index][property] = part;
+        return vv;
+      }, result);
+    }, {});
+
+    return complete;
   }
   set(key, value) {
-    // key = {
-    //   ingredients: [],
-    //   save_to: 'key for saving'
-    // }
+    //console.log('value', value);
+    return _.reduce(value, (status, box, collection_index) => { //@NOTE: iterate thru boxes
+      let reserve = _.reduce(this.ingredients, (result, ingredient, index) => result && ingredient.set(key, box[index]), true);
+      let save = false;
 
-    var saving_key = key.save_to;
-    var ingredients_data = key.ingredients;
+      if (reserve) {
+        box.key = 'box-' + uuid.v1();
+        save = this.storage_accessor.upsert(box);
+      }
 
-    var push_to_storage_status = this.setter(saving_key, value);
+      status.push(reserve && save);
 
-    var ingredients_status = _.map(this.ingredients, (ingredient, index) => {
-      var data = ingredients_data[index];
-      return ingredient.reserve(data);
-    });
-
-    return {
-      composed: push_to_storage_status,
-      ingredients: ingredients_status
-    };
+      return status;
+    }, []);
   }
 }
 
