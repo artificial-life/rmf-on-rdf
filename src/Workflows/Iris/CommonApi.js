@@ -26,7 +26,13 @@ class CommonApi extends IrisApi {
 		let cname = this.getSystemName('cache', name, params);
 		return this.db.get(cname)
 			.then((res) => res.value.content)
-			.catch((err) => {});
+			.catch((err) => {
+				return this.discoverCacheModel(name);
+			});
+	}
+
+	discoverCacheModel(name) {
+		console.log(name);
 	}
 
 	getSystemName(type, name, params = []) {
@@ -37,7 +43,7 @@ class CommonApi extends IrisApi {
 		let cname = this.getSystemName('cache', name, params);
 		return this.db.upsert(cname, {
 			"@id": cname,
-			"@category": _.camelCase(name),
+			"@category": _.upperFirst(_.camelCase(name)),
 			"@type": "Cache",
 			"content": data
 		});
